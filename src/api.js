@@ -5,9 +5,20 @@ Vue.http.options.root = 'http://localhost:8080/api'
 Vue.http.options.emulateJSON = true
 
 export default {
+  // 登录
+  login (uname, pwd) {
+    return ajax('login', 'get', {
+      options: {
+        params: {
+          username: uname,
+          password: pwd
+        }
+      }
+    })
+  },
   // 获取公告列表
   getAnnounceList () {
-    return ajax('admin/announcement', 'get')
+    return ajax('admin/announcement/', 'get')
   }
 }
 /**
@@ -22,11 +33,13 @@ export default {
                           }
   @return Promise
 */
+
 function ajax (url, type, options) {
   return new Promise(function (resolve, reject) {
     options = options || {}
     if (options.body === undefined) {
       options.body = options.options
+      options.options = undefined
     }
     Vue.http[type](url, options.body, options.options).then(res => {
       // 出错了
@@ -36,13 +49,13 @@ function ajax (url, type, options) {
           message: res.data.data,
           type: 'error'
         })
-        resolve(res)
+        reject(res)
         if (options.errCallBack !== undefined) {
           options.errCallBack(res)
         }
       } else {
         // 请求成功
-        reject(res)
+        resolve(res)
         if (options.succCallBack !== undefined) {
           options.succCallBack(res)
         }

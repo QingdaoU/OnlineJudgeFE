@@ -90,10 +90,10 @@ export default {
     }
   },
   mounted () {
-    api.getAnnounceList().then(res => {
-      console.log(res)
-    }, res => {
-      console.log(res)
+    api.login('root', '047e09').then(res => {
+      api.getAnnounceList().then(res => {
+        console.log(res)
+      })
     })
   }
 }
