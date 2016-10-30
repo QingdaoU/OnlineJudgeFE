@@ -16,7 +16,8 @@ const router = new VueRouter({
       path: '/announcement',
       name: 'announcement',
       component: AnnounceMent
-    }
+    },
+    { path: '*', redirect: '/announcement' }
   ]
 })
 new Vue(Vue.util.extend({ router }, App)).$mount('#app')
