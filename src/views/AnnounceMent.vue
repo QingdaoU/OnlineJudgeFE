@@ -13,31 +13,44 @@
          <el-table-column
            prop="id"
            label="编号"
+           sortable
            width="100">
          </el-table-column>
          <el-table-column
            prop="title"
            label="标题"
+           sortable
            width="220"
            :show-tooltip-when-overflow="true">
          </el-table-column>
          <el-table-column
-           prop="createTime"
+           prop="create_time"
+           sortable
            label="创建时间">
          </el-table-column>
          <el-table-column
-           prop="updateTime"
+           prop="last_update_time"
+           sortable
            label="更新时间">
          </el-table-column>
          <el-table-column
-           prop="creator"
+           prop="created_by.username"
+           sortable
            label="创建者">
          </el-table-column>
+         <el-table-column
+          prop="visible"
+          label="筛选"
+          width="100"
+          :filters="[{ text: '显示可见', value: true }, { text: '显示不可见', value: false }]"
+          :filter-method="filterVisible"
+          inline-template>
+          <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? '可见' : '不可见'}}</el-tag>
+        </el-table-column>
        </el-table>
        <div class="option">
          <el-button type="primary" size="small" icon="edit">编辑</el-button>
-         <el-button type="primary" size="small" icon="delete">删除</el-button>
-         <el-checkbox class="visible" v-model="visible">只显示可见</el-checkbox>
+         <el-button type="danger" size="small" icon="delete">删除</el-button>
          <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -58,41 +71,22 @@ export default {
   },
   data () {
     return {
-      visible: false,
       announceList: [
-        {
-          id: 1,
-          title: '本OJ是开源软件',
-          updateTime: '2016-05-30 16:48:18',
-          createTime: '2016-05-30 16:48:18',
-          creator: 'root'
-        },
-        {
-          id: 1,
-          title: '本OJ是开源软件',
-          updateTime: '2016-05-30 16:48:18',
-          createTime: '2016-05-30 16:48:18',
-          creator: 'root'
-        },
-        {
-          id: 1,
-          title: '本OJ是开源软件',
-          updateTime: '2016-05-30 16:48:18',
-          createTime: '2016-05-30 16:48:18',
-          creator: 'root'
-        }
       ]
     }
   },
   methods: {
     handleMultipleSelectionChange () {
       return true
+    },
+    filterVisible (value, row) {
+      return row.visible === value
     }
   },
   mounted () {
     api.login('root', '047e09').then(res => {
       api.getAnnounceList().then(res => {
-        console.log(res)
+        this.announceList = res.data.data
       })
     })
   }
@@ -109,9 +103,6 @@ export default {
       position: relative;
       button{
         margin-right: 10px;
-      }
-      >.visible{
-        margin: 0 10px;
       }
       >.page{
         position: absolute;
