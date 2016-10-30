@@ -17,8 +17,16 @@ export default {
     })
   },
   // 获取公告列表
-  getAnnounceList () {
-    return ajax('admin/announcement/', 'get')
+  getAnnounceList (offset, limit) {
+    return ajax('admin/announcement/', 'get', {
+      options: {
+        params: {
+          paging: true,
+          offset: offset,
+          limit: limit
+        }
+      }
+    })
   }
 }
 /**
