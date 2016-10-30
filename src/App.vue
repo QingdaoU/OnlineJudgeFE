@@ -17,6 +17,8 @@
 import SideMenu from './components/SideMenu.vue'
 export default {
   name: 'app',
+  mounted () {
+  },
   components: {
     SideMenu
   },
@@ -33,6 +35,9 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   background-color: #EDECEC;
+}
+*{
+  box-sizing: border-box;
 }
 .content_app{
   padding-left: 250px;
