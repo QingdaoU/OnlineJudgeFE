@@ -5,7 +5,7 @@
         <el-table
          :data="announceList"
          style="width: 100%"
-         @selection-change="handleMultipleSelectionChange">
+         @selection-change="multipleSelectionChange">
          <el-table-column
            type="selection"
            width="50">
@@ -49,8 +49,8 @@
         </el-table-column>
        </el-table>
        <div class="option">
-         <el-button type="primary" size="small" @click.native="showEditAnnounceDialog = true" icon="edit">编辑</el-button>
-         <el-button type="danger" size="small" icon="delete">删除</el-button>
+         <el-button type="primary" size="small" :disabled="editBtnDisabled" @click.native="showEditAnnounceDialog = true" icon="edit">编辑</el-button>
+         <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">删除</el-button>
          <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -83,6 +83,10 @@ export default {
   },
   data () {
     return {
+      // 编辑按钮是否disabled
+      editBtnDisabled: true,
+      // 删除按钮是否disabled
+      delBtnDisabled: true,
       // 显示编辑公告对话框
       showEditAnnounceDialog: false,
       // 公告列表
@@ -95,12 +99,16 @@ export default {
     }
   },
   methods: {
-    handleMultipleSelectionChange () {
-      return true
+    // 处理多选回调
+    multipleSelectionChange (items) {
+      this.editBtnDisabled = !(items.length === 1)
+      this.delBtnDisabled = !(items.length !== 0)
     },
+    // 过滤是否可见
     filterVisible (value, row) {
       return row.visible === value
     },
+    // 切换页码回调
     currentChange (page) {
       api.getAnnounceList((page - 1) * this.pageSize, this.pageSize).then(res => {
         this.announceList = res.data.data.results
@@ -111,7 +119,6 @@ export default {
     api.login('root', '047e09').then(res => {
       api.getAnnounceList(1, this.pageSize).then(res => {
         this.count = res.data.data.count
-        console.log(this.count)
         this.announceList = res.data.data.results
       })
     })
