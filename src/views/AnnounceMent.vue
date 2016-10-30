@@ -101,8 +101,9 @@ export default {
   methods: {
     // 处理多选回调
     multipleSelectionChange (items) {
-      this.editBtnDisabled = !(items.length === 1)
-      this.delBtnDisabled = !(items.length !== 0)
+      let len = items.length
+      this.editBtnDisabled = !(len === 1)
+      this.delBtnDisabled = !(len !== 0)
     },
     // 过滤是否可见
     filterVisible (value, row) {
