@@ -3,9 +3,10 @@
     <Panel title="公告列表">
       <div class="list">
         <el-table
-         :data="announceList"
-         style="width: 100%"
-         @selection-change="multipleSelectionChange">
+          ref="announceTable"
+          :data="announceList"
+          style="width: 100%"
+          @selection-change="multipleSelectionChange">
          <el-table-column
            type="selection"
            width="50">
@@ -21,7 +22,7 @@
            label="标题"
            sortable
            width="220"
-           :show-tooltip-when-overflow="true">
+           show-tooltip-when-overflow>
          </el-table-column>
          <el-table-column
            prop="create_time"
@@ -42,7 +43,7 @@
           prop="visible"
           label="筛选"
           width="100"
-          :filters="[{ text: '显示可见', value: true }, { text: '显示不可见', value: false }]"
+          :filters="[{ text: '显示可见', value: 'visible' }, { text: '显示不可见', value: 'invisible' }]"
           :filter-method="filterVisible"
           inline-template>
           <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? '可见' : '不可见'}}</el-tag>
@@ -64,11 +65,12 @@
     <!--编辑对话框-->
     <el-dialog title="编辑公告" v-model="showEditAnnounceDialog">
       <el-input
-        placeholder="请输入内容">
+        placeholder="请输入标题" class="title_input">
       </el-input>
+      <Simditor ref="simditor" placeholder="请输入公告正文"></Simditor>
       <span slot="footer" class="dialog-footer">
         <el-button @click.native="showEditAnnounceDialog = false">取 消</el-button>
-        <el-button type="primary" @click.native="showEditAnnounceDialog = false">确 定</el-button>
+        <el-button type="primary" @click.native="submit(),showEditAnnounceDialog = false">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -76,10 +78,11 @@
 
 <script>
 import Panel from '../components/Panel.vue'
+import Simditor from '../components/Simditor.vue'
 import api from '../api.js'
 export default {
   components: {
-    Panel
+    Panel, Simditor
   },
   data () {
     return {
@@ -107,13 +110,19 @@ export default {
     },
     // 过滤是否可见
     filterVisible (value, row) {
-      return row.visible === value
+      return value === 'visible' ? row.visible : !row.visible
     },
     // 切换页码回调
     currentChange (page) {
+      // 清除上一页选择的的多选框
+      this.$refs.announceTable.clearSelection()
       api.getAnnounceList((page - 1) * this.pageSize, this.pageSize).then(res => {
         this.announceList = res.data.data.results
       })
+    },
+    // 编辑对话框 提交按钮
+    submit () {
+      window.alert(this.$refs.simditor.editor.getValue())
     }
   },
   mounted () {
@@ -144,5 +153,8 @@ export default {
         top: 10px;
       }
     }
+  }
+  .title_input{
+    margin-bottom: 20px;
   }
 </style>

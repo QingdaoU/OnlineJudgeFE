@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "simditor": "^2.3.6",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.1"
