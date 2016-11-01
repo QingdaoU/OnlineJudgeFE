@@ -63,11 +63,22 @@
       </div>
     </Panel>
     <!--编辑对话框-->
-    <el-dialog title="编辑公告" v-model="showEditAnnounceDialog">
+    <el-dialog title="编辑公告" @open="onOpenEditDialog" v-model="showEditAnnounceDialog">
       <el-input
+        v-model="announce.title"
         placeholder="请输入标题" class="title_input">
       </el-input>
-      <Simditor ref="simditor" placeholder="请输入公告正文"></Simditor>
+      <Simditor v-model="announce.content" placeholder="请输入公告正文"></Simditor>
+      <div class="visible_box">
+        <span>设置是否可见：</span>
+        <el-switch
+          v-model="announce.visible"
+          on-color="#13ce66"
+          on-text="可见"
+          off-text="隐藏"
+          off-color="#ff4949">
+        </el-switch>
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click.native="showEditAnnounceDialog = false">取 消</el-button>
         <el-button type="primary" @click.native="submit(),showEditAnnounceDialog = false">确 定</el-button>
@@ -98,7 +109,13 @@ export default {
       // 一页显示的公告数
       pageSize: 5,
       // 总公告数
-      count: 0
+      count: 0,
+      // 公告 (new | edit) model
+      announce: {
+        title: '',
+        visible: true,
+        content: ''
+      }
     }
   },
   methods: {
@@ -120,9 +137,23 @@ export default {
         this.announceList = res.data.data.results
       })
     },
+    // 打开编辑对话框的回调
+    onOpenEditDialog () {
+      // todo 优化
+      // 暂时解决 文本编辑器显示异常bug
+      setTimeout(() => {
+        if (document.createEvent) {
+          let event = document.createEvent('HTMLEvents')
+          event.initEvent('resize', true, true)
+          window.dispatchEvent(event)
+        } else if (document.createEventObject) {
+          window.fireEvent('onresize')
+        }
+      }, 0)
+    },
     // 编辑对话框 提交按钮
     submit () {
-      window.alert(this.$refs.simditor.editor.getValue())
+      window.alert(this.announce.content)
     }
   },
   mounted () {
@@ -156,5 +187,10 @@ export default {
   }
   .title_input{
     margin-bottom: 20px;
+  }
+  .visible_box{
+    margin-top: 10px;
+    width: 180px;
+    float: left;
   }
 </style>

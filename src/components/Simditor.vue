@@ -1,5 +1,5 @@
 <template>
-  <textarea id="editor" autofocus></textarea>
+  <textarea id="editor"></textarea>
 </template>
 
 <script>
@@ -14,11 +14,16 @@ export default {
     toolbar: {
       type: Array,
       default: () => ['title', 'bold', 'italic', 'underline', 'fontScale', 'color', 'ol', 'ul', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment']
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
-      editor: null
+      editor: null,
+      currentValue: this.value
     }
   },
   mounted () {
@@ -29,6 +34,20 @@ export default {
       toolbar: this.toolbar,
       pasteImage: true
     })
+    let simditorBody = document.querySelector('.simditor-body')
+    simditorBody.oninput = () => {
+      this.currentValue = this.editor.getValue()
+    }
+    this.editor.setValue(this.value)
+  },
+  watch: {
+    value (val) {
+      this.currentValue = val
+    },
+    currentValue (newVal, oldVal) {
+      this.$emit('change', newVal)
+      this.$emit('input', newVal)
+    }
   }
 }
 </script>
