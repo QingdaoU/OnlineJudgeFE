@@ -1,6 +1,11 @@
 <template>
   <div class="panel">
-    <header>{{title}}</header>
+    <header>
+      <h2>{{title}}</h2>
+      <div class="header_right">
+        <slot name="header"></slot>
+      </div>
+    </header>
     <div class="body">
       <slot></slot>
     </div>
@@ -25,17 +30,28 @@ export default{
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
     header{
-      color: #333;
-      border-color: #ddd;
-      font-size: 18px;
-      font-weight: 300;
-      letter-spacing: 0.025em;
-      height: 66px;
-      line-height: 45px;
-      padding: 10px 15px;
-      border-bottom: 1px solid #eee;
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
+      position: relative;
+      z-index: 10;
+      >h2{
+        margin: 0;
+        color: #333;
+        border-color: #ddd;
+        font-size: 18px;
+        font-weight: 300;
+        letter-spacing: 0.025em;
+        height: 66px;
+        line-height: 45px;
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+      }
+      >.header_right{
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translate(0,-50%);
+      }
     }
     .body{
       padding: 15px;

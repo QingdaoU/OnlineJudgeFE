@@ -15,14 +15,16 @@
 
 <script>
 import SideMenu from './components/SideMenu.vue'
+import api from './api.js'
 export default {
   name: 'app',
-  mounted () {
-  },
   components: {
     SideMenu
   },
   methods: {
+  },
+  mounted () {
+    api.login('root', '047e09').then(res => {})
   }
 }
 </script>

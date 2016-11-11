@@ -27,6 +27,18 @@ export default {
         }
       }
     })
+  },
+  // 获取用户列表
+  getUserList (offset, limit) {
+    return ajax('admin/account/user/', 'get', {
+      options: {
+        params: {
+          paging: true,
+          offset: offset,
+          limit: limit
+        }
+      }
+    })
   }
 }
 /**

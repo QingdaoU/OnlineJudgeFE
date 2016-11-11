@@ -3,7 +3,7 @@
     <Panel title="公告列表">
       <div class="list">
         <el-table
-          ref="announceTable"
+          ref="table"
           :data="announceList"
           style="width: 100%"
           @selection-change="multipleSelectionChange">
@@ -132,7 +132,7 @@ export default {
     // 切换页码回调
     currentChange (page) {
       // 清除上一页选择的的多选框
-      this.$refs.announceTable.clearSelection()
+      this.$refs.table.clearSelection()
       api.getAnnounceList((page - 1) * this.pageSize, this.pageSize).then(res => {
         this.announceList = res.data.data.results
       })
@@ -157,11 +157,9 @@ export default {
     }
   },
   mounted () {
-    api.login('root', '047e09').then(res => {
-      api.getAnnounceList(1, this.pageSize).then(res => {
-        this.count = res.data.data.count
-        this.announceList = res.data.data.results
-      })
+    api.getAnnounceList(1, this.pageSize).then(res => {
+      this.count = res.data.data.count
+      this.announceList = res.data.data.results
     })
   }
 }
