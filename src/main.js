@@ -10,21 +10,21 @@ Vue.use(VueRouter)
 // Vue.use(VueI18n)
 
 // 引入 view 组件
-import { AnnounceMent, UserList } from './views'
+import { Announcement, User } from './views'
 const router = new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
-      path: '/announce_ment',
-      name: 'announce_ment',
-      component: AnnounceMent
+      path: '/announcement',
+      name: 'announcement',
+      component: Announcement
     },
     {
-      path: '/user_list',
-      name: 'user_list',
-      component: UserList
+      path: '/user',
+      name: 'user',
+      component: User
     },
-    { path: '*', redirect: '/announce_ment' }
+    { path: '*', redirect: '/announcement' }
   ]
 })
 new Vue(Vue.util.extend({ router }, App)).$mount('#app')

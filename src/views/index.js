@@ -1,5 +1,5 @@
-import AnnounceMent from './AnnounceMent.vue'
-import UserList from './UserList.vue'
+import Announcement from './Announcement.vue'
+import User from './User.vue'
 export {
-  AnnounceMent, UserList
+  Announcement, User
 }
