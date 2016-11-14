@@ -1,6 +1,6 @@
 <template>
   <div class="announce view">
-    <Panel title="公告列表">
+    <Panel title="announce list">
       <div class="list">
         <el-table
           ref="table"
@@ -13,13 +13,13 @@
          </el-table-column>
          <el-table-column
            prop="id"
-           label="编号"
+           label="ID"
            sortable
            width="100">
          </el-table-column>
          <el-table-column
            prop="title"
-           label="标题"
+           label="title"
            sortable
            width="220"
            show-tooltip-when-overflow>
@@ -27,31 +27,31 @@
          <el-table-column
            prop="create_time"
            sortable
-           label="创建时间">
+           label="create time">
          </el-table-column>
          <el-table-column
            prop="last_update_time"
            sortable
-           label="更新时间">
+           label="update time">
          </el-table-column>
          <el-table-column
            prop="created_by.username"
            sortable
-           label="创建者">
+           label="creater">
          </el-table-column>
          <el-table-column
           prop="visible"
-          label="筛选"
+          label="filter"
           width="100"
-          :filters="[{ text: '显示可见', value: 'visible' }, { text: '显示不可见', value: 'invisible' }]"
+          :filters="[{ text: 'show visible', value: 'visible' }, { text: 'show invisible', value: 'invisible' }]"
           :filter-method="filterVisible"
           inline-template>
-          <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? '可见' : '不可见'}}</el-tag>
+          <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'visible' : 'invisible'}}</el-tag>
         </el-table-column>
        </el-table>
        <div class="option">
-         <el-button type="primary" size="small" :disabled="editBtnDisabled" @click.native="showEditAnnounceDialog = true" icon="edit">编辑</el-button>
-         <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">删除</el-button>
+         <el-button type="primary" size="small" :disabled="editBtnDisabled" @click.native="showEditAnnounceDialog = true" icon="edit">edit</el-button>
+         <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">delete</el-button>
          <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -63,25 +63,25 @@
       </div>
     </Panel>
     <!--编辑对话框-->
-    <el-dialog title="编辑公告" @open="onOpenEditDialog" v-model="showEditAnnounceDialog">
+    <el-dialog title="Edit the announcement" @open="onOpenEditDialog" v-model="showEditAnnounceDialog">
       <el-input
         v-model="announce.title"
-        placeholder="请输入标题" class="title_input">
+        placeholder="please enter a title" class="title_input">
       </el-input>
-      <Simditor v-model="announce.content" placeholder="请输入公告正文"></Simditor>
+      <Simditor v-model="announce.content" placeholder="please enter the announcement text"></Simditor>
       <div class="visible_box">
-        <span>设置是否可见：</span>
+        <span>Whether or not visible:</span>
         <el-switch
           v-model="announce.visible"
           on-color="#13ce66"
-          on-text="可见"
-          off-text="隐藏"
+          on-text="visible"
+          off-text="invisible"
           off-color="#ff4949">
         </el-switch>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click.native="showEditAnnounceDialog = false">取 消</el-button>
-        <el-button type="primary" @click.native="submit(),showEditAnnounceDialog = false">确 定</el-button>
+        <el-button @click.native="showEditAnnounceDialog = false">cancel</el-button>
+        <el-button type="primary" @click.native="submit(),showEditAnnounceDialog = false">confirm</el-button>
       </span>
     </el-dialog>
   </div>

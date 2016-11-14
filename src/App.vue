@@ -4,8 +4,8 @@
     <div class="content_app">
       <div class="breadcrumb">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>公告管理</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">Home page</el-breadcrumb-item>
+          <el-breadcrumb-item>Announcements</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <router-view></router-view>
