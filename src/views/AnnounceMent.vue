@@ -188,7 +188,7 @@ export default {
   }
   .visible_box{
     margin-top: 10px;
-    width: 180px;
+    width: 205px;
     float: left;
   }
 </style>
