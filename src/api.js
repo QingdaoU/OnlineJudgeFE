@@ -8,11 +8,9 @@ export default {
   // 登录
   login (uname, pwd) {
     return ajax('login', 'get', {
-      options: {
-        params: {
-          username: uname,
-          password: pwd
-        }
+      body: {
+        username: uname,
+        password: pwd
       }
     })
   },

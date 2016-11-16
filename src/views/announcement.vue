@@ -48,9 +48,18 @@
             inline-template>
             <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'visible' : 'invisible'}}</el-tag>
           </el-table-column>
+          <el-table-column
+            inline-template
+            fixed="right"
+            label="option"
+            width="100">
+            <span>
+              <el-button type="text" size="small" @click="showEditAnnouncementDialog = true">编辑</el-button>
+              <el-button type="text" size="small">删除</el-button>
+            </span>
+          </el-table-column>
         </el-table>
         <div class="option">
-          <el-button type="primary" size="small" :disabled="editBtnDisabled" @click.native="showEditAnnouncementDialog = true" icon="edit">Edit</el-button>
           <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">Delete</el-button>
           <el-pagination
             class="page"
@@ -98,8 +107,6 @@
     },
     data () {
       return {
-        // 编辑按钮是否disabled
-        editBtnDisabled: true,
         // 删除按钮是否disabled
         delBtnDisabled: true,
         // 显示编辑公告对话框
@@ -123,7 +130,6 @@
       // 处理多选回调
       multipleSelectionChange (items) {
         let len = items.length
-        this.editBtnDisabled = !(len === 1)
         this.delBtnDisabled = !(len !== 0)
       },
       // 过滤是否可见
@@ -136,7 +142,7 @@
         this.$refs.table.clearSelection()
         api.getAnnounceList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.announceList = res.data.data.results
-      })
+        })
       },
       // 打开编辑对话框的回调
       onOpenEditDialog () {
@@ -144,13 +150,13 @@
         // 暂时解决 文本编辑器显示异常bug
         setTimeout(() => {
           if (document.createEvent) {
-          let event = document.createEvent('HTMLEvents')
-          event.initEvent('resize', true, true)
-          window.dispatchEvent(event)
-        } else if (document.createEventObject) {
-          window.fireEvent('onresize')
-        }
-      }, 0)
+            let event = document.createEvent('HTMLEvents')
+            event.initEvent('resize', true, true)
+            window.dispatchEvent(event)
+          } else if (document.createEventObject) {
+            window.fireEvent('onresize')
+          }
+        }, 0)
       },
       // 编辑对话框 提交按钮
       submit () {
@@ -160,8 +166,8 @@
     mounted () {
       api.getAnnounceList(1, this.pageSize).then(res => {
         this.count = res.data.data.count
-      this.announcementList = res.data.data.results
-    })
+        this.announcementList = res.data.data.results
+      })
     }
   }
 </script>
