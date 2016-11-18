@@ -54,7 +54,7 @@
             label="option"
             width="100">
             <span>
-              <el-button type="text" size="small" @click="showEditAnnouncementDialog = true">编辑</el-button>
+              <el-button type="text" size="small" @click="currAnnounceId = row.id,showEditAnnouncementDialog = true">编辑</el-button>
               <el-button type="text" size="small">删除</el-button>
             </span>
           </el-table-column>
@@ -118,6 +118,8 @@
         pageSize: 5,
         // 总公告数
         count: 0,
+        // 当前公告id
+        currAnnounceId: 0,
         // 公告 (new | edit) model
         announcement: {
           title: '',
@@ -163,8 +165,17 @@
         window.alert(this.announcement.content)
       }
     },
+    watch: {
+      'currAnnounceId' () {
+        this.announcementList.find(item => {
+          if (item.id === this.currAnnounceId) {
+            this.announcement = item
+          }
+        })
+      }
+    },
     mounted () {
-      api.getAnnounceList(1, this.pageSize).then(res => {
+      api.getAnnounceList(0, this.pageSize).then(res => {
         this.count = res.data.data.count
         this.announcementList = res.data.data.results
       })

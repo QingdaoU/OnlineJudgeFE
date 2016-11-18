@@ -5,6 +5,8 @@
 <script>
 import Simditor from 'simditor'
 import 'simditor/styles/simditor.css'
+import 'simditor-markdown'
+import 'simditor-markdown/styles/simditor-markdown.css'
 export default {
   props: {
     placeholder: {
@@ -13,7 +15,7 @@ export default {
     },
     toolbar: {
       type: Array,
-      default: () => ['title', 'bold', 'italic', 'underline', 'fontScale', 'color', 'ol', 'ul', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment']
+      default: () => ['title', 'bold', 'italic', 'underline', 'fontScale', 'color', 'ol', 'ul', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment', '|', 'markdown']
     },
     value: {
       type: String,
@@ -32,7 +34,8 @@ export default {
       textarea: document.getElementById('editor'),
       placeholder: this.placeholder,
       toolbar: this.toolbar,
-      pasteImage: true
+      pasteImage: true,
+      markdown: true
     })
     let simditorBody = document.querySelector('.simditor-body')
     simditorBody.oninput = () => {
