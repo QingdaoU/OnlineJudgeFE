@@ -38,7 +38,7 @@ export default {
   },
   // 获取用户列表
   getUserList (offset, limit) {
-    return ajax('admin/account/user', 'get', {
+    return ajax('admin/user', 'get', {
       options: {
         params: {
           paging: true,
