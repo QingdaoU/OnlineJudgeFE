@@ -15,7 +15,7 @@
 
 <script>
 import SideMenu from './components/SideMenu.vue'
-import api from './api.js'
+// import api from './api.js'
 export default {
   name: 'app',
   components: {
@@ -24,7 +24,7 @@ export default {
   methods: {
   },
   mounted () {
-    api.login('root', '047e09').then(res => {})
+    // api.login('root', '277555').then(res => {})
   }
 }
 </script>

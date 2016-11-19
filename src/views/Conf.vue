@@ -100,7 +100,7 @@
             window.success()
           })
         } else {
-          api.saveSMTPConfig(this.smtp).then(res => {
+          api.createSMTPConfig(this.smtp).then(res => {
             window.success()
           })
         }
