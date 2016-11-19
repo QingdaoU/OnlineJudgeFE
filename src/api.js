@@ -1,8 +1,16 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+
 Vue.use(VueResource)
-Vue.http.options.root = 'http://localhost:8080/api'
-Vue.http.options.emulateJSON = true
+Vue.http.options.root = '/api'
+Vue.http.options.emulateJSON = false
+Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
+
+function getCookie (name) {
+  var value = '; ' + document.cookie
+  var parts = value.split('; ' + name + '=')
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
 
 export default {
   // 登录
@@ -18,7 +26,7 @@ export default {
   },
   // 获取公告列表
   getAnnounceList (offset, limit) {
-    return ajax('admin/announcement/', 'get', {
+    return ajax('admin/announcement', 'get', {
       options: {
         params: {
           paging: true,
@@ -30,7 +38,7 @@ export default {
   },
   // 获取用户列表
   getUserList (offset, limit) {
-    return ajax('admin/account/user/', 'get', {
+    return ajax('admin/account/user', 'get', {
       options: {
         params: {
           paging: true,
@@ -39,20 +47,41 @@ export default {
         }
       }
     })
+  },
+  getSMTPConfig () {
+    return ajax('admin/smtp', 'get')
+  },
+  createSMTPConfig (config) {
+    return ajax('admin/smtp', 'post', {
+      options: config
+    })
+  },
+  updateSMTPConfig (config) {
+    return ajax('admin/smtp', 'put', {
+      options: config
+    })
+  },
+  getWebsiteConfig () {
+    return ajax('admin/website', 'get')
+  },
+  updateWebsiteConfig (config) {
+    return ajax('admin/website', 'post', {
+      options: config
+    })
   }
 }
 /**
-  ajax 请求
-  @param url
-  @param type get|post|put|jsonp ....
-  @param options options = {
+ ajax 请求
+ @param url
+ @param type get|post|put|jsonp ....
+ @param options options = {
                                 body: request body
                                 options: ..,
                                 succCallBack: Function
                                 errCallBack: Function
                           }
-  @return Promise
-*/
+ @return Promise
+ */
 
 function ajax (url, type, options) {
   return new Promise(function (resolve, reject) {
@@ -64,11 +93,7 @@ function ajax (url, type, options) {
     Vue.http[type](url, options.body, options.options).then(res => {
       // 出错了
       if (res.data.error !== null) {
-        Vue.prototype.$message({
-          showClose: true,
-          message: res.data.data,
-          type: 'error'
-        })
+        window.error(res.data.data)
         reject(res)
         if (options.errCallBack !== undefined) {
           options.errCallBack(res)
