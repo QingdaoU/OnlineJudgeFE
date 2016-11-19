@@ -1,46 +1,74 @@
 <template>
   <div class="view">
     <Panel title="SMTP Config">
-      <el-form label-position="left" label-width="70px" ref="form" :model="smtp" :rules="rules">
-        <el-form-item label="Server">
-          <el-input v-model="smtp.server" placeholder="SMTP Server address"></el-input>
-        </el-form-item>
-        <el-form-item label="Port">
-          <el-input type="number" v-model="smtp.port" placeholder="SMTP Server Port"></el-input>
-        </el-form-item>
-        <el-form-item label="Password">
-          <el-input v-model="smtp.password" type="password" placeholder="SMTP Server Password"></el-input>
-        </el-form-item>
-        <el-form-item label="Email">
-          <el-input type="email" v-model="smtp.email" placeholder="Account used to send email"></el-input>
-        </el-form-item>
-        <el-form-item label="TLS">
-          <el-switch on-text="" off-text="" v-model="smtp.tls"></el-switch>
-        </el-form-item>
+      <el-form label-position="left" label-width="70px" :model="smtp">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="Server">
+              <el-input v-model="smtp.server" placeholder="SMTP Server address"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Port">
+              <el-input type="number" v-model="smtp.port" placeholder="SMTP Server Port"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Email">
+              <el-input type="email" v-model="smtp.email" placeholder="Account used to send email"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Password">
+              <el-input v-model="smtp.password" type="password" placeholder="SMTP Server Password"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="TLS">
+              <el-switch on-text="" off-text="" v-model="smtp.tls"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <el-button type="primary" @click="saveSMTPConfig">Save</el-button>
     </Panel>
 
     <Panel title="Website Config">
-      <el-form ref="form" :model="websiteConfig">
-        <el-form-item label="Base URL">
-          <el-input v-model="websiteConfig.baseURL" placeholder="Website Base Url"></el-input>
-        </el-form-item>
-        <el-form-item label="Name">
-          <el-input v-model="websiteConfig.name" placeholder="Website Name"></el-input>
-        </el-form-item>
-        <el-form-item label="Name Shortcut">
-          <el-input v-model="websiteConfig.nameShortcut" placeholder="Website Name Shortcut"></el-input>
-        </el-form-item>
-        <el-form-item label="Footer">
-          <el-input  type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="websiteConfig.footer" placeholder="Website Footer HTML"></el-input>
-        </el-form-item>
-        <el-form-item label="Allow Register">
-          <el-switch on-text="" off-text="" v-model="websiteConfig.allowRegister"></el-switch>
-        </el-form-item>
-        <el-form-item label="Submission List Show All">
-          <el-switch on-text="" off-text="" v-model="websiteConfig.submissionListShowAll"></el-switch>
-        </el-form-item>
+      <el-form label-position="left" label-width="100px" ref="form" :model="websiteConfig">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="Base URL">
+              <el-input v-model="websiteConfig.baseURL" placeholder="Website Base Url"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Name">
+              <el-input v-model="websiteConfig.name" placeholder="Website Name"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Name Shortcut">
+              <el-input v-model="websiteConfig.nameShortcut" placeholder="Website Name Shortcut"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Footer">
+              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="websiteConfig.footer"
+                        placeholder="Website Footer HTML"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-col :span="12">
+              <el-form-item label="Allow Register" label-width="200px">
+                <el-switch on-text="" off-text="" v-model="websiteConfig.allowRegister"></el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Submission List Show All" label-width="200px">
+                <el-switch on-text="" off-text="" v-model="websiteConfig.submissionListShowAll"></el-switch>
+              </el-form-item>
+            </el-col>
+            </el-col>
       </el-form>
       <el-button type="primary" @click="updateWebsiteConfig">Save</el-button>
     </Panel>
@@ -62,15 +90,15 @@
           port: 25,
           password: '',
           email: '',
-          tls: true
+          tls: false
         },
         websiteConfig: {
           baseURL: '',
           name: '',
           nameShortcut: '',
           footer: '',
-          allowRegister: true,
-          submissionListShowAll: true
+          allowRegister: false,
+          submissionListShowAll: false
         }
       }
     },

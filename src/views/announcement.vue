@@ -103,7 +103,8 @@
   import api from '../api.js'
   export default {
     components: {
-      Panel, Simditor
+      Panel,
+      Simditor
     },
     data () {
       return {

@@ -3,9 +3,9 @@ import App from './App'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
-// import VueI18n from 'vue-i18n'
+import locale from 'element-ui/lib/locale/lang/en'
 
-Vue.use(Element)
+Vue.use(Element, { locale })
 Vue.use(VueRouter)
 // Vue.use(VueI18n)
 
