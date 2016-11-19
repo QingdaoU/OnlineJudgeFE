@@ -1,18 +1,18 @@
 <template>
   <div class="view">
     <Panel title="SMTP Config">
-      <el-form ref="form" :model="smtp">
+      <el-form label-position="left" label-width="70px" ref="form" :model="smtp" :rules="rules">
         <el-form-item label="Server">
           <el-input v-model="smtp.server" placeholder="SMTP Server address"></el-input>
         </el-form-item>
         <el-form-item label="Port">
-          <el-input v-model="smtp.port" placeholder="SMTP Server Port"></el-input>
+          <el-input type="number" v-model="smtp.port" placeholder="SMTP Server Port"></el-input>
         </el-form-item>
         <el-form-item label="Password">
           <el-input v-model="smtp.password" type="password" placeholder="SMTP Server Password"></el-input>
         </el-form-item>
         <el-form-item label="Email">
-          <el-input v-model="smtp.email" placeholder="Account used to send email"></el-input>
+          <el-input type="email" v-model="smtp.email" placeholder="Account used to send email"></el-input>
         </el-form-item>
         <el-form-item label="TLS">
           <el-switch on-text="" off-text="" v-model="smtp.tls"></el-switch>
