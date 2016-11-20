@@ -43,7 +43,7 @@
             prop="visible"
             label="Status"
             width="100"
-            :filters="[{ text: 'show visible', value: 'visible' }, { text: 'show invisible', value: 'invisible' }]"
+            :filters="[{ text: 'visible', value: 'visible' }, { text: 'invisible', value: 'invisible' }]"
             :filter-method="filterVisible"
             inline-template>
             <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'visible' : 'invisible'}}</el-tag>
@@ -54,8 +54,8 @@
             label="option"
             width="100">
             <span>
-              <el-button type="text" size="small" @click="currAnnounceId = row.id,showEditAnnouncementDialog = true">编辑</el-button>
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="text" size="small" @click="currentAnnouncementId = row.id,showEditAnnouncementDialog = true">Edit</el-button>
+              <el-button type="text" size="small">Delete</el-button>
             </span>
           </el-table-column>
         </el-table>
@@ -103,7 +103,8 @@
   import api from '../api.js'
   export default {
     components: {
-      Panel, Simditor
+      Panel,
+      Simditor
     },
     data () {
       return {
@@ -119,7 +120,7 @@
         // 总公告数
         count: 0,
         // 当前公告id
-        currAnnounceId: 0,
+        currentAnnouncementId: 0,
         // 公告 (new | edit) model
         announcement: {
           title: '',
@@ -143,7 +144,7 @@
         // 清除上一页选择的的多选框
         this.$refs.table.clearSelection()
         api.getAnnounceList((page - 1) * this.pageSize, this.pageSize).then(res => {
-          this.announceList = res.data.data.results
+          this.announcementList = res.data.data.results
         })
       },
       // 打开编辑对话框的回调
@@ -166,7 +167,7 @@
       }
     },
     watch: {
-      'currAnnounceId' () {
+      'currentAnnouncementId' () {
         this.announcementList.find(item => {
           if (item.id === this.currAnnounceId) {
             this.announcement.title = item.title
