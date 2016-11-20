@@ -169,7 +169,9 @@
       'currAnnounceId' () {
         this.announcementList.find(item => {
           if (item.id === this.currAnnounceId) {
-            this.announcement = item
+            this.announcement.title = item.title
+            this.announcement.visible = item.visible
+            this.announcement.content = item.content
           }
         })
       }
