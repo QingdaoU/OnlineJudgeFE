@@ -35,7 +35,7 @@ const router = new VueRouter({
   ]
 })
 
-for (var msgType of ['success', 'warning', 'info', 'error']) {
+/* for (let msgType of ['success', 'warning', 'info', 'error']) {
   window[msgType] = (msg) => {
     Vue.prototype.$message({
       showClose: true,
@@ -45,7 +45,7 @@ for (var msgType of ['success', 'warning', 'info', 'error']) {
   }
 }
 
-var message = (msg, msgType) => {
+let message = (msg, msgType) => {
   Vue.prototype.$message({
     showClose: true,
     message: msg,
@@ -67,6 +67,6 @@ window.success = (msg) => {
   } else {
     message(msg, 'success')
   }
-}
+} */
 
 new Vue(Vue.util.extend({ router }, App)).$mount('#app')

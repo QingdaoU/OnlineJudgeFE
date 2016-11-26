@@ -2,16 +2,21 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
-Vue.http.options.root = '/api'
+Vue.http.options.root = 'http://localhost:8080/api'
 Vue.http.options.emulateJSON = false
 Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
 
 function getCookie (name) {
-  var value = '; ' + document.cookie
-  var parts = value.split('; ' + name + '=')
-  if (parts.length === 2) return parts.pop().split(';').shift()
+  let allCookies = document.cookie.split('; ')
+  for (let i = 0; i < allCookies.length; i++) {
+    let cookie = allCookies[i].split('=')
+    if (cookie[0] === name) {
+      return cookie[1]
+    } else {
+      return ''
+    }
+  }
 }
-
 export default {
   // 登录
   login (uname, pwd) {
@@ -75,11 +80,11 @@ export default {
  @param url
  @param type get|post|put|jsonp ....
  @param options options = {
-                                body: request body
-                                options: ..,
-                                succCallBack: Function
-                                errCallBack: Function
-                          }
+                      body: request body
+                      options: ..,
+                      succCallBack: Function
+                      errCallBack: Function
+                    }
  @return Promise
  */
 

@@ -52,10 +52,10 @@
             inline-template
             fixed="right"
             label="option"
-            width="100">
+            width="110">
             <span>
               <el-button type="text" size="small" @click="currentAnnouncementId = row.id,showEditAnnouncementDialog = true">Edit</el-button>
-              <el-button type="text" size="small">Delete</el-button>
+              <el-button type="text" size="small" @click="deleteAnnouncement(row.id)">Delete</el-button>
             </span>
           </el-table-column>
         </el-table>
@@ -66,7 +66,7 @@
             layout="prev, pager, next"
             @current-change="currentChange"
             :page-size = "pageSize"
-            :total="count">
+            :total="total">
           </el-pagination>
         </div>
       </div>
@@ -84,7 +84,7 @@
           v-model="announcement.visible"
           :width="80"
           on-color="#13ce66"
-          on-text="Visible"
+          on-text=" Visible "
           off-text="Invisible"
           off-color="#ff4949">
         </el-switch>
@@ -118,7 +118,7 @@
         // 一页显示的公告数
         pageSize: 5,
         // 总公告数
-        count: 0,
+        total: 0,
         // 当前公告id
         currentAnnouncementId: 0,
         // 公告 (new | edit) model
@@ -164,12 +164,26 @@
       // 编辑对话框 提交按钮
       submit () {
         window.alert(this.announcement.content)
+      },
+      // 删除公告
+      deleteAnnouncement (announcementId) {
+        this.$confirm('Do you really want to delete this announcement?', 'really', {
+          confirmButtonText: 'confirm',
+          cancelButtonText: 'cancel',
+          type: 'warning'
+        }).then(() => {
+          // todo 调用删除api接口
+          this.$message({
+            type: 'success',
+            message: 'delete success!'
+          })
+        }).catch(() => {})
       }
     },
     watch: {
       'currentAnnouncementId' () {
         this.announcementList.find(item => {
-          if (item.id === this.currAnnounceId) {
+          if (item.id === this.currentAnnouncementId) {
             this.announcement.title = item.title
             this.announcement.visible = item.visible
             this.announcement.content = item.content
@@ -179,7 +193,7 @@
     },
     mounted () {
       api.getAnnounceList(0, this.pageSize).then(res => {
-        this.count = res.data.data.count
+        this.total = res.data.data.total
         this.announcementList = res.data.data.results
       })
     }
