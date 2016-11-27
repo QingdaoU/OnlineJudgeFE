@@ -108,7 +108,7 @@
           this.smtp = res.data.data
         } else {
           this.init = true
-          window.alert('SMTP not configured')
+          this.$alert('SMTP not configured')
         }
       })
       api.getWebsiteConfig().then(res => {
@@ -125,11 +125,11 @@
       saveSMTPConfig () {
         if (!this.init) {
           api.updateSMTPConfig(this.smtp).then(res => {
-            window.success()
+            this.$success()
           })
         } else {
           api.createSMTPConfig(this.smtp).then(res => {
-            window.success()
+            this.$success()
           })
         }
       },
@@ -143,7 +143,7 @@
           submission_list_show_all: config.submissionListShowAll
         }
         api.updateWebsiteConfig(data).then(res => {
-          window.success()
+          this.$success()
         })
       }
     }

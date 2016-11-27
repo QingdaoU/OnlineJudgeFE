@@ -17,6 +17,7 @@ function getCookie (name) {
     }
   }
 }
+
 export default {
   // 登录
   login (uname, pwd) {
@@ -98,7 +99,7 @@ function ajax (url, type, options) {
     Vue.http[type](url, options.body, options.options).then(res => {
       // 出错了
       if (res.data.error !== null) {
-        window.error(res.data.data)
+        Vue.prototype.$error(res.data.data)
         reject(res)
         if (options.errCallBack !== undefined) {
           options.errCallBack(res)

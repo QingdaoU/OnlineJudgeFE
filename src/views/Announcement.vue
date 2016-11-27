@@ -173,10 +173,7 @@
           type: 'warning'
         }).then(() => {
           // todo 调用删除api接口
-          this.$message({
-            type: 'success',
-            message: 'delete success!'
-          })
+          this.$success()
         }).catch(() => {})
       }
     },

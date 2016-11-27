@@ -35,38 +35,20 @@ const router = new VueRouter({
   ]
 })
 
-/* for (let msgType of ['success', 'warning', 'info', 'error']) {
-  window[msgType] = (msg) => {
-    Vue.prototype.$message({
-      showClose: true,
-      message: msg,
-      type: msgType
-    })
-  }
+Vue.prototype.$error = (msg) => {
+  Vue.prototype.$message({'message': msg, 'type': 'error'})
 }
 
-let message = (msg, msgType) => {
-  Vue.prototype.$message({
-    showClose: true,
-    message: msg,
-    type: msgType
-  })
+Vue.prototype.$alert = (msg) => {
+  Vue.prototype.$message({'message': msg, 'type': 'info'})
 }
 
-window.error = (msg) => {
-  message(msg, 'error')
-}
-
-window.alert = (msg) => {
-  message(msg, 'info')
-}
-
-window.success = (msg) => {
+Vue.prototype.$success = (msg) => {
   if (!msg) {
-    message('Succeeded', 'success')
+    Vue.prototype.$message({'message': 'Succeeded', 'type': 'success'})
   } else {
-    message(msg, 'success')
+    Vue.prototype.$message({'message': msg, 'type': 'success'})
   }
-} */
+}
 
 new Vue(Vue.util.extend({ router }, App)).$mount('#app')
