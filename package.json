@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "promise": "^7.1.1",
     "simditor": "^2.3.6",
     "simditor-markdown": "^1.1.2",
     "vue": "^2.0.1",
