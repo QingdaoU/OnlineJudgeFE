@@ -59,12 +59,12 @@ export default {
   },
   createSMTPConfig (config) {
     return ajax('admin/smtp', 'post', {
-      options: config
+      body: config
     })
   },
   updateSMTPConfig (config) {
     return ajax('admin/smtp', 'put', {
-      options: config
+      body: config
     })
   },
   getWebsiteConfig () {
@@ -72,7 +72,7 @@ export default {
   },
   updateWebsiteConfig (config) {
     return ajax('admin/website', 'post', {
-      options: config
+      body: config
     })
   }
 }
@@ -109,13 +109,17 @@ function ajax (url, type, options) {
         resolve(res)
         if (options.succCallBack !== undefined) {
           options.succCallBack(res)
+        } else if (type !== 'get') {
+          Vue.prototype.$success()
         }
       }
     }, res => {
       // 请求失败
       reject(res)
-      if (options.succCallBack !== undefined) {
-        options.succCallBack(res)
+      if (options.errCallBack !== undefined) {
+        options.errCallBack(res)
+      } else {
+        Vue.prototype.$error('Network error')
       }
     })
   })

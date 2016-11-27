@@ -124,13 +124,9 @@
     methods: {
       saveSMTPConfig () {
         if (!this.init) {
-          api.updateSMTPConfig(this.smtp).then(res => {
-            this.$success()
-          })
+          api.updateSMTPConfig(this.smtp)
         } else {
-          api.createSMTPConfig(this.smtp).then(res => {
-            this.$success()
-          })
+          api.createSMTPConfig(this.smtp)
         }
       },
       updateWebsiteConfig () {
@@ -142,9 +138,7 @@
           allow_register: config.allowRegister,
           submission_list_show_all: config.submissionListShowAll
         }
-        api.updateWebsiteConfig(data).then(res => {
-          this.$success()
-        })
+        api.updateWebsiteConfig(data)
       }
     }
   }
