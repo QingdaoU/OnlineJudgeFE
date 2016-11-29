@@ -214,6 +214,7 @@
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     background-color: #EDECEC;
+    overflow-y: scroll;
   }
 
   * {

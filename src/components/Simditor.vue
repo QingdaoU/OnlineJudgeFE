@@ -37,8 +37,10 @@ export default {
       pasteImage: true,
       markdown: true
     })
-    let simditorBody = document.querySelector('.simditor-body')
-    simditorBody.oninput = () => {
+    this.editor.on('valuechanged', (e, src) => {
+      this.currentValue = this.editor.getValue()
+    })
+    document.querySelector('.markdown-editor>textarea').oninput = () => {
       this.currentValue = this.editor.getValue()
     }
     this.editor.setValue(this.value)
@@ -46,6 +48,7 @@ export default {
   watch: {
     value (val) {
       this.currentValue = val
+      this.editor.setValue(val)
     },
     currentValue (newVal, oldVal) {
       this.$emit('change', newVal)

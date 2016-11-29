@@ -42,6 +42,40 @@ export default {
       }
     })
   },
+  // 删除公告
+  deleteAnnouncement (id) {
+    return ajax('admin/announcement', 'delete', {
+      options: {
+        params: {
+          id: id
+        }
+      }
+    })
+  },
+  // 修改公告
+  modifyAnnouncement (id, title, content, visible) {
+    return ajax('admin/announcement', 'put', {
+      options: {
+        params: {
+          id: id,
+          title: title,
+          content: content,
+          visible: visible
+        }
+      }
+    })
+  },
+  // 添加公告
+  addAnnouncement (title, content) {
+    return ajax('admin/announcement', 'post', {
+      options: {
+        params: {
+          title: title,
+          content: content
+        }
+      }
+    })
+  },
   // 获取用户列表
   getUserList (offset, limit) {
     return ajax('admin/user', 'get', {

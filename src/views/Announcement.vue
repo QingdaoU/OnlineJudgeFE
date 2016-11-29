@@ -60,6 +60,7 @@
           </el-table-column>
         </el-table>
         <div class="option">
+          <el-button type="primary" size="small" @click="currentAnnouncementId = null, showEditAnnouncementDialog = true" icon="plus">Create</el-button>
           <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">Delete</el-button>
           <el-pagination
             class="page"
@@ -71,8 +72,8 @@
         </div>
       </div>
     </Panel>
-    <!--编辑对话框-->
-    <el-dialog title="Edit Announcement" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
+    <!--对话框-->
+    <el-dialog :title="announcementDialogTitle" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
       <el-input
         v-model="announcement.title"
         placeholder="title" class="title-input">
@@ -120,13 +121,15 @@
         // 总公告数
         total: 0,
         // 当前公告id
-        currentAnnouncementId: 0,
+        currentAnnouncementId: null,
         // 公告 (new | edit) model
         announcement: {
           title: '',
           visible: true,
           content: ''
-        }
+        },
+        // 对话框标题
+        announcementDialogTitle: 'Edit Announcement'
       }
     },
     methods: {
@@ -161,31 +164,38 @@
           }
         }, 0)
       },
-      // 编辑对话框 提交按钮
+      // 提交编辑
       submit () {
-        window.alert(this.announcement.content)
+        api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible)
       },
       // 删除公告
       deleteAnnouncement (announcementId) {
-        this.$confirm('Do you really want to delete this announcement?', 'really', {
+        this.$confirm('Do you really want to delete this announcement?', 'really?', {
           confirmButtonText: 'confirm',
           cancelButtonText: 'cancel',
           type: 'warning'
         }).then(() => {
-          // todo 调用删除api接口
-          this.$success()
+          api.deleteAnnouncement(announcementId)
         }).catch(() => {})
       }
     },
     watch: {
       'currentAnnouncementId' () {
-        this.announcementList.find(item => {
-          if (item.id === this.currentAnnouncementId) {
-            this.announcement.title = item.title
-            this.announcement.visible = item.visible
-            this.announcement.content = item.content
-          }
-        })
+        if (this.currentAnnouncementId !== null) {
+          this.announcementDialogTitle = 'Edit Announcement'
+          this.announcementList.find(item => {
+            if (item.id === this.currentAnnouncementId) {
+              this.announcement.title = item.title
+              this.announcement.visible = item.visible
+              this.announcement.content = item.content
+            }
+          })
+        } else {
+          this.announcementDialogTitle = 'Create Announcement'
+          this.announcement.title = ''
+          this.announcement.visible = true
+          this.announcement.content = ''
+        }
       }
     },
     mounted () {
