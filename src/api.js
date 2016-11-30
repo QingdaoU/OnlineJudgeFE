@@ -20,12 +20,12 @@ function getCookie (name) {
 
 export default {
   // 登录
-  login (uname, pwd) {
+  login (username, password) {
     return ajax('login', 'get', {
       options: {
         params: {
-          username: uname,
-          password: pwd
+          username,
+          password
         }
       }
     })
@@ -36,8 +36,8 @@ export default {
       options: {
         params: {
           paging: true,
-          offset: offset,
-          limit: limit
+          offset,
+          limit
         }
       }
     })
@@ -47,7 +47,7 @@ export default {
     return ajax('admin/announcement', 'delete', {
       options: {
         params: {
-          id: id
+          id
         }
       }
     })
@@ -57,10 +57,10 @@ export default {
     return ajax('admin/announcement', 'put', {
       options: {
         params: {
-          id: id,
-          title: title,
-          content: content,
-          visible: visible
+          id,
+          title,
+          content,
+          visible
         }
       }
     })
@@ -70,8 +70,8 @@ export default {
     return ajax('admin/announcement', 'post', {
       options: {
         params: {
-          title: title,
-          content: content
+          title,
+          content
         }
       }
     })
@@ -82,8 +82,8 @@ export default {
       options: {
         params: {
           paging: true,
-          offset: offset,
-          limit: limit
+          offset,
+          limit
         }
       }
     })
