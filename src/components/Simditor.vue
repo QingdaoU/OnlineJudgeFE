@@ -47,7 +47,6 @@ export default {
   },
   watch: {
     value (val) {
-      this.currentValue = val
       this.editor.setValue(val)
     },
     currentValue (newVal, oldVal) {

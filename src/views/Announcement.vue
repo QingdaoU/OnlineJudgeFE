@@ -209,21 +209,21 @@
 
 <style lang="less" scoped>
   .announcement {
-  .option{
-    border: 1px solid #e0e6ed;
-    border-top: none;
-    padding: 10px;
-    background-color: #fff;
-    position: relative;
-  button{
-    margin-right: 10px;
-  }
-  >.page{
-     position: absolute;
-     right: 20px;
-     top: 10px;
-   }
-  }
+    .option{
+      border: 1px solid #e0e6ed;
+      border-top: none;
+      padding: 10px;
+      background-color: #fff;
+      position: relative;
+      button{
+        margin-right: 10px;
+      }
+      >.page{
+         position: absolute;
+         right: 20px;
+         top: 10px;
+       }
+    }
   }
   .title-input {
     margin-bottom: 20px;
