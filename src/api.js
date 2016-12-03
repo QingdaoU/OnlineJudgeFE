@@ -17,7 +17,6 @@ function getCookie (name) {
     }
   }
 }
-
 export default {
   // 登录
   login (username, password) {
@@ -39,6 +38,9 @@ export default {
           offset,
           limit
         }
+      },
+      succCallBack () {
+        Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
       }
     })
   },
@@ -46,7 +48,7 @@ export default {
   deleteAnnouncement (id) {
     return ajax('admin/announcement', 'delete', {
       options: {
-        params: {
+        body: {
           id
         }
       }
@@ -56,12 +58,10 @@ export default {
   modifyAnnouncement (id, title, content, visible) {
     return ajax('admin/announcement', 'put', {
       options: {
-        params: {
-          id,
-          title,
-          content,
-          visible
-        }
+        id,
+        title,
+        content,
+        visible
       }
     })
   },

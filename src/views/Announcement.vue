@@ -133,7 +133,9 @@
         // 对话框标题
         announcementDialogTitle: 'Edit Announcement',
         // 是否显示loding
-        loading: true
+        loading: true,
+        // 当前页码
+        currentPage: 0
       }
     },
     methods: {
@@ -150,6 +152,7 @@
       currentChange (page) {
         // 清除上一页选择的的多选框
         this.$refs.table.clearSelection()
+        this.currentPage = page
         this.getAnnounceList((page - 1) * this.pageSize, this.pageSize)
       },
       getAnnounceList (offset, limit) {
@@ -176,7 +179,9 @@
       },
       // 提交编辑
       submit () {
-        api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible)
+        api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
+          this.getAnnounceList((this.currentPage - 1) * this.pageSize, this.pageSize)
+        })
       },
       // 删除公告
       deleteAnnouncement (announcementId) {
@@ -185,7 +190,9 @@
           cancelButtonText: 'cancel',
           type: 'warning'
         }).then(() => {
-          api.deleteAnnouncement(announcementId)
+          api.deleteAnnouncement(announcementId).then(res => {
+            this.getAnnounceList((this.currentPage - 1) * this.pageSize, this.pageSize)
+          })
         }).catch(() => {})
       }
     },
