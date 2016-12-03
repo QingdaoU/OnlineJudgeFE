@@ -3,6 +3,8 @@
     <Panel title="Announcement">
       <div class="list">
         <el-table
+          v-loading="loading"
+          element-loading-text="loading"
           ref="table"
           :data="announcementList"
           style="width: 100%"
@@ -129,7 +131,9 @@
           content: ''
         },
         // 对话框标题
-        announcementDialogTitle: 'Edit Announcement'
+        announcementDialogTitle: 'Edit Announcement',
+        // 是否显示loding
+        loading: true
       }
     },
     methods: {
@@ -146,7 +150,13 @@
       currentChange (page) {
         // 清除上一页选择的的多选框
         this.$refs.table.clearSelection()
-        api.getAnnounceList((page - 1) * this.pageSize, this.pageSize).then(res => {
+        this.getAnnounceList((page - 1) * this.pageSize, this.pageSize)
+      },
+      getAnnounceList (offset, limit) {
+        this.loading = true
+        api.getAnnounceList(offset, limit).then(res => {
+          this.loading = false
+          this.total = res.data.data.total
           this.announcementList = res.data.data.results
         })
       },
@@ -199,10 +209,7 @@
       }
     },
     mounted () {
-      api.getAnnounceList(0, this.pageSize).then(res => {
-        this.total = res.data.data.total
-        this.announcementList = res.data.data.results
-      })
+      this.getAnnounceList(0, this.pageSize)
     }
   }
 </script>
