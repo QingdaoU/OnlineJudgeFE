@@ -26,6 +26,9 @@ export default {
           username,
           password
         }
+      },
+      succCallBack () {
+        Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
       }
     })
   },
@@ -38,9 +41,6 @@ export default {
           offset,
           limit
         }
-      },
-      succCallBack () {
-        Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
       }
     })
   },
@@ -86,6 +86,22 @@ export default {
           limit
         }
       }
+    })
+  },
+  // 获取单个用户信息
+  getUser (id) {
+    return ajax('admin/user', 'get', {
+      body: {
+        params: {
+          user_id: id
+        }
+      }
+    })
+  },
+  // 编辑用户
+  editUser (user) {
+    return ajax('admin/user', 'put', {
+      body: user
     })
   },
   getSMTPConfig () {

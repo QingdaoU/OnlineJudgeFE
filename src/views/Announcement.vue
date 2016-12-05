@@ -56,13 +56,13 @@
             label="option"
             width="110">
             <span>
-              <el-button type="text" size="small" @click="currentAnnouncementId = row.id,showEditAnnouncementDialog = true">Edit</el-button>
+              <el-button type="text" size="small" @click="openAnnouncementDialog(row.id)">Edit</el-button>
               <el-button type="text" size="small" @click="deleteAnnouncement(row.id)">Delete</el-button>
             </span>
           </el-table-column>
         </el-table>
         <div class="option">
-          <el-button type="primary" size="small" @click="currentAnnouncementId = null, showEditAnnouncementDialog = true" icon="plus">Create</el-button>
+          <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="plus">Create</el-button>
           <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">Delete</el-button>
           <el-pagination
             class="page"
@@ -119,7 +119,7 @@
         announcementList: [
         ],
         // 一页显示的公告数
-        pageSize: 5,
+        pageSize: 15,
         // 总公告数
         total: 0,
         // 当前公告id
@@ -161,6 +161,8 @@
           this.loading = false
           this.total = res.data.data.total
           this.announcementList = res.data.data.results
+        }, res => {
+          this.loading = false
         })
       },
       // 打开编辑对话框的回调
@@ -194,11 +196,11 @@
             this.getAnnounceList((this.currentPage - 1) * this.pageSize, this.pageSize)
           })
         }).catch(() => {})
-      }
-    },
-    watch: {
-      'currentAnnouncementId' () {
-        if (this.currentAnnouncementId !== null) {
+      },
+      openAnnouncementDialog (id) {
+        this.showEditAnnouncementDialog = true
+        if (id !== null) {
+          this.currentAnnouncementId = id
           this.announcementDialogTitle = 'Edit Announcement'
           this.announcementList.find(item => {
             if (item.id === this.currentAnnouncementId) {
@@ -216,7 +218,7 @@
       }
     },
     mounted () {
-      this.getAnnounceList(0, this.pageSize)
+      // this.getAnnounceList(0, this.pageSize)
     }
   }
 </script>

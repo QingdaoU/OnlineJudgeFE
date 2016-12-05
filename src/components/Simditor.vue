@@ -37,7 +37,7 @@ export default {
       pasteImage: true,
       markdown: true
     })
-    this.editor.on('valuechanged', (e, src) => {
+    this.editor.on('decorate', (e, src) => {
       this.currentValue = this.editor.getValue()
     })
     document.querySelector('.markdown-editor>textarea').oninput = () => {
@@ -46,10 +46,11 @@ export default {
     this.editor.setValue(this.value)
   },
   watch: {
-    value (val) {
+    'value' (val) {
+      this.currentValue = val
       this.editor.setValue(val)
     },
-    currentValue (newVal, oldVal) {
+    'currentValue' (newVal, oldVal) {
       this.$emit('change', newVal)
       this.$emit('input', newVal)
     }

@@ -9,6 +9,8 @@
       </el-input>
       </div>
       <el-table
+        v-loading="loading"
+        element-loading-text="loading"
         ref="table"
         :data="userList"
         style="width: 100%"
@@ -33,7 +35,7 @@
         <el-table-column
          prop="create_time"
          sortable
-         label="registration time">
+         label="create time">
         </el-table-column>
         <el-table-column
          prop="real_name"
@@ -50,19 +52,101 @@
           sortable
           label="user type">
         </el-table-column>
+        <el-table-column
+          inline-template
+          fixed="right"
+          label="option"
+          width="90">
+          <span class="option-box">
+            <el-button type="text" class="btn" size="small" @click="openUserDialog(row.id)">Edit</el-button>
+          </span>
+        </el-table-column>
       </el-table>
       <div class="option">
-        <el-button type="primary" size="small" :disabled="optionBtnDisabled" @click.native="showEditAnnounceDialog = true" icon="edit">edit</el-button>
-        <el-button type="success" size="small" :disabled="optionBtnDisabled" icon="delete">delete</el-button>
+        <!--<el-button type="primary" size="small" :disabled="optionBtnDisabled" @click.native="showEditAnnounceDialog = true" icon="edit">edit</el-button>-->
         <el-pagination
          class="page"
          layout="prev, pager, next"
          @current-change="currentChange"
          :page-size = "pageSize"
-         :total="count">
+         :total="total">
        </el-pagination>
       </div>
     </Panel>
+    <!--对话框-->
+    <el-dialog title="User" @open="" v-model="showUserDialog">
+      <el-form :model="user" label-width="120px">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="ID">
+              <el-input disabled v-model="user.id"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="user name">
+              <el-input v-model="user.username"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="real name">
+              <el-input v-model="user.real_name"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="email">
+              <el-input v-model="user.email"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="user type">
+              <el-select v-model="user.admin_type" placeholder="请选择">
+                <el-option label="regular_user" value="regular_user"></el-option>
+                <el-option label="admin" value="admin"></el-option>
+                <el-option label="super_admin" value="super_admin"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="last login">
+              <el-input disabled v-model="user.last_login"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-col :span="8">
+              <el-form-item label="two factor auth">
+                <el-switch
+                  v-model="user.two_factor_auth"
+                  on-text=""
+                  off-text="">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="open api">
+                <el-switch
+                  v-model="user.open_api"
+                  on-text=""
+                  off-text="">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="is disabled">
+                <el-switch
+                  v-model="user.is_disabled"
+                  on-text=""
+                  off-text="">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click.native="showUserDialog = false">Cancel</el-button>
+        <el-button type="primary" @click.native="submitUser(),showUserDialog = false">Submit</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,47 +162,85 @@ export default{
       // 一页显示的用户数
       pageSize: 5,
       // 用户总数
-      count: 0,
+      total: 0,
       // 用户列表
       userList: [],
       // 搜索关键字
       keyWord: '',
+      // 是否显示用户对话框
+      showUserDialog: false,
+      // 当前用户model
+      user: {},
+      // 是否显示loading
+      loading: false,
+      // 当前页码
+      currentPage: 0
       // 操作按钮是否禁用
-      optionBtnDisabled: true
+      // optionBtnDisabled: true
     }
   },
   mounted () {
-    api.getUserList(1, this.pageSize).then(res => {
-      this.count = res.data.data.count
-      this.userList = res.data.data.results
-    })
+    // this.getUserList(0, this.pageSize)
   },
   methods: {
     // 处理多选回调
     multipleSelectionChange (items) {
-      this.optionBtnDisabled = !(items.length === 1)
+      // this.optionBtnDisabled = !(items.length === 1)
     },
     // 切换页码回调
     currentChange (page) {
       // 清除上一页选择的的多选框
       this.$refs.table.clearSelection()
-      api.getUserList((page - 1) * this.pageSize, this.pageSize).then(res => {
-        this.userList = res.data.data.results
+      this.currentPage = page
+
+      this.getUserList((page - 1) * this.pageSize, this.pageSize)
+    },
+    // 提交修改用户的信息
+    submitUser () {
+      api.editUser(this.user).then(res => {
+        // 更新列表
+        this.getUserList((this.currentPage - 1) * this.pageSize, this.pageSize)
       })
     },
-    querySearch () {
+    // 打开用户对话框
+    openUserDialog (id) {
+      this.showUserDialog = true
+      api.getUser(id).then(res => {
+        this.user = res.data.data
+      })
+    },
+    // 获取用户列表
+    getUserList (offset, limit) {
+      this.loading = true
+      api.getUserList(offset, limit).then(res => {
+        this.loading = false
+        this.total = res.data.data.total
+        this.userList = res.data.data.results
+      }, res => {
+        this.loading = false
+      })
+    }
+  },
+  watch: {
+    'keyWord' () {
     }
   }
 }
 </script>
 
 <style scoped lang="less">
+.option-box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .option{
   border: 1px solid #e0e6ed;
   border-top: none;
   padding: 10px;
   background-color: #fff;
   position: relative;
+  height: 50px;
   button{
     margin-right: 10px;
   }
