@@ -4,7 +4,6 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.root = 'http://localhost:8080/api'
 Vue.http.options.emulateJSON = false
-Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
 
 function getCookie (name) {
   let allCookies = document.cookie.split('; ')
@@ -17,6 +16,12 @@ function getCookie (name) {
     }
   }
 }
+
+Vue.http.interceptors.push((request, next) => {
+  request.headers.set('X-CSRFToken', getCookie('csrftoken'))
+  next()
+})
+
 export default {
   // 登录
   login (username, password) {
@@ -26,9 +31,6 @@ export default {
           username,
           password
         }
-      },
-      succCallBack () {
-        Vue.http.headers.common['X-CSRFToken'] = getCookie('csrftoken')
       }
     })
   },
@@ -124,6 +126,9 @@ export default {
     return ajax('admin/website', 'post', {
       body: config
     })
+  },
+  getJudgeServer () {
+    return ajax('admin/judge_server', 'get')
   }
 }
 /**

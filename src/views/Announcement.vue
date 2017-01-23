@@ -85,11 +85,8 @@
         <span>Status</span>
         <el-switch
           v-model="announcement.visible"
-          :width="80"
-          on-color="#13ce66"
-          on-text=" Visible "
-          off-text="Invisible"
-          off-color="#ff4949">
+          on-text=""
+          off-text="">
         </el-switch>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -218,7 +215,7 @@
       }
     },
     mounted () {
-      // this.getAnnounceList(0, this.pageSize)
+      this.getAnnounceList(0, this.pageSize)
     }
   }
 </script>

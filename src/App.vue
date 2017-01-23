@@ -17,7 +17,7 @@
     },
     methods: {},
     mounted () {
-      api.login('root', '047e09').then(res => {})
+      api.login('root', 'rootroot').then(res => {})
     }
   }
 </script>

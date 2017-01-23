@@ -69,6 +69,7 @@
               </el-form-item>
             </el-col>
             </el-col>
+        </el-row>
       </el-form>
       <el-button type="primary" @click="updateWebsiteConfig">Save</el-button>
     </Panel>

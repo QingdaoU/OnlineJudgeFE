@@ -8,6 +8,7 @@
       <el-menu-item index="user">User</el-menu-item>
       <el-menu-item index="announcement">Announcement</el-menu-item>
       <el-menu-item index="conf">System Config</el-menu-item>
+      <el-menu-item index="judge-server">Judge Server</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>

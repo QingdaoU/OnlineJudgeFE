@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 // Vue.use(VueI18n)
 
 // 引入 view 组件
-import { Announcement, User, Conf } from './views'
+import { Announcement, User, Conf, JudgeServer } from './views'
 const router = new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
   routes: [
@@ -28,6 +28,11 @@ const router = new VueRouter({
       path: '/conf',
       name: 'conf',
       component: Conf
+    },
+    {
+      path: '/judge-server',
+      name: 'judge-server',
+      component: JudgeServer
     },
     {
       path: '*', redirect: '/announcement'
