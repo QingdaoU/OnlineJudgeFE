@@ -129,6 +129,15 @@ export default {
   },
   getJudgeServer () {
     return ajax('admin/judge_server', 'get')
+  },
+  deleteJudgeServer (hostname) {
+    return ajax('admin/judge_server', 'delete', {
+      body: {
+        params: {
+          hostname: hostname
+        }
+      }
+    })
   }
 }
 /**

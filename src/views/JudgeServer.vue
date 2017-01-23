@@ -1,33 +1,39 @@
 <template>
   <div class="view">
     <Panel title="Judge Server Token">
-      <el-input v-model="tokenToShow" style="width: 200px"></el-input>
+      <el-input v-model="token" style="width: 200px"></el-input>
     </Panel>
     <Panel title="Judge Server">
       <el-table
         :data="servers"
         border>
         <el-table-column
+          type="expand">
+          <template scope="props">
+            <p>IP: <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
+              Judger Version: <el-tag type="success">{{ props.row.judger_version }}</el-tag>
+            </p>
+            <p>Service URL: <code>{{ props.row.service_url }}</code></p>
+            <p>Last Heartbeat: {{ props.row.last_heartbeat}}&nbsp;&nbsp;Create Time: {{ props.row.create_time }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="status"
           label="Status">
           <template scope="scope">
             <el-tag
               :type="scope.row.status === 'normal' ? 'success' : 'danger'">
-              {{ scope.row.status }}
+              {{ scope.row.status === 'normal' ? 'Normal' : 'Abnormal' }}
             </el-tag>
           </template>
-        </el-table-column>
-        <el-table-column
-          prop="last_heartbeat"
-          label="Last Heartbeat">
         </el-table-column>
         <el-table-column
           prop="hostname"
           label="Hostname">
         </el-table-column>
         <el-table-column
-          prop="ip"
-          label="IP">
+          prop="task_number"
+          label="Task Number">
         </el-table-column>
         <el-table-column
           prop="cpu_core"
@@ -47,7 +53,7 @@
           fixed="right"
           label="option">
           <template scope="scope">
-            <el-button type="default" icon="delete" @click="deleteJudgeServer"></el-button>
+            <el-button type="default" icon="delete" @click="deleteJudgeServer(scope.row.hostname)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -75,7 +81,14 @@
       })
     },
     methods: {
-      deleteJudgeServer () {
+      deleteJudgeServer (hostname) {
+        this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Confirm', {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          api.deleteJudgeServer(hostname)
+        }).catch(() => {})
       }
     }
   }
