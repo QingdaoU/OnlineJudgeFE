@@ -75,12 +75,18 @@
       }
     },
     mounted () {
-      api.getJudgeServer().then(res => {
-        this.servers = res.data.data.servers
-        this.token = res.data.data.token
-      })
+      this.refreshJudgeServerList()
+      setInterval(() => {
+        this.refreshJudgeServerList()
+      }, 3000)
     },
     methods: {
+      refreshJudgeServerList () {
+        api.getJudgeServer().then(res => {
+          this.servers = res.data.data.servers
+          this.token = res.data.data.token
+        })
+      },
       deleteJudgeServer (hostname) {
         this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Confirm', {
           confirmButtonText: 'Delete',
@@ -88,15 +94,9 @@
           type: 'warning'
         }).then(() => {
           api.deleteJudgeServer(hostname)
+          this.refreshJudgeServerList()
         }).catch(() => {})
       }
     }
   }
 </script>
-
-<style>
-  #judge-server-token {
-    margin-bottom: 10px;
-    width: 200px;
-  }
-</style>

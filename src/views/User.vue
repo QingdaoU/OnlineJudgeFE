@@ -180,7 +180,7 @@ export default{
     }
   },
   mounted () {
-    // this.getUserList(0, this.pageSize)
+    this.getUserList(0, this.pageSize)
   },
   methods: {
     // 处理多选回调
