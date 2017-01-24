@@ -55,7 +55,7 @@
           fixed="right"
           label="option">
           <template scope="scope">
-            <el-button type="default" icon="delete" @click="deleteJudgeServer(scope.row.hostname)"></el-button>
+            <el-button type="text" class="btn" size="small" @click="deleteJudgeServer(scope.row.hostname)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -49,9 +49,7 @@
           inline-template
           fixed="right"
           label="Option">
-          <span class="option-box">
-            <el-button type="text" class="btn" size="small" @click="openUserDialog(row.id)">Edit</el-button>
-          </span>
+          <el-button type="text" class="btn" size="small" @click="openUserDialog(row.id)">Edit</el-button>
         </el-table-column>
       </el-table>
       <div class="option">
@@ -202,11 +200,6 @@ export default{
 </script>
 
 <style scoped lang="less">
-.option-box{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
 .option{
   border: 1px solid #e0e6ed;
   border-top: none;
