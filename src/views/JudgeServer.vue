@@ -6,6 +6,7 @@
     <Panel title="Judge Server">
       <el-table
         :data="servers"
+        :default-expand-all="true"
         border>
         <el-table-column
           type="expand">
