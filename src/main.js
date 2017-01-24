@@ -5,12 +5,20 @@ import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import locale from 'element-ui/lib/locale/lang/en'
 
+import * as filters from './filters.js'
+
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 Vue.use(Element, { locale })
 Vue.use(VueRouter)
 // Vue.use(VueI18n)
 
 // 引入 view 组件
-import { Announcement, User, Conf, JudgeServer } from './views'
+import { Announcement, User, Conf, JudgeServer, Problem } from './views'
+
 const router = new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
   routes: [
@@ -33,6 +41,16 @@ const router = new VueRouter({
       path: '/judge-server',
       name: 'judge-server',
       component: JudgeServer
+    },
+    {
+      path: '/problem/add',
+      name: 'add-problem',
+      component: Problem
+    },
+    {
+      path: '/problem/edit/:id',
+      name: 'edit-problem',
+      component: Problem
     },
     {
       path: '*', redirect: '/announcement'

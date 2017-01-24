@@ -11,7 +11,7 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: '这里输入文字...'
+      default: 'please input...'
     },
     toolbar: {
       type: Array,

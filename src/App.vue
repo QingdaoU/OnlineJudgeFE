@@ -224,6 +224,6 @@
   .content-app {
     padding-top: 20px;
     padding-right:10px;
-    padding-left: 250px;
+    padding-left: 210px;
   }
 </style>
