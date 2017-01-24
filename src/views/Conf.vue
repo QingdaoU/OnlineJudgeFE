@@ -5,7 +5,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="Server">
-              <el-input v-model="smtp.server" placeholder="SMTP Server address"></el-input>
+              <el-input v-model="smtp.server" placeholder="SMTP Server Address"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="Email">
-              <el-input type="email" v-model="smtp.email" placeholder="Account used to send email"></el-input>
+              <el-input type="email" v-model="smtp.email" placeholder="Account Used To Send Email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -36,18 +36,18 @@
     <Panel title="Website Config">
       <el-form label-position="left" label-width="100px" ref="form" :model="websiteConfig">
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="Base URL">
               <el-input v-model="websiteConfig.baseURL" placeholder="Website Base Url"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="Name">
               <el-input v-model="websiteConfig.name" placeholder="Website Name"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="Name Shortcut">
+          <el-col :span="8">
+            <el-form-item label="Shortcut">
               <el-input v-model="websiteConfig.nameShortcut" placeholder="Website Name Shortcut"></el-input>
             </el-form-item>
           </el-col>
@@ -87,11 +87,11 @@
       return {
         init: false,
         smtp: {
-          server: '',
+          server: 'smtp.example.com',
           port: 25,
           password: '',
-          email: '',
-          tls: false
+          email: 'email@example.com',
+          tls: true
         },
         websiteConfig: {
           baseURL: '',
@@ -109,7 +109,7 @@
           this.smtp = res.data.data
         } else {
           this.init = true
-          this.$alert('SMTP not configured')
+          this.$alert('Please setup SMTP config at first')
         }
       })
       api.getWebsiteConfig().then(res => {
