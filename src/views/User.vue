@@ -1,11 +1,11 @@
 <template>
   <div class="view">
-    <Panel title="user list">
+    <Panel title="User List">
       <div slot="header">
         <el-input
           v-model="keyWord"
           icon="search"
-          placeholder="please input keywords">
+          placeholder="Keywords">
       </el-input>
       </div>
       <el-table
@@ -13,107 +13,89 @@
         element-loading-text="loading"
         ref="table"
         :data="userList"
-        style="width: 100%"
-        @selection-change="multipleSelectionChange">
-        <el-table-column
-         type="selection"
-         width="50">
-        </el-table-column>
+        style="width: 100%">
         <el-table-column
          prop="id"
          label="ID"
-         sortable
-         width="100">
+         sortable>
         </el-table-column>
         <el-table-column
          prop="username"
-         label="user name"
-         sortable
-         width="180"
-         show-tooltip-when-overflow>
+         label="Userame">
         </el-table-column>
         <el-table-column
          prop="create_time"
-         sortable
-         label="create time">
+         label="Create Time">
+        </el-table-column>
+        <el-table-column
+          prop="last_login"
+          label="Last Login">
         </el-table-column>
         <el-table-column
          prop="real_name"
-         sortable
-         label="real name">
+         label="Real Name">
         </el-table-column>
         <el-table-column
           prop="email"
-          sortable
-          label="email">
+          label="Email">
         </el-table-column>
         <el-table-column
           prop="admin_type"
-          sortable
-          label="user type">
+          label="User Type">
+          <template scope="scope">
+            {{ scope.row.admin_type === 'admin' ? 'Admin' : (scope.row.admin_type === 'super_admin' ? 'Super Admin' : 'Regular User') }}
+          </template>
         </el-table-column>
         <el-table-column
           inline-template
           fixed="right"
-          label="option"
-          width="90">
+          label="Option">
           <span class="option-box">
             <el-button type="text" class="btn" size="small" @click="openUserDialog(row.id)">Edit</el-button>
           </span>
         </el-table-column>
       </el-table>
       <div class="option">
-        <!--<el-button type="primary" size="small" :disabled="optionBtnDisabled" @click.native="showEditAnnounceDialog = true" icon="edit">edit</el-button>-->
         <el-pagination
          class="page"
          layout="prev, pager, next"
          @current-change="currentChange"
-         :page-size = "pageSize"
+         :page-size="pageSize"
          :total="total">
        </el-pagination>
       </div>
     </Panel>
     <!--对话框-->
-    <el-dialog title="User" @open="" v-model="showUserDialog">
-      <el-form :model="user" label-width="120px">
+    <el-dialog title="User" v-model="showUserDialog">
+      <el-form :model="user" label-width="120px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="ID">
-              <el-input disabled v-model="user.id"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="user name">
+            <el-form-item label="Username">
               <el-input v-model="user.username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="real name">
+            <el-form-item label="Real Name">
               <el-input v-model="user.real_name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="email">
+            <el-form-item label="Email">
               <el-input v-model="user.email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="user type">
-              <el-select v-model="user.admin_type" placeholder="请选择">
-                <el-option label="regular_user" value="regular_user"></el-option>
-                <el-option label="admin" value="admin"></el-option>
-                <el-option label="super_admin" value="super_admin"></el-option>
+            <el-form-item label="User Type">
+              <el-select v-model="user.admin_type">
+                <el-option label="Regular User" value="regular_user"></el-option>
+                <el-option label="Admin" value="admin"></el-option>
+                <el-option label="Super Admin" value="super_admin"></el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="last login">
-              <el-input disabled v-model="user.last_login"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-col :span="8">
-              <el-form-item label="two factor auth">
+              <el-form-item label="Two Factor Auth">
                 <el-switch
                   v-model="user.two_factor_auth"
                   on-text=""
@@ -122,7 +104,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="open api">
+              <el-form-item label="Open Api">
                 <el-switch
                   v-model="user.open_api"
                   on-text=""
@@ -131,7 +113,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="is disabled">
+              <el-form-item label="Is Disabled">
                 <el-switch
                   v-model="user.is_disabled"
                   on-text=""
@@ -144,7 +126,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click.native="showUserDialog = false">Cancel</el-button>
-        <el-button type="primary" @click.native="submitUser(),showUserDialog = false">Submit</el-button>
+        <el-button type="primary" @click.native="submitUser(),showUserDialog = false">Save</el-button>
       </span>
     </el-dialog>
   </div>
