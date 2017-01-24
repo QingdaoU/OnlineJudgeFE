@@ -3,7 +3,7 @@
     <Panel title="User List">
       <div slot="header">
         <el-input
-          v-model="keyWord"
+          v-model="keyword"
           icon="search"
           placeholder="Keywords">
       </el-input>
@@ -147,7 +147,7 @@ export default{
       // 用户列表
       userList: [],
       // 搜索关键字
-      keyWord: '',
+      keyword: '',
       // 是否显示用户对话框
       showUserDialog: false,
       // 当前用户model
@@ -184,7 +184,7 @@ export default{
     // 获取用户列表
     getUserList (offset, limit) {
       this.loading = true
-      api.getUserList(offset, limit).then(res => {
+      api.getUserList(offset, limit, this.keyword).then(res => {
         this.loading = false
         this.total = res.data.data.total
         this.userList = res.data.data.results
@@ -194,7 +194,8 @@ export default{
     }
   },
   watch: {
-    'keyWord' () {
+    'keyword' () {
+      this.currentChange(1)
     }
   }
 }

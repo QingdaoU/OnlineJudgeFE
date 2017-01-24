@@ -79,14 +79,14 @@ export default {
     })
   },
   // 获取用户列表
-  getUserList (offset, limit) {
+  getUserList (offset, limit, keyword) {
+    let params = {paging: true, offset, limit}
+    if (keyword) {
+      params.keyword = keyword
+    }
     return ajax('admin/user', 'get', {
       options: {
-        params: {
-          paging: true,
-          offset,
-          limit
-        }
+        params: params
       }
     })
   },
