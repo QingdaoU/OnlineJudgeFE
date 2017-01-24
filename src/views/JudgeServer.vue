@@ -74,12 +74,13 @@
       return {
         loading: true,
         servers: [],
-        token: ''
+        token: '',
+        intervalId: -1
       }
     },
     mounted () {
       this.refreshJudgeServerList()
-      setInterval(() => {
+      this.intervalId = setInterval(() => {
         this.refreshJudgeServerList()
       }, 5000)
     },
@@ -104,6 +105,10 @@
           )
         }).catch(() => {})
       }
+    },
+    beforeRouteLeave (to, from, next) {
+      clearInterval(this.intervalId)
+      next()
     }
   }
 </script>
