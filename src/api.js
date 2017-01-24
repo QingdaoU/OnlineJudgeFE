@@ -183,7 +183,7 @@ function ajax (url, type, options) {
       if (options.errCallBack !== undefined) {
         options.errCallBack(res)
       } else {
-        Vue.prototype.$error('Network error')
+        Vue.prototype.$error('Network Error')
       }
     })
   })
