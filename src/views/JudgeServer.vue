@@ -93,7 +93,7 @@
         })
       },
       deleteJudgeServer (hostname) {
-        this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Confirm', {
+        this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -102,7 +102,7 @@
           api.deleteJudgeServer(hostname).then(res =>
             this.refreshJudgeServerList()
           )
-        })
+        }).catch(() => {})
       }
     }
   }

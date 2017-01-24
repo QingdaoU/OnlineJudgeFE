@@ -7,54 +7,40 @@
           element-loading-text="loading"
           ref="table"
           :data="announcementList"
-          style="width: 100%"
-          @selection-change="multipleSelectionChange">
+          style="width: 100%">
           <el-table-column
-            type="selection"
-            width="50">
+            type="selection">
           </el-table-column>
           <el-table-column
             prop="id"
-            label="ID"
-            sortable
-            width="100">
+            label="ID">
           </el-table-column>
           <el-table-column
             prop="title"
-            label="Title"
-            sortable
-            width="220"
-            show-tooltip-when-overflow>
+            label="Title">
           </el-table-column>
           <el-table-column
             prop="create_time"
-            sortable
             label="CreateTime">
           </el-table-column>
           <el-table-column
             prop="last_update_time"
-            sortable
             label="LastUpdateTime">
           </el-table-column>
           <el-table-column
             prop="created_by.username"
-            sortable
             label="Author">
           </el-table-column>
           <el-table-column
             prop="visible"
             label="Status"
-            width="100"
-            :filters="[{ text: 'visible', value: 'visible' }, { text: 'invisible', value: 'invisible' }]"
-            :filter-method="filterVisible"
             inline-template>
-            <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'visible' : 'invisible'}}</el-tag>
+            <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'Visible' : 'Invisible'}}</el-tag>
           </el-table-column>
           <el-table-column
             inline-template
             fixed="right"
-            label="option"
-            width="110">
+            label="Option">
             <span>
               <el-button type="text" size="small" @click="openAnnouncementDialog(row.id)">Edit</el-button>
               <el-button type="text" size="small" @click="deleteAnnouncement(row.id)">Delete</el-button>
@@ -63,7 +49,6 @@
         </el-table>
         <div class="option">
           <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="plus">Create</el-button>
-          <el-button type="danger" size="small" :disabled="delBtnDisabled" icon="delete">Delete</el-button>
           <el-pagination
             class="page"
             layout="prev, pager, next"
@@ -86,7 +71,8 @@
         <el-switch
           v-model="announcement.visible"
           on-text=""
-          off-text="">
+          off-text=""
+          :disabled="switchDisabled">
         </el-switch>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -108,8 +94,6 @@
     },
     data () {
       return {
-        // 删除按钮是否disabled
-        delBtnDisabled: true,
         // 显示编辑公告对话框
         showEditAnnouncementDialog: false,
         // 公告列表
@@ -127,34 +111,24 @@
           visible: true,
           content: ''
         },
+        switchDisabled: true,
         // 对话框标题
         announcementDialogTitle: 'Edit Announcement',
-        // 是否显示loding
+        // 是否显示loading
         loading: true,
         // 当前页码
         currentPage: 0
       }
     },
     methods: {
-      // 处理多选回调
-      multipleSelectionChange (items) {
-        let len = items.length
-        this.delBtnDisabled = !(len !== 0)
-      },
-      // 过滤是否可见
-      filterVisible (value, row) {
-        return value === 'visible' ? row.visible : !row.visible
-      },
       // 切换页码回调
       currentChange (page) {
-        // 清除上一页选择的的多选框
-        this.$refs.table.clearSelection()
         this.currentPage = page
-        this.getAnnounceList((page - 1) * this.pageSize, this.pageSize)
+        this.getAnnouncementList((page - 1) * this.pageSize, this.pageSize)
       },
-      getAnnounceList (offset, limit) {
+      getAnnouncementList (offset, limit) {
         this.loading = true
-        api.getAnnounceList(offset, limit).then(res => {
+        api.getAnnouncementList(offset, limit).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.announcementList = res.data.data.results
@@ -178,19 +152,26 @@
       },
       // 提交编辑
       submit () {
-        api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
-          this.getAnnounceList((this.currentPage - 1) * this.pageSize, this.pageSize)
-        })
+        if (this.currentAnnouncementId) {
+          api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
+            this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
+          })
+        } else {
+          api.createAnnouncement(this.announcement.title, this.announcement.content).then(res => {
+            this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
+          })
+        }
       },
       // 删除公告
       deleteAnnouncement (announcementId) {
-        this.$confirm('Do you really want to delete this announcement?', 'really?', {
-          confirmButtonText: 'confirm',
-          cancelButtonText: 'cancel',
+        this.$confirm('Are you sure you want to delete this announcement?', 'Warning', {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
+          this.loading = true
           api.deleteAnnouncement(announcementId).then(res => {
-            this.getAnnounceList((this.currentPage - 1) * this.pageSize, this.pageSize)
+            this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
           })
         }).catch(() => {})
       },
@@ -199,6 +180,7 @@
         if (id !== null) {
           this.currentAnnouncementId = id
           this.announcementDialogTitle = 'Edit Announcement'
+          this.switchDisabled = false
           this.announcementList.find(item => {
             if (item.id === this.currentAnnouncementId) {
               this.announcement.title = item.title
@@ -211,11 +193,12 @@
           this.announcement.title = ''
           this.announcement.visible = true
           this.announcement.content = ''
+          this.switchDisabled = true
         }
       }
     },
     mounted () {
-      this.getAnnounceList(0, this.pageSize)
+      this.getAnnouncementList(0, this.pageSize)
     }
   }
 </script>

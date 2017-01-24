@@ -35,7 +35,7 @@ export default {
     })
   },
   // 获取公告列表
-  getAnnounceList (offset, limit) {
+  getAnnouncementList (offset, limit) {
     return ajax('admin/announcement', 'get', {
       options: {
         params: {
@@ -50,7 +50,7 @@ export default {
   deleteAnnouncement (id) {
     return ajax('admin/announcement', 'delete', {
       options: {
-        body: {
+        params: {
           id
         }
       }
@@ -59,7 +59,7 @@ export default {
   // 修改公告
   modifyAnnouncement (id, title, content, visible) {
     return ajax('admin/announcement', 'put', {
-      options: {
+      body: {
         id,
         title,
         content,
@@ -68,13 +68,11 @@ export default {
     })
   },
   // 添加公告
-  addAnnouncement (title, content) {
+  createAnnouncement (title, content) {
     return ajax('admin/announcement', 'post', {
-      options: {
-        params: {
-          title,
-          content
-        }
+      body: {
+        title,
+        content
       }
     })
   },
@@ -93,9 +91,9 @@ export default {
   // 获取单个用户信息
   getUser (id) {
     return ajax('admin/user', 'get', {
-      body: {
+      options: {
         params: {
-          user_id: id
+          id
         }
       }
     })
@@ -132,7 +130,7 @@ export default {
   },
   deleteJudgeServer (hostname) {
     return ajax('admin/judge_server', 'delete', {
-      body: {
+      options: {
         params: {
           hostname: hostname
         }
