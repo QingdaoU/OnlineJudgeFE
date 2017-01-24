@@ -2,12 +2,19 @@
 export function timeAgo (time) {
   const between = Date.now() / 1000 - Number(time)
   if (between < 3600) {
-    return ~~(between / 60) + '分钟前'
+    return pluralize(~~(between / 60), ' minute')
   } else if (between < 86400) {
-    return ~~(between / 3600) + ' 小时前'
+    return pluralize(~~(between / 3600), ' hour')
   } else {
-    return ~~(between / 86400) + ' 天前'
+    return pluralize(~~(between / 86400), ' day')
   }
+}
+
+function pluralize (time, label) {
+  if (time === 1) {
+    return time + label
+  }
+  return time + label + 's'
 }
 
 // 只显示日期
