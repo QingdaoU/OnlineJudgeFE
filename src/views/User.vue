@@ -16,8 +16,7 @@
         style="width: 100%">
         <el-table-column
          prop="id"
-         label="ID"
-         sortable>
+         label="ID">
         </el-table-column>
         <el-table-column
          prop="username"
@@ -157,24 +156,15 @@ export default{
       loading: false,
       // 当前页码
       currentPage: 0
-      // 操作按钮是否禁用
-      // optionBtnDisabled: true
     }
   },
   mounted () {
     this.getUserList(0, this.pageSize)
   },
   methods: {
-    // 处理多选回调
-    multipleSelectionChange (items) {
-      // this.optionBtnDisabled = !(items.length === 1)
-    },
     // 切换页码回调
     currentChange (page) {
-      // 清除上一页选择的的多选框
-      this.$refs.table.clearSelection()
       this.currentPage = page
-
       this.getUserList((page - 1) * this.pageSize, this.pageSize)
     },
     // 提交修改用户的信息
@@ -219,7 +209,7 @@ export default{
 .option{
   border: 1px solid #e0e6ed;
   border-top: none;
-  padding: 10px;
+  padding: 8px;
   background-color: #fff;
   position: relative;
   height: 50px;
