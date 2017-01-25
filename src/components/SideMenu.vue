@@ -14,6 +14,10 @@
       <template slot="title"><i class="el-icon-document"></i>Problem</template>
       <el-menu-item index="problem/add">Add Problem</el-menu-item>
     </el-submenu>
+    <el-submenu index="contest">
+      <template slot="title"><i class="el-icon-document"></i>Contest</template>
+      <el-menu-item index="contest/add">Add Contest</el-menu-item>
+    </el-submenu>
   </el-menu>
 </template>
 
