@@ -95,8 +95,8 @@
               <el-form-item label="Two Factor Auth">
                 <el-switch
                   v-model="user.two_factor_auth"
-                  on-text=""
-                  off-text="">
+                  on-color="#13ce66"
+                  off-color="#ff4949">
                 </el-switch>
               </el-form-item>
             </el-col>
@@ -104,8 +104,8 @@
               <el-form-item label="Open Api">
                 <el-switch
                   v-model="user.open_api"
-                  on-text=""
-                  off-text="">
+                  on-color="#13ce66"
+                  off-color="#ff4949">
                 </el-switch>
               </el-form-item>
             </el-col>
