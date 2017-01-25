@@ -32,11 +32,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-tooltip class="item" effect="dark" content="Leave blank if the contest is public" placement="top">
-              <el-form-item label="Password">
-                <el-input type="password" v-model="password" placeholder="Contest Password"></el-input>
-              </el-form-item>
-            </el-tooltip>
+            <el-form-item label="Password">
+              <el-input v-model="password" placeholder="Contest Password"></el-input>
+            </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Contest Type">
