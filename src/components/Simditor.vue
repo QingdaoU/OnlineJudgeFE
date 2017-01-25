@@ -40,19 +40,23 @@ export default {
     this.editor.on('decorate', (e, src) => {
       this.currentValue = this.editor.getValue()
     })
-    document.querySelector('.markdown-editor>textarea').oninput = () => {
+    document.querySelector('.simditor-body').oninput = () => {
       this.currentValue = this.editor.getValue()
     }
     this.editor.setValue(this.value)
   },
   watch: {
     'value' (val) {
-      this.currentValue = val
-      this.editor.setValue(val)
+      if (this.currentValue !== val) {
+        this.currentValue = val
+        this.editor.setValue(val)
+      }
     },
     'currentValue' (newVal, oldVal) {
-      this.$emit('change', newVal)
-      this.$emit('input', newVal)
+      if (newVal !== oldVal) {
+        this.$emit('change', newVal)
+        this.$emit('input', newVal)
+      }
     }
   }
 }
