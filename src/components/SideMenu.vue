@@ -5,14 +5,18 @@
     </div>
     <el-submenu index="general">
       <template slot="title"><i class="el-icon-menu"></i>General</template>
-      <el-menu-item index="user">User</el-menu-item>
-      <el-menu-item index="announcement">Announcement</el-menu-item>
-      <el-menu-item index="conf">System Config</el-menu-item>
-      <el-menu-item index="judge-server">Judge Server</el-menu-item>
+      <el-menu-item index="/user">User</el-menu-item>
+      <el-menu-item index="/announcement">Announcement</el-menu-item>
+      <el-menu-item index="/conf">System Config</el-menu-item>
+      <el-menu-item index="/judge-server">Judge Server</el-menu-item>
     </el-submenu>
     <el-submenu index="problem">
       <template slot="title"><i class="el-icon-document"></i>Problem</template>
-      <el-menu-item index="problem/add">Add Problem</el-menu-item>
+      <el-menu-item index="/problem/add">Add Problem</el-menu-item>
+    </el-submenu>
+    <el-submenu index="contest">
+      <template slot="title"><i class="el-icon-document"></i>Contest</template>
+      <el-menu-item index="/contest/add">Add Contest</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
@@ -25,7 +29,7 @@ export default{
     }
   },
   mounted () {
-    this.currentPath = this.$route.path.substring(1)
+    this.currentPath = this.$route.path
   }
 }
 </script>

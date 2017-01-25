@@ -3,7 +3,8 @@ import User from './general/User.vue'
 import Conf from './general/Conf.vue'
 import JudgeServer from './general/JudgeServer.vue'
 import Problem from './problem/Problem.vue'
+import Contest from './conetst/Contest.vue'
 
 export {
-  Announcement, User, Conf, JudgeServer, Problem
+  Announcement, User, Conf, JudgeServer, Problem, Contest
 }
