@@ -51,6 +51,15 @@
               </el-switch>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="Status">
+              <el-switch
+                v-model="visible"
+                on-text=""
+                off-text="">
+              </el-switch>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <el-button type="primary" @click="saveContest">Save</el-button>
@@ -75,7 +84,8 @@
         endTime: '',
         contestType: 'acm',
         password: '',
-        realTimeRank: true
+        realTimeRank: true,
+        visible: true
       }
     },
     mounted () {
