@@ -9,6 +9,7 @@
       <el-menu-item index="announcement">Announcement</el-menu-item>
       <el-menu-item index="conf">System Config</el-menu-item>
       <el-menu-item index="judge-server">Judge Server</el-menu-item>
+      <el-menu-item index="/problem/add">Add Problem</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
@@ -28,7 +29,7 @@ export default{
 
 <style scoped lang="less">
 .vertical_menu{
-  width: 240px;
+  width: 200px;
   height: 100%;
   position: fixed!important;
   top: 0;

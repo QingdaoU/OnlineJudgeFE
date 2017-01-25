@@ -1,5 +1,5 @@
 <template>
-  <div class="panel">
+  <div class="panel" :class="{'small': small}">
     <header>
       <h2>{{title}}</h2>
       <div class="header_right">
@@ -18,6 +18,10 @@ export default{
     title: {
       type: String,
       required: true
+    },
+    small: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -29,6 +33,12 @@ export default{
     border: 1px solid transparent;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    &.small{
+      max-width: 800px;
+      min-width: 700px;
+      margin-left: 20px;
+      margin-top: 10px;
+    }
     header{
       position: relative;
       z-index: 10;
