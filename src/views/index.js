@@ -1,7 +1,7 @@
-import Announcement from './Announcement.vue'
-import User from './User.vue'
-import Conf from './Conf.vue'
-import JudgeServer from './JudgeServer.vue'
+import Announcement from './general/Announcement.vue'
+import User from './general/User.vue'
+import Conf from './general/Conf.vue'
+import JudgeServer from './general/JudgeServer.vue'
 
 export {
   Announcement, User, Conf, JudgeServer

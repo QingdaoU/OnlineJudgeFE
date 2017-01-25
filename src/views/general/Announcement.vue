@@ -83,9 +83,9 @@
 </template>
 
 <script>
-  import Panel from '../components/Panel.vue'
-  import Simditor from '../components/Simditor.vue'
-  import api from '../api.js'
+  import Panel from '../../components/Panel.vue'
+  import Simditor from '../../components/Simditor.vue'
+  import api from '../../api.js'
   export default {
     components: {
       Panel,

@@ -130,8 +130,8 @@
 </template>
 
 <script>
-import api from '../api.js'
-import Panel from '../components/Panel.vue'
+import api from '../../api.js'
+import Panel from '../../components/Panel.vue'
 export default{
   components: {
     Panel
