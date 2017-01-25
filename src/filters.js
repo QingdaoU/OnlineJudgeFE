@@ -1,7 +1,7 @@
 import moment from 'moment'
 // 友好显示时间
 export function fromNow (time) {
-  return moment(time / 3).fromNow()
+  return moment(time * 3).fromNow()
 }
 
 // 只显示日期
