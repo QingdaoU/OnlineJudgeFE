@@ -63,9 +63,9 @@
     <el-dialog :title="announcementDialogTitle" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
       <el-input
         v-model="announcement.title"
-        placeholder="title" class="title-input">
+        placeholder="Title" class="title-input">
       </el-input>
-      <Simditor v-model="announcement.content" placeholder="content"></Simditor>
+      <Simditor v-model="announcement.content"></Simditor>
       <div class="visible-box">
         <span>Status</span>
         <el-switch

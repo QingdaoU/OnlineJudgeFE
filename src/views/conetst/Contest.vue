@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description">
-              <Simditor v-model="description" placeholder="Contest Description"></Simditor>
+              <Simditor v-model="description"></Simditor>
             </el-form-item>
           </el-col>
           <el-col :span="6">
