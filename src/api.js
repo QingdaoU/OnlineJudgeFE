@@ -68,11 +68,12 @@ export default {
     })
   },
   // 添加公告
-  createAnnouncement (title, content) {
+  createAnnouncement (title, content, visible) {
     return ajax('admin/announcement', 'post', {
       body: {
         title,
-        content
+        content,
+        visible
       }
     })
   },

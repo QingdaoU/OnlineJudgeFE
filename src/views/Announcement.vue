@@ -71,8 +71,7 @@
         <el-switch
           v-model="announcement.visible"
           on-text=""
-          off-text=""
-          :disabled="switchDisabled">
+          off-text="">
         </el-switch>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -111,7 +110,6 @@
           visible: true,
           content: ''
         },
-        switchDisabled: true,
         // 对话框标题
         announcementDialogTitle: 'Edit Announcement',
         // 是否显示loading
@@ -157,7 +155,7 @@
             this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
           })
         } else {
-          api.createAnnouncement(this.announcement.title, this.announcement.content).then(res => {
+          api.createAnnouncement(this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
           })
         }
@@ -180,7 +178,6 @@
         if (id !== null) {
           this.currentAnnouncementId = id
           this.announcementDialogTitle = 'Edit Announcement'
-          this.switchDisabled = false
           this.announcementList.find(item => {
             if (item.id === this.currentAnnouncementId) {
               this.announcement.title = item.title
@@ -193,7 +190,6 @@
           this.announcement.title = ''
           this.announcement.visible = true
           this.announcement.content = ''
-          this.switchDisabled = true
         }
       }
     },
