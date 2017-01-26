@@ -25,7 +25,11 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="TLS">
-              <el-switch on-text="" off-text="" v-model="smtp.tls"></el-switch>
+              <el-switch
+                v-model="smtp.tls"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </el-form-item>
           </el-col>
         </el-row>
@@ -60,12 +64,20 @@
           <el-col :span="24">
             <el-col :span="12">
               <el-form-item label="Allow Register" label-width="200px">
-                <el-switch on-text="" off-text="" v-model="websiteConfig.allowRegister"></el-switch>
+                <el-switch
+                  v-model="websiteConfig.allowRegister"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Submission List Show All" label-width="200px">
-                <el-switch on-text="" off-text="" v-model="websiteConfig.submissionListShowAll"></el-switch>
+                <el-switch
+                  v-model="websiteConfig.submissionListShowAll"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
               </el-form-item>
             </el-col>
             </el-col>

@@ -9,10 +9,6 @@ import 'simditor-markdown'
 import 'simditor-markdown/styles/simditor-markdown.css'
 export default {
   props: {
-    placeholder: {
-      type: String,
-      default: 'please input...'
-    },
     toolbar: {
       type: Array,
       default: () => ['title', 'bold', 'italic', 'underline', 'fontScale', 'color', 'ol', 'ul', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment', '|', 'markdown']
@@ -32,7 +28,7 @@ export default {
     Simditor.locale = 'zh-CN'
     this.editor = new Simditor({
       textarea: document.getElementById('editor'),
-      placeholder: this.placeholder,
+      placeholder: '',
       toolbar: this.toolbar,
       pasteImage: true,
       markdown: true

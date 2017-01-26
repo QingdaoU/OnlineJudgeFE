@@ -17,7 +17,7 @@ Vue.use(VueRouter)
 // Vue.use(VueI18n)
 
 // 引入 view 组件
-import { Announcement, User, Conf, JudgeServer, Problem, Contest } from './views'
+import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList } from './views'
 
 const router = new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
@@ -56,6 +56,11 @@ const router = new VueRouter({
       path: '/contest/add',
       name: 'add-contest',
       component: Contest
+    },
+    {
+      path: '/contest',
+      name: 'contest',
+      component: ContestList
     },
     {
       path: '*', redirect: '/announcement'

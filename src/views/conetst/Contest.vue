@@ -10,10 +10,10 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description">
-              <Simditor v-model="description" placeholder="Contest Description"></Simditor>
+              <Simditor v-model="description"></Simditor>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="Start Time">
               <el-date-picker
                 v-model="startTime"
@@ -22,7 +22,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="End Time">
               <el-date-picker
                 v-model="endTime"
@@ -31,20 +31,34 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-tooltip class="item" effect="dark" content="Once the contest is saved, this option can't be changed" placement="top">
-              <el-form-item label="Contest Type">
-                <el-radio class="radio" v-model="contestType" label="acm">ACM</el-radio>
-                <el-radio class="radio" v-model="contestType" label="oi">OI</el-radio>
-              </el-form-item>
-            </el-tooltip>
+          <el-col :span="8">
+            <el-form-item label="Password">
+              <el-input v-model="password" placeholder="Contest Password"></el-input>
+            </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-tooltip class="item" effect="dark" content="Leave blank if the contest is public" placement="top">
-              <el-form-item label="Password">
-                <el-input type="password" v-model="password" placeholder="Contest Password"></el-input>
-              </el-form-item>
-            </el-tooltip>
+          <el-col :span="8">
+            <el-form-item label="Contest Rule Type">
+              <el-radio class="radio" v-model="ruleType" label="ACM">ACM</el-radio>
+              <el-radio class="radio" v-model="ruleType" label="OI">OI</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Real Time Rank">
+              <el-switch
+                v-model="realTimeRank"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Status">
+              <el-switch
+                v-model="visible"
+                on-text=""
+                off-text="">
+              </el-switch>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form>
@@ -54,9 +68,10 @@
 </template>
 
 <script>
-  // import api from '../../api.js'
+  import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
+  import humps from 'humps'
   export default{
     components: {
       Panel,
@@ -68,14 +83,18 @@
         description: '',
         startTime: '',
         endTime: '',
-        contestType: 'acm',
-        password: ''
+        ruleType: 'ACM',
+        password: '',
+        realTimeRank: true,
+        visible: true
       }
     },
     mounted () {
     },
     methods: {
       saveContest () {
+        console.log(humps.decamelizeKeys(this.$data))
+        api.createContest(humps.decamelizeKeys(this.$data))
       }
     }
   }

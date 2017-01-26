@@ -35,7 +35,7 @@
             prop="visible"
             label="Status"
             inline-template>
-            <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'Visible' : 'Invisible'}}</el-tag>
+            <el-tag :type="row.visible ? 'success' : 'danger'">{{row.visible ? 'Visible' : 'Invisible'}}</el-tag>
           </el-table-column>
           <el-table-column
             inline-template
@@ -63,9 +63,9 @@
     <el-dialog :title="announcementDialogTitle" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
       <el-input
         v-model="announcement.title"
-        placeholder="title" class="title-input">
+        placeholder="Title" class="title-input">
       </el-input>
-      <Simditor v-model="announcement.content" placeholder="content"></Simditor>
+      <Simditor v-model="announcement.content"></Simditor>
       <div class="visible-box">
         <span>Status</span>
         <el-switch

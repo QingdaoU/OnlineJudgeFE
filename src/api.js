@@ -137,6 +137,22 @@ export default {
         }
       }
     })
+  },
+  createContest (body) {
+    return ajax('admin/contest', 'post', {
+      body: body
+    })
+  },
+  getContestList (offset, limit, keyword) {
+    let params = {paging: true, offset, limit}
+    if (keyword) {
+      params.keyword = keyword
+    }
+    return ajax('admin/contest', 'get', {
+      options: {
+        params: params
+      }
+    })
   }
 }
 /**
