@@ -4,22 +4,22 @@
       <el-form label-position="left" label-width="70px" :model="smtp">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Server">
+            <el-form-item label="Server" required>
               <el-input v-model="smtp.server" placeholder="SMTP Server Address"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Port">
+            <el-form-item label="Port" required>
               <el-input type="number" v-model="smtp.port" placeholder="SMTP Server Port"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Email">
+            <el-form-item label="Email" required>
               <el-input type="email" v-model="smtp.email" placeholder="Account Used To Send Email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Password">
+            <el-form-item label="Password" label-width="90px" required>
               <el-input v-model="smtp.password" type="password" placeholder="SMTP Server Password"></el-input>
             </el-form-item>
           </el-col>
@@ -41,22 +41,22 @@
       <el-form label-position="left" label-width="100px" ref="form" :model="websiteConfig">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="Base URL">
-              <el-input v-model="websiteConfig.baseURL" placeholder="Website Base Url"></el-input>
+            <el-form-item label="Base Url" required>
+              <el-input v-model="websiteConfig.base_url" placeholder="Website Base Url"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Name">
+            <el-form-item label="Name" required>
               <el-input v-model="websiteConfig.name" placeholder="Website Name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Shortcut">
-              <el-input v-model="websiteConfig.nameShortcut" placeholder="Website Name Shortcut"></el-input>
+            <el-form-item label="Shortcut" required>
+              <el-input v-model="websiteConfig.name_shortcut" placeholder="Website Name Shortcut"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Footer">
+            <el-form-item label="Footer" required>
               <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="websiteConfig.footer"
                         placeholder="Website Footer HTML"></el-input>
             </el-form-item>
@@ -65,7 +65,7 @@
             <el-col :span="12">
               <el-form-item label="Allow Register" label-width="200px">
                 <el-switch
-                  v-model="websiteConfig.allowRegister"
+                  v-model="websiteConfig.allow_register"
                   on-color="#13ce66"
                   off-color="#ff4949">
                 </el-switch>
@@ -74,7 +74,7 @@
             <el-col :span="12">
               <el-form-item label="Submission List Show All" label-width="200px">
                 <el-switch
-                  v-model="websiteConfig.submissionListShowAll"
+                  v-model="websiteConfig.submission_list_show_all"
                   on-color="#13ce66"
                   off-color="#ff4949">
                 </el-switch>
@@ -91,6 +91,7 @@
 <script>
   import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
+
   export default{
     components: {
       Panel
@@ -105,14 +106,7 @@
           email: 'email@example.com',
           tls: true
         },
-        websiteConfig: {
-          baseURL: '',
-          name: '',
-          nameShortcut: '',
-          footer: '',
-          allowRegister: false,
-          submissionListShowAll: false
-        }
+        websiteConfig: {}
       }
     },
     mounted () {
@@ -125,14 +119,8 @@
         }
       })
       api.getWebsiteConfig().then(res => {
-        let data = res.data.data
-        this.websiteConfig.baseURL = data.base_url
-        this.websiteConfig.name = data.name
-        this.websiteConfig.nameShortcut = data.name_shortcut
-        this.websiteConfig.footer = data.footer
-        this.websiteConfig.allowRegister = data.allow_register
-        this.websiteConfig.submissionListShowAll = data.submission_list_show_all
-      })
+        this.websiteConfig = res.data.data
+      }).catch(() => {})
     },
     methods: {
       saveSMTPConfig () {
@@ -143,15 +131,7 @@
         }
       },
       updateWebsiteConfig () {
-        let config = this.websiteConfig
-        let data = {base_url: config.baseURL,
-          name: config.name,
-          name_shortcut: config.nameShortcut,
-          footer: config.footer,
-          allow_register: config.allowRegister,
-          submission_list_show_all: config.submissionListShowAll
-        }
-        api.updateWebsiteConfig(data)
+        api.updateWebsiteConfig(this.websiteConfig).then(() => {}).catch(() => {})
       }
     }
   }

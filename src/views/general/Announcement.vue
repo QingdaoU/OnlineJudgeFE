@@ -61,23 +61,29 @@
     </Panel>
     <!--对话框-->
     <el-dialog :title="announcementDialogTitle" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
-      <el-input
-        v-model="announcement.title"
-        placeholder="Title" class="title-input">
-      </el-input>
-      <Simditor v-model="announcement.content"></Simditor>
-      <div class="visible-box">
-        <span>Status</span>
-        <el-switch
-          v-model="announcement.visible"
-          on-text=""
-          off-text="">
-        </el-switch>
-      </div>
+      <el-form label-position="top">
+        <el-form-item label="Title" required>
+          <el-input
+            v-model="announcement.title"
+            placeholder="Title" class="title-input">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="Content" required>
+          <Simditor v-model="announcement.content"></Simditor>
+        </el-form-item>
+        <div class="visible-box">
+          <span>Status</span>
+          <el-switch
+            v-model="announcement.visible"
+            on-text=""
+            off-text="">
+          </el-switch>
+        </div>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click.native="showEditAnnouncementDialog = false">Cancel</el-button>
-        <el-button type="primary" @click.native="submit(),showEditAnnouncementDialog = false">Submit</el-button>
-      </span>
+          <el-button @click.native="showEditAnnouncementDialog = false">Cancel</el-button>
+          <el-button type="primary" @click.native="submit()">Submit</el-button>
+        </span>
     </el-dialog>
   </div>
 </template>
@@ -152,12 +158,14 @@
       submit () {
         if (this.currentAnnouncementId) {
           api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
+            this.showEditAnnouncementDialog = false
             this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
-          })
+          }).catch(() => {})
         } else {
           api.createAnnouncement(this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
+            this.showEditAnnouncementDialog = false
             this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
-          })
+          }).catch(() => {})
         }
       },
       // 删除公告
