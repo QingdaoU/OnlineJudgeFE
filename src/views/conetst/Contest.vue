@@ -1,7 +1,7 @@
 <template>
   <div class="view">
     <Panel title="Create Contest">
-      <el-form label-position="top" label-width="70px">
+      <el-form label-position="top">
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="Title" required>
@@ -16,7 +16,7 @@
           <el-col :span="8">
             <el-form-item label="Start Time" required>
               <el-date-picker
-                v-model="startTime"
+                v-model="start_time"
                 type="datetime"
                 placeholder="Start Time">
               </el-date-picker>
@@ -25,7 +25,7 @@
           <el-col :span="8">
             <el-form-item label="End Time" required>
               <el-date-picker
-                v-model="endTime"
+                v-model="end_time"
                 type="datetime"
                 placeholder="End Time">
               </el-date-picker>
@@ -37,22 +37,22 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Contest Rule Type" required>
-              <el-radio class="radio" v-model="ruleType" label="ACM">ACM</el-radio>
-              <el-radio class="radio" v-model="ruleType" label="OI">OI</el-radio>
+            <el-form-item label="Contest Rule Type">
+              <el-radio class="radio" v-model="rule_type" label="ACM">ACM</el-radio>
+              <el-radio class="radio" v-model="rule_type" label="OI">OI</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Real Time Rank" required>
+            <el-form-item label="Real Time Rank">
               <el-switch
-                v-model="realTimeRank"
+                v-model="real_time_rank"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Status" required>
+            <el-form-item label="Status">
               <el-switch
                 v-model="visible"
                 on-text=""
@@ -71,7 +71,6 @@
   import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
-  import humps from 'humps'
   export default{
     components: {
       Panel,
@@ -81,20 +80,19 @@
       return {
         title: '',
         description: '',
-        startTime: '',
-        endTime: '',
-        ruleType: 'ACM',
+        start_time: '',
+        end_time: '',
+        rule_type: 'ACM',
         password: '',
-        realTimeRank: true,
+        real_time_rank: true,
         visible: true
       }
     },
-    mounted () {
-    },
     methods: {
       saveContest () {
-        console.log(humps.decamelizeKeys(this.$data))
-        api.createContest(humps.decamelizeKeys(this.$data))
+        api.createContest(this.$data).then(res => {
+          this.$router.push('/contest')
+        }).catch(() => {})
       }
     }
   }
