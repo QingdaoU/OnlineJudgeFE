@@ -128,7 +128,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click.native="showUserDialog = false">Cancel</el-button>
-        <el-button type="primary" @click.native="submitUser()">Save</el-button>
+        <el-button type="primary" @click.native="saveUser()">Save</el-button>
       </span>
     </el-dialog>
   </div>
@@ -171,7 +171,7 @@ export default{
       this.getUserList((page - 1) * this.pageSize, this.pageSize)
     },
     // 提交修改用户的信息
-    submitUser () {
+    saveUser () {
       api.editUser(this.user).then(res => {
         // 更新列表
         this.getUserList((this.currentPage - 1) * this.pageSize, this.pageSize)

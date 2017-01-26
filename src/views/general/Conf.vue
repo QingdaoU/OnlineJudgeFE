@@ -83,7 +83,7 @@
             </el-col>
         </el-row>
       </el-form>
-      <el-button type="primary" @click="updateWebsiteConfig">Save</el-button>
+      <el-button type="primary" @click="saveWebsiteConfig">Save</el-button>
     </Panel>
   </div>
 </template>
@@ -125,13 +125,13 @@
     methods: {
       saveSMTPConfig () {
         if (!this.init) {
-          api.updateSMTPConfig(this.smtp)
+          api.editSMTPConfig(this.smtp)
         } else {
           api.createSMTPConfig(this.smtp)
         }
       },
-      updateWebsiteConfig () {
-        api.updateWebsiteConfig(this.websiteConfig).then(() => {}).catch(() => {})
+      saveWebsiteConfig () {
+        api.editWebsiteConfig(this.websiteConfig).then(() => {}).catch(() => {})
       }
     }
   }
