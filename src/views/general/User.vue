@@ -42,7 +42,7 @@
           prop="admin_type"
           label="User Type">
           <template scope="scope">
-            {{ scope.row.admin_type === 'admin' ? 'Admin' : (scope.row.admin_type === 'super_admin' ? 'Super Admin' : 'Regular User') }}
+            {{ scope.row.admin_type }}
           </template>
         </el-table-column>
         <el-table-column
@@ -84,9 +84,9 @@
           <el-col :span="12">
             <el-form-item label="User Type">
               <el-select v-model="user.admin_type">
-                <el-option label="Regular User" value="regular_user"></el-option>
-                <el-option label="Admin" value="admin"></el-option>
-                <el-option label="Super Admin" value="super_admin"></el-option>
+                <el-option label="Regular User" value="Regular User"></el-option>
+                <el-option label="Admin" value="Admin"></el-option>
+                <el-option label="Super Admin" value="Super Admin"></el-option>
               </el-select>
             </el-form-item>
           </el-col>

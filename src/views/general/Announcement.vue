@@ -35,7 +35,7 @@
             prop="visible"
             label="Status"
             inline-template>
-            <el-tag :type="row.visible ? 'success' : 'danger'" close-transition>{{row.visible ? 'Visible' : 'Invisible'}}</el-tag>
+            <el-tag :type="row.visible ? 'success' : 'danger'">{{row.visible ? 'Visible' : 'Invisible'}}</el-tag>
           </el-table-column>
           <el-table-column
             inline-template

@@ -37,9 +37,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Contest Type">
-              <el-radio class="radio" v-model="contestType" label="acm">ACM</el-radio>
-              <el-radio class="radio" v-model="contestType" label="oi">OI</el-radio>
+            <el-form-item label="Contest Rule Type">
+              <el-radio class="radio" v-model="ruleType" label="ACM">ACM</el-radio>
+              <el-radio class="radio" v-model="ruleType" label="OI">OI</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -68,9 +68,10 @@
 </template>
 
 <script>
-  // import api from '../../api.js'
+  import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
+  import humps from 'humps'
   export default{
     components: {
       Panel,
@@ -82,7 +83,7 @@
         description: '',
         startTime: '',
         endTime: '',
-        contestType: 'acm',
+        ruleType: 'ACM',
         password: '',
         realTimeRank: true,
         visible: true
@@ -92,6 +93,8 @@
     },
     methods: {
       saveContest () {
+        console.log(humps.decamelizeKeys(this.$data))
+        api.createContest(humps.decamelizeKeys(this.$data))
       }
     }
   }
