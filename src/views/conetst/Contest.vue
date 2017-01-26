@@ -4,17 +4,17 @@
       <el-form label-position="top" label-width="70px">
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="Title">
+            <el-form-item label="Title" required>
               <el-input v-model="title" placeholder="Tittle"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description">
+            <el-form-item label="Description" required>
               <Simditor v-model="description"></Simditor>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Start Time">
+            <el-form-item label="Start Time" required>
               <el-date-picker
                 v-model="startTime"
                 type="datetime"
@@ -23,7 +23,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="End Time">
+            <el-form-item label="End Time" required>
               <el-date-picker
                 v-model="endTime"
                 type="datetime"
@@ -37,13 +37,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Contest Rule Type">
+            <el-form-item label="Contest Rule Type" required>
               <el-radio class="radio" v-model="ruleType" label="ACM">ACM</el-radio>
               <el-radio class="radio" v-model="ruleType" label="OI">OI</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Real Time Rank">
+            <el-form-item label="Real Time Rank" required>
               <el-switch
                 v-model="realTimeRank"
                 on-color="#13ce66"
@@ -52,7 +52,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Status">
+            <el-form-item label="Status" required>
               <el-switch
                 v-model="visible"
                 on-text=""

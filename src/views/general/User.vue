@@ -67,27 +67,32 @@
       <el-form :model="user" label-width="120px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Username">
+            <el-form-item label="Username" required>
               <el-input v-model="user.username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Real Name">
+            <el-form-item label="Real Name" required>
               <el-input v-model="user.real_name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Email">
+            <el-form-item label="Email" required>
               <el-input v-model="user.email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="User Type">
+            <el-form-item label="User Type" required>
               <el-select v-model="user.admin_type">
                 <el-option label="Regular User" value="Regular User"></el-option>
                 <el-option label="Admin" value="Admin"></el-option>
                 <el-option label="Super Admin" value="Super Admin"></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="New Password">
+              <el-input v-model="user.password"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -123,7 +128,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click.native="showUserDialog = false">Cancel</el-button>
-        <el-button type="primary" @click.native="submitUser(),showUserDialog = false">Save</el-button>
+        <el-button type="primary" @click.native="submitUser()">Save</el-button>
       </span>
     </el-dialog>
   </div>
@@ -170,13 +175,16 @@ export default{
       api.editUser(this.user).then(res => {
         // 更新列表
         this.getUserList((this.currentPage - 1) * this.pageSize, this.pageSize)
-      })
+      }).then(() => {
+        this.showUserDialog = false
+      }).catch(() => {})
     },
     // 打开用户对话框
     openUserDialog (id) {
       this.showUserDialog = true
       api.getUser(id).then(res => {
         this.user = res.data.data
+        this.user.password = ''
       })
     },
     // 获取用户列表
