@@ -1,5 +1,5 @@
 <template>
-  <textarea id="editor"></textarea>
+  <textarea ref="editor"></textarea>
 </template>
 
 <script>
@@ -27,8 +27,8 @@ export default {
   mounted () {
     Simditor.locale = 'zh-CN'
     this.editor = new Simditor({
-      textarea: document.getElementById('editor'),
-      placeholder: '',
+      textarea: this.$refs.editor,
+      placeholder: this.placeholder,
       toolbar: this.toolbar,
       pasteImage: true,
       markdown: true
@@ -36,19 +36,26 @@ export default {
     this.editor.on('decorate', (e, src) => {
       this.currentValue = this.editor.getValue()
     })
-    document.querySelector('.markdown-editor>textarea').oninput = () => {
-      this.currentValue = this.editor.getValue()
+    let simditorBody = this.$el.parentNode.querySelector('.simditor-body')
+    if (simditorBody !== undefined) {
+      simditorBody.oninput = () => {
+        this.currentValue = this.editor.getValue()
+      }
     }
     this.editor.setValue(this.value)
   },
   watch: {
     'value' (val) {
-      this.currentValue = val
-      this.editor.setValue(val)
+      if (this.currentValue !== val) {
+        this.currentValue = val
+        this.editor.setValue(val)
+      }
     },
     'currentValue' (newVal, oldVal) {
-      this.$emit('change', newVal)
-      this.$emit('input', newVal)
+      if (newVal !== oldVal) {
+        this.$emit('change', newVal)
+        this.$emit('input', newVal)
+      }
     }
   }
 }

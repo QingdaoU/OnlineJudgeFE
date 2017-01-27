@@ -34,7 +34,7 @@ export default{
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
     &.small{
-      max-width: 800px;
+      max-width: 830px;
       min-width: 700px;
       margin-left: 20px;
       margin-top: 10px;
