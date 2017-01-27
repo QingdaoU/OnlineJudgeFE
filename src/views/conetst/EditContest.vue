@@ -71,6 +71,8 @@
   import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
+  import { backendDatetimeToISOFormat } from '../../utils'
+
   export default{
     components: {
       Panel,
@@ -90,7 +92,10 @@
     },
     mounted () {
       api.getContest(this.$route.params.id).then(res => {
-        this.contest = res.data.data
+        let data = res.data.data
+        data.start_time = backendDatetimeToISOFormat(data.start_time)
+        data.end_time = backendDatetimeToISOFormat(data.end_time)
+        this.contest = data
       }).catch(() => {})
     }
   }
