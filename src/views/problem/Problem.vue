@@ -121,8 +121,9 @@
             <el-col v-show="isUseSpj" :span="12">
               <el-form-item label="Special Judge Language">
                 <el-radio-group v-model="specialJudgeLanguage">
-                  <el-radio :label="3">C</el-radio>
-                  <el-radio :label="6">C++</el-radio>
+                  <el-tooltip class="spj-radio" v-for="spjLang in allLanguage.spj_languages" effect="dark" :content="spjLang.description" placement="top-start">
+                    <el-radio :label="spjLang.name">{{spjLang.name}}</el-radio>
+                  </el-tooltip>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -139,18 +140,33 @@
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="Testcase">
-          <p class="info">请将所有测试用例打包在一个zip文件中上传，所有文件要在压缩包的根目录，且输入输出文件名要以从1开始连续数字标识要对应例如：
-            1.in 1.out 2.in 2.out(普通题目)或者1.in 2.in 3.in(Special Judge) <a target="_blank" href="https://github.com/QingdaoU/OnlineJudge/wiki/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E4%B8%8A%E4%BC%A0">帮助</a></p>
-          <el-upload
-            action="//jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :default-file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
-          </el-upload>
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="16">
+            <el-form-item label="Testcase">
+              <p class="info">请将所有测试用例打包在一个zip文件中上传，所有文件要在压缩包的根目录，且输入输出文件名要以从1开始连续数字标识要对应例如：
+                1.in 1.out 2.in 2.out(普通题目)或者1.in 2.in 3.in(Special Judge) <a target="_blank" href="https://github.com/QingdaoU/OnlineJudge/wiki/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E4%B8%8A%E4%BC%A0">帮助</a></p>
+              <el-upload
+                action="/api/admin/test_case/upload"
+                name="file"
+                :data="{spj: isUseSpj}"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :default-file-list="fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+                <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Languages">
+              <el-checkbox-group v-model="checkList">
+                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
+                  <el-checkbox :label="lang.name"></el-checkbox>
+                </el-tooltip>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="Hint">
           <Simditor v-model="hint" placeholder=""></Simditor>
         </el-form-item>
@@ -167,12 +183,14 @@
   import Panel from '../../components/Panel'
   import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
+  import api from '../../api'
   export default{
     components: {
       Panel, Simditor, Accordion
     },
     data () {
       return {
+        allLanguage: {},
         visible: true,
         inputVisible: false,
         tags: [],
@@ -183,6 +201,9 @@
       }
     },
     mounted () {
+      api.getLanguages().then(res => {
+        this.allLanguage = res.data.data
+      })
     },
     methods: {
       querySearch (queryString, cb) {
@@ -210,6 +231,9 @@
 .problem{
   .difficulty-select{
     width: 120px;
+  }
+  .spj-radio{
+    margin-right: 15px;
   }
   .input-new-tag{
     width: 78px;

@@ -105,6 +105,9 @@ export default {
       body: user
     })
   },
+  getLanguages () {
+    return ajax('languages', 'get')
+  },
   getSMTPConfig () {
     return ajax('admin/smtp', 'get')
   },
