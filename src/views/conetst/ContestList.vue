@@ -52,9 +52,9 @@
           label="Option"
           width="220px">
           <span>
-            <el-button type="text" class="btn" size="small">Edit</el-button>
-            <el-button type="text" class="btn" size="small">Problem</el-button>
-            <el-button type="text" class="btn" size="small">Announcement</el-button>
+            <router-link :to="{name: 'edit-contest', params: {id: row.id}}">
+              <el-button type="text" class="btn" size="small">Edit</el-button>
+            </router-link>
           </span>
         </el-table-column>
       </el-table>

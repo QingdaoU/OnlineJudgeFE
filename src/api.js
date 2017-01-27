@@ -100,28 +100,28 @@ export default {
     })
   },
   // 编辑用户
-  editUser (user) {
+  editUser (body) {
     return ajax('admin/user', 'put', {
-      body: user
+      body
     })
   },
   getSMTPConfig () {
     return ajax('admin/smtp', 'get')
   },
-  createSMTPConfig (config) {
+  createSMTPConfig (body) {
     return ajax('admin/smtp', 'post', {
-      body: config
+      body
     })
   },
-  updateSMTPConfig (config) {
+  editSMTPConfig (body) {
     return ajax('admin/smtp', 'put', {
-      body: config
+      body
     })
   },
   getWebsiteConfig () {
     return ajax('admin/website', 'get')
   },
-  updateWebsiteConfig (config) {
+  editeWebsiteConfig (config) {
     return ajax('admin/website', 'post', {
       body: config
     })
@@ -141,6 +141,20 @@ export default {
   createContest (body) {
     return ajax('admin/contest', 'post', {
       body: body
+    })
+  },
+  getContest (id) {
+    return ajax('admin/contest', 'get', {
+      options: {
+        params: {
+          id
+        }
+      }
+    })
+  },
+  editContest (body) {
+    return ajax('admin/contest', 'put', {
+      body
     })
   },
   getContestList (offset, limit, keyword) {

@@ -82,7 +82,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click.native="showEditAnnouncementDialog = false">Cancel</el-button>
-          <el-button type="primary" @click.native="submit()">Submit</el-button>
+          <el-button type="primary" @click.native="saveAnnouncement()">Submit</el-button>
         </span>
     </el-dialog>
   </div>
@@ -155,7 +155,7 @@
         }, 0)
       },
       // 提交编辑
-      submit () {
+      saveAnnouncement () {
         if (this.currentAnnouncementId) {
           api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.showEditAnnouncementDialog = false
