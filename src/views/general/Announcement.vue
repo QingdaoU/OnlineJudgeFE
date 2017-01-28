@@ -130,9 +130,9 @@
         this.currentPage = page
         this.getAnnouncementList((page - 1) * this.pageSize, this.pageSize)
       },
-      getAnnouncementList (offset, limit) {
+      getAnnouncementList (page) {
         this.loading = true
-        api.getAnnouncementList(offset, limit).then(res => {
+        api.getAnnouncementList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.announcementList = res.data.data.results
@@ -159,12 +159,12 @@
         if (this.currentAnnouncementId) {
           api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.showEditAnnouncementDialog = false
-            this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
+            this.getAnnouncementList(this.currentPage - 1)
           }).catch(() => {})
         } else {
           api.createAnnouncement(this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.showEditAnnouncementDialog = false
-            this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
+            this.getAnnouncementList(this.currentPage)
           }).catch(() => {})
         }
       },
@@ -177,7 +177,7 @@
         }).then(() => {
           this.loading = true
           api.deleteAnnouncement(announcementId).then(res => {
-            this.getAnnouncementList((this.currentPage - 1) * this.pageSize, this.pageSize)
+            this.getAnnouncementList(this.currentPage)
           })
         }).catch(() => {})
       },
@@ -202,7 +202,7 @@
       }
     },
     mounted () {
-      this.getAnnouncementList(0, this.pageSize)
+      this.getAnnouncementList(1)
     }
   }
 </script>

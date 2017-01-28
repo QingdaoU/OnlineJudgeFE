@@ -162,19 +162,19 @@ export default{
     }
   },
   mounted () {
-    this.getUserList(0, this.pageSize)
+    this.getUserList(1)
   },
   methods: {
     // 切换页码回调
     currentChange (page) {
       this.currentPage = page
-      this.getUserList((page - 1) * this.pageSize, this.pageSize)
+      this.getUserList(page)
     },
     // 提交修改用户的信息
     saveUser () {
       api.editUser(this.user).then(res => {
         // 更新列表
-        this.getUserList((this.currentPage - 1) * this.pageSize, this.pageSize)
+        this.getUserList(this.currentPage)
       }).then(() => {
         this.showUserDialog = false
       }).catch(() => {})
@@ -188,9 +188,9 @@ export default{
       })
     },
     // 获取用户列表
-    getUserList (offset, limit) {
+    getUserList (page) {
       this.loading = true
-      api.getUserList(offset, limit, this.keyword).then(res => {
+      api.getUserList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
         this.loading = false
         this.total = res.data.data.total
         this.userList = res.data.data.results
