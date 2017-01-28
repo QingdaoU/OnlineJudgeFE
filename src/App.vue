@@ -2,7 +2,7 @@
   <div>
     <SideMenu></SideMenu>
     <div class="content-app">
-      <keep-alive>
+      <keep-alive include="ContestList">
         <router-view></router-view>
       </keep-alive>
     </div>

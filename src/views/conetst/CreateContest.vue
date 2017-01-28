@@ -93,7 +93,7 @@
     methods: {
       saveContest () {
         api.createContest(this.contest).then(res => {
-          this.$router.push({name: 'contest-list'})
+          this.$router.push({name: 'contest-list', query: {refresh: 'true'}})
         }).catch(() => {})
       }
     }

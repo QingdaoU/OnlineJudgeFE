@@ -86,7 +86,7 @@
     methods: {
       saveContest () {
         api.editContest(this.contest).then(res => {
-          this.$router.push('/contest')
+          this.$router.push({name: 'contest-list', query: {refresh: 'true'}})
         }).catch(() => {})
       }
     },

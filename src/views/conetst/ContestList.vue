@@ -89,17 +89,22 @@
       }
     },
     mounted () {
-      this.getContestList(0, this.pageSize)
+      this.getContestList(1)
+    },
+    activated () {
+      if (this.$route.query.refresh !== undefined) {
+        this.getContestList(this.currentPage)
+      }
     },
     methods: {
       // 切换页码回调
       currentChange (page) {
         this.currentPage = page
-        this.getContestList((page - 1) * this.pageSize, this.pageSize)
+        this.getContestList(page)
       },
-      getContestList (offset, limit) {
+      getContestList (page) {
         this.loading = true
-        api.getContestList(offset, limit, this.keyword).then(res => {
+        api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.contestList = res.data.data.results
