@@ -157,15 +157,25 @@
           </el-row>
         </el-form-item>
         <el-row :gutter="20">
-          <el-col :span="24">
+          <el-col :span="4">
             <el-form-item label="Testcase">
               <el-upload
                 action="/api/admin/test_case/upload"
                 name="file"
                 :data="{spj: spj.useSpj}"
-                :show-upload-list="false">
-                <el-button size="small" type="primary">点击上传</el-button>
+                :show-upload-list="false"
+                :on-success="uploadSucceeded"
+                :on-error="uploadFailed">
+                <el-button size="small" type="primary">Choose File</el-button>
               </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Type">
+              <el-radio-group v-model="ruleType">
+                <el-radio label="ACM">ACM</el-radio>
+                <el-radio label="OI">OI</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -173,11 +183,11 @@
               :data="testCase.testCaseList"
               style="width: 100%">
               <el-table-column
-                prop="input"
+                prop="input_name"
                 label="Input">
               </el-table-column>
               <el-table-column
-                prop="output"
+                prop="output_name"
                 label="Output">
               </el-table-column>
               <el-table-column
@@ -188,7 +198,7 @@
                     size="small"
                     placeholder="Score"
                     v-model="scope.row.score"
-                    :disabled="disableScore">
+                    :disabled="ruleType !== 'OI'">
                   </el-input>
                 </template>
               </el-table-column>
@@ -226,6 +236,7 @@
         inputVisible: false,
         tags: [],
         tagInput: '',
+        ruleType: 'ACM',
         spj: {
           useSpj: false,
           language: 'C',
@@ -234,16 +245,34 @@
         hint: '',
         difficulty: 'Low',
         testCase: {
-          uploaded: true,
-          testCaseList: [{input: '1.in', output: '1.out', score: 10}],
-          disableScore: true
+          uploaded: false,
+          testCaseList: [],
+          isSpj: false
         }
       }
     },
     mounted () {
       api.getLanguages().then(res => {
-        this.allLanguage = res.data.data
+        let allLanguage = res.data.data
+        this.allLanguage = allLanguage
+        for (let item of allLanguage.languages) {
+          this.problemAllowedLanguage.push(item.name)
+        }
       })
+    },
+    watch: {
+      'spj.useSpj' (newVal) {
+        if (this.testCase.uploaded && newVal !== this.testCase.spj) {
+          this.$confirm('If you change problem judge method, you need to re-upload test cases', 'Warning', {
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          }).then(() => {
+            this.testCase.uploaded = false
+            this.testCase.testCaseList = []
+          }).catch(() => {})
+        }
+      }
     },
     methods: {
       querySearch (queryString, cb) {
@@ -268,6 +297,26 @@
       },
       deleteSample (index) {
         this.samples.splice(index, 1)
+      },
+      uploadSucceeded (response) {
+        if (response.error) {
+          this.$error(response.data)
+          return
+        }
+        let fileList = response.data.info
+        let score = this.ruleType === 'OI' ? 0 : '-'
+        for (let file of fileList) {
+          file.score = score
+          if (this.spj.useSpj) {
+            file.output_name = '-'
+          }
+        }
+        this.testCase.testCaseList = fileList
+        this.testCase.spj = response.spj
+        this.testCase.uploaded = true
+      },
+      uploadFailed () {
+        this.$error('Upload failed')
       }
     }
   }
