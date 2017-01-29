@@ -93,6 +93,7 @@
   import Panel from '../../components/Panel.vue'
 
   export default{
+    name: 'Conf',
     components: {
       Panel
     },

@@ -72,6 +72,7 @@
   import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
   export default{
+    name: 'CreateContest',
     components: {
       Panel,
       Simditor

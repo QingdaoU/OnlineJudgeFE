@@ -138,6 +138,7 @@
 import api from '../../api.js'
 import Panel from '../../components/Panel.vue'
 export default{
+  name: 'User',
   components: {
     Panel
   },

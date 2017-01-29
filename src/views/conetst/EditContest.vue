@@ -74,6 +74,7 @@
   import { backendDatetimeToISOFormat } from '../../utils'
 
   export default{
+    name: 'EditContest',
     components: {
       Panel,
       Simditor
