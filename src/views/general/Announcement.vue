@@ -9,9 +9,6 @@
           :data="announcementList"
           style="width: 100%">
           <el-table-column
-            type="selection">
-          </el-table-column>
-          <el-table-column
             prop="id"
             label="ID">
           </el-table-column>

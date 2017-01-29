@@ -170,6 +170,29 @@ export default {
         params: params
       }
     })
+  },
+  getContestAnnouncementList (contestId) {
+    return ajax('contest/announcement', 'get', {
+      options: {
+        params: {
+          contest_id: contestId
+        }
+      }
+    })
+  },
+  createContestAnnouncement (body) {
+    return ajax('admin/contest/announcement', 'post', {
+      body
+    })
+  },
+  deleteContestAnnouncement (id) {
+    return ajax('admin/contest/announcement', 'delete', {
+      options: {
+        params: {
+          id
+        }
+      }
+    })
   }
 }
 /**
