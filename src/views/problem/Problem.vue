@@ -1,9 +1,9 @@
 <template>
   <div class="problem">
-    <Panel title="Add problem" :small="true">
+    <Panel title="Add problem">
       <el-form label-position="top" label-width="70px">
         <el-form-item label="Title">
-          <el-input placeholder="problem title"></el-input>
+          <el-input placeholder="Title"></el-input>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="24">
@@ -13,29 +13,50 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="Time limit (MS, range 1-10000ms)">
-              <el-input type="Number" placeholder="time limit"></el-input>
+          <el-col :span="24">
+            <el-form-item label="Input Description">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 3, maxRows: 8}"
+                placeholder="Input Description">
+              </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="Memory limit (MB, minimum 16M, Java not less than 32M)">
-              <el-input type="Number" placeholder="memory limit"></el-input>
+          <el-col :span="24">
+            <el-form-item label="Output Description">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 3, maxRows: 8}"
+                placeholder="Output Description">
+              </el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="6">
+          <el-col :span="8">
+            <el-form-item label="Time Limit">
+              <el-input type="Number" placeholder="Time Limit"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Memory limit">
+              <el-input type="Number" placeholder="Memory Limit"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="Difficulty">
-              <el-select class="difficulty-select" size="small" placeholder="Difficulty">
-                <el-option label="low" value="low"></el-option>
-                <el-option label="mid" value="mid"></el-option>
-                <el-option label="high" value="high"></el-option>
+              <el-select class="difficulty-select" size="small" placeholder="Difficulty" v-model="difficulty">
+                <el-option label="Low" value="Low"></el-option>
+                <el-option label="Mid" value="Mid"></el-option>
+                <el-option label="High" value="High"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
+
           <el-col :span="6">
-            <el-form-item label="visible">
+            <el-form-item label="Visible">
               <el-switch
                 v-model="visible"
                 on-text=""
@@ -43,8 +64,8 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="tag">
+          <el-col :span="8">
+            <el-form-item label="Tag">
               <span class="tags">
                 <el-tag
                   v-for="tag in tags"
@@ -62,33 +83,25 @@
                 :trigger-on-focus="false"
                 @keyup.enter.native="addTag"
                 @select="addTag"
-                :fetch-suggestions="querySearch"
-              ></el-autocomplete>
+                :fetch-suggestions="querySearch">
+              </el-autocomplete>
               <el-button class="button-new-tag" v-else size="small" @click="inputVisible = true">+ New Tag</el-button>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="Input Description">
-              <el-input
-                type="textarea"
-                placeholder="Input Description">
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="Output Description">
-              <el-input
-                type="textarea"
-                placeholder="Output Description">
-              </el-input>
+          <el-col :span="8">
+            <el-form-item label="Languages">
+              <el-checkbox-group v-model="problemAllowedLanguage">
+                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
+                  <el-checkbox :label="lang.name"></el-checkbox>
+                </el-tooltip>
+              </el-checkbox-group>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="Samples">
-          <Accordion title="Samples 1">
-            <el-button type="warning" size="small" icon="delete" slot="header">delete</el-button>
+        <div>
+        <el-form-item v-for="(sample, index) in samples">
+          <Accordion :title="'Sample' + (index + 1)">
+            <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete</el-button>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="Input Samples">
@@ -110,61 +123,76 @@
               </el-col>
             </el-row>
           </Accordion>
-          <button class="add-samples"><i class="el-icon-plus"></i>Add Samples</button>
         </el-form-item>
+        </div>
+        <div class="add-sample-btn">
+          <button class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples</button>
+        </div>
         <el-form-item label="Special Judge">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-checkbox v-model="isUseSpj">use Special Judge</el-checkbox>
-              <p class="info">Special Judge用于答案不唯一的情况,需要自己上传判题代码。上传测试用后如需要修改, 必须重新上传对应类型的新测试用例。<a target="_blank" href="https://github.com/QingdaoU/OnlineJudge/wiki/SpecialJudge">帮助和示例</a></p>
+              <el-checkbox v-model="spj.useSpj">Use Special Judge</el-checkbox>
             </el-col>
-            <el-col v-show="isUseSpj" :span="12">
+            <el-col v-show="spj.useSpj" :span="12">
               <el-form-item label="Special Judge Language">
-                <el-radio-group v-model="specialJudgeLanguage">
-                  <el-tooltip class="spj-radio" v-for="spjLang in allLanguage.spj_languages" effect="dark" :content="spjLang.description" placement="top-start">
-                    <el-radio :label="spjLang.name">{{spjLang.name}}</el-radio>
+                <el-radio-group v-model="spj.language">
+                  <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" effect="dark" :content="lang.description" placement="top-start">
+                    <el-radio :label="lang.name">{{ lang.name }}</el-radio>
                   </el-tooltip>
                 </el-radio-group>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-show="isUseSpj" :gutter="20">
+          <el-row v-show="spj.useSpj" :gutter="20">
             <el-col :span="24">
               <el-form-item label="Special Judge Code">
                 <el-input
                   type="textarea"
                   :rows="5"
-                  placeholder="Output Description">
+                  placeholder="Output Description"
+                  v-model="spj.code">
                 </el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form-item>
         <el-row :gutter="20">
-          <el-col :span="16">
+          <el-col :span="24">
             <el-form-item label="Testcase">
-              <p class="info">请将所有测试用例打包在一个zip文件中上传，所有文件要在压缩包的根目录，且输入输出文件名要以从1开始连续数字标识要对应例如：
-                1.in 1.out 2.in 2.out(普通题目)或者1.in 2.in 3.in(Special Judge) <a target="_blank" href="https://github.com/QingdaoU/OnlineJudge/wiki/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E4%B8%8A%E4%BC%A0">帮助</a></p>
               <el-upload
                 action="/api/admin/test_case/upload"
                 name="file"
-                :data="{spj: isUseSpj}"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :default-file-list="fileList">
+                :data="{spj: spj.useSpj}"
+                :show-upload-list="false">
                 <el-button size="small" type="primary">点击上传</el-button>
-                <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="Languages">
-              <el-checkbox-group v-model="checkList">
-                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
-                  <el-checkbox :label="lang.name"></el-checkbox>
-                </el-tooltip>
-              </el-checkbox-group>
-            </el-form-item>
+          <el-col :span="24">
+            <el-table
+              :data="testCase.testCaseList"
+              style="width: 100%">
+              <el-table-column
+                prop="input"
+                label="Input">
+              </el-table-column>
+              <el-table-column
+                prop="output"
+                label="Output">
+              </el-table-column>
+              <el-table-column
+                prop="score"
+                label="Score">
+                <template scope="scope">
+                  <el-input
+                    size="small"
+                    placeholder="Score"
+                    v-model="scope.row.score"
+                    :disabled="disableScore">
+                  </el-input>
+                </template>
+              </el-table-column>
+            </el-table>
           </el-col>
         </el-row>
         <el-form-item label="Hint">
@@ -185,19 +213,31 @@
   import Accordion from '../../components/Accordion'
   import api from '../../api'
   export default{
+    name: 'Problem',
     components: {
       Panel, Simditor, Accordion
     },
     data () {
       return {
         allLanguage: {},
+        problemAllowedLanguage: [],
+        samples: [{input: '', output: ''}],
         visible: true,
         inputVisible: false,
         tags: [],
         tagInput: '',
-        isUseSpj: false,
-        specialJudgeLanguage: '',
-        hint: ''
+        spj: {
+          useSpj: false,
+          language: 'C',
+          code: ''
+        },
+        hint: '',
+        difficulty: 'Low',
+        testCase: {
+          uploaded: true,
+          testCaseList: [{input: '1.in', output: '1.out', score: 10}],
+          disableScore: true
+        }
       }
     },
     mounted () {
@@ -222,6 +262,12 @@
       },
       closeTag (tag) {
         this.tags.splice(this.tags.indexOf(tag), 1)
+      },
+      addSample () {
+        this.samples.push({input: '', output: ''})
+      },
+      deleteSample (index) {
+        this.samples.splice(index, 1)
       }
     }
   }
@@ -259,6 +305,7 @@
     outline: none;
     cursor: pointer;
     color: #666;
+    height: 35px;
     &:hover {
       background-color: #f9fafc;
     }
@@ -266,11 +313,8 @@
       margin-right: 10px;
     }
   }
-  .info{
-    font-size: 12px;
-    color: #666;
-    line-height: 18px;
-    margin-top: 0;
+  .add-sample-btn {
+    margin-bottom: 10px;
   }
 }
 </style>
