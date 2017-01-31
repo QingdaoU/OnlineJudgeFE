@@ -126,7 +126,7 @@
         </el-form-item>
         </div>
         <div class="add-sample-btn">
-          <button class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples</button>
+          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples</button>
         </div>
         <el-form-item label="Special Judge">
           <el-row :gutter="20">
@@ -355,6 +355,7 @@
     cursor: pointer;
     color: #666;
     height: 35px;
+    font-size: 14px;
     &:hover {
       background-color: #f9fafc;
     }
