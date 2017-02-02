@@ -3,12 +3,12 @@
     <Panel title="Add problem">
       <el-form label-position="top" label-width="70px">
         <el-form-item label="Title">
-          <el-input placeholder="Title"></el-input>
+          <el-input placeholder="Title" v-model="title"></el-input>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="Description">
-              <Simditor placeholder=""></Simditor>
+              <Simditor placeholder="" v-model="description"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -18,7 +18,8 @@
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 3, maxRows: 8}"
-                placeholder="Input Description">
+                placeholder="Input Description"
+                v-model="inputDescription">
               </el-input>
             </el-form-item>
           </el-col>
@@ -27,7 +28,8 @@
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 3, maxRows: 8}"
-                placeholder="Output Description">
+                placeholder="Output Description"
+                v-model="outputDescription">
               </el-input>
             </el-form-item>
           </el-col>
@@ -35,12 +37,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="Time Limit">
-              <el-input type="Number" placeholder="Time Limit"></el-input>
+              <el-input type="Number" placeholder="Time Limit" v-model="timeLimit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Memory limit">
-              <el-input type="Number" placeholder="Memory Limit"></el-input>
+              <el-input type="Number" placeholder="Memory Limit" v-model="memoryLimit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -90,7 +92,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="Languages">
-              <el-checkbox-group v-model="problemAllowedLanguage">
+              <el-checkbox-group v-model="languages">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
                   <el-checkbox :label="lang.name"></el-checkbox>
                 </el-tooltip>
@@ -108,7 +110,8 @@
                   <el-input
                     :rows="5"
                     type="textarea"
-                    placeholder="Input Samples">
+                    placeholder="Input Samples"
+                    v-model="sample.input">
                   </el-input>
                 </el-form-item>
               </el-col>
@@ -117,7 +120,8 @@
                   <el-input
                     :rows="5"
                     type="textarea"
-                    placeholder="Output Samples">
+                    placeholder="Output Samples"
+                    v-model="sample.output">
                   </el-input>
                 </el-form-item>
               </el-col>
@@ -209,9 +213,9 @@
           <Simditor v-model="hint" placeholder=""></Simditor>
         </el-form-item>
         <el-form-item label="Source">
-          <el-input placeholder="Source"></el-input>
+          <el-input placeholder="Source" v-model="source"></el-input>
         </el-form-item>
-        <el-button type="success">Public</el-button>
+        <el-button type="success" @click="submit()">Save</el-button>
       </el-form>
     </Panel>
   </div>
@@ -229,26 +233,34 @@
     },
     data () {
       return {
-        allLanguage: {},
-        problemAllowedLanguage: [],
-        samples: [{input: '', output: ''}],
+        title: '',
+        description: '',
+        inputDescription: '',
+        outputDescription: '',
+        timeLimit: 1000,
+        memoryLimit: 256,
+        difficulty: 'Low',
         visible: true,
-        inputVisible: false,
         tags: [],
-        tagInput: '',
-        ruleType: 'ACM',
+        languages: [],
+        samples: [{input: '', output: ''}],
         spj: {
           useSpj: false,
           language: 'C',
           code: ''
         },
-        hint: '',
-        difficulty: 'Low',
         testCase: {
           uploaded: false,
           testCaseList: [],
-          isSpj: false
-        }
+          isSpj: false,
+          testCaseId: ''
+        },
+        ruleType: 'ACM',
+        hint: '',
+        source: '',
+        allLanguage: {},
+        inputVisible: false,
+        tagInput: ''
       }
     },
     mounted () {
@@ -256,7 +268,7 @@
         let allLanguage = res.data.data
         this.allLanguage = allLanguage
         for (let item of allLanguage.languages) {
-          this.problemAllowedLanguage.push(item.name)
+          this.languages.push(item.name)
         }
       })
     },
@@ -268,18 +280,25 @@
             cancelButtonText: 'Cancel',
             type: 'warning'
           }).then(() => {
-            this.testCase.uploaded = false
-            this.testCase.testCaseList = []
+            this.resetTestCase()
           }).catch(() => {})
         }
       }
     },
     methods: {
       querySearch (queryString, cb) {
-        cb([
-          { 'value': '123' },
-          { 'value': '1234' }
-        ])
+        api.getProblemTagList().then(res => {
+          let tagList = []
+          for (let tag in res.data.data) {
+            tagList.push({value: tag})
+          }
+          cb(tagList)
+        }).catch(() => {})
+      },
+      resetTestCase () {
+        this.testCase.uploaded = false
+        this.testCase.testCaseList = []
+        this.testCase.testCaseId = ''
       },
       addTag () {
         let inputValue = this.tagInput
@@ -304,19 +323,80 @@
           return
         }
         let fileList = response.data.info
-        let score = this.ruleType === 'OI' ? 0 : '-'
         for (let file of fileList) {
-          file.score = score
+          file.score = 0
           if (this.spj.useSpj) {
             file.output_name = '-'
           }
         }
         this.testCase.testCaseList = fileList
-        this.testCase.spj = response.spj
+        this.testCase.isSpj = response.data.spj
         this.testCase.uploaded = true
+        this.testCase.testCaseId = response.data.id
       },
       uploadFailed () {
         this.$error('Upload failed')
+      },
+      submit () {
+        if (!this.samples.length) {
+          this.$error('Sample is required')
+          return
+        }
+        for (let sample of this.samples) {
+          if (!sample.input || !sample.output) {
+            this.$error('Sample input and output is required')
+            return
+          }
+        }
+        if (!this.tags.length) {
+          this.$error('Please add at least one tag"')
+          return
+        }
+        if (this.spj.useSpj && !this.spj.code) {
+          this.$error('Spj code is required')
+          return
+        }
+        if (!this.languages.length) {
+          this.$error('Please choose at least one language for problem')
+          return
+        }
+        if (!this.testCase.uploaded) {
+          this.$error('Test case is not uploaded yet')
+          return
+        }
+        if (this.ruleType === 'OI') {
+          for (let item of this.testCase.testCaseList) {
+            try {
+              if (parseInt(item.score) <= 0) {
+                this.$error('Invalid test case score')
+                return
+              }
+            } catch (e) {
+              this.$error('Test case score must be an integer')
+              return
+            }
+          }
+        }
+        let data = {title: this.title,
+          description: this.description,
+          input_description: this.inputDescription,
+          output_description: this.outputDescription,
+          time_limit: this.timeLimit,
+          memory_limit: this.memoryLimit,
+          difficulty: this.difficulty,
+          visible: this.visible,
+          tags: this.tags,
+          languages: this.languages,
+          samples: this.samples,
+          spj: this.spj.useSpj,
+          spj_language: this.spj.language,
+          spj_code: this.spj.code,
+          test_case_id: this.testCase.testCaseId,
+          test_case_score: this.testCase.testCaseList,
+          rule_type: this.ruleType,
+          hint: this.hint,
+          source: this.source}
+        api.createProblem(data).catch(() => {})
       }
     }
   }

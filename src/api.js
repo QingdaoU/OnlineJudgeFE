@@ -193,6 +193,14 @@ export default {
         }
       }
     })
+  },
+  getProblemTagList () {
+    return ajax('problem/tags', 'get')
+  },
+  createProblem (body) {
+    return ajax('admin/problem', 'post', {
+      body
+    })
   }
 }
 /**
