@@ -201,6 +201,31 @@ export default {
     return ajax('admin/problem', 'post', {
       body
     })
+  },
+  editProblem (body) {
+    return ajax('admin/problem', 'put', {
+      body
+    })
+  },
+  getProblem (id) {
+    return ajax('admin/problem', 'get', {
+      options: {
+        params: {
+          id
+        }
+      }
+    })
+  },
+  getProblemList (offset, limit, keyword) {
+    let params = {paging: true, offset, limit}
+    if (keyword) {
+      params.keyword = keyword
+    }
+    return ajax('admin/problem', 'get', {
+      options: {
+        params: params
+      }
+    })
   }
 }
 /**

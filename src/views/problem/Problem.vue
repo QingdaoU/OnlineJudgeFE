@@ -1,35 +1,35 @@
 <template>
   <div class="problem">
-    <Panel title="Add problem">
-      <el-form label-position="top" label-width="70px">
-        <el-form-item label="Title">
-          <el-input placeholder="Title" v-model="title"></el-input>
+    <Panel :title="title">
+      <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
+        <el-form-item prop="title" label="Title" required>
+          <el-input placeholder="Title" v-model="problem.title"></el-input>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="Description">
-              <Simditor placeholder="" v-model="description"></Simditor>
+            <el-form-item prop="description" label="Description" required>
+              <Simditor placeholder="" v-model="problem.description"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="Input Description">
+            <el-form-item required prop="input_description" label="Input Description">
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 3, maxRows: 8}"
                 placeholder="Input Description"
-                v-model="inputDescription">
+                v-model="problem.input_description">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Output Description">
+            <el-form-item required prop="output_description" label="Output Description">
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 3, maxRows: 8}"
                 placeholder="Output Description"
-                v-model="outputDescription">
+                v-model="problem.output_description">
               </el-input>
             </el-form-item>
           </el-col>
@@ -37,17 +37,17 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="Time Limit">
-              <el-input type="Number" placeholder="Time Limit" v-model="timeLimit"></el-input>
+              <el-input type="Number" placeholder="Time Limit" v-model="problem.time_limit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Memory limit">
-              <el-input type="Number" placeholder="Memory Limit" v-model="memoryLimit"></el-input>
+              <el-input type="Number" placeholder="Memory Limit" v-model="problem.memory_limit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Difficulty">
-              <el-select class="difficulty-select" size="small" placeholder="Difficulty" v-model="difficulty">
+              <el-select class="difficulty-select" size="small" placeholder="Difficulty" v-model="problem.difficulty">
                 <el-option label="Low" value="Low"></el-option>
                 <el-option label="Mid" value="Mid"></el-option>
                 <el-option label="High" value="High"></el-option>
@@ -56,21 +56,20 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-
           <el-col :span="6">
             <el-form-item label="Visible">
               <el-switch
-                v-model="visible"
+                v-model="problem.visible"
                 on-text=""
                 off-text="">
               </el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Tag">
+            <el-form-item label="Tag" :error="error.tags">
               <span class="tags">
                 <el-tag
-                  v-for="tag in tags"
+                  v-for="tag in problem.tags"
                   :closable="true"
                   :close-transition="false"
                   type="success"
@@ -91,8 +90,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Languages">
-              <el-checkbox-group v-model="languages">
+            <el-form-item label="Languages" :error="error.languages">
+              <el-checkbox-group v-model="problem.languages">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
                   <el-checkbox :label="lang.name"></el-checkbox>
                 </el-tooltip>
@@ -101,7 +100,7 @@
           </el-col>
         </el-row>
         <div>
-        <el-form-item v-for="(sample, index) in samples">
+        <el-form-item v-for="(sample, index) in problem.samples">
           <Accordion :title="'Sample' + (index + 1)">
             <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete</el-button>
             <el-row :gutter="20">
@@ -132,14 +131,14 @@
         <div class="add-sample-btn">
           <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples</button>
         </div>
-        <el-form-item label="Special Judge">
+        <el-form-item label="Special Judge" :error="error.spj">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-checkbox v-model="spj.useSpj">Use Special Judge</el-checkbox>
+              <el-checkbox v-model="problem.spj">Use Special Judge</el-checkbox>
             </el-col>
-            <el-col v-show="spj.useSpj" :span="12">
+            <el-col v-show="problem.spj" :span="12">
               <el-form-item label="Special Judge Language">
-                <el-radio-group v-model="spj.language">
+                <el-radio-group v-model="problem.spj_language">
                   <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" effect="dark" :content="lang.description" placement="top-start">
                     <el-radio :label="lang.name">{{ lang.name }}</el-radio>
                   </el-tooltip>
@@ -147,14 +146,14 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-show="spj.useSpj" :gutter="20">
+          <el-row v-show="problem.spj" :gutter="20">
             <el-col :span="24">
               <el-form-item label="Special Judge Code">
                 <el-input
                   type="textarea"
                   :rows="5"
                   placeholder="Output Description"
-                  v-model="spj.code">
+                  v-model="problem.spj_code">
                 </el-input>
               </el-form-item>
             </el-col>
@@ -162,11 +161,11 @@
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-form-item label="Testcase">
+            <el-form-item label="Testcase" :error="error.testcase">
               <el-upload
                 action="/api/admin/test_case/upload"
                 name="file"
-                :data="{spj: spj.useSpj}"
+                :data="{spj: problem.spj}"
                 :show-upload-list="false"
                 :on-success="uploadSucceeded"
                 :on-error="uploadFailed">
@@ -176,7 +175,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="Type">
-              <el-radio-group v-model="ruleType">
+              <el-radio-group v-model="problem.rule_type">
                 <el-radio label="ACM">ACM</el-radio>
                 <el-radio label="OI">OI</el-radio>
               </el-radio-group>
@@ -184,7 +183,7 @@
           </el-col>
           <el-col :span="24">
             <el-table
-              :data="testCase.testCaseList"
+              :data="problem.test_case_score"
               style="width: 100%">
               <el-table-column
                 prop="input_name"
@@ -202,18 +201,18 @@
                     size="small"
                     placeholder="Score"
                     v-model="scope.row.score"
-                    :disabled="ruleType !== 'OI'">
+                    :disabled="problem.rule_type !== 'OI'">
                   </el-input>
                 </template>
               </el-table-column>
             </el-table>
           </el-col>
         </el-row>
-        <el-form-item label="Hint">
-          <Simditor v-model="hint" placeholder=""></Simditor>
+        <el-form-item style="margin-top: 20px" label="Hint">
+          <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
         <el-form-item label="Source">
-          <el-input placeholder="Source" v-model="source"></el-input>
+          <el-input placeholder="Source" v-model="problem.source"></el-input>
         </el-form-item>
         <el-button type="success" @click="submit()">Save</el-button>
       </el-form>
@@ -233,48 +232,69 @@
     },
     data () {
       return {
-        title: '',
-        description: '',
-        inputDescription: '',
-        outputDescription: '',
-        timeLimit: 1000,
-        memoryLimit: 256,
-        difficulty: 'Low',
-        visible: true,
-        tags: [],
-        languages: [],
-        samples: [{input: '', output: ''}],
-        spj: {
-          useSpj: false,
-          language: 'C',
-          code: ''
+        rules: {
+          title: { required: true, message: 'title is required', trigger: 'blur' },
+          input_description: { required: true, message: 'Input Description is required', trigger: 'blur' },
+          output_description: { required: true, message: 'Output Description is required', trigger: 'blur' }
         },
-        testCase: {
-          uploaded: false,
-          testCaseList: [],
-          isSpj: false,
-          testCaseId: ''
-        },
-        ruleType: 'ACM',
-        hint: '',
-        source: '',
+        problem: {},
+        reProblem: {},
+        testCaseUploaded: false,
         allLanguage: {},
         inputVisible: false,
-        tagInput: ''
+        tagInput: '',
+        title: '',
+        error: {
+          tags: '',
+          spj: '',
+          languages: '',
+          testCase: ''
+        }
       }
     },
     mounted () {
+      if (this.$route.name === 'edit-problem') {
+        this.title = 'Edit Problem'
+        api.getProblem(this.$route.params.id).then(res => {
+          let data = res.data.data
+          this.problem = data
+        })
+        this.testCaseUploaded = true
+      } else {
+        this.title = 'Add Problem'
+        this.problem = this.reProblem = {
+          title: '',
+          description: '',
+          input_description: '',
+          output_description: '',
+          time_limit: 1000,
+          memory_limit: 256,
+          difficulty: 'Low',
+          visible: true,
+          tags: [],
+          languages: [],
+          samples: [{input: '', output: ''}],
+          spj: false,
+          spj_language: 'C',
+          spj_code: '',
+          test_case_id: '',
+          test_case_score: [],
+          rule_type: 'ACM',
+          hint: '',
+          source: ''
+        }
+      }
       api.getLanguages().then(res => {
         let allLanguage = res.data.data
         this.allLanguage = allLanguage
         for (let item of allLanguage.languages) {
-          this.languages.push(item.name)
+          this.problem.languages.push(item.name)
         }
       })
     },
     watch: {
-      'spj.useSpj' (newVal) {
-        if (this.testCase.uploaded && newVal !== this.testCase.spj) {
+      'problem.spj' (newVal) {
+        if (this.testCaseUploaded && newVal !== this.problem.spj) {
           this.$confirm('If you change problem judge method, you need to re-upload test cases', 'Warning', {
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
@@ -283,6 +303,10 @@
             this.resetTestCase()
           }).catch(() => {})
         }
+      },
+      '$route' () {
+        this.$refs.form.resetFields()
+        this.problem = this.reProblem
       }
     },
     methods: {
@@ -296,26 +320,26 @@
         }).catch(() => {})
       },
       resetTestCase () {
-        this.testCase.uploaded = false
-        this.testCase.testCaseList = []
-        this.testCase.testCaseId = ''
+        this.testCaseUploaded = false
+        this.problem.test_case_score = []
+        this.problem.test_case_id = ''
       },
       addTag () {
         let inputValue = this.tagInput
         if (inputValue) {
-          this.tags.push(inputValue)
+          this.problem.tags.push(inputValue)
         }
         this.inputVisible = false
         this.tagInput = ''
       },
       closeTag (tag) {
-        this.tags.splice(this.tags.indexOf(tag), 1)
+        this.problem.tags.splice(this.problem.tags.indexOf(tag), 1)
       },
       addSample () {
-        this.samples.push({input: '', output: ''})
+        this.problem.samples.push({input: '', output: ''})
       },
       deleteSample (index) {
-        this.samples.splice(index, 1)
+        this.problem.samples.splice(index, 1)
       },
       uploadSucceeded (response) {
         if (response.error) {
@@ -325,47 +349,50 @@
         let fileList = response.data.info
         for (let file of fileList) {
           file.score = 0
-          if (this.spj.useSpj) {
+          if (this.problem.spj) {
             file.output_name = '-'
           }
         }
-        this.testCase.testCaseList = fileList
-        this.testCase.isSpj = response.data.spj
-        this.testCase.uploaded = true
-        this.testCase.testCaseId = response.data.id
+        this.problem.test_case_score = fileList
+        this.testCaseUploaded = true
+        this.problem.test_case_id = response.data.id
       },
       uploadFailed () {
         this.$error('Upload failed')
       },
       submit () {
-        if (!this.samples.length) {
+        if (!this.problem.samples.length) {
           this.$error('Sample is required')
           return
         }
-        for (let sample of this.samples) {
+        for (let sample of this.problem.samples) {
           if (!sample.input || !sample.output) {
             this.$error('Sample input and output is required')
             return
           }
         }
-        if (!this.tags.length) {
-          this.$error('Please add at least one tag"')
+        if (!this.problem.tags.length) {
+          this.error.tags = 'Please add at least one tag'
+          this.$error(this.error.tags)
           return
         }
-        if (this.spj.useSpj && !this.spj.code) {
-          this.$error('Spj code is required')
+        if (this.problem.spj && !this.spj.code) {
+          this.error.spj = 'Spj code is required'
+          this.$error(this.error.spj)
           return
         }
-        if (!this.languages.length) {
-          this.$error('Please choose at least one language for problem')
+        if (!this.problem.languages.length) {
+          this.error.languages = 'Please choose at least one language for problem'
+          this.$error(this.error.languages)
           return
         }
-        if (!this.testCase.uploaded) {
-          this.$error('Test case is not uploaded yet')
+        if (!this.testCaseUploaded) {
+          this.error.testCase = 'Test case is not uploaded yet'
+          this.$error(this.error.testCase)
           return
         }
-        if (this.ruleType === 'OI') {
-          for (let item of this.testCase.testCaseList) {
+        if (this.problem.rule_type === 'OI') {
+          for (let item of this.problem.test_case_score) {
             try {
               if (parseInt(item.score) <= 0) {
                 this.$error('Invalid test case score')
@@ -377,26 +404,10 @@
             }
           }
         }
-        let data = {title: this.title,
-          description: this.description,
-          input_description: this.inputDescription,
-          output_description: this.outputDescription,
-          time_limit: this.timeLimit,
-          memory_limit: this.memoryLimit,
-          difficulty: this.difficulty,
-          visible: this.visible,
-          tags: this.tags,
-          languages: this.languages,
-          samples: this.samples,
-          spj: this.spj.useSpj,
-          spj_language: this.spj.language,
-          spj_code: this.spj.code,
-          test_case_id: this.testCase.testCaseId,
-          test_case_score: this.testCase.testCaseList,
-          rule_type: this.ruleType,
-          hint: this.hint,
-          source: this.source}
-        api.createProblem(data).catch(() => {})
+        let funName = this.$route.name === 'edit-problem' ? 'editProblem' : 'createProblem'
+        api[funName](this.problem).then(res => {
+          this.$router.push({name: 'problems'})
+        }).catch(() => {})
       }
     }
   }
