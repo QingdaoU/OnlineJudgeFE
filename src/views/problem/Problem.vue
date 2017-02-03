@@ -146,18 +146,9 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-show="problem.spj" :gutter="20">
-            <el-col :span="24">
-              <el-form-item label="Special Judge Code">
-                <el-input
-                  type="textarea"
-                  :rows="5"
-                  placeholder="Output Description"
-                  v-model="problem.spj_code">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+          <el-form-item v-show="problem.spj" label="Special Judge Code">
+            <code-mirror v-model="problem.spj_code" :mode="mode"></code-mirror>
+          </el-form-item>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="4">
@@ -224,11 +215,12 @@
   import Panel from '../../components/Panel'
   import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
+  import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
   export default{
     name: 'Problem',
     components: {
-      Panel, Simditor, Accordion
+      Panel, Simditor, Accordion, CodeMirror
     },
     data () {
       return {
@@ -237,6 +229,7 @@
           input_description: { required: true, message: 'Input Description is required', trigger: 'blur' },
           output_description: { required: true, message: 'Output Description is required', trigger: 'blur' }
         },
+        mode: 'text/x-src',
         problem: {},
         reProblem: {},
         testCaseUploaded: false,
