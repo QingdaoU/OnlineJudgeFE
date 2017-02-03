@@ -7,7 +7,6 @@
       <el-table
         :data="servers"
         :default-expand-all="true"
-        v-loading="loading"
         border>
         <el-table-column
           type="expand">
@@ -73,7 +72,6 @@
     },
     data () {
       return {
-        loading: true,
         servers: [],
         token: '',
         intervalId: -1
@@ -87,11 +85,9 @@
     },
     methods: {
       refreshJudgeServerList () {
-        this.loading = true
         api.getJudgeServer().then(res => {
           this.servers = res.data.data.servers
           this.token = res.data.data.token
-          this.loading = false
         })
       },
       deleteJudgeServer (hostname) {
@@ -100,7 +96,6 @@
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          this.loading = true
           api.deleteJudgeServer(hostname).then(res =>
             this.refreshJudgeServerList()
           )
