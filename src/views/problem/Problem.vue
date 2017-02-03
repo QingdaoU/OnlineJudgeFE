@@ -150,12 +150,7 @@
           <el-row v-show="spj.useSpj" :gutter="20">
             <el-col :span="24">
               <el-form-item label="Special Judge Code">
-                <el-input
-                  type="textarea"
-                  :rows="5"
-                  placeholder="Output Description"
-                  v-model="spj.code">
-                </el-input>
+                <code-mirror v-model="spj.code" :mode="spj.mode"></code-mirror>
               </el-form-item>
             </el-col>
           </el-row>
@@ -225,11 +220,12 @@
   import Panel from '../../components/Panel'
   import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
+  import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
   export default{
     name: 'Problem',
     components: {
-      Panel, Simditor, Accordion
+      Panel, Simditor, Accordion, CodeMirror
     },
     data () {
       return {
@@ -247,7 +243,8 @@
         spj: {
           useSpj: false,
           language: 'C',
-          code: ''
+          code: '',
+          mode: 'text/x-src'
         },
         testCase: {
           uploaded: false,
@@ -283,6 +280,13 @@
             this.resetTestCase()
           }).catch(() => {})
         }
+      },
+      'spj.language' (newVal) {
+        this.allLanguage.spj_languages.find(item => {
+          if (item.name === this.spj.language) {
+            this.spj.mode = item.content_type
+          }
+        })
       }
     },
     methods: {

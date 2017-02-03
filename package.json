@@ -18,6 +18,7 @@
     "simditor": "^2.3.6",
     "simditor-markdown": "^1.1.2",
     "vue": "^2.0.1",
+    "vue-codemirror": "^2.1.7",
     "vue-i18n": "^4.7.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.1"
