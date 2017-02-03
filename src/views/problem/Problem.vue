@@ -246,36 +246,26 @@
       }
     },
     mounted () {
-      if (this.$route.name === 'edit-problem') {
-        this.title = 'Edit Problem'
-        api.getProblem(this.$route.params.id).then(res => {
-          let data = res.data.data
-          this.problem = data
-        })
-        this.testCaseUploaded = true
-      } else {
-        this.title = 'Add Problem'
-        this.problem = this.reProblem = {
-          title: '',
-          description: '',
-          input_description: '',
-          output_description: '',
-          time_limit: 1000,
-          memory_limit: 256,
-          difficulty: 'Low',
-          visible: true,
-          tags: [],
-          languages: [],
-          samples: [{input: '', output: ''}],
-          spj: false,
-          spj_language: 'C',
-          spj_code: '',
-          test_case_id: '',
-          test_case_score: [],
-          rule_type: 'ACM',
-          hint: '',
-          source: ''
-        }
+      this.problem = this.reProblem = {
+        title: '',
+        description: '',
+        input_description: '',
+        output_description: '',
+        time_limit: 1000,
+        memory_limit: 256,
+        difficulty: 'Low',
+        visible: true,
+        tags: [],
+        languages: [],
+        samples: [{input: '', output: ''}],
+        spj: false,
+        spj_language: 'C',
+        spj_code: '',
+        test_case_id: '',
+        test_case_score: [],
+        rule_type: 'ACM',
+        hint: '',
+        source: ''
       }
       api.getLanguages().then(res => {
         let allLanguage = res.data.data
@@ -284,6 +274,19 @@
           this.problem.languages.push(item.name)
         }
       })
+      if (this.$route.name === 'edit-problem') {
+        this.title = 'Edit Problem'
+        api.getProblem(this.$route.params.id).then(res => {
+          let data = res.data.data
+          if (!data.spj_code) {
+            data.spj_code = ''
+          }
+          this.problem = data
+        })
+        this.testCaseUploaded = true
+      } else {
+        this.title = 'Add Problem'
+      }
     },
     watch: {
       'problem.spj' (newVal) {
