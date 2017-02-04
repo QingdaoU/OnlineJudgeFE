@@ -136,7 +136,7 @@
             <el-col :span="12">
               <el-checkbox v-model="problem.spj">Use Special Judge</el-checkbox>
             </el-col>
-            <el-col v-show="problem.spj" :span="12">
+            <el-col v-if="problem.spj" :span="12">
               <el-form-item label="Special Judge Language">
                 <el-radio-group v-model="problem.spj_language">
                   <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" effect="dark" :content="lang.description" placement="top-start">
@@ -146,7 +146,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item v-show="problem.spj" label="Special Judge Code">
+          <el-form-item v-if="problem.spj" label="Special Judge Code">
             <code-mirror v-model="problem.spj_code" :mode="mode"></code-mirror>
           </el-form-item>
         </el-form-item>
