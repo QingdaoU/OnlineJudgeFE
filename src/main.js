@@ -20,6 +20,7 @@ Vue.use(VueRouter)
 import { Announcement, User, Conf, JudgeServer, Problem, CreateContest, ContestList, EditContest, ContestAnnouncement, ProblemList } from './views'
 
 const router = new VueRouter({
+  mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
