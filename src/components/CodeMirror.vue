@@ -1,5 +1,5 @@
 <template>
-  <codemirror v-model="currentValue" ref="editor"></codemirror>
+  <codemirror v-model="currentValue" :options="options" ref="editor"></codemirror>
 </template>
 <script>
   import {codemirror} from 'vue-codemirror'
@@ -9,7 +9,15 @@
     name: 'CodeMirror',
     data () {
       return {
-        currentValue: ''
+        currentValue: '',
+        options: {
+          mode: 'text/x-csrc',
+          lineNumbers: true,
+          line: true,
+          foldGutter: true,
+          gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+          autofocus: true
+        }
       }
     },
     components: {
@@ -27,7 +35,6 @@
     },
     mounted () {
       this.currentValue = this.value
-      this.$refs.editor.editor.refresh()
     },
     watch: {
       'value' (val) {
