@@ -152,7 +152,7 @@
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-form-item label="Testcase" :error="error.testcase">
+            <el-form-item label="TestCase" :error="error.testcase">
               <el-upload
                 action="/api/admin/test_case/upload"
                 name="file"
@@ -281,6 +281,7 @@
           if (!data.spj_code) {
             data.spj_code = ''
           }
+          data.spj_language = data.spj_language || 'C'
           this.problem = data
         })
         this.testCaseUploaded = true
@@ -289,15 +290,17 @@
       }
     },
     watch: {
-      'problem.spj' (newVal) {
-        if (this.testCaseUploaded && newVal !== this.problem.spj) {
+      'problem.spj' (newVal, oldValue) {
+        if (this.testCaseUploaded && oldValue !== undefined) {
           this.$confirm('If you change problem judge method, you need to re-upload test cases', 'Warning', {
             confirmButtonText: 'Yes',
             cancelButtonText: 'Cancel',
             type: 'warning'
           }).then(() => {
             this.resetTestCase()
-          }).catch(() => {})
+          }).catch(() => {
+            this.problem.spj = oldValue
+          })
         }
       },
       '$route' () {
@@ -309,7 +312,7 @@
       querySearch (queryString, cb) {
         api.getProblemTagList().then(res => {
           let tagList = []
-          for (let tag in res.data.data) {
+          for (let tag of res.data.data) {
             tagList.push({value: tag})
           }
           cb(tagList)
@@ -372,7 +375,7 @@
           this.$error(this.error.tags)
           return
         }
-        if (this.problem.spj && !this.spj.code) {
+        if (this.problem.spj && !this.problem.spj_code) {
           this.error.spj = 'Spj code is required'
           this.$error(this.error.spj)
           return
