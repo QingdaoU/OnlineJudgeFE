@@ -134,7 +134,7 @@
         <el-form-item label="Special Judge" :error="error.spj">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-checkbox v-model="problem.spj">Use Special Judge</el-checkbox>
+              <el-checkbox v-model="problem.spj" @click.native.prevent="switchSpj()">Use Special Judge</el-checkbox>
             </el-col>
             <el-col v-if="problem.spj" :span="12">
               <el-form-item label="Special Judge Language">
@@ -283,32 +283,33 @@
           }
           data.spj_language = data.spj_language || 'C'
           this.problem = data
+          setTimeout(() => {
+            this.testCaseUploaded = true
+          })
         })
-        this.testCaseUploaded = true
       } else {
         this.title = 'Add Problem'
       }
     },
     watch: {
-      'problem.spj' (newVal, oldValue) {
-        if (this.testCaseUploaded && oldValue !== undefined) {
-          this.$confirm('If you change problem judge method, you need to re-upload test cases', 'Warning', {
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
-            type: 'warning'
-          }).then(() => {
-            this.resetTestCase()
-          }).catch(() => {
-            this.problem.spj = oldValue
-          })
-        }
-      },
       '$route' () {
         this.$refs.form.resetFields()
         this.problem = this.reProblem
       }
     },
     methods: {
+      switchSpj () {
+        if (this.testCaseUploaded) {
+          this.$confirm('If you change problem judge method, you need to re-upload test cases', 'Warning', {
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          }).then(() => {
+            this.problem.spj = !this.problem.spj
+            this.resetTestCase()
+          }).catch(() => {})
+        }
+      },
       querySearch (queryString, cb) {
         api.getProblemTagList().then(res => {
           let tagList = []
