@@ -14,7 +14,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item required prop="input_description" label="Input Description">
+            <el-form-item required prop="input_description" label="Input Description" required>
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 3, maxRows: 8}"
@@ -24,7 +24,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item required prop="output_description" label="Output Description">
+            <el-form-item required prop="output_description" label="Output Description" required>
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 3, maxRows: 8}"
@@ -36,12 +36,12 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="Time Limit">
+            <el-form-item label="Time Limit" required>
               <el-input type="Number" placeholder="Time Limit" v-model="problem.time_limit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Memory limit">
+            <el-form-item label="Memory limit" required>
               <el-input type="Number" placeholder="Memory Limit" v-model="problem.memory_limit"></el-input>
             </el-form-item>
           </el-col>
@@ -66,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Tag" :error="error.tags">
+            <el-form-item label="Tag" :error="error.tags" required>
               <span class="tags">
                 <el-tag
                   v-for="tag in problem.tags"
@@ -90,7 +90,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Languages" :error="error.languages">
+            <el-form-item label="Languages" :error="error.languages" required>
               <el-checkbox-group v-model="problem.languages">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
                   <el-checkbox :label="lang.name"></el-checkbox>
@@ -105,7 +105,7 @@
             <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete</el-button>
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="Input Samples">
+                <el-form-item label="Input Samples" required>
                   <el-input
                     :rows="5"
                     type="textarea"
@@ -115,7 +115,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="Output Samples">
+                <el-form-item label="Output Samples" required>
                   <el-input
                     :rows="5"
                     type="textarea"
@@ -131,6 +131,18 @@
         <div class="add-sample-btn">
           <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples</button>
         </div>
+        <el-form-item label="Code Template">
+          <el-row>
+            <el-col :span="24" v-for="(v, k) in template">
+              <el-form-item>
+                <el-checkbox v-model="v.checked">{{ k }}</el-checkbox>
+                <div v-if="v.checked">
+                  <code-mirror v-model="v.code" :mode="v.mode"></code-mirror>
+                </div>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form-item>
         <el-form-item label="Special Judge" :error="error.spj">
           <el-row :gutter="20">
             <el-col :span="12">
@@ -230,12 +242,17 @@
           output_description: { required: true, message: 'Output Description is required', trigger: 'blur' }
         },
         mode: 'text/x-src',
-        problem: {},
-        reProblem: {},
+        problem: {
+          languages: []
+        },
+        reProblem: {
+          languages: []
+        },
         testCaseUploaded: false,
         allLanguage: {},
         inputVisible: false,
         tagInput: '',
+        template: {},
         title: '',
         error: {
           tags: '',
@@ -257,6 +274,7 @@
         visible: true,
         tags: [],
         languages: [],
+        template: {},
         samples: [{input: '', output: ''}],
         spj: false,
         spj_language: 'C',
@@ -270,31 +288,56 @@
       api.getLanguages().then(res => {
         let allLanguage = res.data.data
         this.allLanguage = allLanguage
-        for (let item of allLanguage.languages) {
-          this.problem.languages.push(item.name)
+
+        // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
+        if (this.$route.name === 'edit-problem') {
+          this.title = 'Edit Problem'
+          api.getProblem(this.$route.params.id).then(problemRes => {
+            let data = problemRes.data.data
+            if (!data.spj_code) {
+              data.spj_code = ''
+            }
+            data.spj_language = data.spj_language || 'C'
+            this.problem = data
+            setTimeout(() => {
+              this.testCaseUploaded = true
+            })
+          })
+        } else {
+          this.title = 'Add Problem'
+          for (let item of allLanguage.languages) {
+            this.problem.languages.push(item.name)
+          }
         }
       })
-      if (this.$route.name === 'edit-problem') {
-        this.title = 'Edit Problem'
-        api.getProblem(this.$route.params.id).then(res => {
-          let data = res.data.data
-          if (!data.spj_code) {
-            data.spj_code = ''
-          }
-          data.spj_language = data.spj_language || 'C'
-          this.problem = data
-          setTimeout(() => {
-            this.testCaseUploaded = true
-          })
-        })
-      } else {
-        this.title = 'Add Problem'
-      }
     },
     watch: {
       '$route' () {
         this.$refs.form.resetFields()
         this.problem = this.reProblem
+      },
+      'problem.languages' (newVal) {
+        let data = {}
+        for (let item of newVal) {
+          if (this.template[item] === undefined) {
+            let mode = this.allLanguage.languages.find(lang => {
+              return lang.name === item
+            }).content_type
+            if (this.problem.template[item] === undefined) {
+              data[item] = {checked: false, code: '', mode: mode}
+            } else {
+              data[item] = {checked: true, code: this.problem.template[item], mode: mode}
+            }
+          } else {
+            data[item] = this.template[item]
+          }
+        }
+        this.template = data
+      },
+      'spj.language' (newVal) {
+        this.spj.mode = this.allLanguage.spj_languages.find(item => {
+          return item.name === this.spj.language
+        }).content_type
       }
     },
     methods: {
@@ -308,6 +351,8 @@
             this.problem.spj = !this.problem.spj
             this.resetTestCase()
           }).catch(() => {})
+        } else {
+          this.problem.spj = !this.problem.spj
         }
       },
       querySearch (queryString, cb) {
@@ -402,6 +447,12 @@
               this.$error('Test case score must be an integer')
               return
             }
+          }
+        }
+        this.problem.template = {}
+        for (let k in this.template) {
+          if (this.template[k].checked) {
+            this.problem.template[k] = this.template[k].code
           }
         }
         let funName = this.$route.name === 'edit-problem' ? 'editProblem' : 'createProblem'
