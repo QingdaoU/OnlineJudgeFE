@@ -299,9 +299,7 @@
             }
             data.spj_language = data.spj_language || 'C'
             this.problem = data
-            setTimeout(() => {
-              this.testCaseUploaded = true
-            })
+            this.testCaseUploaded = true
           })
         } else {
           this.title = 'Add Problem'
@@ -320,13 +318,13 @@
         let data = {}
         for (let item of newVal) {
           if (this.template[item] === undefined) {
-            let mode = this.allLanguage.languages.find(lang => {
+            let langConfig = this.allLanguage.languages.find(lang => {
               return lang.name === item
-            }).content_type
+            })
             if (this.problem.template[item] === undefined) {
-              data[item] = {checked: false, code: '', mode: mode}
+              data[item] = {checked: false, code: langConfig.config.template, mode: langConfig.content_type}
             } else {
-              data[item] = {checked: true, code: this.problem.template[item], mode: mode}
+              data[item] = {checked: true, code: this.problem.template[item], mode: langConfig.content_type}
             }
           } else {
             data[item] = this.template[item]
