@@ -54,3 +54,12 @@
     }
   }
 </script>
+
+<style>
+  .CodeMirror {
+    height: auto !important;
+  }
+  .CodeMirror-scroll {
+    min-height:300px;
+  }
+</style>
