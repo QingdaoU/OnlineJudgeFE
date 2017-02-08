@@ -159,7 +159,7 @@
             </el-col>
           </el-row>
           <el-form-item v-if="problem.spj" label="Special Judge Code">
-            <code-mirror v-model="problem.spj_code" :mode="mode"></code-mirror>
+            <code-mirror v-model="problem.spj_code" :mode="spjMode"></code-mirror>
           </el-form-item>
         </el-form-item>
         <el-row :gutter="20">
@@ -241,7 +241,7 @@
           input_description: { required: true, message: 'Input Description is required', trigger: 'blur' },
           output_description: { required: true, message: 'Output Description is required', trigger: 'blur' }
         },
-        mode: 'text/x-src',
+        mode: '',
         problem: {
           languages: []
         },
@@ -254,6 +254,7 @@
         tagInput: '',
         template: {},
         title: '',
+        spjMode: '',
         error: {
           tags: '',
           spj: '',
@@ -263,29 +264,32 @@
       }
     },
     mounted () {
-      this.problem = this.reProblem = {
-        title: '',
-        description: '',
-        input_description: '',
-        output_description: '',
-        time_limit: 1000,
-        memory_limit: 256,
-        difficulty: 'Low',
-        visible: true,
-        tags: [],
-        languages: [],
-        template: {},
-        samples: [{input: '', output: ''}],
-        spj: false,
-        spj_language: 'C',
-        spj_code: '',
-        test_case_id: '',
-        test_case_score: [],
-        rule_type: 'ACM',
-        hint: '',
-        source: ''
-      }
       api.getLanguages().then(res => {
+        this.problem = this.reProblem = {
+          title: '',
+          description: '',
+          input_description: '',
+          output_description: '',
+          time_limit: 1000,
+          memory_limit: 256,
+          difficulty: 'Low',
+          visible: true,
+          tags: [],
+          languages: [],
+          template: {},
+          samples: [{input: '', output: ''}],
+          spj: false,
+          spj_language: '',
+          spj_code: '',
+          test_case_id: '',
+          test_case_score: [],
+          rule_type: 'ACM',
+          hint: '',
+          source: ''
+        }
+
+        this.problem.spj_language = 'C'
+
         let allLanguage = res.data.data
         this.allLanguage = allLanguage
 
@@ -332,9 +336,9 @@
         }
         this.template = data
       },
-      'spj.language' (newVal) {
-        this.spj.mode = this.allLanguage.spj_languages.find(item => {
-          return item.name === this.spj.language
+      'problem.spj_language' (newVal) {
+        this.spjMode = this.allLanguage.spj_languages.find(item => {
+          return item.name === this.problem.spj_language
         }).content_type
       }
     },

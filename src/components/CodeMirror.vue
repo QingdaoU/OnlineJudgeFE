@@ -35,6 +35,7 @@
     },
     mounted () {
       this.currentValue = this.value
+      this.$refs.editor.editor.setOption('mode', this.mode)
     },
     watch: {
       'value' (val) {
