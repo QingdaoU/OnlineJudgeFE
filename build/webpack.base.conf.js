@@ -9,6 +9,7 @@ var env = process.env.NODE_ENV
 var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
 var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
+var webpack = require('webpack')
 
 module.exports = {
   entry: {
@@ -90,5 +91,10 @@ module.exports = {
         browsers: ['last 2 versions']
       })
     ]
-  }
+  },
+  plugins: [
+    // https://github.com/webpack/webpack/issues/87
+    new webpack.ContextReplacementPlugin(/moment\/locale$/, /en-gb/),
+    new webpack.ContextReplacementPlugin(/codemirror\/mode$/, /clike\/clike|meta|python\/python|javascript\/javascript/)
+  ]
 }
