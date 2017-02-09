@@ -109,6 +109,7 @@
         this.announcement.contest_id = this.$route.params.contestId
         api.createContestAnnouncement(this.announcement).then(() => {
           this.showEditAnnouncementDialog = false
+          this.announcement.title = this.announcement.content = ''
           this.getContestAnnouncementList()
         }).catch(() => {
           this.showEditAnnouncementDialog = false
