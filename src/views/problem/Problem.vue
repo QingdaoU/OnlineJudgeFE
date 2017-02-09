@@ -2,9 +2,18 @@
   <div class="problem">
     <Panel :title="title">
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
-        <el-form-item prop="title" label="Title" required>
-          <el-input placeholder="Title" v-model="problem.title"></el-input>
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <el-form-item prop="_id" label="Display ID">
+              <el-input placeholder="Display ID" v-model="problem._id"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="18">
+            <el-form-item prop="title" label="Title" required>
+              <el-input placeholder="Title" v-model="problem.title"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="description" label="Description" required>
@@ -237,7 +246,7 @@
     data () {
       return {
         rules: {
-          title: { required: true, message: 'title is required', trigger: 'blur' },
+          title: { required: true, message: 'Title is required', trigger: 'blur' },
           input_description: { required: true, message: 'Input Description is required', trigger: 'blur' },
           output_description: { required: true, message: 'Output Description is required', trigger: 'blur' }
         },
@@ -266,6 +275,7 @@
     mounted () {
       api.getLanguages().then(res => {
         this.problem = this.reProblem = {
+          _id: '',
           title: '',
           description: '',
           input_description: '',

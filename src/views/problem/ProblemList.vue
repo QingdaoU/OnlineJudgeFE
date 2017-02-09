@@ -14,45 +14,28 @@
         ref="table"
         :data="problemList"
         style="width: 100%">
-        <el-table-column type="expand">
-          <template scope="props">
-            <p>
-              Create Time: {{ props.row.create_time }}
-            </p>
-          </template>
-        </el-table-column>
         <el-table-column
           prop="id"
           label="ID">
+        </el-table-column>
+        <el-table-column
+          prop="_id"
+          label="Display ID">
         </el-table-column>
         <el-table-column
           prop="title"
           label="Title">
         </el-table-column>
         <el-table-column
-          prop="rule_type"
-          label="Rule Type">
+          prop="created_by.username"
+          label="Author">
         </el-table-column>
         <el-table-column
-          prop="source"
-          label="Source">
+          prop="create_time"
+          label="Create Time">
         </el-table-column>
         <el-table-column
-          label="difficulty">
-          <template scope="props">
-            <el-tag type="gray">{{props.row.difficulty}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="total_accepted_number"
-          label="Accepted/Submit"
-          width="180">
-          <template scope="props">
-            {{props.row.total_accepted_number + '/' + props.row.total_submit_number}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="Submit Number">
+          label="Status">
           <template scope="props">
             <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}</el-tag>
           </template>
@@ -61,7 +44,7 @@
           inline-template
           :context="_self"
           fixed="right"
-          label="操作"
+          label="Operation"
           width="120">
             <el-button-group>
               <el-button @click="goEdit(row.id)" size="mini" type="warning">编辑</el-button>
