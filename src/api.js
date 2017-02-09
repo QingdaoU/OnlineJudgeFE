@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
-Vue.http.options.root = 'http://localhost:8080/api'
+Vue.http.options.root = '/api'
 Vue.http.options.emulateJSON = false
 
 function getCookie (name) {
