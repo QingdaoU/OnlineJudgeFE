@@ -6,7 +6,7 @@
         <router-view></router-view>
       </keep-alive>
       <div class="footer">
-        {{ version }}
+        Build Version: {{ version }}
       </div>
     </div>
   </div>
