@@ -25,7 +25,7 @@ export default {
     }
   },
   mounted () {
-    Simditor.locale = 'zh-CN'
+    Simditor.locale = 'en-US'
     this.editor = new Simditor({
       textarea: this.$refs.editor,
       placeholder: this.placeholder,
