@@ -7,6 +7,9 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import * as filters from './filters.js'
 
+import IconBtn from 'components/IconBtn.vue'
+import Panel from 'components/Panel.vue'
+
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -15,6 +18,8 @@ Object.keys(filters).forEach(key => {
 Vue.use(Element, { locale })
 Vue.use(VueRouter)
 // Vue.use(VueI18n)
+Vue.component(IconBtn.name, IconBtn)
+Vue.component(Panel.name, Panel)
 
 // 引入 view 组件
 import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,

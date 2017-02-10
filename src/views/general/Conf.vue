@@ -90,13 +90,9 @@
 
 <script>
   import api from '../../api.js'
-  import Panel from '../../components/Panel.vue'
 
   export default{
     name: 'Conf',
-    components: {
-      Panel
-    },
     data () {
       return {
         init: false,

@@ -86,16 +86,12 @@
 </template>
 
 <script>
-  import IconBtn from '../../components/IconBtn.vue'
-  import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
   import api from '../../api.js'
   export default {
     name: 'Announcement',
     components: {
-      Panel,
-      Simditor,
-      IconBtn
+      Simditor
     },
     data () {
       return {

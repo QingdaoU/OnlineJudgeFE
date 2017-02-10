@@ -143,15 +143,9 @@
 
 <script>
 import api from '../../api.js'
-import Panel from '../../components/Panel.vue'
-import IconBtn from '../../components/IconBtn.vue'
 
 export default{
   name: 'User',
-  components: {
-    Panel,
-    IconBtn
-  },
   data () {
     return {
       // 一页显示的用户数

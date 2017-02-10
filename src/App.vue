@@ -1,6 +1,8 @@
 <template>
   <div>
-    <SideMenu></SideMenu>
+    <div>
+      <SideMenu></SideMenu>
+    </div>
     <div class="content-app">
       <keep-alive include="ContestList">
         <router-view></router-view>
@@ -16,6 +18,7 @@
   import 'font-awesome/css/font-awesome.min.css'
   import SideMenu from './components/SideMenu.vue'
   import api from './api.js'
+
   export default {
     name: 'app',
     data () {

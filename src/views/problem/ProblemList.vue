@@ -67,15 +67,9 @@
 
 <script>
   import api from '../../api.js'
-  import Panel from '../../components/Panel.vue'
-  import IconBtn from '../../components/IconBtn.vue'
 
   export default{
     name: 'ProblemList',
-    components: {
-      Panel,
-      IconBtn
-    },
     data () {
       return {
         pageSize: 5,

@@ -233,7 +233,6 @@
 </template>
 
 <script>
-  import Panel from '../../components/Panel'
   import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
   import CodeMirror from '../../components/CodeMirror'
@@ -241,7 +240,9 @@
   export default{
     name: 'Problem',
     components: {
-      Panel, Simditor, Accordion, CodeMirror
+      Simditor,
+      Accordion,
+      CodeMirror
     },
     data () {
       return {

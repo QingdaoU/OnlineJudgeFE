@@ -64,15 +64,9 @@
 
 <script>
   import api from '../../api.js'
-  import Panel from '../../components/Panel.vue'
-  import IconBtn from '../../components/IconBtn.vue'
 
   export default{
     name: 'JudgeServer',
-    components: {
-      Panel,
-      IconBtn
-    },
     data () {
       return {
         servers: [],

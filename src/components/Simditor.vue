@@ -8,6 +8,7 @@ import 'simditor/styles/simditor.css'
 import 'simditor-markdown'
 import 'simditor-markdown/styles/simditor-markdown.css'
 export default {
+  name: 'Simditor',
   props: {
     toolbar: {
       type: Array,

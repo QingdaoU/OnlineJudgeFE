@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="1" class="vertical_menu" theme="dark" :router="true" :unique-opened="true" :default-active="currentPath">
+  <el-menu default-active="1" class="vertical_menu" theme="dark" :router="true" :unique-opened="true" :default-active="currentPath" style="overflow: auto">
     <div class="logo">
       <img src="../assets/logo.svg" alt="oj admin" />
     </div>
@@ -25,6 +25,7 @@
 
 <script>
 export default{
+  name: 'SideMenu',
   data () {
     return {
       currentPath: ''

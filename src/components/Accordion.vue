@@ -15,6 +15,7 @@
 
 <script>
   export default{
+    name: 'Accordion',
     props: {
       title: {
         type: String,

@@ -69,14 +69,12 @@
 
 <script>
   import api from '../../api.js'
-  import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
   import { backendDatetimeToISOFormat } from '../../utils'
 
   export default{
     name: 'CreateContest',
     components: {
-      Panel,
       Simditor
     },
     data () {
