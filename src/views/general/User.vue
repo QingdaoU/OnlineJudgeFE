@@ -82,7 +82,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="User Type" required>
+            <el-form-item label="New Password">
+              <el-input v-model="user.password"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="User Type">
               <el-select v-model="user.admin_type">
                 <el-option label="Regular User" value="Regular User"></el-option>
                 <el-option label="Admin" value="Admin"></el-option>
@@ -91,38 +96,40 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="New Password">
-              <el-input v-model="user.password"></el-input>
+            <el-form-item label="Problem Permission">
+              <el-select v-model="user.problem_permission" :disabled="user.admin_type!=='Admin'">
+                <el-option label="None" value="None"></el-option>
+                <el-option label="Own" value="Own"></el-option>
+                <el-option label="All" value="All"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-col :span="8">
-              <el-form-item label="Two Factor Auth">
-                <el-switch
-                  v-model="user.two_factor_auth"
-                  on-color="#13ce66"
-                  off-color="#ff4949">
-                </el-switch>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="Open Api">
-                <el-switch
-                  v-model="user.open_api"
-                  on-color="#13ce66"
-                  off-color="#ff4949">
-                </el-switch>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="Is Disabled">
-                <el-switch
-                  v-model="user.is_disabled"
-                  on-text=""
-                  off-text="">
-                </el-switch>
-              </el-form-item>
-            </el-col>
+          <el-col :span="8">
+            <el-form-item label="Two Factor Auth">
+              <el-switch
+                v-model="user.two_factor_auth"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Open Api">
+              <el-switch
+                v-model="user.open_api"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Is Disabled">
+              <el-switch
+                v-model="user.is_disabled"
+                on-text=""
+                off-text="">
+              </el-switch>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form>
