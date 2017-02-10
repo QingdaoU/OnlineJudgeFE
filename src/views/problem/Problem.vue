@@ -187,7 +187,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="Type">
-              <el-radio-group v-model="problem.rule_type">
+              <el-radio-group v-model="problem.rule_type" :disabled="disableRuleType">
                 <el-radio label="ACM">ACM</el-radio>
                 <el-radio label="OI">OI</el-radio>
               </el-radio-group>
@@ -264,6 +264,8 @@
         template: {},
         title: '',
         spjMode: '',
+        disableRuleType: false,
+        routeName: '',
         error: {
           tags: '',
           spj: '',
@@ -273,6 +275,7 @@
       }
     },
     mounted () {
+      this.routeName = this.$route.name
       api.getLanguages().then(res => {
         this.problem = this.reProblem = {
           _id: '',
@@ -304,9 +307,10 @@
         this.allLanguage = allLanguage
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
-        if (this.$route.name === 'edit-problem') {
+        if (this.routeName === 'edit-problem' || this.routeName === 'edit-contest-problem') {
+          let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           this.title = 'Edit Problem'
-          api.getProblem(this.$route.params.id).then(problemRes => {
+          api[funcName](this.$route.params.problemId).then(problemRes => {
             let data = problemRes.data.data
             if (!data.spj_code) {
               data.spj_code = ''
@@ -314,11 +318,20 @@
             data.spj_language = data.spj_language || 'C'
             this.problem = data
             this.testCaseUploaded = true
+
+            if (this.routeName === 'edit-contest-problem') {
+              this.problem.contest_id = this.$route.params.contestId
+              this.disableRuleType = true
+            }
           })
         } else {
           this.title = 'Add Problem'
           for (let item of allLanguage.languages) {
             this.problem.languages.push(item.name)
+          }
+          if (this.$routeName === 'create-contest-problem') {
+            this.problem.contest_id = this.$route.params.contestId
+            this.disableRuleType = true
           }
         }
       })
@@ -467,8 +480,12 @@
             this.problem.template[k] = this.template[k].code
           }
         }
-        let funName = this.$route.name === 'edit-problem' ? 'editProblem' : 'createProblem'
-        api[funName](this.problem).then(res => {
+        let funcName = {'create-problem': 'createProblem',
+          'edit-problem': 'editProblem',
+          'create-contest-problem': 'createContestProblem',
+          'edit-contest-problem': 'editContestProblem'
+        }[this.routeName]
+        api[funcName](this.problem).then(res => {
           this.$router.push({name: 'problems'})
         }).catch(() => {})
       }

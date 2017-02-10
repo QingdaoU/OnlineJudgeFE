@@ -17,7 +17,8 @@ Vue.use(VueRouter)
 // Vue.use(VueI18n)
 
 // 引入 view 组件
-import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList, ContestAnnouncement, ProblemList } from './views'
+import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,
+  ContestAnnouncement, ProblemList } from './views'
 
 const router = new VueRouter({
   mode: 'history',
@@ -49,12 +50,12 @@ const router = new VueRouter({
       component: ProblemList
     },
     {
-      path: '/problem/add',
-      name: 'add-problem',
+      path: '/problem/create',
+      name: 'create-problem',
       component: Problem
     },
     {
-      path: '/problem/edit/:id',
+      path: '/problem/edit/:problemId',
       name: 'edit-problem',
       component: Problem
     },
@@ -77,6 +78,21 @@ const router = new VueRouter({
       path: '/contest/:contestId/announcement',
       name: 'contest-announcement',
       component: ContestAnnouncement
+    },
+    {
+      path: '/contest/:contestId/problems',
+      name: 'contest-problem-list',
+      component: ProblemList
+    },
+    {
+      path: '/contest/:contestId/problem/create',
+      name: 'create-contest-problem',
+      component: Problem
+    },
+    {
+      path: '/contest/:contestId/problem/:problemId/edit',
+      name: 'edit-contest-problem',
+      component: Problem
     },
     {
       path: '*', redirect: '/announcement'

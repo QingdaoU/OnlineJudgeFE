@@ -226,6 +226,21 @@ export default {
         params: params
       }
     })
+  },
+  getContestProblem (id) {
+    // todo fixme
+    return ajax('admin/problem', 'get', {
+      options: {
+        params: {
+          id
+        }
+      }
+    })
+  },
+  editContestProblem (body) {
+    return ajax('admin/contest/problem', 'put', {
+      body
+    })
   }
 }
 /**
