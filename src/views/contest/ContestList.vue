@@ -48,17 +48,14 @@
         </el-table-column>
         <el-table-column
           inline-template
+          :context="_self"
           fixed="right"
-          label="Option"
-          width="220px">
-          <span>
-            <router-link :to="{name: 'edit-contest', params: {id: row.id}}">
-              <el-button type="text" class="btn" size="small">Edit</el-button>
-            </router-link>
-            <router-link :to="{name: 'contest-announcement', params: {contestId: row.id}}">
-              <el-button type="text" class="btn" size="small">Announcement</el-button>
-            </router-link>
-          </span>
+          label="Operation">
+          <div>
+            <icon-btn name="Edit" icon="edit"></icon-btn>
+            <icon-btn name="Problem" icon="list-ol"></icon-btn>
+            <icon-btn name="Announcement" icon="info-circle"></icon-btn>
+          </div>
         </el-table-column>
       </el-table>
       <div class="option">
@@ -77,10 +74,13 @@
 <script>
   import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
+  import IconBtn from '../../components/IconBtn.vue'
+
   export default{
     name: 'ContestList',
     components: {
-      Panel
+      Panel,
+      IconBtn
     },
     data () {
       return {

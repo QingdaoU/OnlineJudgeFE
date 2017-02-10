@@ -49,7 +49,7 @@
           inline-template
           fixed="right"
           label="Option">
-          <el-button type="text" class="btn" size="small" @click="openUserDialog(row.id)">Edit</el-button>
+          <icon-btn name="Edit" icon="edit" @click.native="openUserDialog(row.id)"></icon-btn>
         </el-table-column>
       </el-table>
       <div class="option">
@@ -144,10 +144,13 @@
 <script>
 import api from '../../api.js'
 import Panel from '../../components/Panel.vue'
+import IconBtn from '../../components/IconBtn.vue'
+
 export default{
   name: 'User',
   components: {
-    Panel
+    Panel,
+    IconBtn
   },
   data () {
     return {

@@ -38,10 +38,10 @@
             inline-template
             fixed="right"
             label="Option">
-            <span>
-              <el-button type="text" size="small" @click="openAnnouncementDialog(row.id)">Edit</el-button>
-              <el-button type="text" size="small" @click="deleteAnnouncement(row.id)">Delete</el-button>
-            </span>
+            <div>
+              <icon-btn name="Edit" icon="edit" @click.native="openAnnouncementDialog(row.id)"></icon-btn>
+              <icon-btn name="Delete" icon="trash" @click.native="deleteAnnouncement(row.id)"></icon-btn>
+            </div>
           </el-table-column>
         </el-table>
         <div class="option">
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+  import IconBtn from '../../components/IconBtn.vue'
   import Panel from '../../components/Panel.vue'
   import Simditor from '../../components/Simditor.vue'
   import api from '../../api.js'
@@ -93,7 +94,8 @@
     name: 'Announcement',
     components: {
       Panel,
-      Simditor
+      Simditor,
+      IconBtn
     },
     data () {
       return {

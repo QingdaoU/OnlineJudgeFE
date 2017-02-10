@@ -12,7 +12,7 @@
     </el-submenu>
     <el-submenu index="problem">
       <template slot="title"><i class="el-icon-document"></i>Problem</template>
-      <el-menu-item index="/problem/add">Add Problem</el-menu-item>
+      <el-menu-item index="/problem/create">Create Problem</el-menu-item>
       <el-menu-item index="/problems">Problem List</el-menu-item>
     </el-submenu>
     <el-submenu index="contest">

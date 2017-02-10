@@ -54,7 +54,7 @@
           fixed="right"
           label="option">
           <template scope="scope">
-            <el-button type="text" class="btn" size="small" @click="deleteJudgeServer(scope.row.hostname)">Delete</el-button>
+            <icon-btn name="Delete" icon="trash" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
           </template>
         </el-table-column>
       </el-table>
@@ -65,10 +65,13 @@
 <script>
   import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
+  import IconBtn from '../../components/IconBtn.vue'
+
   export default{
     name: 'JudgeServer',
     components: {
-      Panel
+      Panel,
+      IconBtn
     },
     data () {
       return {

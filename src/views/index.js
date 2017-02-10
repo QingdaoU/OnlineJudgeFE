@@ -9,5 +9,6 @@ import Contest from './contest/Contest.vue'
 import ContestAnnouncement from './contest/Announcement.vue'
 
 export {
-  Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest, ContestList, ContestAnnouncement
+  Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest,
+  ContestList, ContestAnnouncement
 }

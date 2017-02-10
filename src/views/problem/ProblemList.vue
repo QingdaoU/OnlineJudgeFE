@@ -45,11 +45,11 @@
           :context="_self"
           fixed="right"
           label="Operation"
-          width="120">
-            <el-button-group>
-              <el-button @click="goEdit(row.id)" size="mini" type="warning">编辑</el-button>
-              <el-button size="mini" @click="delClient(row.id)" type="danger">删除</el-button>
-            </el-button-group>
+          width="180">
+            <div>
+              <icon-btn name="Edit" icon="edit"></icon-btn>
+              <icon-btn name="Submission" icon="code"></icon-btn>
+            </div>
         </el-table-column>
       </el-table>
       <div class="option">
@@ -68,10 +68,13 @@
 <script>
   import api from '../../api.js'
   import Panel from '../../components/Panel.vue'
+  import IconBtn from '../../components/IconBtn.vue'
+
   export default{
     name: 'ProblemList',
     components: {
-      Panel
+      Panel,
+      IconBtn
     },
     data () {
       return {
@@ -92,8 +95,8 @@
       }
     },
     methods: {
-      goEdit (id) {
-        this.$router.push({name: 'edit-problem', params: {id}})
+      goEdit (problemId) {
+        this.$router.push({name: 'edit-problem', params: {problemId}})
       },
       // 切换页码回调
       currentChange (page) {
