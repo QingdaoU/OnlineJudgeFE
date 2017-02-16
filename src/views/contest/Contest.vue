@@ -62,7 +62,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-button type="primary" @click="saveContest">Save</el-button>
+      <save @click.native="saveContest"></save>
     </Panel>
   </div>
 </template>

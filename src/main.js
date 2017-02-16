@@ -9,6 +9,8 @@ import * as filters from './filters.js'
 
 import IconBtn from 'components/IconBtn.vue'
 import Panel from 'components/Panel.vue'
+import Save from 'components/btn/Save.vue'
+import Cancel from 'components/btn/Cancel.vue'
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
@@ -20,6 +22,8 @@ Vue.use(VueRouter)
 // Vue.use(VueI18n)
 Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
+Vue.component(Save.name, Save)
+Vue.component(Cancel.name, Cancel)
 
 // 引入 view 组件
 import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,

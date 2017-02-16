@@ -34,7 +34,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-button type="primary" @click="saveSMTPConfig">Save</el-button>
+      <save @click.native="saveSMTPConfig"></save>
     </Panel>
 
     <Panel title="Website Config">
@@ -83,7 +83,7 @@
             </el-col>
         </el-row>
       </el-form>
-      <el-button type="primary" @click="saveWebsiteConfig">Save</el-button>
+      <save @click.native="saveWebsiteConfig"></save>
     </Panel>
   </div>
 </template>

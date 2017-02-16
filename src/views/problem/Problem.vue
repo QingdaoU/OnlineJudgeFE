@@ -226,7 +226,7 @@
         <el-form-item label="Source">
           <el-input placeholder="Source" v-model="problem.source"></el-input>
         </el-form-item>
-        <el-button type="success" @click="submit()">Save</el-button>
+        <save @click.native="submit()">Save</save>
       </el-form>
     </Panel>
   </div>

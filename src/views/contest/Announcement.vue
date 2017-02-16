@@ -48,8 +48,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click.native="showEditAnnouncementDialog = false">Cancel</el-button>
-          <el-button type="primary" @click.native="saveAnnouncement()">Submit</el-button>
+          <cancel @click.native="showEditAnnouncementDialog = false"></cancel>
+          <save type="primary" @click.native="saveAnnouncement()">Submit</save>
         </span>
     </el-dialog>
   </div>
