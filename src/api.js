@@ -124,7 +124,7 @@ export default {
   getWebsiteConfig () {
     return ajax('admin/website', 'get')
   },
-  editeWebsiteConfig (config) {
+  editWebsiteConfig (config) {
     return ajax('admin/website', 'post', {
       body: config
     })
