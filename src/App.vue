@@ -38,7 +38,8 @@
 
 <style lang="less">
   body {
-    margin: 0
+    margin: 0;
+    background-color: rgb(236, 242, 247)!important;
   }
 
   a {
