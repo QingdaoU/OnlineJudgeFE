@@ -72,25 +72,20 @@
     name: 'ProblemList',
     data () {
       return {
-        pageSize: 5,
+        pageSize: 1,
         total: 0,
         problemList: [],
         keyword: '',
         loading: false,
-        currentPage: 0,
+        currentPage: 1,
         routeName: '',
         contestId: ''
       }
     },
-    mounted () {
+    activated () {
       this.routeName = this.$route.name
       this.contestId = this.$route.params.contestId
-      this.getProblemList()
-    },
-    activated () {
-      if (this.$route.query.refresh !== undefined) {
-        this.getProblemList(this.currentPage)
-      }
+      this.getProblemList(this.currentPage)
     },
     methods: {
       goEdit (problemId) {

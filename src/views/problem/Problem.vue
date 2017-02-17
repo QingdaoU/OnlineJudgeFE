@@ -487,7 +487,7 @@
           'edit-contest-problem': 'editContestProblem'
         }[this.routeName]
         api[funcName](this.problem).then(res => {
-          this.$router.push({name: 'problems'})
+          this.$router.push({name: 'problem-list'})
         }).catch(() => {})
       }
     }

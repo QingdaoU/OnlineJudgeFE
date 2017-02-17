@@ -83,16 +83,11 @@
         contestList: [],
         keyword: '',
         loading: false,
-        currentPage: 0
+        currentPage: 1
       }
-    },
-    mounted () {
-      this.getContestList(1)
     },
     activated () {
-      if (this.$route.query.refresh !== undefined) {
-        this.getContestList(this.currentPage)
-      }
+      this.getContestList(this.currentPage)
     },
     methods: {
       // 切换页码回调

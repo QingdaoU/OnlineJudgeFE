@@ -4,7 +4,7 @@
       <SideMenu></SideMenu>
     </div>
     <div class="content-app">
-      <keep-alive include="ContestList">
+      <keep-alive include="ContestList,ProblemList">
         <router-view></router-view>
       </keep-alive>
       <div class="footer">
