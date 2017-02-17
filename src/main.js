@@ -7,8 +7,8 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import * as filters from './filters.js'
 
-import IconBtn from 'components/IconBtn.vue'
 import Panel from 'components/Panel.vue'
+import IconBtn from 'components/btn/IconBtn.vue'
 import Save from 'components/btn/Save.vue'
 import Cancel from 'components/btn/Cancel.vue'
 
