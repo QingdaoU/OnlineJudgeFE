@@ -55,7 +55,7 @@ const router = new VueRouter({
     },
     {
       path: '/problems',
-      name: 'problems',
+      name: 'problem-list',
       component: ProblemList
     },
     {
@@ -79,7 +79,7 @@ const router = new VueRouter({
       component: ContestList
     },
     {
-      path: '/contest/:id/edit',
+      path: '/contest/:contestId/edit',
       name: 'edit-contest',
       component: Contest
     },

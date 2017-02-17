@@ -52,9 +52,9 @@
           fixed="right"
           label="Operation">
           <div>
-            <icon-btn name="Edit" icon="edit"></icon-btn>
-            <icon-btn name="Problem" icon="list-ol"></icon-btn>
-            <icon-btn name="Announcement" icon="info-circle"></icon-btn>
+            <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
+            <icon-btn name="Problem" icon="list-ol" @click.native="goContestProblemList(row.id)"></icon-btn>
+            <icon-btn name="Announcement" icon="info-circle" @click.native="goContestAnnouncement(row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -109,6 +109,15 @@
         }, res => {
           this.loading = false
         })
+      },
+      goEdit (contestId) {
+        this.$router.push({name: 'edit-contest', params: {contestId}})
+      },
+      goContestAnnouncement (contestId) {
+        this.$router.push({name: 'contest-announcement', params: {contestId}})
+      },
+      goContestProblemList (contestId) {
+        this.$router.push({name: 'contest-problem-list', params: {contestId}})
       }
     },
     watch: {

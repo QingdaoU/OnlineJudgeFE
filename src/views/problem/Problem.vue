@@ -4,7 +4,7 @@
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item prop="_id" label="Display ID">
+            <el-form-item prop="_id" label="Display ID" :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contet-problem'">
               <el-input placeholder="Display ID" v-model="problem._id"></el-input>
             </el-form-item>
           </el-col>
@@ -330,7 +330,7 @@
           for (let item of allLanguage.languages) {
             this.problem.languages.push(item.name)
           }
-          if (this.$routeName === 'create-contest-problem') {
+          if (this.routeName === 'create-contest-problem') {
             this.problem.contest_id = this.$route.params.contestId
             this.disableRuleType = true
           }

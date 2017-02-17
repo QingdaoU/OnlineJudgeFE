@@ -56,10 +56,14 @@
 </template>
 
 <script>
+  import Simditor from '../../components/Simditor.vue'
   import api from '../../api.js'
 
   export default {
     name: 'Announcement',
+    components: {
+      Simditor
+    },
     data () {
       return {
         showEditAnnouncementDialog: false,

@@ -172,7 +172,7 @@ export default {
     })
   },
   getContestAnnouncementList (contestId) {
-    return ajax('contest/announcement', 'get', {
+    return ajax('admin/contest/announcement', 'get', {
       options: {
         params: {
           contest_id: contestId
@@ -227,14 +227,29 @@ export default {
       }
     })
   },
+  getContestProblemList (offset, limit, keyword, contestId) {
+    let params = {paging: true, offset, limit, contest_id: contestId}
+    if (keyword) {
+      params.keyword = keyword
+    }
+    return ajax('admin/contest/problem', 'get', {
+      options: {
+        params: params
+      }
+    })
+  },
   getContestProblem (id) {
-    // todo fixme
-    return ajax('admin/problem', 'get', {
+    return ajax('admin/contest/problem', 'get', {
       options: {
         params: {
           id
         }
       }
+    })
+  },
+  createContestProblem (body) {
+    return ajax('admin/contest/problem', 'post', {
+      body
     })
   },
   editContestProblem (body) {

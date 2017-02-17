@@ -47,7 +47,7 @@
           label="Operation"
           width="180">
             <div>
-              <icon-btn name="Edit" icon="edit"></icon-btn>
+              <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
               <icon-btn name="Submission" icon="code"></icon-btn>
             </div>
         </el-table-column>
@@ -77,10 +77,14 @@
         problemList: [],
         keyword: '',
         loading: false,
-        currentPage: 0
+        currentPage: 0,
+        routeName: '',
+        contestId: ''
       }
     },
     mounted () {
+      this.routeName = this.$route.name
+      this.contestId = this.$route.params.contestId
       this.getProblemList()
     },
     activated () {
@@ -90,7 +94,11 @@
     },
     methods: {
       goEdit (problemId) {
-        this.$router.push({name: 'edit-problem', params: {problemId}})
+        if (this.routeName === 'problem-list') {
+          this.$router.push({name: 'edit-problem', params: {problemId}})
+        } else if (this.routeName === 'contest-problem-list') {
+          this.$router.push({name: 'edit-contest-problem', params: {problemId: problemId, contestId: this.contestId}})
+        }
       },
       // 切换页码回调
       currentChange (page) {
@@ -99,7 +107,8 @@
       },
       getProblemList (page = 1) {
         this.loading = true
-        api.getProblemList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
+        let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
+        api[funcName]((page - 1) * this.pageSize, this.pageSize, this.keyword, this.contestId).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.problemList = res.data.data.results

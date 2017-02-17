@@ -105,7 +105,7 @@
       if (this.$route.name === 'edit-contest') {
         this.title = 'Edit Contest'
         this.disableRuleType = true
-        api.getContest(this.$route.params.id).then(res => {
+        api.getContest(this.$route.params.contestId).then(res => {
           let data = res.data.data
           data.start_time = backendDatetimeToISOFormat(data.start_time)
           data.end_time = backendDatetimeToISOFormat(data.end_time)
