@@ -86,7 +86,7 @@
         currentPage: 1
       }
     },
-    activated () {
+    mounted () {
       this.getContestList(this.currentPage)
     },
     methods: {
