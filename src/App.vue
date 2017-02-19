@@ -4,9 +4,7 @@
       <SideMenu></SideMenu>
     </div>
     <div class="content-app">
-      <keep-alive include="ContestList,ProblemList">
-        <router-view></router-view>
-      </keep-alive>
+      <router-view></router-view>
       <div class="footer">
         Build Version: {{ version }}
       </div>
