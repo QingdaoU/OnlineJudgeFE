@@ -1,5 +1,16 @@
 <template>
   <div class="problem">
+    <Panel title="Import Problem" v-if="mode == 'add'">
+      <el-upload
+        action="/api/admin/test_case/upload"
+        name="file"
+        :data="{spj: problem.spj}"
+        :show-upload-list="false"
+        :on-success="uploadSucceeded"
+        :on-error="uploadFailed">
+        <el-button size="small" type="primary">Choose File</el-button>
+      </el-upload>
+    </Panel>
     <Panel :title="title">
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
@@ -277,6 +288,11 @@
     },
     mounted () {
       this.routeName = this.$route.name
+      if (this.routeName === 'edit-problem' || this.routeName === 'edit-contest-problem') {
+        this.mode = 'edit'
+      } else {
+        this.mode = 'add'
+      }
       api.getLanguages().then(res => {
         this.problem = this.reProblem = {
           _id: '',
@@ -308,7 +324,7 @@
         this.allLanguage = allLanguage
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
-        if (this.routeName === 'edit-problem' || this.routeName === 'edit-contest-problem') {
+        if (this.mode === 'edit') {
           let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           this.title = 'Edit Problem'
           api[funcName](this.$route.params.problemId).then(problemRes => {
