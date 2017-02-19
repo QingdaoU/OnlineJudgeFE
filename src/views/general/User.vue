@@ -207,6 +207,13 @@ export default{
   watch: {
     'keyword' () {
       this.currentChange(1)
+    },
+    'user.admin_type' () {
+      if (this.user.admin_type === 'Super Admin') {
+        this.user.problem_permission = 'All'
+      } else if (this.user.admin_type === 'Regular User') {
+        this.user.problem_permission = 'None'
+      }
     }
   }
 }
