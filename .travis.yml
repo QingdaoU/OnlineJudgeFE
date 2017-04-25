@@ -4,6 +4,7 @@ node_js:
 env:
   - CXX=g++-4.8
 script:
+  - cd admin
   - npm install
   - npm run build
 addons:
