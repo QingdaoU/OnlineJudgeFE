@@ -25,12 +25,21 @@ Vue.http.interceptors.push((request, next) => {
 export default {
   // 登录
   login(username, password) {
-    return ajax('/api/login', 'post', {
-      options: {
-        params: {
-          username,
-          password
-        }
+    return ajax('login', 'post', {
+      body: {
+        username,
+        password
+      }
+    })
+  },
+  // 注册
+  register(username, email, password, captcha) {
+    return ajax('register', 'post', {
+      body: {
+        username,
+        email,
+        password,
+        captcha
       }
     })
   },
@@ -289,7 +298,7 @@ export default {
  */
 
 function ajax(url, type, options) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     options = options || {}
     if (options.body === undefined) {
       options.body = options.options

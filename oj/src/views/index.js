@@ -8,8 +8,9 @@ import ContestList from './contest/ContestList.vue'
 import Contest from './contest/Contest.vue'
 import ContestAnnouncement from './contest/Announcement.vue'
 import Login from './user/Login.vue'
+import Register from './user/Register.vue'
 
 export {
   Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest,
-  ContestList, ContestAnnouncement, Login
+  ContestList, ContestAnnouncement, Login, Register
 }
