@@ -27,12 +27,17 @@ Vue.component(Cancel.name, Cancel)
 
 // 引入 view 组件
 import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,
-  ContestAnnouncement, ProblemList } from './views'
+  ContestAnnouncement, ProblemList, Login } from './views'
 
 const router = new VueRouter({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
     {
       path: '/announcement',
       name: 'announcement',

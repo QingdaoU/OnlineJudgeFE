@@ -5,7 +5,7 @@ Vue.use(VueResource)
 Vue.http.options.root = '/api'
 Vue.http.options.emulateJSON = false
 
-function getCookie (name) {
+function getCookie(name) {
   let allCookies = document.cookie.split('; ')
   for (let i = 0; i < allCookies.length; i++) {
     let cookie = allCookies[i].split('=')
@@ -24,8 +24,8 @@ Vue.http.interceptors.push((request, next) => {
 
 export default {
   // 登录
-  login (username, password) {
-    return ajax('login', 'get', {
+  login(username, password) {
+    return ajax('/api/login', 'post', {
       options: {
         params: {
           username,
@@ -35,7 +35,7 @@ export default {
     })
   },
   // 获取公告列表
-  getAnnouncementList (offset, limit) {
+  getAnnouncementList(offset, limit) {
     return ajax('admin/announcement', 'get', {
       options: {
         params: {
@@ -47,7 +47,7 @@ export default {
     })
   },
   // 删除公告
-  deleteAnnouncement (id) {
+  deleteAnnouncement(id) {
     return ajax('admin/announcement', 'delete', {
       options: {
         params: {
@@ -57,7 +57,7 @@ export default {
     })
   },
   // 修改公告
-  modifyAnnouncement (id, title, content, visible) {
+  modifyAnnouncement(id, title, content, visible) {
     return ajax('admin/announcement', 'put', {
       body: {
         id,
@@ -68,7 +68,7 @@ export default {
     })
   },
   // 添加公告
-  createAnnouncement (title, content, visible) {
+  createAnnouncement(title, content, visible) {
     return ajax('admin/announcement', 'post', {
       body: {
         title,
@@ -78,8 +78,12 @@ export default {
     })
   },
   // 获取用户列表
-  getUserList (offset, limit, keyword) {
-    let params = {paging: true, offset, limit}
+  getUserList(offset, limit, keyword) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
     if (keyword) {
       params.keyword = keyword
     }
@@ -90,7 +94,7 @@ export default {
     })
   },
   // 获取单个用户信息
-  getUser (id) {
+  getUser(id) {
     return ajax('admin/user', 'get', {
       options: {
         params: {
@@ -100,39 +104,39 @@ export default {
     })
   },
   // 编辑用户
-  editUser (body) {
+  editUser(body) {
     return ajax('admin/user', 'put', {
       body
     })
   },
-  getLanguages () {
+  getLanguages() {
     return ajax('languages', 'get')
   },
-  getSMTPConfig () {
+  getSMTPConfig() {
     return ajax('admin/smtp', 'get')
   },
-  createSMTPConfig (body) {
+  createSMTPConfig(body) {
     return ajax('admin/smtp', 'post', {
       body
     })
   },
-  editSMTPConfig (body) {
+  editSMTPConfig(body) {
     return ajax('admin/smtp', 'put', {
       body
     })
   },
-  getWebsiteConfig () {
+  getWebsiteConfig() {
     return ajax('admin/website', 'get')
   },
-  editWebsiteConfig (config) {
+  editWebsiteConfig(config) {
     return ajax('admin/website', 'post', {
       body: config
     })
   },
-  getJudgeServer () {
+  getJudgeServer() {
     return ajax('admin/judge_server', 'get')
   },
-  deleteJudgeServer (hostname) {
+  deleteJudgeServer(hostname) {
     return ajax('admin/judge_server', 'delete', {
       options: {
         params: {
@@ -141,12 +145,12 @@ export default {
       }
     })
   },
-  createContest (body) {
+  createContest(body) {
     return ajax('admin/contest', 'post', {
       body: body
     })
   },
-  getContest (id) {
+  getContest(id) {
     return ajax('admin/contest', 'get', {
       options: {
         params: {
@@ -155,13 +159,17 @@ export default {
       }
     })
   },
-  editContest (body) {
+  editContest(body) {
     return ajax('admin/contest', 'put', {
       body
     })
   },
-  getContestList (offset, limit, keyword) {
-    let params = {paging: true, offset, limit}
+  getContestList(offset, limit, keyword) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
     if (keyword) {
       params.keyword = keyword
     }
@@ -171,7 +179,7 @@ export default {
       }
     })
   },
-  getContestAnnouncementList (contestId) {
+  getContestAnnouncementList(contestId) {
     return ajax('admin/contest/announcement', 'get', {
       options: {
         params: {
@@ -180,12 +188,12 @@ export default {
       }
     })
   },
-  createContestAnnouncement (body) {
+  createContestAnnouncement(body) {
     return ajax('admin/contest/announcement', 'post', {
       body
     })
   },
-  deleteContestAnnouncement (id) {
+  deleteContestAnnouncement(id) {
     return ajax('admin/contest/announcement', 'delete', {
       options: {
         params: {
@@ -194,20 +202,20 @@ export default {
       }
     })
   },
-  getProblemTagList () {
+  getProblemTagList() {
     return ajax('problem/tags', 'get')
   },
-  createProblem (body) {
+  createProblem(body) {
     return ajax('admin/problem', 'post', {
       body
     })
   },
-  editProblem (body) {
+  editProblem(body) {
     return ajax('admin/problem', 'put', {
       body
     })
   },
-  getProblem (id) {
+  getProblem(id) {
     return ajax('admin/problem', 'get', {
       options: {
         params: {
@@ -216,8 +224,12 @@ export default {
       }
     })
   },
-  getProblemList (offset, limit, keyword) {
-    let params = {paging: true, offset, limit}
+  getProblemList(offset, limit, keyword) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
     if (keyword) {
       params.keyword = keyword
     }
@@ -227,8 +239,13 @@ export default {
       }
     })
   },
-  getContestProblemList (offset, limit, keyword, contestId) {
-    let params = {paging: true, offset, limit, contest_id: contestId}
+  getContestProblemList(offset, limit, keyword, contestId) {
+    let params = {
+      paging: true,
+      offset,
+      limit,
+      contest_id: contestId
+    }
     if (keyword) {
       params.keyword = keyword
     }
@@ -238,7 +255,7 @@ export default {
       }
     })
   },
-  getContestProblem (id) {
+  getContestProblem(id) {
     return ajax('admin/contest/problem', 'get', {
       options: {
         params: {
@@ -247,12 +264,12 @@ export default {
       }
     })
   },
-  createContestProblem (body) {
+  createContestProblem(body) {
     return ajax('admin/contest/problem', 'post', {
       body
     })
   },
-  editContestProblem (body) {
+  editContestProblem(body) {
     return ajax('admin/contest/problem', 'put', {
       body
     })
@@ -271,8 +288,8 @@ export default {
  @return Promise
  */
 
-function ajax (url, type, options) {
-  return new Promise(function (resolve, reject) {
+function ajax(url, type, options) {
+  return new Promise(function(resolve, reject) {
     options = options || {}
     if (options.body === undefined) {
       options.body = options.options
