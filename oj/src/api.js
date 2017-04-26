@@ -289,7 +289,7 @@ export default {
  */
 
 function ajax(url, type, options) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     options = options || {}
     if (options.body === undefined) {
       options.body = options.options
