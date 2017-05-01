@@ -26,8 +26,10 @@ Vue.component(Save.name, Save)
 Vue.component(Cancel.name, Cancel)
 
 // 引入 view 组件
-import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,
-  ContestAnnouncement, ProblemList, Login } from './views'
+import {
+  Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,
+  ContestAnnouncement, ProblemList, Login
+} from './views'
 
 const router = new VueRouter({
   mode: 'history',
@@ -64,13 +66,8 @@ const router = new VueRouter({
       component: ProblemList
     },
     {
-      path: '/problem/create',
-      name: 'create-problem',
-      component: Problem
-    },
-    {
-      path: '/problem/edit/:problemId',
-      name: 'edit-problem',
+      path: '/problem/:problemId',
+      name: 'problem-details',
       component: Problem
     },
     {
@@ -115,18 +112,18 @@ const router = new VueRouter({
 })
 
 Vue.prototype.$error = (msg) => {
-  Vue.prototype.$message({'message': msg, 'type': 'error'})
+  Vue.prototype.$message({ 'message': msg, 'type': 'error' })
 }
 
 Vue.prototype.$alert = (msg) => {
-  Vue.prototype.$message({'message': msg, 'type': 'info'})
+  Vue.prototype.$message({ 'message': msg, 'type': 'info' })
 }
 
 Vue.prototype.$success = (msg) => {
   if (!msg) {
-    Vue.prototype.$message({'message': 'Succeeded', 'type': 'success'})
+    Vue.prototype.$message({ 'message': 'Succeeded', 'type': 'success' })
   } else {
-    Vue.prototype.$message({'message': msg, 'type': 'success'})
+    Vue.prototype.$message({ 'message': msg, 'type': 'success' })
   }
 }
 

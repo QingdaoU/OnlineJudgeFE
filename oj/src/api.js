@@ -24,8 +24,8 @@ Vue.http.interceptors.push((request, next) => {
 
 export default {
   // 登录
-  login(username, password) {
-    return ajax('/api/login', 'post', {
+  devLogin(username, password) {
+    return ajax('/api/login', 'get', {
       options: {
         params: {
           username,
@@ -36,7 +36,7 @@ export default {
   },
   // 获取公告列表
   getAnnouncementList(offset, limit) {
-    return ajax('admin/announcement', 'get', {
+    return ajax('announcement', 'get', {
       options: {
         params: {
           paging: true,
@@ -48,7 +48,7 @@ export default {
   },
   // 删除公告
   deleteAnnouncement(id) {
-    return ajax('admin/announcement', 'delete', {
+    return ajax('announcement', 'delete', {
       options: {
         params: {
           id
@@ -58,7 +58,7 @@ export default {
   },
   // 修改公告
   modifyAnnouncement(id, title, content, visible) {
-    return ajax('admin/announcement', 'put', {
+    return ajax('announcement', 'put', {
       body: {
         id,
         title,
@@ -69,7 +69,7 @@ export default {
   },
   // 添加公告
   createAnnouncement(title, content, visible) {
-    return ajax('admin/announcement', 'post', {
+    return ajax('announcement', 'post', {
       body: {
         title,
         content,
@@ -87,7 +87,7 @@ export default {
     if (keyword) {
       params.keyword = keyword
     }
-    return ajax('admin/user', 'get', {
+    return ajax('user', 'get', {
       options: {
         params: params
       }
@@ -95,7 +95,7 @@ export default {
   },
   // 获取单个用户信息
   getUser(id) {
-    return ajax('admin/user', 'get', {
+    return ajax('user', 'get', {
       options: {
         params: {
           id
@@ -105,7 +105,7 @@ export default {
   },
   // 编辑用户
   editUser(body) {
-    return ajax('admin/user', 'put', {
+    return ajax('user', 'put', {
       body
     })
   },
@@ -113,31 +113,31 @@ export default {
     return ajax('languages', 'get')
   },
   getSMTPConfig() {
-    return ajax('admin/smtp', 'get')
+    return ajax('smtp', 'get')
   },
   createSMTPConfig(body) {
-    return ajax('admin/smtp', 'post', {
+    return ajax('smtp', 'post', {
       body
     })
   },
   editSMTPConfig(body) {
-    return ajax('admin/smtp', 'put', {
+    return ajax('smtp', 'put', {
       body
     })
   },
   getWebsiteConfig() {
-    return ajax('admin/website', 'get')
+    return ajax('website', 'get')
   },
   editWebsiteConfig(config) {
-    return ajax('admin/website', 'post', {
+    return ajax('website', 'post', {
       body: config
     })
   },
   getJudgeServer() {
-    return ajax('admin/judge_server', 'get')
+    return ajax('judge_server', 'get')
   },
   deleteJudgeServer(hostname) {
-    return ajax('admin/judge_server', 'delete', {
+    return ajax('judge_server', 'delete', {
       options: {
         params: {
           hostname: hostname
@@ -146,12 +146,12 @@ export default {
     })
   },
   createContest(body) {
-    return ajax('admin/contest', 'post', {
+    return ajax('contest', 'post', {
       body: body
     })
   },
   getContest(id) {
-    return ajax('admin/contest', 'get', {
+    return ajax('contest', 'get', {
       options: {
         params: {
           id
@@ -160,7 +160,7 @@ export default {
     })
   },
   editContest(body) {
-    return ajax('admin/contest', 'put', {
+    return ajax('contest', 'put', {
       body
     })
   },
@@ -173,14 +173,14 @@ export default {
     if (keyword) {
       params.keyword = keyword
     }
-    return ajax('admin/contest', 'get', {
+    return ajax('contest', 'get', {
       options: {
         params: params
       }
     })
   },
   getContestAnnouncementList(contestId) {
-    return ajax('admin/contest/announcement', 'get', {
+    return ajax('contest/announcement', 'get', {
       options: {
         params: {
           contest_id: contestId
@@ -189,12 +189,12 @@ export default {
     })
   },
   createContestAnnouncement(body) {
-    return ajax('admin/contest/announcement', 'post', {
+    return ajax('contest/announcement', 'post', {
       body
     })
   },
   deleteContestAnnouncement(id) {
-    return ajax('admin/contest/announcement', 'delete', {
+    return ajax('contest/announcement', 'delete', {
       options: {
         params: {
           id
@@ -206,17 +206,17 @@ export default {
     return ajax('problem/tags', 'get')
   },
   createProblem(body) {
-    return ajax('admin/problem', 'post', {
+    return ajax('problem', 'post', {
       body
     })
   },
   editProblem(body) {
-    return ajax('admin/problem', 'put', {
+    return ajax('problem', 'put', {
       body
     })
   },
   getProblem(id) {
-    return ajax('admin/problem', 'get', {
+    return ajax('problem', 'get', {
       options: {
         params: {
           id
@@ -224,39 +224,43 @@ export default {
       }
     })
   },
-  getProblemList(offset, limit, keyword) {
+  getProblemList(offset, limit, searchParams) {
     let params = {
       paging: true,
       offset,
       limit
     }
-    if (keyword) {
-      params.keyword = keyword
-    }
-    return ajax('admin/problem', 'get', {
+    Object.keys(searchParams).forEach((element) => {
+      if (searchParams[element]) {
+        params[element] = searchParams[element]
+      }
+    })
+    return ajax('problems', 'get', {
       options: {
         params: params
       }
     })
   },
-  getContestProblemList(offset, limit, keyword, contestId) {
+  getContestProblemList(offset, limit, searchParams, contestId) {
     let params = {
       paging: true,
       offset,
       limit,
       contest_id: contestId
     }
-    if (keyword) {
-      params.keyword = keyword
-    }
-    return ajax('admin/contest/problem', 'get', {
+    Object.keys(searchParams).forEach((element) => {
+      if (searchParams[element]) {
+        params[element] = searchParams[element]
+      }
+    })
+    return ajax('contest/problem', 'get', {
       options: {
         params: params
       }
     })
   },
   getContestProblem(id) {
-    return ajax('admin/contest/problem', 'get', {
+    return ajax('contest/problem', 'get', {
       options: {
         params: {
           id
@@ -265,12 +269,12 @@ export default {
     })
   },
   createContestProblem(body) {
-    return ajax('admin/contest/problem', 'post', {
+    return ajax('contest/problem', 'post', {
       body
     })
   },
   editContestProblem(body) {
-    return ajax('admin/contest/problem', 'put', {
+    return ajax('contest/problem', 'put', {
       body
     })
   }
