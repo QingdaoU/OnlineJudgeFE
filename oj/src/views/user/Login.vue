@@ -45,6 +45,8 @@ export default {
       api.login(this.formLabelAlign.username, this.formLabelAlign.password).then(function(res) {
         console.log(res)
       })
+      // 不会自动刷新 header
+      this.$router.replace({ path: '/' })
     }
   }
 }

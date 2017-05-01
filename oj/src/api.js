@@ -43,6 +43,56 @@ export default {
       }
     })
   },
+  logout() {
+    return ajax('logout', 'get', {
+      options: {
+        params: {
+
+        }
+      }
+    })
+  },
+  // 获取自身信息
+  getMyInfo() {
+    return ajax('account/profile', 'get', {
+      options: {
+        params: {
+
+        }
+      }
+    })
+  },
+  // 获取用户信息
+  getUserInfo(username) {
+    return ajax('account/user/' + username, 'get', {
+      options: {
+        params: {
+
+        }
+      }
+    })
+  },
+  // 保存用户资料设置
+  editProfileSetting(profile) {
+    return ajax('account/profile', 'put', {
+      body: {
+        blog: profile.blog,
+        mood: profile.mood,
+        school: profile.school,
+        student_id: profile.student_id,
+        phone_number: profile.phone_number,
+        major: profile.major
+      }
+    })
+  },
+  // 修改用户头像
+  editAvatarSetting(avatar) {
+    return ajax('account/profile', 'put', {
+      body: {
+        avatar: avatar
+      }
+    })
+  },
   // 获取公告列表
   getAnnouncementList(offset, limit) {
     return ajax('admin/announcement', 'get', {
