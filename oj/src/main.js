@@ -71,13 +71,8 @@ const router = new VueRouter({
       component: ProblemList
     },
     {
-      path: '/problem/create',
-      name: 'create-problem',
-      component: Problem
-    },
-    {
-      path: '/problem/edit/:problemId',
-      name: 'edit-problem',
+      path: '/problem/:problemId',
+      name: 'problem-details',
       component: Problem
     },
     {
@@ -122,18 +117,18 @@ const router = new VueRouter({
 })
 
 Vue.prototype.$error = (msg) => {
-  Vue.prototype.$message({'message': msg, 'type': 'error'})
+  Vue.prototype.$message({ 'message': msg, 'type': 'error' })
 }
 
 Vue.prototype.$alert = (msg) => {
-  Vue.prototype.$message({'message': msg, 'type': 'info'})
+  Vue.prototype.$message({ 'message': msg, 'type': 'info' })
 }
 
 Vue.prototype.$success = (msg) => {
   if (!msg) {
-    Vue.prototype.$message({'message': 'Succeeded', 'type': 'success'})
+    Vue.prototype.$message({ 'message': 'Succeeded', 'type': 'success' })
   } else {
-    Vue.prototype.$message({'message': msg, 'type': 'success'})
+    Vue.prototype.$message({ 'message': msg, 'type': 'success' })
   }
 }
 
