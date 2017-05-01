@@ -26,7 +26,7 @@ Vue.component(Save.name, Save)
 Vue.component(Cancel.name, Cancel)
 
 // 引入 view 组件
-import { Announcement, User, Conf, JudgeServer, Problem, Contest, ContestList,
+import { Problem, Contest, ContestList,
   ContestAnnouncement, ProblemList, Login, Register, Logout, Profile,
   ProfileSetting, AvatarSetting } from './views'
 
@@ -65,26 +65,6 @@ const router = new VueRouter({
       component: AvatarSetting
     },
     // 隔开
-    {
-      path: '/announcement',
-      name: 'announcement',
-      component: Announcement
-    },
-    {
-      path: '/user',
-      name: 'user',
-      component: User
-    },
-    {
-      path: '/conf',
-      name: 'conf',
-      component: Conf
-    },
-    {
-      path: '/judge-server',
-      name: 'judge-server',
-      component: JudgeServer
-    },
     {
       path: '/problems',
       name: 'problem-list',
@@ -136,7 +116,7 @@ const router = new VueRouter({
       component: Problem
     },
     {
-      path: '*', redirect: '/announcement'
+      path: '*', redirect: '/problems'
     }
   ]
 })
