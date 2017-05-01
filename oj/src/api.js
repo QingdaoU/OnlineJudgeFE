@@ -24,6 +24,34 @@ Vue.http.interceptors.push((request, next) => {
 
 export default {
   // 登录
+  login(username, password) {
+    return ajax('login', 'post', {
+      body: {
+        username,
+        password
+      }
+    })
+  },
+  // 注册
+  register(username, email, password, captcha) {
+    return ajax('register', 'post', {
+      body: {
+        username,
+        email,
+        password,
+        captcha
+      }
+    })
+  },
+  logout() {
+    return ajax('logout', 'get', {
+      options: {
+        params: {
+
+        }
+      }
+    })
+  },
   devLogin(username, password) {
     return ajax('/api/login', 'get', {
       options: {
@@ -34,79 +62,45 @@ export default {
       }
     })
   },
-  // 获取公告列表
-  getAnnouncementList(offset, limit) {
-    return ajax('announcement', 'get', {
+  // 获取自身信息
+  getMyInfo() {
+    return ajax('account/profile', 'get', {
       options: {
         params: {
-          paging: true,
-          offset,
-          limit
+
         }
       }
     })
   },
-  // 删除公告
-  deleteAnnouncement(id) {
-    return ajax('announcement', 'delete', {
+  // 获取用户信息
+  getUserInfo(username) {
+    return ajax('account/user/' + username, 'get', {
       options: {
         params: {
-          id
+
         }
       }
     })
   },
-  // 修改公告
-  modifyAnnouncement(id, title, content, visible) {
-    return ajax('announcement', 'put', {
+  // 保存用户资料设置
+  editProfileSetting(profile) {
+    return ajax('account/profile', 'put', {
       body: {
-        id,
-        title,
-        content,
-        visible
+        blog: profile.blog,
+        mood: profile.mood,
+        school: profile.school,
+        student_id: profile.student_id,
+        phone_number: profile.phone_number,
+        major: profile.major
       }
     })
   },
-  // 添加公告
-  createAnnouncement(title, content, visible) {
-    return ajax('announcement', 'post', {
+  // 修改用户头像
+  editAvatarSetting(avatar) {
+    return ajax('account/profile', 'put', {
       body: {
-        title,
-        content,
-        visible
+        avatar: avatar
       }
-    })
-  },
-  // 获取用户列表
-  getUserList(offset, limit, keyword) {
-    let params = {
-      paging: true,
-      offset,
-      limit
-    }
-    if (keyword) {
-      params.keyword = keyword
-    }
-    return ajax('user', 'get', {
-      options: {
-        params: params
-      }
-    })
-  },
-  // 获取单个用户信息
-  getUser(id) {
-    return ajax('user', 'get', {
-      options: {
-        params: {
-          id
-        }
-      }
-    })
-  },
-  // 编辑用户
-  editUser(body) {
-    return ajax('user', 'put', {
-      body
     })
   },
   getLanguages() {
@@ -293,7 +287,7 @@ export default {
  */
 
 function ajax(url, type, options) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     options = options || {}
     if (options.body === undefined) {
       options.body = options.options

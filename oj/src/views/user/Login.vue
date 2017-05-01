@@ -8,14 +8,14 @@
 
     <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
       <el-form-item label="账号">
-        <el-input v-model="formLabelAlign.name"></el-input>
+        <el-input v-model="formLabelAlign.username"></el-input>
       </el-form-item>
       <el-form-item label="密码">
         <el-input v-model="formLabelAlign.password" type="password"></el-input>
       </el-form-item>
-      <el-form-item label="二次验证">
+      <!-- <el-form-item label="二次验证">
         <el-input v-model="formLabelAlign.totp"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" @click="onSubmit">立即登录</el-button>
         <el-button>用户注册</el-button>
@@ -34,18 +34,19 @@ export default {
     return {
       labelPosition: 'top',
       formLabelAlign: {
-        name: '',
-        region: '',
-        type: ''
+        username: '',
+        password: ''
       }
     }
   },
   methods: {
     onSubmit() {
       console.log('submit!')
-      api.login(this.formLabelAlign.name, this.formLabelAlign.password).then(function (res) {
+      api.login(this.formLabelAlign.username, this.formLabelAlign.password).then(function(res) {
         console.log(res)
       })
+      // 不会自动刷新 header
+      this.$router.replace({ path: '/' })
     }
   }
 }
