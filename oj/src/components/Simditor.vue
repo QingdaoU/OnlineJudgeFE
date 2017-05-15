@@ -1,5 +1,6 @@
 <template>
-  <textarea ref="editor"></textarea>
+  <textarea ref="editor">
+  </textarea>
 </template>
 
 <script>
@@ -19,13 +20,13 @@ export default {
       default: ''
     }
   },
-  data () {
+  data() {
     return {
       editor: null,
       currentValue: this.value
     }
   },
-  mounted () {
+  mounted() {
     Simditor.locale = 'en-US'
     this.editor = new Simditor({
       textarea: this.$refs.editor,
@@ -46,13 +47,13 @@ export default {
     this.editor.setValue(this.value)
   },
   watch: {
-    'value' (val) {
+    'value'(val) {
       if (this.currentValue !== val) {
         this.currentValue = val
         this.editor.setValue(val)
       }
     },
-    'currentValue' (newVal, oldVal) {
+    'currentValue'(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.$emit('change', newVal)
         this.$emit('input', newVal)
@@ -63,4 +64,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 </style>

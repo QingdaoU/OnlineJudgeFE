@@ -71,7 +71,7 @@ const router = new VueRouter({
       component: ProblemList
     },
     {
-      path: '/problem/:problemId',
+      path: '/problem/:id',
       name: 'problem-details',
       component: Problem
     },

@@ -23,7 +23,17 @@ Vue.http.interceptors.push((request, next) => {
 })
 
 export default {
-  // 登录
+  // 开发用简易登录
+  devLogin(username, password) {
+    return ajax('/api/login', 'get', {
+      options: {
+        params: {
+          username,
+          password
+        }
+      }
+    })
+  },
   login(username, password) {
     return ajax('login', 'post', {
       body: {
@@ -52,16 +62,7 @@ export default {
       }
     })
   },
-  devLogin(username, password) {
-    return ajax('/api/login', 'get', {
-      options: {
-        params: {
-          username,
-          password
-        }
-      }
-    })
-  },
+
   // 获取自身信息
   getMyInfo() {
     return ajax('account/profile', 'get', {
@@ -106,43 +107,8 @@ export default {
   getLanguages() {
     return ajax('languages', 'get')
   },
-  getSMTPConfig() {
-    return ajax('smtp', 'get')
-  },
-  createSMTPConfig(body) {
-    return ajax('smtp', 'post', {
-      body
-    })
-  },
-  editSMTPConfig(body) {
-    return ajax('smtp', 'put', {
-      body
-    })
-  },
-  getWebsiteConfig() {
-    return ajax('website', 'get')
-  },
-  editWebsiteConfig(config) {
-    return ajax('website', 'post', {
-      body: config
-    })
-  },
   getJudgeServer() {
     return ajax('judge_server', 'get')
-  },
-  deleteJudgeServer(hostname) {
-    return ajax('judge_server', 'delete', {
-      options: {
-        params: {
-          hostname: hostname
-        }
-      }
-    })
-  },
-  createContest(body) {
-    return ajax('contest', 'post', {
-      body: body
-    })
   },
   getContest(id) {
     return ajax('contest', 'get', {
@@ -151,11 +117,6 @@ export default {
           id
         }
       }
-    })
-  },
-  editContest(body) {
-    return ajax('contest', 'put', {
-      body
     })
   },
   getContestList(offset, limit, keyword) {
@@ -199,18 +160,8 @@ export default {
   getProblemTagList() {
     return ajax('problem/tags', 'get')
   },
-  createProblem(body) {
-    return ajax('problem', 'post', {
-      body
-    })
-  },
-  editProblem(body) {
-    return ajax('problem', 'put', {
-      body
-    })
-  },
   getProblem(id) {
-    return ajax('problem', 'get', {
+    return ajax('problems', 'get', {
       options: {
         params: {
           id

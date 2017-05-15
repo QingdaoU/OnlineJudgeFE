@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column label="Title">
           <template scope="scope">
-            <router-link :to="{name: 'problem-details', params: {problemId: scope.row.id}}">{{ scope.row.title}}</router-link>
+            <router-link :to="{name: 'problem-details', params: {id: scope.row.id}}">{{ scope.row.title}}</router-link>
           </template>
         </el-table-column>
         <el-table-column prop="difficulty" label="Difficulty" width="100">
@@ -151,7 +151,7 @@ export default {
 }
 a {
   text-decoration: None;
-  color: #4187d6;
+  color: #1D8CE0;
 }
 .pagination {
   float: right;

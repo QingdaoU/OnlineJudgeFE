@@ -22,7 +22,7 @@
         required: true
       }
     },
-    data () {
+    data() {
       return {
         isOpen: true
       }
