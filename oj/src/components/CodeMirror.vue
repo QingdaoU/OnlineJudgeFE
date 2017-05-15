@@ -1,21 +1,25 @@
 <template>
-  <div style="margin-top: 30px">
-    <div class="header">
-      <span>
-        Language:
-        <el-select v-model="lang" @change="onLangChange">
-          <el-option v-for="item in languages" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </span>
-      <span style="float: right">
-        Theme:
-        <el-select v-model="theme" @change="onThemeChange">
-          <el-option v-for="item in themes" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </span>
-    </div>
+  <div style="margin: 25px 0px">
+    <el-row class="header">
+      <el-col :span=12>
+        <span>
+          Language:
+          <el-select v-model="lang" @change="onLangChange">
+            <el-option v-for="item in languages" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </span>
+      </el-col>
+      <el-col :span=12>
+        <span style="float: right">
+          Theme:
+          <el-select v-model="theme" @change="onThemeChange">
+            <el-option v-for="item in themes" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </span>
+      </el-col>
+    </el-row>
     <codemirror :code="currentValue" :options="options" @change="onEditorCodeChange" ref="myEditor">
     </codemirror>
   </div>

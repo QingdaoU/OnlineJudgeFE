@@ -6,12 +6,12 @@
           <ul>
             <li>
               <span>Time Limit:
-                <strong>{{problem.time_limit}}</strong>
+                <strong>{{problem.time_limit}}ms</strong>
               </span>
             </li>
             <li>
               <span>Memory Limit:
-                <strong>{{problem.memory_limit}}</strong>
+                <strong>{{problem.memory_limit}}MB</strong>
               </span>
             </li>
             <li>
@@ -65,9 +65,10 @@
         </div>
   
         <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
+        <span>Result</span>
+        <el-button type="warning" class="fl-right" @click="submitCode"> Submit </el-button>
       </el-col>
       <!--problem main end-->
-    </el-col>
     </el-col>
   </el-row>
 </template>
@@ -108,8 +109,7 @@ export default {
     },
     onChangeLang(newLang) {
       this.language = newLang
-      console.log(newLang)
-    }
+    },
   }
 }
 </script>
@@ -136,6 +136,10 @@ hr {
   margin: 20px 5px;
   border: 0;
   border-top: 1px solid #eee;
+}
+
+.fl-right {
+  float: right;
 }
 </style>
 
