@@ -143,20 +143,6 @@ export default {
       }
     })
   },
-  createContestAnnouncement(body) {
-    return ajax('contest/announcement', 'post', {
-      body
-    })
-  },
-  deleteContestAnnouncement(id) {
-    return ajax('contest/announcement', 'delete', {
-      options: {
-        params: {
-          id
-        }
-      }
-    })
-  },
   getProblemTagList() {
     return ajax('problem/tags', 'get')
   },
@@ -221,6 +207,24 @@ export default {
   editContestProblem(body) {
     return ajax('contest/problem', 'put', {
       body
+    })
+  },
+  submitCode(problemId, language, code) {
+    return ajax('submission', 'post', {
+      body: {
+        problem_id: problemId,
+        language,
+        code
+      }
+    })
+  },
+  getSubmission(id) {
+    return ajax('submission', 'get', {
+      options: {
+        params: {
+          id
+        }
+      }
     })
   }
 }

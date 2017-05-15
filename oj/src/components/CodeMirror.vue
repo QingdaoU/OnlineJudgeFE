@@ -13,7 +13,7 @@
       <el-col :span=12>
         <span style="float: right">
           Theme:
-          <el-select v-model="theme" @change="onThemeChange">
+          <el-select v-model="options.theme">
             <el-option v-for="item in themes" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -40,12 +40,11 @@ import 'codemirror/mode/python/python.js'
 // active-line.js
 import 'codemirror/addon/selection/active-line.js'
 
-// // foldGutter
-// import 'codemirror/addon/fold/foldgutter.css'
-// import 'codemirror/addon/fold/brace-fold.js'
-// import 'codemirror/addon/fold/foldcode.js'
-// import 'codemirror/addon/fold/foldgutter.js'
-// import 'codemirror/addon/fold/indent-fold.js'
+// foldGutter
+import 'codemirror/addon/fold/foldgutter.css'
+import 'codemirror/addon/fold/foldgutter.js'
+import 'codemirror/addon/fold/brace-fold.js'
+import 'codemirror/addon/fold/indent-fold.js'
 
 export default {
   name: 'CodeMirror',
@@ -60,7 +59,7 @@ export default {
     languages: {
       type: Array,
       default: () => {
-        return ['C', 'C++', 'Java', 'Python']
+        return ['C', 'C++', 'Java', 'Python2']
       }
     }
   },
@@ -68,7 +67,6 @@ export default {
     return {
       currentValue: '',
       lang: 'C++',
-      theme: 'solarized',
       options: {
         // codemirror options
         tabSize: 4,
@@ -88,7 +86,7 @@ export default {
         'C': 'text/x-csrc',
         'C++': 'text/x-c++src',
         'Java': 'text/x-java',
-        'Python': 'text/x-python'
+        'Python2': 'text/x-python'
       },
       themes: [
         { label: 'Monokai', value: 'monokai' },
@@ -111,10 +109,6 @@ export default {
     onLangChange(newVal) {
       this.$refs.myEditor.editor.setOption('mode', this.mode[newVal])
       this.$emit('changeLang', newVal)
-    },
-    onThemeChange(newVal) {
-      console.log(newVal)
-      this.$refs.myEditor.editor.setOption('theme', newVal)
     }
   }
 }

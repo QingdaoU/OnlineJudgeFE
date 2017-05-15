@@ -14,7 +14,6 @@
 
 <script>
 import 'font-awesome/css/font-awesome.min.css'
-// import SideMenu from './components/SideMenu.vue'
 import Navbar from './components/Navbar.vue'
 // import api from './api.js'
 
@@ -29,9 +28,6 @@ export default {
     Navbar
   },
   methods: {}
-  // mounted () {
-  //   api.login('root', 'rootroot').then(res => {})
-  // }
 }
 </script>
 

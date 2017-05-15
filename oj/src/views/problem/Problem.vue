@@ -65,7 +65,7 @@
         </div>
   
         <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
-        <span>Result</span>
+        <span v-show="submissionId">Status: {{sumissionStatus}}</span>
         <el-button type="warning" class="fl-right" @click="submitCode"> Submit </el-button>
       </el-col>
       <!--problem main end-->
@@ -76,6 +76,8 @@
 <script>
 import CodeMirror from '../../components/CodeMirror'
 import api from '../../api'
+import {STATUS} from '../../utils'
+
 export default {
   name: 'Problem',
   components: {
@@ -84,7 +86,11 @@ export default {
   data() {
     return {
       code: '',
-      language: '',
+      language: 'C++',
+      submissionId: '',
+      result: {
+        result: 6
+      },
       problem: {
         title: '',
         description: '',
@@ -110,6 +116,27 @@ export default {
     onChangeLang(newLang) {
       this.language = newLang
     },
+    submitCode() {
+      this.submissionId = ''
+      this.result = {result: 9}
+      api.submitCode(this.$route.params.id, this.language, this.code).then(res => {
+        this.submissionId = res.data.data.submission_id
+        this.refreshStatus = setInterval(() => {
+          let id = this.submissionId
+          api.getSubmission(id).then(res => {
+            this.result = res.data.data
+            if (Object.keys(res.data.data.info).length !== 0) {
+              clearInterval(this.refreshStatus)
+            }
+          })
+        }, 1000)
+      })
+    }
+  },
+  computed: {
+    sumissionStatus() {
+      return STATUS[this.result.result]
+    }
   }
 }
 </script>
