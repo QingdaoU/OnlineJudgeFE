@@ -97,7 +97,7 @@ export default {
   },
   mounted() {
     // TODO: Remove devLogin
-    api.devLogin('root', 'rootroot').then(res => { })
+    // api.devLogin('root', 'rootroot').then(res => { })
     this.routeName = this.$route.name
     this.contestId = this.$route.params.contestId
     this.getTagList()

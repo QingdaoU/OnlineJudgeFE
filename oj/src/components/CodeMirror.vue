@@ -26,9 +26,10 @@
 </template>
 <script>
 import { codemirror } from 'vue-codemirror'
+
+// theme
 import 'codemirror/theme/monokai.css'
 import 'codemirror/theme/solarized.css'
-import 'codemirror/theme/3024-day.css'
 import 'codemirror/theme/base16-light.css'
 import 'codemirror/theme/twilight.css'
 import 'codemirror/theme/material.css'
@@ -91,7 +92,6 @@ export default {
       themes: [
         { label: 'Monokai', value: 'monokai' },
         { label: 'Solarized Light', value: 'solarized' },
-        { label: 'BrightDay', value: '3024-day' },
         { label: 'Base16', value: 'base16-light' },
         { label: 'Twilight', value: 'twilight' },
         { label: 'material', value: 'material' }

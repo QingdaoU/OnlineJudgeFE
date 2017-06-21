@@ -1,7 +1,7 @@
 <template>
 <el-menu theme="dark" class="el-menu-demo" mode="horizontal" router>
   <el-row :gutter="10">
-    <el-col :xs="3" :sm="3" :lg="3">&nbsp;</el-col>
+    <el-col :xs="2" :sm="2" :lg="2">&nbsp;</el-col>
     <el-col :xs="2" :sm="2" :lg="2">
       <div style="color:#bfcbd9;margin-top:16px;font-size:20px;">QDUOJ</div>
     </el-col>

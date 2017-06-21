@@ -26,27 +26,27 @@
             </li>
           </ul>
         </el-card>
-  
+
       </el-col>
       <!--problem main-->
       <el-col :span=17 :offset=1>
         <h1 class="title">{{problem.title}}</h1>
         <h3>Description</h3>
         <p v-html=problem.description></p>
-  
+
         <h3>Input</h3>
         <p v-html=problem.input_description></p>
-  
+
         <h3>Output</h3>
         <p v-html=problem.output_description></p>
-  
+
         <div v-if="problem.hint">
           <h3>Hint</h3>
           <el-card :body-style=cardStyle>
             <div v-html=problem.hint></div>
           </el-card>
         </div>
-  
+
         <div v-for="sample, index in problem.samples">
           <el-row>
             <el-col :span=11>
@@ -63,7 +63,7 @@
             </el-col>
           </el-row>
         </div>
-  
+
         <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
         <span v-show="submissionId">Status: {{sumissionStatus}}</span>
         <el-button type="warning" class="fl-right" @click="submitCode"> Submit </el-button>
@@ -74,99 +74,103 @@
 </template>
 
 <script>
-import CodeMirror from '../../components/CodeMirror'
-import api from '../../api'
-import {STATUS} from '../../utils'
+  import CodeMirror from '../../components/CodeMirror'
+  import api from '../../api'
+  import {STATUS} from '../../utils'
 
-export default {
-  name: 'Problem',
-  components: {
-    CodeMirror
-  },
-  data() {
-    return {
-      code: '',
-      language: 'C++',
-      submissionId: '',
-      result: {
-        result: 6
-      },
-      problem: {
-        title: '',
-        description: '',
-        hint: '',
-        created_by: {
-          username: ''
+  export default {
+    name: 'Problem',
+    components: {
+      CodeMirror
+    },
+    data() {
+      return {
+        code: '',
+        language: 'C++',
+        submissionId: '',
+        result: {
+          result: 6
+        },
+        problem: {
+          title: '',
+          description: '',
+          hint: '',
+          created_by: {
+            username: ''
+          }
+        },
+        cardStyle: {
+          padding: '5px 10px'
         }
-      },
-      cardStyle: {
-        padding: '5px 10px'
       }
-    }
-  },
-  mounted() {
-    api.getProblem(this.$route.params.id).then(res => {
-      this.problem = res.data.data
-    })
-  },
-  methods: {
-    onChangeCode(newCode) {
-      this.code = newCode
     },
-    onChangeLang(newLang) {
-      this.language = newLang
-    },
-    submitCode() {
-      this.submissionId = ''
-      this.result = {result: 9}
-      api.submitCode(this.$route.params.id, this.language, this.code).then(res => {
-        this.submissionId = res.data.data.submission_id
-        this.refreshStatus = setInterval(() => {
-          let id = this.submissionId
-          api.getSubmission(id).then(res => {
-            this.result = res.data.data
-            if (Object.keys(res.data.data.info).length !== 0) {
-              clearInterval(this.refreshStatus)
-            }
-          })
-        }, 1000)
+    mounted() {
+      api.getProblem(this.$route.params.id).then(res => {
+        this.problem = res.data.data
       })
-    }
-  },
-  computed: {
-    sumissionStatus() {
-      return STATUS[this.result.result]
+    },
+    methods: {
+      onChangeCode(newCode) {
+        this.code = newCode
+      },
+      onChangeLang(newLang) {
+        this.language = newLang
+      },
+      submitCode() {
+        this.submissionId = ''
+        this.result = {result: 9}
+        api.submitCode(this.$route.params.id, this.language, this.code).then(res => {
+          this.submissionId = res.data.data.submission_id
+          this.refreshStatus = setInterval(() => {
+            let id = this.submissionId
+            api.getSubmission(id).then(res => {
+              this.result = res.data.data
+              if (Object.keys(res.data.data.info).length !== 0) {
+                clearInterval(this.refreshStatus)
+              }
+            })
+          }, 1000)
+        })
+      }
+    },
+    computed: {
+      sumissionStatus() {
+        return STATUS[this.result.result]
+      }
+    },
+    // 防止切换组件仍然不断请求
+    beforeDestroy() {
+      clearInterval(this.refreshStatus)
     }
   }
-}
 </script>
 
 <style lang="less" scoped>
-.title {
-  text-align: center;
-  color: #324057;
-  font-weight: 400;
-  margin-bottom: 20px;
-}
+  .title {
+    text-align: center;
+    color: #324057;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
 
-.el-card {
-  box-shadow: none;
-  background-color: #F9FAFC;
-}
+  .el-card {
+    box-shadow: none;
+    background-color: #F9FAFC;
+  }
 
-h3 {
-  color: #324057;
-  font-weight: 500;
-}
+  h3 {
+    color: #324057;
+    font-weight: 500;
+  }
 
-hr {
-  margin: 20px 5px;
-  border: 0;
-  border-top: 1px solid #eee;
-}
+  hr {
+    margin: 20px 5px;
+    border: 0;
+    border-top: 1px solid #eee;
+  }
 
-.fl-right {
-  float: right;
-}
+  .fl-right {
+    float: right;
+  }
 </style>
 
