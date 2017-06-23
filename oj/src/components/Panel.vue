@@ -32,7 +32,7 @@ export default{
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 2px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
     &.small{
       max-width: 830px;
@@ -47,7 +47,7 @@ export default{
         margin: 0;
         color: #333;
         border-color: #ddd;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 300;
         letter-spacing: 0.025em;
         height: 66px;
@@ -65,7 +65,7 @@ export default{
       }
     }
     .body{
-      padding: 15px;
+      padding: 15px 20px 30px 20px;
     }
   }
 </style>

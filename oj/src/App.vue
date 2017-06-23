@@ -59,7 +59,7 @@
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
     overflow: auto;
     -webkit-font-smoothing: antialiased;
-    background-color: #EDECEC;
+    background-color: #edf0f2;;
     overflow-y: scroll;
   }
 

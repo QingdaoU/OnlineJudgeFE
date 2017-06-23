@@ -114,7 +114,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="css" scoped>
 .CodeMirror {
   height: auto !important;
 }
