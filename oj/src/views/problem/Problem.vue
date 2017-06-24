@@ -78,7 +78,7 @@
   import CodeMirror from '../../components/CodeMirror'
   import Card from '../../components/Card'
   import api from '../../api'
-  import {STATUS} from '../../utils'
+  import {STATUS} from '../../utils/utils'
   import Panel from '../../components/Panel'
 
   export default {

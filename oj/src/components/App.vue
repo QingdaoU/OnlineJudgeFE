@@ -11,8 +11,7 @@
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.min.css'
-  import Navbar from './components/Navbar.vue'
+  import Navbar from './NavBar.vue'
   // import api from './api.js'
 
   export default {
@@ -32,31 +31,24 @@
 <style lang="less">
 
   * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
 
-  body {
-    margin: 0;
-    background-color: rgb(236, 242, 247) !important;
-  }
 
   a {
     text-decoration: none;
     background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-  }
-
-  a:active,
-  a:hover {
-    outline-width: 0;
-  }
-
-  img {
-    border-style: none;
+    &:active, &:hover{
+      outline-width:0 ;
+    }
   }
 
   body {
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
     overflow: auto;
     -webkit-font-smoothing: antialiased;
     background-color: #edf0f2;;
