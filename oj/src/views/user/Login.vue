@@ -9,7 +9,7 @@
           <Input v-model="loginForm.username"/>
         </Form-item>
         <Form-item label="Password">
-          <Input v-model="loginForm.password"/>
+          <Input type="password" v-model="loginForm.password"/>
         </Form-item>
         <Form-item>
           <Button type="primary" id="btn-login" @click="onSubmit">Login</Button>
@@ -23,7 +23,6 @@
 <script>
   import api from '../../api.js'
   import bus from '../../utils/eventBus'
-//  import auth from '@/utils/authHelper'
 
   export default {
     data() {
@@ -37,9 +36,8 @@
     },
     methods: {
       onSubmit() {
-        api.devLogin(this.loginForm.username, this.loginForm.password).then((res) => {
+        api.login(this.loginForm.username, this.loginForm.password).then((res) => {
           bus.$emit('loginSuccess', res)
-//          auth.set(res.data)
         }, (res) => {
         })
       }

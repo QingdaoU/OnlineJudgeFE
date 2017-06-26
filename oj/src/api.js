@@ -252,6 +252,10 @@ function ajax(url, type, options) {
       // 出错了
       if (res.data.error !== null) {
         Vue.prototype.$error(res.data.data)
+        // // 若后端返回为登录，则为session失效，应退出当前登录用户
+        // if (res.data.data.startsWith('please login in first')) {
+        //   Vue.$router.push('/logout')
+        // }
         reject(res)
         if (options.errCallBack !== undefined) {
           options.errCallBack(res)

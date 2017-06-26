@@ -1,8 +1,8 @@
 import Vue from 'vue'
+import iView from 'iview'
 import VueRouter from 'vue-router'
-
-import Test from '../views/test'
-import Login from './routes/login'
+import routes from './routes'
+import auth from '../utils/authHelper'
 
 Vue.use(VueRouter)
 
@@ -15,17 +15,28 @@ const router = new VueRouter({
       return { x: 0, y: 0 }
     }
   },
-  routes: [
-    Login,
-    {
-      path: '/test',
-      name: 'Test',
-      component: Test
-    },
-    {
-      path: '*', redirect: '/login'
+  routes
+})
+
+// 全局身份确认
+router.beforeEach((to, from, next) => {
+  iView.LoadingBar.start()
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!auth.isAuthicated()) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
     }
-  ]
+  } else {
+    next()
+  }
+})
+
+router.afterEach((to, from, next) => {
+  iView.LoadingBar.finish()
 })
 
 export default router

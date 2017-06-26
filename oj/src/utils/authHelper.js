@@ -1,12 +1,11 @@
 const storage = window.localStorage
 
 export default {
-  name: 'authHelper',
   /**
    * 将用户信息存入localstorage
    * @param userInfo
    */
-  set(userInfo) {
+  setUser(userInfo) {
     storage.setItem('userInfo', JSON.stringify(userInfo))
   },
 
@@ -14,14 +13,14 @@ export default {
    * 获取用户信息
    * @returns {object}
    */
-  get() {
+  getUser() {
     return JSON.parse(storage.getItem('userInfo')) || null
   },
 
   /**
    * 清除用户信息
    */
-  remove() {
+  clear() {
     storage.removeItem('userInfo')
   },
   isAuthicated() {
