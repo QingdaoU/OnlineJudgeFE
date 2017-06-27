@@ -16,6 +16,11 @@ export default [
     // }
   },
   {
+    name: 'problem-details',
+    path: '/problem/:id',
+    component: () => import('@/views/problem/Problem.vue')
+  },
+  {
     name: 'logout',
     path: '/logout',
     component: Logout
@@ -24,11 +29,6 @@ export default [
     name: 'problem-list',
     path: '/problems',
     component: ProblemList
-  },
-  {
-    name: 'problem-details',
-    path: '/problem/:id',
-    component: Test
   },
   {
     path: '/test',

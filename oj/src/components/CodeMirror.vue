@@ -1,25 +1,25 @@
 <template>
   <div style="margin: 25px 0px">
-    <el-row class="header">
-      <el-col :span=12>
+    <Row class="header">
+      <Col :span=12>
         <span>
           Language:
-          <el-select v-model="lang" @change="onLangChange">
-            <el-option v-for="item in languages" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <Select v-model="lang" @change="onLangChange">
+            <Option v-for="item in languages" :key="item" :value="item">{{item}}
+            </Option>
+          </Select>
         </span>
-      </el-col>
-      <el-col :span=12>
+      </Col>
+      <Col :span=12>
         <span style="float: right">
           Theme:
-          <el-select v-model="options.theme">
-            <el-option v-for="item in themes" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+          <Select v-model="options.theme">
+            <Option v-for="item in themes" :key="item.label" :value="item.value">{{item.label}}
+            </Option>
+          </Select>
         </span>
-      </el-col>
-    </el-row>
+      </Col>
+    </Row>
     <codemirror :code="currentValue" :options="options" @change="onEditorCodeChange" ref="myEditor">
     </codemirror>
   </div>

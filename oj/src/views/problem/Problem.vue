@@ -1,92 +1,86 @@
 <template>
-  <el-row type="flex" justify="space-around">
+  <Row type="flex" justify="space-around">
 
     <!--problem main-->
-    <el-col :span=16>
-      <panel :title="problem.title">
-        <template slot="header">
-          <el-button type="warning" icon="edit" @click="openDialog">Submit</el-button>
-        </template>
-        <h4>Description</h4>
-        <p v-html=problem.description></p>
+    <Col :span=16>
+      <Card :padding="20" class="problem-main">
+      <p class="title" style="margin-top: 0">Description</p>
+      <p class="content" v-html=problem.description></p>
 
-        <h4>Input</h4>
-        <p v-html=problem.input_description></p>
+      <p class="title">Input</p>
+      <p class="content" v-html=problem.input_description></p>
 
-        <h4>Output</h4>
-        <p v-html=problem.output_description></p>
+      <p class="title">Output</p>
+      <p class="content" v-html=problem.output_description></p>
 
-        <div v-if="problem.hint">
-          <h4>Hint</h4>
-          <el-card :body-style=cardStyle>
-            <div v-html=problem.hint></div>
-          </el-card>
-        </div>
+      <div v-if="problem.hint">
+        <p class="title">Hint</p>
+        <Card dis-hover>
+          <div class="content" v-html=problem.hint></div>
+        </Card>
+      </div>
 
-        <div v-for="sample, index in problem.samples">
-          <el-row>
-            <el-col :span=9>
-              <h4>Sample Input {{index + 1}}</h4>
-              <el-card :body-style=cardStyle>
-                <div>{{sample.input}}</div>
-              </el-card>
-            </el-col>
-            <el-col :span=10 :offset=2>
-              <h4>Sample Output {{index + 1}}</h4>
-              <el-card :body-style=cardStyle>
-                <div>{{sample.output}}</div>
-              </el-card>
-            </el-col>
-          </el-row>
-        </div>
-      </panel>
-    </el-col>
+      <div v-for="sample, index in problem.samples">
+        <Row type="flex" justify="space-between">
+          <Col :span=11>
+          <p class="title">Sample Input {{index + 1}}</p>
+          <Card dis-hover :padding="10">
+            <div>{{sample.input}}</div>
+          </Card>
+          </Col>
+          <Col :span=11>
+          <p class="title">Sample Output {{index + 1}}</p>
+          <Card dis-hover :padding="10">
+            <div>{{sample.output}}</div>
+          </Card>
+          </Col>
+        </Row>
+      </div>
+      </Card>
+    </Col>
     <!--problem main end-->
 
-    <el-col :span=6>
-      <Card>
-        <div class="header">
-          Problem Info
-        </div>
-        <dl>
-          <dt>Time Limit</dt>
-          <dd>{{problem.time_limit}}ms</dd>
+    <Col :span=6>
+    <Card style="overflow: hidden;">
+      <div slot="title">
+        Information
+      </div>
+      <dl>
+        <dt>Time Limit</dt>
+        <dd>{{problem.time_limit}}ms</dd>
 
-          <dt>Memory Limit</dt>
-          <dd>{{problem.memory_limit}}MB</dd>
+        <dt>Memory Limit</dt>
+        <dd>{{problem.memory_limit}}MB</dd>
 
-          <dt>Created By</dt>
-          <dd>{{problem.created_by.username}}</dd>
+        <dt>Created By</dt>
+        <dd>{{problem.created_by.username}}</dd>
 
-          <dt>Source</dt>
-          <dd>{{problem.source}}</dd>
-        </dl>
-      </Card>
-    </el-col>
+        <dt>Source</dt>
+        <dd>{{problem.source}}</dd>
+      </dl>
+    </Card>
+    </Col>
 
-    <el-dialog title="Submit Code" :visible.sync="dialogVisible">
-      Baidu INC.
-      <!--<CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>-->
-      <!--<span v-show="submissionId">Status: {{sumissionStatus}}</span>-->
-      <!--<el-button type="warning" class="fl-right" @click="submitCode"> Submit </el-button>-->
-    </el-dialog>
-  </el-row>
+    <!--<el-dialog title="Submit Code" :visible.sync="dialogVisible">-->
+    <!--Baidu INC.-->
+    <!--&lt;!&ndash;<CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>&ndash;&gt;-->
+    <!--&lt;!&ndash;<span v-show="submissionId">Status: {{sumissionStatus}}</span>&ndash;&gt;-->
+    <!--&lt;!&ndash;<Button type="warning" class="fl-right" @click="submitCode"> Submit </Button>&ndash;&gt;-->
+    <!--</el-dialog>-->
+  </Row>
 
 </template>
 
 <script>
   import CodeMirror from '../../components/CodeMirror'
-  import Card from '../../components/Card'
   import api from '../../api'
   import {STATUS} from '../../utils/utils'
-  import Panel from '../../components/Panel'
+  import bus from '@/utils/eventBus'
 
   export default {
     name: 'Problem',
     components: {
-      Panel,
-      CodeMirror,
-      Card
+      CodeMirror
     },
     data() {
       return {
@@ -104,15 +98,13 @@
           created_by: {
             username: ''
           }
-        },
-        cardStyle: {
-          padding: '5px 10px'
         }
       }
     },
     mounted() {
       api.getProblem(this.$route.params.id).then(res => {
         this.problem = res.data.data
+        bus.$emit('changeBread', this.problem.title)
       })
     },
     methods: {
@@ -123,7 +115,6 @@
         this.language = newLang
       },
       openDialog() {
-        console.log(this.dialogVisible)
         this.dialogVisible = true
       },
       submitCode() {
@@ -156,39 +147,49 @@
 </script>
 
 <style lang="less" scoped>
-
-  .el-card {
-    box-shadow: none;
-    background-color: #F9FAFC;
+  .problem-main {
+    .title {
+      font-size: 19px;
+      font-weight:500;
+      margin: 25px 0 8px 0;
+    }
+    .content {
+      text-indent: 1.3em;
+      font-size: 15px
+    }
   }
+  /*.Card {*/
+    /*box-shadow: none;*/
+    /*background-color: #F9FAFC;*/
+  /*}*/
 
-  h4 {
-    color: #324057;
-    font-weight: 500;
-  }
+  /*h4 {*/
+    /*color: #324057;*/
+    /*font-weight: 500;*/
+  /*}*/
 
-  p {
-    font-weight: 400;
-    margin: 10px 10px;
-    color: #475669;
-  }
+  /*p {*/
+    /*font-weight: 400;*/
+    /*margin: 10px 10px;*/
+    /*color: #475669;*/
+  /*}*/
 
-  hr {
-    margin: 20px 5px;
-    border: 0;
-    border-top: 1px solid #eee;
-  }
+  /*hr {*/
+    /*margin: 20px 5px;*/
+    /*border: 0;*/
+    /*border-top: 1px solid #eee;*/
+  /*}*/
 
   .fl-right {
     float: right;
   }
 
-  .header {
-    line-height: 40px;
-    font-size: 18px;
-    margin-bottom: 10px;
+  /*.header {*/
+    /*line-height: 40px;*/
+    /*font-size: 18px;*/
+    /*margin-bottom: 10px;*/
 
-  }
+  /*}*/
 
   dl {
     margin: 0;

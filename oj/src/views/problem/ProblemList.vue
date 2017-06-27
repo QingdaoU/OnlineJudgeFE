@@ -1,7 +1,7 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span=18>
-    <Card dis-hover :padding="0">
+    <Card :bordered="false" dis-hover :padding="0">
       <div slot="title">
         <Form id="filterForm" ref="filterForm" :model="filterForm">
           <Row type="flex" justify="space-between">
@@ -107,7 +107,7 @@
 
         ],
         problemList: [],
-        pageSize: 1,
+        pageSize: 2,
         total: 0,
         problemLoading: false,
         tagLoading: false,
@@ -173,7 +173,7 @@
   #filterForm {
     .ivu-form-item {
       margin-bottom: 0;
-      margin-right: 30px;
+      margin-right: 10px;
     }
   }
 

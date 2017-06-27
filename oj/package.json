@@ -1,6 +1,6 @@
 {
-  "name": "oj",
-  "version": "1.0.0",
+  "name": "onlinejudge",
+  "version": "2.0.0",
   "description": "A Vue.js project",
   "author": "zemal <rawidn@163.com>",
   "private": true,

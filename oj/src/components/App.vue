@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar></Navbar>
+    <breadcrumb></breadcrumb>
     <div class="content-app">
       <router-view></router-view>
       <div class="footer">
@@ -12,7 +13,7 @@
 
 <script>
   import Navbar from './NavBar.vue'
-  // import api from './api.js'
+  import breadcrumb from './Breadcrumb.vue'
 
   export default {
     name: 'app',
@@ -22,7 +23,8 @@
       }
     },
     components: {
-      Navbar
+      Navbar,
+      breadcrumb
     },
     methods: {}
   }
@@ -36,19 +38,18 @@
     box-sizing: border-box;
   }
 
-
   a {
     text-decoration: none;
     background-color: transparent;
-    &:active, &:hover{
-      outline-width:0 ;
+    &:active, &:hover {
+      outline-width: 0;
     }
   }
 
   body {
     margin: 0;
     padding: 0;
-    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     overflow: auto;
     -webkit-font-smoothing: antialiased;
     background-color: #edf0f2;;
