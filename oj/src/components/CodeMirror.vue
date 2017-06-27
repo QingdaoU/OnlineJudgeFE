@@ -1,7 +1,7 @@
 <template>
-  <div style="margin: 25px 0px">
-    <Row class="header">
-      <Col :span=12>
+  <div style="margin: 5px 0px">
+    <Row type="flex" justify="space-between" class="header">
+      <Col :span=8>
         <span>
           Language:
           <Select v-model="lang" @change="onLangChange">
@@ -10,8 +10,8 @@
           </Select>
         </span>
       </Col>
-      <Col :span=12>
-        <span style="float: right">
+      <Col :span=8>
+        <span >
           Theme:
           <Select v-model="options.theme">
             <Option v-for="item in themes" :key="item.label" :value="item.value">{{item.label}}
@@ -94,7 +94,7 @@ export default {
         { label: 'Solarized Light', value: 'solarized' },
         { label: 'Base16', value: 'base16-light' },
         { label: 'Twilight', value: 'twilight' },
-        { label: 'material', value: 'material' }
+        { label: 'Material', value: 'material' }
       ]
     }
   },
@@ -124,6 +124,6 @@ export default {
 }
 
 .header {
-  margin: 20px 5px;
+  margin: 15px 5px;
 }
 </style>

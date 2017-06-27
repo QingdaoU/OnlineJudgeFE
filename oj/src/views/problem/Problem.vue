@@ -3,7 +3,7 @@
 
     <!--problem main-->
     <Col :span=16>
-      <Card :padding="20" class="problem-main">
+    <Card :padding="20" class="problem-main">
       <p class="title" style="margin-top: 0">Description</p>
       <p class="content" v-html=problem.description></p>
 
@@ -13,60 +13,96 @@
       <p class="title">Output</p>
       <p class="content" v-html=problem.output_description></p>
 
+
+      <div v-for="sample, index in problem.samples">
+        <Row type="flex" justify="space-between">
+          <Col :span=11>
+          <p class="title">Sample Input {{index + 1}}</p>
+          <Card dis-hover :padding="8">
+            <div>{{sample.input}}</div>
+          </Card>
+          </Col>
+          <Col :span=11>
+          <p class="title">Sample Output {{index + 1}}</p>
+          <Card dis-hover :padding="8">
+            <div>{{sample.output}}</div>
+          </Card>
+          </Col>
+        </Row>
+      </div>
       <div v-if="problem.hint">
         <p class="title">Hint</p>
         <Card dis-hover>
           <div class="content" v-html=problem.hint></div>
         </Card>
       </div>
-
-      <div v-for="sample, index in problem.samples">
-        <Row type="flex" justify="space-between">
-          <Col :span=11>
-          <p class="title">Sample Input {{index + 1}}</p>
-          <Card dis-hover :padding="10">
-            <div>{{sample.input}}</div>
-          </Card>
-          </Col>
-          <Col :span=11>
-          <p class="title">Sample Output {{index + 1}}</p>
-          <Card dis-hover :padding="10">
-            <div>{{sample.output}}</div>
-          </Card>
-          </Col>
-        </Row>
-      </div>
-      </Card>
+    </Card>
     </Col>
     <!--problem main end-->
 
     <Col :span=6>
-    <Card style="overflow: hidden;">
-      <div slot="title">
-        Information
-      </div>
-      <dl>
-        <dt>Time Limit</dt>
-        <dd>{{problem.time_limit}}ms</dd>
+    <Row>
 
-        <dt>Memory Limit</dt>
-        <dd>{{problem.memory_limit}}MB</dd>
+      <Col :span="24">
+      <Card :padding="0">
+        <ul id="operation-menu">
+          <li><a @click.prevent="submitDialogVisible=true">
+            <Icon type="compose"></Icon>
+            Submit Code</a></li>
+          <li><a>
+            <Icon type="navicon-round"></Icon>
+            MySubmissions</a></li>
+          <li><a @click.prevent="handleClick">
+            <Icon type="pie-graph"></Icon>
+            Statistic</a></li>
+        </ul>
 
-        <dt>Created By</dt>
-        <dd>{{problem.created_by.username}}</dd>
+      </Card>
+      </Col>
 
-        <dt>Source</dt>
-        <dd>{{problem.source}}</dd>
-      </dl>
-    </Card>
+      <!--<Col :span="24">-->
+      <!--<Card style="overflow: hidden;">-->
+        <!--<div slot="title">-->
+          <!--Information-->
+        <!--</div>-->
+        <!--<dl>-->
+          <!--<dt>Time Limit</dt>-->
+          <!--<dd>{{problem.time_limit}}ms</dd>-->
+
+          <!--<dt>Memory Limit</dt>-->
+          <!--<dd>{{problem.memory_limit}}MB</dd>-->
+
+          <!--<dt>Created By</dt>-->
+          <!--<dd>{{problem.created_by.username}}</dd>-->
+
+          <!--<dt>Source</dt>-->
+          <!--<dd>{{problem.source}}</dd>-->
+        <!--</dl>-->
+      <!--</Card>-->
+      <!--</Col>-->
+    </Row>
     </Col>
 
-    <!--<el-dialog title="Submit Code" :visible.sync="dialogVisible">-->
-    <!--Baidu INC.-->
-    <!--&lt;!&ndash;<CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>&ndash;&gt;-->
-    <!--&lt;!&ndash;<span v-show="submissionId">Status: {{sumissionStatus}}</span>&ndash;&gt;-->
-    <!--&lt;!&ndash;<Button type="warning" class="fl-right" @click="submitCode"> Submit </Button>&ndash;&gt;-->
-    <!--</el-dialog>-->
+    <Modal v-model="submitDialogVisible" :mask-closable="false" width="800" title="Submit Code">
+      <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
+      <div slot="footer">
+        <Row type="flex" justify="space-between">
+          <Col :span="10">
+          <div id="status" v-if="submitting">
+            <span>Status:</span>
+            <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
+          </div>
+          </Col>
+          <Col :span="10">
+          <Button type="ghost" @click="submitDialogVisible=false">Cancel</Button>
+          <Button type="info" :loading="submitting" @click="handleClick">
+            <span v-if="!submitting">Submit</span>
+            <span v-else>Submitting</span>
+          </Button>
+          </Col>
+        </Row>
+      </div>
+    </Modal>
   </Row>
 
 </template>
@@ -84,12 +120,13 @@
     },
     data() {
       return {
-        dialogVisible: true,
+        submitDialogVisible: false,
+        submitting: false,
         code: '',
         language: 'C++',
         submissionId: '',
         result: {
-          result: 6
+          result: 9
         },
         problem: {
           title: '',
@@ -108,20 +145,24 @@
       })
     },
     methods: {
+      handleClick() {
+        console.log('hello')
+        this.submitting = true
+      },
       onChangeCode(newCode) {
         this.code = newCode
       },
       onChangeLang(newLang) {
         this.language = newLang
       },
-      openDialog() {
-        this.dialogVisible = true
-      },
       submitCode() {
         this.submissionId = ''
         this.result = {result: 9}
+        this.submitting = true
         api.submitCode(this.$route.params.id, this.language, this.code).then(res => {
           this.submissionId = res.data.data.submission_id
+          this.submitting = false
+          // 定时检查状态
           this.refreshStatus = setInterval(() => {
             let id = this.submissionId
             api.getSubmission(id).then(res => {
@@ -135,11 +176,14 @@
       }
     },
     computed: {
-      sumissionStatus() {
-        return STATUS[this.result.result]
+      submissionStatus() {
+        return {
+          text: STATUS[this.result.result]['name'],
+          color: STATUS[this.result.result]['color']
+        }
       }
     },
-    // 防止切换组件仍然不断请求
+    // 防止切换组件后仍然不断请求
     beforeDestroy() {
       clearInterval(this.refreshStatus)
     }
@@ -150,7 +194,7 @@
   .problem-main {
     .title {
       font-size: 19px;
-      font-weight:500;
+      font-weight: 500;
       margin: 25px 0 8px 0;
     }
     .content {
@@ -158,38 +202,35 @@
       font-size: 15px
     }
   }
-  /*.Card {*/
-    /*box-shadow: none;*/
-    /*background-color: #F9FAFC;*/
-  /*}*/
 
-  /*h4 {*/
-    /*color: #324057;*/
-    /*font-weight: 500;*/
-  /*}*/
+  #operation-menu {
+    & > li > a {
+      color: #495060;
+      display: block;
+      text-align: left;
+      padding: 15px 25px;
+      &:hover {
+        background: #f8f8f9;
+        border-left: 3px solid #5cadff;
+      }
+      & > .ivu-icon {
+        font-size: 16px;
+        margin-right: 8px;
+      }
+    }
+  }
 
-  /*p {*/
-    /*font-weight: 400;*/
-    /*margin: 10px 10px;*/
-    /*color: #475669;*/
-  /*}*/
-
-  /*hr {*/
-    /*margin: 20px 5px;*/
-    /*border: 0;*/
-    /*border-top: 1px solid #eee;*/
-  /*}*/
+  #status {
+    float: left;
+    span {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+  }
 
   .fl-right {
     float: right;
   }
-
-  /*.header {*/
-    /*line-height: 40px;*/
-    /*font-size: 18px;*/
-    /*margin-bottom: 10px;*/
-
-  /*}*/
 
   dl {
     margin: 0;

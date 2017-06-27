@@ -5,16 +5,53 @@ export function backendDatetimeToISOFormat(dt) {
 }
 
 export const STATUS = {
-  '-2': 'Compile Error',
-  '-1': 'Wrong Answer',
-  '0': 'Accepted',
-  '1': 'Time Limit Exceeded',
-  '2': 'Time Limit Exceeded',
-  '3': 'Memory Limit Exceeded',
-  '4': 'Runtime Error',
-  '5': 'System Error',
-  '6': 'Pending',
-  '7': 'Judging',
-  '8': 'Partial Accepted',
-  '9': 'Submitting'
+  '-2': {
+    name: 'Compile Error',
+    color: 'red'
+  },
+  '-1': {
+    name: 'Wrong Answer',
+    color: 'red'
+  },
+  '0': {
+    name: 'Accepted',
+    color: 'green'
+  },
+  '1': {
+    name: 'Time Limit Exceeded',
+    color: 'red'
+  },
+  '2': {
+    name: 'Time Limit Exceeded',
+    color: 'red'
+  },
+  '3': {
+    name: 'Memory Limit Exceeded',
+    color: 'red'
+  },
+  '4': {
+    name: 'Runtime Error',
+    color: 'red'
+  },
+  '5': {
+    name: 'System Error',
+    color: 'red'
+  },
+  '6': {
+    name: 'Pending',
+    color: 'yellow'
+  },
+  '7': {
+    name: 'Judging',
+    color: 'blue'
+  },
+  '8': {
+    name: 'Partial Accepted',
+    color: 'blue'
+  },
+  '9': {
+    name: 'Submitting',
+    color: 'yellow'
+  }
 }
+
