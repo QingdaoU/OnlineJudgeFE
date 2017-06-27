@@ -21,6 +21,7 @@ const router = new VueRouter({
 // 全局身份确认
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
+  iView.LoadingBar.update(30)
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!auth.isAuthicated()) {

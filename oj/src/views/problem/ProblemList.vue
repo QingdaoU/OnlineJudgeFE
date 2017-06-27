@@ -21,32 +21,23 @@
             </Col>
             <Col :span="7">
             <Form-item style="float: right">
+              <Button type="ghost" @click="onReset" style="margin-right: 10px;">Reset</Button>
               <Button type="primary">Filter</Button>
-              <Button type="ghost">Reset</Button>
             </Form-item>
             </Col>
           </Row>
         </Form>
       </div>
-      <Table style="width: 100%" :columns="columns" :data="problemList" stripe></Table>
+      <Table style="width: 100%" :columns="problemTableColumns" :data="problemList" stripe></Table>
     </Card>
+    <Page class="pagination" :total="total" :page-size="pageSize" @on-change="changePage"></Page>
+
     </Col>
 
     <Col :span="4">
-    <Card>
-      <ul>
-        <li v-for="tag in tagList">
-          {{tag.name}}
-        </li>
-      </ul>
-    </Card>
+    <Table :columns="tagTableColumns" :data="tagList"></Table>
+    <Spin v-if="spinShow" fix size="large"></Spin>
     </Col>
-    <!--<div class="pagination">-->
-    <!--<el-pagination layout="prev, pager, next, jumper" @current-change="currentChange" :page-size="pageSize"-->
-    <!--:total="total">-->
-    <!--</el-pagination>-->
-    <!--</div>-->
-    <!--</div>-->
   </Row>
 </template>
 
@@ -57,7 +48,14 @@
 
     data() {
       return {
-        columns: [
+        tagTableColumns: [
+          {
+            title: 'Tags',
+            key: 'name'
+          }
+        ],
+        tagList: [],
+        problemTableColumns: [
           {
             title: '#',
             key: '_id'
@@ -84,7 +82,17 @@
           },
           {
             title: 'Difficulty',
-            key: 'difficulty'
+            render: (h, params) => {
+              let t = params.row.difficulty
+              let color = 'blue'
+              if (t === 'Low') color = 'green'
+              else if (t === 'High') color = 'yellow'
+              return h('Tag', {
+                props: {
+                  color: color
+                }
+              }, params.row.difficulty)
+            }
           },
           {
             title: 'Total',
@@ -98,20 +106,20 @@
           }
 
         ],
-        pageSize: 4,
-        total: 0,
         problemList: [],
+        pageSize: 1,
+        total: 0,
         problemLoading: false,
         tagLoading: false,
         currentPage: 1,
         routeName: '',
         contestId: '',
-        tagList: [],
         filterForm: {
           keyword: '',
           difficulty: '',
           tag: ''
-        }
+        },
+        spinShow: true
       }
     },
     mounted() {
@@ -125,35 +133,37 @@
         let rate = totalCount === 0 ? 0.00 : (acCount / totalCount * 100).toFixed(2)
         return String(rate) + '%'
       },
-      // 切换页码回调
-      currentChange(page) {
+      changePage(page) {
+        this.$Loading.start()
         this.currentPage = page
         this.getProblemList(page)
       },
       getProblemList(page = 1) {
+        let self = this
         let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
         let offset = (page - 1) * this.pageSize
         api[funcName](offset, this.pageSize, {}, this.contestId).then(res => {
+          self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
         }, res => {
+          self.$Loading.error()
         })
       },
       getTagList() {
         api.getProblemTagList().then(res => {
           this.tagList = res.data.data
+          this.spinShow = false
+        }, res => {
+          this.spinShow = false
         })
       },
       onReset() {
-        this.searchForm = {
+        this.filterForm = {
           keyword: '',
-          difficulty: 'Low',
-          tag: ''
+          difficulty: ''
         }
         this.getProblemList(1)
-      },
-      toDetail(problemId) {
-        this.$router.push({name: 'problem-details', params: {problemId}})
       }
     }
   }
@@ -167,9 +177,9 @@
     }
   }
 
-  /*.pagination {*/
-  /*float: right;*/
-  /*margin-top: 20px;*/
-  /*margin-right: 20px;*/
-  /*}*/
+  .pagination {
+    float: right;
+    margin-top: 20px;
+    margin-right: 10px;
+  }
 </style>
