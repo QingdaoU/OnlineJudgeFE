@@ -52,7 +52,7 @@
           <li><a>
             <Icon type="navicon-round"></Icon>
             MySubmissions</a></li>
-          <li><a @click.prevent="handleClick">
+          <li><a>
             <Icon type="pie-graph"></Icon>
             Statistic</a></li>
         </ul>
@@ -62,40 +62,41 @@
 
       <!--<Col :span="24">-->
       <!--<Card style="overflow: hidden;">-->
-        <!--<div slot="title">-->
-          <!--Information-->
-        <!--</div>-->
-        <!--<dl>-->
-          <!--<dt>Time Limit</dt>-->
-          <!--<dd>{{problem.time_limit}}ms</dd>-->
+      <!--<div slot="title">-->
+      <!--Information-->
+      <!--</div>-->
+      <!--<dl>-->
+      <!--<dt>Time Limit</dt>-->
+      <!--<dd>{{problem.time_limit}}ms</dd>-->
 
-          <!--<dt>Memory Limit</dt>-->
-          <!--<dd>{{problem.memory_limit}}MB</dd>-->
+      <!--<dt>Memory Limit</dt>-->
+      <!--<dd>{{problem.memory_limit}}MB</dd>-->
 
-          <!--<dt>Created By</dt>-->
-          <!--<dd>{{problem.created_by.username}}</dd>-->
+      <!--<dt>Created By</dt>-->
+      <!--<dd>{{problem.created_by.username}}</dd>-->
 
-          <!--<dt>Source</dt>-->
-          <!--<dd>{{problem.source}}</dd>-->
-        <!--</dl>-->
+      <!--<dt>Source</dt>-->
+      <!--<dd>{{problem.source}}</dd>-->
+      <!--</dl>-->
       <!--</Card>-->
       <!--</Col>-->
     </Row>
     </Col>
 
-    <Modal v-model="submitDialogVisible" :mask-closable="false" width="800" title="Submit Code">
+    <Modal v-model="submitDialogVisible" :mask-closable="false" width="800" title="Submit Code"
+           @on-cancel="statusVisible=false">
       <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
       <div slot="footer">
         <Row type="flex" justify="space-between">
           <Col :span="10">
-          <div id="status" v-if="submitting">
+          <div id="status" v-if="statusVisible">
             <span>Status:</span>
             <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
           </div>
           </Col>
           <Col :span="10">
           <Button type="ghost" @click="submitDialogVisible=false">Cancel</Button>
-          <Button type="info" :loading="submitting" @click="handleClick">
+          <Button type="info" :loading="submitting" @click="submitCode">
             <span v-if="!submitting">Submit</span>
             <span v-else>Submitting</span>
           </Button>
@@ -110,8 +111,8 @@
 <script>
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
-  import {STATUS} from '../../utils/utils'
-  import bus from '@/utils/eventBus'
+  import {STATUS} from '../../utils/consts'
+  import bus from '../../utils/eventBus'
 
   export default {
     name: 'Problem',
@@ -121,6 +122,7 @@
     data() {
       return {
         submitDialogVisible: false,
+        statusVisible: false,
         submitting: false,
         code: '',
         language: 'C++',
@@ -147,7 +149,6 @@
     methods: {
       handleClick() {
         console.log('hello')
-        this.submitting = true
       },
       onChangeCode(newCode) {
         this.code = newCode
@@ -156,18 +157,23 @@
         this.language = newLang
       },
       submitCode() {
+        if (this.code.trim() === '') {
+          this.$error('Code can not be empty')
+          return
+        }
         this.submissionId = ''
         this.result = {result: 9}
         this.submitting = true
+        this.statusVisible = true
         api.submitCode(this.$route.params.id, this.language, this.code).then(res => {
           this.submissionId = res.data.data.submission_id
-          this.submitting = false
           // 定时检查状态
           this.refreshStatus = setInterval(() => {
             let id = this.submissionId
             api.getSubmission(id).then(res => {
               this.result = res.data.data
               if (Object.keys(res.data.data.info).length !== 0) {
+                this.submitting = false
                 clearInterval(this.refreshStatus)
               }
             })
