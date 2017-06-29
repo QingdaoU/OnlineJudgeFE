@@ -60,26 +60,45 @@
       </Card>
       </Col>
 
-      <!--<Col :span="24">-->
-      <!--<Card style="overflow: hidden;">-->
-      <!--<div slot="title">-->
-      <!--Information-->
-      <!--</div>-->
-      <!--<dl>-->
-      <!--<dt>Time Limit</dt>-->
-      <!--<dd>{{problem.time_limit}}ms</dd>-->
+      <Col :span="24">
+      <Card style="margin-top: 20px;" id="info">
+        <div slot="title" class="header">
+          Information
+        </div>
+        <div>
+          <p class="title">ID</p>
+          <p>{{problem.id}}</p>
+        </div>
+        <div>
+          <p class="title">Time Limit</p>
+          <p>{{problem.time_limit}}MS</p>
+        </div>
+        <div>
+          <p class="title">Memory Limit</p>
+          <p>{{problem.memory_limit}}MB</p>
+        </div>
 
-      <!--<dt>Memory Limit</dt>-->
-      <!--<dd>{{problem.memory_limit}}MB</dd>-->
+        <div>
+          <p class="title">Created By</p>
+          <p>{{problem.created_by.username}}</p>
+        </div>
 
-      <!--<dt>Created By</dt>-->
-      <!--<dd>{{problem.created_by.username}}</dd>-->
+        <div>
+          <p class="title">Source</p>
+          <p>{{problem.source}}</p>
+        </div>
 
-      <!--<dt>Source</dt>-->
-      <!--<dd>{{problem.source}}</dd>-->
-      <!--</dl>-->
-      <!--</Card>-->
-      <!--</Col>-->
+        <div>
+          <p class="title">Total Count</p>
+          <p>{{problem.total_submit_number}}</p>
+        </div>
+        <div>
+          <p class="title">AC Count</p>
+          <p>{{problem.total_accepted_number}}</p>
+        </div>
+      </Card>
+      </Col>
+
     </Row>
     </Col>
 
@@ -143,6 +162,7 @@
     mounted() {
       api.getProblem(this.$route.params.id).then(res => {
         this.problem = res.data.data
+        console.log(res.data.data)
         bus.$emit('changeBread', this.problem.title)
       })
     },
@@ -200,8 +220,9 @@
   .problem-main {
     .title {
       font-size: 19px;
-      font-weight: 500;
+      font-weight: 400;
       margin: 25px 0 8px 0;
+      color: #3091f2;
     }
     .content {
       text-indent: 1.3em;
@@ -214,7 +235,7 @@
       color: #495060;
       display: block;
       text-align: left;
-      padding: 15px 25px;
+      padding: 15px 20px;
       &:hover {
         background: #f8f8f9;
         border-left: 3px solid #5cadff;
@@ -223,6 +244,19 @@
         font-size: 16px;
         margin-right: 8px;
       }
+    }
+  }
+
+  #info {
+    .header {
+      font-size: 16px;
+    }
+    p {
+      margin: 2px 0;
+      display: inline-block;
+    }
+    .title {
+      width: 120px;
     }
   }
 
@@ -236,26 +270,6 @@
 
   .fl-right {
     float: right;
-  }
-
-  dl {
-    margin: 0;
-    padding: 0;
-    dt {
-      float: left;
-      width: 40%;
-      overflow: hidden;
-      clear: left;
-      text-align: left;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      box-sizing: border-box;
-      padding-right: .625rem;
-    }
-    dd {
-      float: left;
-      width: 40%;
-    }
   }
 
 
