@@ -6,10 +6,10 @@
       </Col>
 
       <Col span="14">
-      <Menu theme="light" mode="horizontal" @on-select="handleRoute">
+      <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu">
         <Menu-item name="/problems">Problems</Menu-item>
         <Menu-item name="/1">Contests</Menu-item>
-        <Menu-item name="/2">Status</Menu-item>
+        <Menu-item name="/status">Status</Menu-item>
         <Menu-item name="/3">Rank</Menu-item>
         <Menu-item name="/4">About</Menu-item>
         <Menu-item name="/test">Test</Menu-item>
@@ -58,6 +58,12 @@
     methods: {
       handleRoute(route) {
         this.$router.push(route)
+      }
+    },
+    computed: {
+      // 跟随路由变化
+      activeMenu() {
+        return '/' + this.$route.path.split('/')[1]
       }
     },
     mounted() {

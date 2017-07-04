@@ -1,6 +1,8 @@
 import moment from 'moment'
 
-export function backendDatetimeToISOFormat(dt) {
-  return moment(dt, 'YYYY-M-DD HH:mm:ss zz').format()
+export default {
+  backendDatetimeFormat(dt) {
+    return moment(dt).format('YYYY-M-D  HH:mm:ss')
+  }
 }
 

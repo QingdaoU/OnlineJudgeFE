@@ -21,6 +21,16 @@ export default [
     component: () => import('@/views/problem/Problem.vue')
   },
   {
+    name: 'problem-submission-list',
+    path: '/status/problem/:id',
+    component: () => import('@/views/submission/SubmissionList')
+  },
+  {
+    name: 'submission-list',
+    path: '/status',
+    component: () => import('@/views/submission/SubmissionList')
+  },
+  {
     name: 'logout',
     path: '/logout',
     component: Logout

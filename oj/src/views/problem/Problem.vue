@@ -3,7 +3,7 @@
 
     <!--problem main-->
     <Col :span=16>
-    <Card :padding="20" class="problem-main">
+    <Card :padding="20" id="problem-main">
       <p class="title" style="margin-top: 0">Description</p>
       <p class="content" v-html=problem.description></p>
 
@@ -36,9 +36,29 @@
           <div class="content" v-html=problem.hint></div>
         </Card>
       </div>
+      <!--problem main end-->
+
+    </Card>
+    <Card :padding="20" id="submit-code" dis-hover>
+      <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
+      <Row type="flex" justify="space-between">
+        <Col :span="10">
+        <div id="status" v-if="statusVisible">
+          <span>Status:</span>
+          <router-link :to="{path: '/problems'}">
+            <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
+          </router-link>
+        </div>
+        </Col>
+        <Col :span="10">
+        <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" class="fl-right">
+          <span v-if="!submitting">Submit</span>
+          <span v-else>Submitting</span>
+        </Button>
+        </Col>
+      </Row>
     </Card>
     </Col>
-    <!--problem main end-->
 
     <Col :span=6>
     <Row>
@@ -46,12 +66,9 @@
       <Col :span="24">
       <Card :padding="0">
         <ul id="operation-menu">
-          <li><a @click.prevent="submitDialogVisible=true">
-            <Icon type="compose"></Icon>
-            Submit Code</a></li>
-          <li><a>
+          <li><a @click.prevent="handleRoute('/status/problem/'+problem.id)">
             <Icon type="navicon-round"></Icon>
-            MySubmissions</a></li>
+            Submissions</a></li>
           <li><a>
             <Icon type="pie-graph"></Icon>
             Statistic</a></li>
@@ -102,27 +119,6 @@
     </Row>
     </Col>
 
-    <Modal v-model="submitDialogVisible" :mask-closable="false" width="800" title="Submit Code"
-           @on-cancel="statusVisible=false">
-      <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
-      <div slot="footer">
-        <Row type="flex" justify="space-between">
-          <Col :span="10">
-          <div id="status" v-if="statusVisible">
-            <span>Status:</span>
-            <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
-          </div>
-          </Col>
-          <Col :span="10">
-          <Button type="ghost" @click="submitDialogVisible=false">Cancel</Button>
-          <Button type="info" :loading="submitting" @click="submitCode">
-            <span v-if="!submitting">Submit</span>
-            <span v-else>Submitting</span>
-          </Button>
-          </Col>
-        </Row>
-      </div>
-    </Modal>
   </Row>
 
 </template>
@@ -140,7 +136,6 @@
     },
     data() {
       return {
-        submitDialogVisible: false,
         statusVisible: false,
         submitting: false,
         code: '',
@@ -170,6 +165,9 @@
       handleClick() {
         console.log('hello')
       },
+      handleRoute(route) {
+        this.$router.push(route)
+      },
       onChangeCode(newCode) {
         this.code = newCode
       },
@@ -190,7 +188,7 @@
           // 定时检查状态
           this.refreshStatus = setInterval(() => {
             let id = this.submissionId
-            api.getSubmissionStatus(id).then(res => {
+            api.getSubmission(id).then(res => {
               this.result = res.data.data
               if (Object.keys(res.data.data.info).length !== 0) {
                 this.submitting = false
@@ -217,7 +215,7 @@
 </script>
 
 <style lang="less" scoped>
-  .problem-main {
+  #problem-main {
     .title {
       font-size: 19px;
       font-weight: 400;
@@ -228,6 +226,10 @@
       text-indent: 1.3em;
       font-size: 15px
     }
+  }
+
+  #submit-code {
+    margin-top: 20px;
   }
 
   #operation-menu {
@@ -271,7 +273,6 @@
   .fl-right {
     float: right;
   }
-
 
 </style>
 

@@ -56,9 +56,7 @@ export default {
   logout() {
     return ajax('logout', 'get', {
       options: {
-        params: {
-
-        }
+        params: {}
       }
     })
   },
@@ -206,7 +204,7 @@ export default {
     })
   },
   submitCode(problemId, language, code) {
-    return ajax('submission', 'post', {
+    return ajax('submissions', 'post', {
       body: {
         problem_id: problemId,
         language,
@@ -214,8 +212,15 @@ export default {
       }
     })
   },
-  getSubmissionStatus(id) {
-    return ajax('submission', 'get', {
+  getSubmissionList(params) {
+    return ajax('submissions', 'get', {
+      options: {
+        params
+      }
+    })
+  },
+  getSubmission(id) {
+    return ajax('submissions', 'get', {
       options: {
         params: {
           id

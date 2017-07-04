@@ -81,7 +81,7 @@
             }
           },
           {
-            title: 'Difficulty',
+            title: 'Level',
             render: (h, params) => {
               let t = params.row.difficulty
               let color = 'blue'
@@ -122,7 +122,7 @@
         spinShow: true
       }
     },
-    mounted() {
+    created() {
       this.routeName = this.$route.name
 //      this.contestId = this.$route.params.contestId
       this.getTagList()

@@ -12,8 +12,8 @@
 </template>
 
 <script>
-  import Navbar from './NavBar.vue'
-  import breadcrumb from './Breadcrumb.vue'
+  import Navbar from './components/NavBar.vue'
+  import breadcrumb from './components/Breadcrumb.vue'
 
   export default {
     name: 'app',

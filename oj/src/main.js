@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './components/App.vue'
+import App from './App.vue'
 import router from './routers/index'
 import iView from 'iview'
 import locale from 'iview/src/locale/lang/en-US'
