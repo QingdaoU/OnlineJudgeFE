@@ -1,12 +1,6 @@
 <template>
   <div>
-    <div id="breadcrumb">
-      <Breadcrumb>
-        <Breadcrumb-item>Home</Breadcrumb-item>
-        <Breadcrumb-item>Test</Breadcrumb-item>
-      </Breadcrumb>
-    </div>
-    <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
+    Hello
   </div>
 </template>
 

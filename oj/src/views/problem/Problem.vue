@@ -190,7 +190,7 @@
           // 定时检查状态
           this.refreshStatus = setInterval(() => {
             let id = this.submissionId
-            api.getSubmission(id).then(res => {
+            api.getSubmissionStatus(id).then(res => {
               this.result = res.data.data
               if (Object.keys(res.data.data.info).length !== 0) {
                 this.submitting = false

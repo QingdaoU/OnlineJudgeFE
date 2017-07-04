@@ -62,27 +62,23 @@ export default {
       }
     })
   },
-
+  // 获取用户名和登录状态
+  getUsername() {
+    return ajax('account/username', 'get', {
+      options: {}
+    })
+  },
   // 获取自身信息
-  getMyInfo() {
+  getUserInfo(username = undefined) {
     return ajax('account/profile', 'get', {
       options: {
         params: {
-
+          username
         }
       }
     })
   },
-  // 获取用户信息
-  getUserInfo(username) {
-    return ajax('account/user/' + username, 'get', {
-      options: {
-        params: {
 
-        }
-      }
-    })
-  },
   // 保存用户资料设置
   editProfileSetting(profile) {
     return ajax('account/profile', 'put', {
@@ -218,7 +214,7 @@ export default {
       }
     })
   },
-  getSubmission(id) {
+  getSubmissionStatus(id) {
     return ajax('submission', 'get', {
       options: {
         params: {

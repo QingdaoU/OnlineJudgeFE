@@ -23,6 +23,7 @@
 <script>
   import api from '../../api.js'
   import bus from '../../utils/eventBus'
+  import auth from '../../utils/authHelper'
 
   export default {
     data() {
@@ -37,9 +38,11 @@
     methods: {
       onSubmit() {
         api.login(this.loginForm.username, this.loginForm.password).then((res) => {
-          bus.$emit('loginSuccess', res)
-        }, (res) => {
-        })
+          api.getUsername().then((res) => {
+            auth.setUser(res.data.data.username)
+            bus.$emit('loginSuccess', res)
+          }, (res) => {})
+        }, (res) => {})
       }
     }
   }

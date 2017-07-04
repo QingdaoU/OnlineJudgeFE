@@ -27,7 +27,7 @@
 
       <template v-else>
         <Dropdown class="right" @on-click="handleRoute">
-          <Button class="btn-menu" type="text">{{ userInfo.user.username }}
+          <Button class="btn-menu" type="text">{{ username }}
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">
@@ -52,11 +52,7 @@
     data() {
       return {
         isAuthed: false,
-        userInfo: {
-          user: {
-            username: ''
-          }
-        }
+        username: ''
       }
     },
     methods: {
@@ -66,23 +62,33 @@
     },
     mounted() {
       bus.$on('loginSuccess', (res) => {
-        api.getMyInfo().then((res) => {
-          auth.setUser(res.data.data)
-          this.userInfo = res.data.data
-          this.isAuthed = true
-          this.handleRoute('/problems')
-        })
+        this.username = res.data.data.username
+        this.isAuthed = true
+        this.handleRoute('/problems')
       })
       bus.$on('logout', () => {
         this.isAuthed = false
-        this.userInfo = {}
+        this.username = ''
       })
-
-      // 已登录
-      if (auth.isAuthicated()) {
-        this.userInfo = auth.getUser()
-        this.isAuthed = true
-        this.handleRoute('/problems')
+      api.getUsername().then((res) => {
+        let data = res.data.data
+        if (data.isLogin === true) {
+          this.username = data.username
+          this.isAuthed = true
+          auth.setUser(data.username)
+        } else {
+          this.isAuthed = false
+          this.username = ''
+          auth.clear()
+        }
+      })
+    },
+    watch: {
+      '$route'() {
+        if (!auth.isAuthicated()) {
+          this.username = ''
+          this.isAuthed = false
+        }
       }
     }
   }
