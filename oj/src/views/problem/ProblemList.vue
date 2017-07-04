@@ -71,7 +71,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'problem-details', params: {id: params.row.id}})
+                    this.$router.push({name: 'problem-details', params: {id: params.row._id}})
                   }
                 },
                 style: {

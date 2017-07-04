@@ -45,7 +45,7 @@
         <Col :span="10">
         <div id="status" v-if="statusVisible">
           <span>Status:</span>
-          <router-link :to="{path: '/problems'}">
+          <router-link :to="{name: 'problem-submission-list', params: {id: problem._id}}">
             <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
           </router-link>
         </div>
@@ -66,7 +66,7 @@
       <Col :span="24">
       <Card :padding="0">
         <ul id="operation-menu">
-          <li><a @click.prevent="handleRoute('/status/problem/'+problem.id)">
+          <li><a @click.prevent="handleRoute('/status/problem/'+problem._id)">
             <Icon type="navicon-round"></Icon>
             Submissions</a></li>
           <li><a>
@@ -84,7 +84,7 @@
         </div>
         <div>
           <p class="title">ID</p>
-          <p>{{problem.id}}</p>
+          <p>{{problem._id}}</p>
         </div>
         <div>
           <p class="title">Time Limit</p>
@@ -96,6 +96,17 @@
         </div>
 
         <div>
+          <p class="title">AC Count</p>
+          <p>{{problem.total_accepted_number}}</p>
+        </div>
+
+        <div>
+          <p class="title">Total Count</p>
+          <p>{{problem.total_submit_number}}</p>
+        </div>
+
+
+        <div>
           <p class="title">Created By</p>
           <p>{{problem.created_by.username}}</p>
         </div>
@@ -103,15 +114,6 @@
         <div>
           <p class="title">Source</p>
           <p>{{problem.source}}</p>
-        </div>
-
-        <div>
-          <p class="title">Total Count</p>
-          <p>{{problem.total_submit_number}}</p>
-        </div>
-        <div>
-          <p class="title">AC Count</p>
-          <p>{{problem.total_accepted_number}}</p>
         </div>
       </Card>
       </Col>

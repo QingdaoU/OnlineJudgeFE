@@ -4,7 +4,7 @@
       <Col :span=8>
         <span>
           Language:
-          <Select v-model="lang" @change="onLangChange">
+          <Select v-model="lang" @on-change="onLangChange">
             <Option v-for="item in languages" :key="item" :value="item">{{item}}
             </Option>
           </Select>
@@ -108,6 +108,7 @@ export default {
     },
     onLangChange(newVal) {
       this.$refs.myEditor.editor.setOption('mode', this.mode[newVal])
+      console.log(newVal)
       this.$emit('changeLang', newVal)
     }
   }

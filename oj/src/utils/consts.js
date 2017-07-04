@@ -1,7 +1,7 @@
 export const STATUS = {
   '-2': {
     name: 'Compile Error',
-    color: 'red'
+    color: 'yellow'
   },
   '-1': {
     name: 'Wrong Answer',

@@ -1,7 +1,7 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="23">
-    <Table stripe :columns="columns" :data="submissions"></Table>
+    <Table stripe :columns="columns" :data="submissions" @on-row-dblclick="handleDetails"></Table>
     </Col>
   </Row>
 </template>
@@ -16,6 +16,12 @@
     data() {
       return {
         columns: [
+          {
+            title: 'ID',
+            render: (h, params) => {
+              return h('span', params.row.id.slice(0, 10))
+            }
+          },
           {
             title: 'When',
             render: (h, params) => {
@@ -53,8 +59,24 @@
             }
           },
           {
+            title: 'Time',
+            render: (h, params) => {
+              return h('span', params.row.statistic_info.time_cost + 'MS')
+            }
+          },
+          {
+            title: 'Memory',
+            render: (h, params) => {
+              return h('span', this.parseMemory(params.row.statistic_info.memory_cost))
+            }
+          },
+          {
             title: 'Language',
             key: 'language'
+          },
+          {
+            title: 'Author',
+            key: 'username'
           }
         ],
         submissions: []
@@ -65,8 +87,13 @@
       this.getProblemName()
     },
     methods: {
-      handleClick() {
-        console.log('hello')
+      handleDetails(row) {
+        console.log(row)
+      },
+      parseMemory(memory) {
+        // 1048576 = 1024 * 1024
+        let t = parseInt(memory) / 1048576
+        return String(t.toFixed(0)) + 'MB'
       },
       getProblemName() {
         let _id = this.$route.params.id
