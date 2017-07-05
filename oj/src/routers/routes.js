@@ -23,12 +23,17 @@ export default [
   {
     name: 'problem-submission-list',
     path: '/status/problem/:id',
-    component: () => import('@/views/submission/SubmissionList')
+    component: () => import('@/views/submission/SubmissionList.vue')
   },
   {
     name: 'submission-list',
     path: '/status',
-    component: () => import('@/views/submission/SubmissionList')
+    component: () => import('@/views/submission/SubmissionList.vue')
+  },
+  {
+    name: 'submission-details',
+    path: '/status/:id',
+    component: () => import('@/views/submission/SubmissionDetails.vue')
   },
   {
     name: 'logout',

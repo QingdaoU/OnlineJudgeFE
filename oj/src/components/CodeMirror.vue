@@ -108,7 +108,6 @@ export default {
     },
     onLangChange(newVal) {
       this.$refs.myEditor.editor.setOption('mode', this.mode[newVal])
-      console.log(newVal)
       this.$emit('changeLang', newVal)
     }
   }

@@ -159,7 +159,6 @@
     mounted() {
       api.getProblem(this.$route.params.id).then(res => {
         this.problem = res.data.data
-        console.log(res.data.data)
         bus.$emit('changeBread', this.problem.title)
       })
     },

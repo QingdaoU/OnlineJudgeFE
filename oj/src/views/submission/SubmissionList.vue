@@ -1,7 +1,7 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="23">
-    <Table stripe :columns="columns" :data="submissions" @on-row-dblclick="handleDetails"></Table>
+    <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
     </Col>
   </Row>
 </template>
@@ -17,19 +17,38 @@
       return {
         columns: [
           {
-            title: 'ID',
-            render: (h, params) => {
-              return h('span', params.row.id.slice(0, 10))
-            }
-          },
-          {
             title: 'When',
+            align: 'center',
             render: (h, params) => {
               return h('span', utils.backendDatetimeFormat(params.row.created_time))
             }
           },
           {
+            title: 'ID',
+            align: 'center',
+            render: (h, params) => {
+              if (params.row.show_link) {
+                return h('Button', {
+                  props: {
+                    type: 'text'
+                  },
+                  style: {
+                    color: '#57a3f3'
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push('/status/' + params.row.id)
+                    }
+                  }
+                }, params.row.id.slice(0, 12))
+              } else {
+                return h('span', params.row.id.slice(0, 12))
+              }
+            }
+          },
+          {
             title: 'Status',
+            align: 'center',
             render: (h, params) => {
               return h('Tag', {
                 props: {
@@ -40,6 +59,7 @@
           },
           {
             title: 'Problem ID',
+            align: 'center',
             render: (h, params) => {
               return h('Button',
                 {
@@ -60,22 +80,26 @@
           },
           {
             title: 'Time',
+            align: 'center',
             render: (h, params) => {
               return h('span', params.row.statistic_info.time_cost + 'MS')
             }
           },
           {
             title: 'Memory',
+            align: 'center',
             render: (h, params) => {
               return h('span', this.parseMemory(params.row.statistic_info.memory_cost))
             }
           },
           {
             title: 'Language',
+            align: 'center',
             key: 'language'
           },
           {
             title: 'Author',
+            align: 'center',
             key: 'username'
           }
         ],
@@ -87,9 +111,6 @@
       this.getProblemName()
     },
     methods: {
-      handleDetails(row) {
-        console.log(row)
-      },
       parseMemory(memory) {
         // 1048576 = 1024 * 1024
         let t = parseInt(memory) / 1048576

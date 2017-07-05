@@ -1,38 +1,35 @@
 <template>
+  <!--<Table stripe :disabled-hover="true" :columns="columns" :data="info"></Table>-->
   <div>
-    Hello
+    <Alert
   </div>
 </template>
 
 <script>
-  //  import api from '@/api'
+  import api from '@/api'
   export default {
-    name: 'test',
-    components: {
-    },
     data() {
       return {
-        code: ''
+        columns: [
+          {
+            title: 'TestCase',
+            type: 'index',
+            align: 'center'
+//            width: 60
+          }
+        ],
+        info: []
       }
     },
     mounted() {
-//      api.getProblem('1').then((res) => {
-//        console.log(res.data)
-//      })
+      api.getSubmission(this.$route.params.id).then((res) => {
+        console.log(res.data.data)
+        this.info = res.data.data.info.data
+      })
     },
-    methods: {
-      onChangeCode(newCode) {
-        this.code = newCode
-      },
-      onChangeLang(newLang) {
-        this.language = newLang
-      }
-    }
+    methods: {}
   }
 </script>
 
 <style scoped lang="less">
-  #breadcrumb {
-    outline: 1px;
-  }
 </style>

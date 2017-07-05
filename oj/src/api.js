@@ -220,7 +220,7 @@ export default {
     })
   },
   getSubmission(id) {
-    return ajax('submissions', 'get', {
+    return ajax('submission', 'get', {
       options: {
         params: {
           id

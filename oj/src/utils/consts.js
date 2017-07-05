@@ -1,50 +1,62 @@
 export const STATUS = {
   '-2': {
     name: 'Compile Error',
-    color: 'yellow'
+    color: 'yellow',
+    type: 'warning'
   },
   '-1': {
     name: 'Wrong Answer',
-    color: 'red'
+    color: 'red',
+    type: 'error'
   },
   '0': {
     name: 'Accepted',
-    color: 'green'
+    color: 'green',
+    type: 'success'
   },
   '1': {
     name: 'Time Limit Exceeded',
-    color: 'red'
+    color: 'red',
+    type: 'error'
   },
   '2': {
     name: 'Time Limit Exceeded',
-    color: 'red'
+    color: 'red',
+    type: 'error'
   },
   '3': {
     name: 'Memory Limit Exceeded',
-    color: 'red'
+    color: 'red',
+    type: 'error'
   },
   '4': {
     name: 'Runtime Error',
-    color: 'red'
+    color: 'red',
+    type: 'error'
   },
   '5': {
     name: 'System Error',
-    color: 'red'
+    color: 'red',
+    type: 'error'
   },
   '6': {
     name: 'Pending',
-    color: 'yellow'
+    color: 'yellow',
+    type: 'error'
   },
   '7': {
     name: 'Judging',
-    color: 'blue'
+    color: 'blue',
+    type: 'info'
   },
   '8': {
     name: 'Partial Accepted',
-    color: 'blue'
+    color: 'blue',
+    type: 'info'
   },
   '9': {
     name: 'Submitting',
-    color: 'yellow'
+    color: 'yellow',
+    type: 'warning'
   }
 }
