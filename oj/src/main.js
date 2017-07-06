@@ -2,9 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './routers/index'
 import iView from 'iview'
+import VueHighlightJS from 'vue-highlightjs'
 import locale from 'iview/src/locale/lang/en-US'
+
 import 'iview/dist/styles/iview.css'
 import 'font-awesome/css/font-awesome.min.css'
+import 'highlight.js/styles/atom-one-light.css'
 
 import * as filters from './utils/filters.js'
 
@@ -18,6 +21,8 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.use(iView, {locale})
+Vue.use(VueHighlightJS)
+
 // Vue.use(VueI18n)
 // Vue.component(IconBtn.name, IconBtn)
 // Vue.component(Panel.name, Panel)

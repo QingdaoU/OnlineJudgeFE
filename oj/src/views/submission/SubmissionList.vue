@@ -2,6 +2,7 @@
   <Row type="flex" justify="space-around">
     <Col :span="23">
     <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
+    <Pagination :total="total" :pageSize="pageSize" @on-change="changePage"></Pagination>
     </Col>
   </Row>
 </template>
@@ -11,8 +12,13 @@
   import bus from '@/utils/eventBus'
   import {STATUS} from '@/utils/consts'
   import utils from '@/utils/utils'
+  import Pagination from '@/components/Pagination'
+
   export default {
     name: 'submissionList',
+    components: {
+      Pagination
+    },
     data() {
       return {
         columns: [
@@ -104,7 +110,9 @@
             key: 'username'
           }
         ],
-        submissions: []
+        submissions: [],
+        total: 30,
+        pageSize: 10
       }
     },
     created() {
@@ -120,15 +128,18 @@
           })
         }
       },
+      changePage(page) {
+        this.getSubmissions((page - 1) * this.pageSize, this.pageSize)
+      },
       // TODO myself 添加切换按钮
-      getSubmissions() {
+      getSubmissions(offset = 0, limit = this.pageSize) {
         let params = {
-          myself: 1,
+          myself: 0,
           problem_id: this.$route.params.id
         }
-        api.getSubmissionList(params).then((res) => {
-          console.log(res.data.data)
-          this.submissions = res.data.data
+        api.getSubmissionList(offset, limit, params).then((res) => {
+          this.submissions = res.data.data.results
+          this.total = res.data.data.total
         })
       }
     },

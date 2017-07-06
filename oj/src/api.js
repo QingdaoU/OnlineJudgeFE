@@ -212,7 +212,9 @@ export default {
       }
     })
   },
-  getSubmissionList(params) {
+  getSubmissionList(offset, limit, params) {
+    params.limit = limit
+    params.offset = offset
     return ajax('submissions', 'get', {
       options: {
         params

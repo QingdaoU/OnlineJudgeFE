@@ -22,7 +22,7 @@
             <Col :span="7">
             <Form-item style="float: right">
               <Button type="ghost" @click="onReset" style="margin-right: 10px;">Reset</Button>
-              <Button type="primary">Filter</Button>
+              <Button type="primary" @click="onFilter">Filter</Button>
             </Form-item>
             </Col>
           </Row>
@@ -30,7 +30,7 @@
       </div>
       <Table style="width: 100%" :columns="problemTableColumns" :data="problemList" stripe></Table>
     </Card>
-    <Page class="pagination" :total="total" :page-size="pageSize" @on-change="changePage"></Page>
+    <Pagination :total="total" :page-size="pageSize" @on-change="changePage"></Pagination>
 
     </Col>
 
@@ -43,9 +43,13 @@
 
 <script>
   import api from '../../api.js'
+  import Pagination from '../../components/Pagination'
+
   export default {
     name: 'ProblemList',
-
+    components: {
+      Pagination
+    },
     data() {
       return {
         tagTableColumns: [
@@ -124,7 +128,6 @@
     },
     created() {
       this.routeName = this.$route.name
-//      this.contestId = this.$route.params.contestId
       this.getTagList()
       this.getProblemList()
     },
@@ -140,9 +143,8 @@
       },
       getProblemList(page = 1) {
         let self = this
-        let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
         let offset = (page - 1) * this.pageSize
-        api[funcName](offset, this.pageSize, {}, this.contestId).then(res => {
+        api.getProblemList(offset, this.pageSize, {}, this.contestId).then(res => {
           self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
@@ -164,6 +166,9 @@
           difficulty: ''
         }
         this.getProblemList(1)
+      },
+      onFilter() {
+        console.log(this.filterForm)
       }
     }
   }
@@ -177,9 +182,4 @@
     }
   }
 
-  .pagination {
-    float: right;
-    margin-top: 20px;
-    margin-right: 10px;
-  }
 </style>

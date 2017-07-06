@@ -7,6 +7,7 @@
 <script>
   //  import api from '@/api'
   export default {
+    name: 'test',
     components: {
     },
     data() {
@@ -15,8 +16,7 @@
     },
     mounted() {
     },
-    methods: {
-    }
+    methods: {}
   }
 </script>
 
