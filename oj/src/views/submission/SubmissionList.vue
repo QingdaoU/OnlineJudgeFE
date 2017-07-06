@@ -49,6 +49,7 @@
           {
             title: 'Status',
             align: 'center',
+            width: 180,
             render: (h, params) => {
               return h('Tag', {
                 props: {
@@ -82,14 +83,14 @@
             title: 'Time',
             align: 'center',
             render: (h, params) => {
-              return h('span', params.row.statistic_info.time_cost + 'MS')
+              return h('span', utils.backendTimeFormat(params.row.statistic_info.time_cost))
             }
           },
           {
             title: 'Memory',
             align: 'center',
             render: (h, params) => {
-              return h('span', this.parseMemory(params.row.statistic_info.memory_cost))
+              return h('span', utils.backendMemoryFormat(params.row.statistic_info.memory_cost))
             }
           },
           {
@@ -111,11 +112,6 @@
       this.getProblemName()
     },
     methods: {
-      parseMemory(memory) {
-        // 1048576 = 1024 * 1024
-        let t = parseInt(memory) / 1048576
-        return String(t.toFixed(0)) + 'MB'
-      },
       getProblemName() {
         let _id = this.$route.params.id
         if (_id !== undefined) {
@@ -124,9 +120,10 @@
           })
         }
       },
+      // TODO myself 添加切换按钮
       getSubmissions() {
         let params = {
-          myself: true,
+          myself: 1,
           problem_id: this.$route.params.id
         }
         api.getSubmissionList(params).then((res) => {

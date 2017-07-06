@@ -204,7 +204,7 @@ export default {
     })
   },
   submitCode(problemId, language, code) {
-    return ajax('submissions', 'post', {
+    return ajax('submission', 'post', {
       body: {
         problem_id: problemId,
         language,

@@ -45,9 +45,9 @@
         <Col :span="10">
         <div id="status" v-if="statusVisible">
           <span>Status:</span>
-          <router-link :to="{name: 'problem-submission-list', params: {id: problem._id}}">
+          <a @click.prevent="handleRoute('/status/'+submissionId)">
             <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
-          </router-link>
+          </a>
         </div>
         </Col>
         <Col :span="10">
@@ -191,7 +191,7 @@
             let id = this.submissionId
             api.getSubmission(id).then(res => {
               this.result = res.data.data
-              if (Object.keys(res.data.data.info).length !== 0) {
+              if (Object.keys(res.data.data.statistic_info).length !== 0) {
                 this.submitting = false
                 clearInterval(this.refreshStatus)
               }
