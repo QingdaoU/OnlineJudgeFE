@@ -28,8 +28,8 @@
           </Row>
         </Form>
       </div>
-      <Table style="width: 100%" :columns="problemTableColumns" :data="problemList" stripe></Table>
     </Card>
+      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" size="large"></Table>
     <Pagination :total="total" :page-size="pageSize" @on-change="changePage"></Pagination>
 
     </Col>
@@ -71,7 +71,7 @@
               return h('Button', {
                 props: {
                   type: 'text',
-                  size: 'small'
+                  size: 'large'
                 },
                 on: {
                   click: () => {
@@ -111,7 +111,7 @@
 
         ],
         problemList: [],
-        pageSize: 2,
+        pageSize: 5,
         total: 0,
         problemLoading: false,
         tagLoading: false,

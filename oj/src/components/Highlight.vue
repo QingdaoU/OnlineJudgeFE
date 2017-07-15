@@ -38,6 +38,6 @@
 <style scoped lang="less">
   code {
     padding: 20px;
-    font-size: 1.2em;
+    font-size: 1.1em;
   }
 </style>

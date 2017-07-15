@@ -1,6 +1,6 @@
 // all routes here.
 import Test from '../views/test'
-import {ProblemList, Logout} from '../views'
+import {ProblemList, Logout, Contest} from '../views'
 
 export default [
   {
@@ -24,6 +24,11 @@ export default [
     name: 'problem-submission-list',
     path: '/status/problem/:id',
     component: () => import('@/views/submission/SubmissionList.vue')
+  },
+  {
+    name: 'contest-list',
+    path: '/contests',
+    component: Contest
   },
   {
     name: 'submission-list',

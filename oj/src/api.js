@@ -101,9 +101,6 @@ export default {
   getLanguages() {
     return ajax('languages', 'get')
   },
-  getJudgeServer() {
-    return ajax('judge_server', 'get')
-  },
   getContest(id) {
     return ajax('contest', 'get', {
       options: {
@@ -115,7 +112,6 @@ export default {
   },
   getContestList(offset, limit, keyword) {
     let params = {
-      paging: true,
       offset,
       limit
     }

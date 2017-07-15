@@ -9,7 +9,7 @@
         </template>
         <template v-else>
           <span>Time: {{data.statistic_info.time_cost}}MS</span>
-          <span>Memory: {{parseMemory(data.statistic_info.memory_cost)}}MB</span>
+          <span>Memory: {{parseMemory(data.statistic_info.memory_cost)}}</span>
           <span>Lang: {{data.language}}</span>
         </template>
       </div>
@@ -87,7 +87,6 @@
     },
     beforeRouteEnter(to, from, next) {
       api.getSubmission(to.params.id).then((res) => {
-        console.log(res.data.data)
         next((vm) => {
           vm.data = res.data.data
         })

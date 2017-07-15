@@ -8,7 +8,7 @@
       <Col span="14">
       <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu">
         <Menu-item name="/problems">Problems</Menu-item>
-        <Menu-item name="/1">Contests</Menu-item>
+        <Menu-item name="/contests">Contests</Menu-item>
         <Menu-item name="/status">Status</Menu-item>
         <Menu-item name="/3">Rank</Menu-item>
         <Menu-item name="/4">About</Menu-item>
