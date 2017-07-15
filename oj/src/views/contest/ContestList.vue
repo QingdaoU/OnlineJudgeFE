@@ -17,15 +17,20 @@
         <li v-for="contest in contests">
           <Row type="flex" justify="space-between" align="middle">
             <img class="left-media" src="../../assets/Cup.png"/>
-            <Col :span="20" class="contest-main">
+            <Col :span="18" class="contest-main">
             <p class="title">{{contest.title}}</p>
             <ul class="detail">
-              <li><Tag>{{contest.rule_type}}</Tag></li>
-              <li><Icon type="android-time" color="#3091f2"></Icon> {{formatDate(contest.start_time)}}</li>
+              <li>
+                <Tag>{{contest.rule_type}}</Tag>
+              </li>
+              <li>
+                <Icon type="android-time" color="#3091f2"></Icon>
+                {{formatDate(contest.start_time)}}
+              </li>
             </ul>
             </Col>
-            <Col :span="2">
-            <span>{{contest.status}}</span>
+            <Col :span="4">
+            <Tag type="dot" :color="CONTEST_STATUS[contest.status].color">{{CONTEST_STATUS[contest.status].name}}</Tag>
             </Col>
           </Row>
         </li>
@@ -40,6 +45,7 @@
   import api from '@/api'
   import Pagination from '@/components/Pagination'
   import utils from '@/utils/utils'
+  import {CONTEST_STATUS} from '@/utils/consts'
 
   export default {
     name: 'contest-list',
@@ -51,7 +57,8 @@
         limit: 10,
         total: 0,
         rows: '',
-        contests: []
+        contests: [],
+        CONTEST_STATUS: CONTEST_STATUS
       }
     },
     methods: {
@@ -59,7 +66,8 @@
         console.log(page)
       },
       formatDate(backendDate) {
-        return utils.backendDatetimeFormat(backendDate)
+        let date = utils.backendDatetimeFormat(backendDate)
+        return date.slice(0, date.length - 3)
       }
     },
     beforeRouteEnter(to, from, next) {
@@ -83,7 +91,7 @@
       line-height: 30px;
     }
     #contest-list {
-      >li {
+      > li {
         padding: 30px;
         border-bottom: 1px solid rgba(128, 128, 128, 0.2);
 

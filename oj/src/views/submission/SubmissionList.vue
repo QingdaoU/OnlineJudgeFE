@@ -10,7 +10,7 @@
 <script>
   import api from '@/api'
   import bus from '@/utils/eventBus'
-  import {STATUS} from '@/utils/consts'
+  import {JUDGE_STATUS} from '@/utils/consts'
   import utils from '@/utils/utils'
   import Pagination from '@/components/Pagination'
 
@@ -59,9 +59,9 @@
             render: (h, params) => {
               return h('Tag', {
                 props: {
-                  color: STATUS[params.row.result].color
+                  color: JUDGE_STATUS[params.row.result].color
                 }
-              }, STATUS[params.row.result].name)
+              }, JUDGE_STATUS[params.row.result].name)
             }
           },
           {

@@ -1,4 +1,4 @@
-export const STATUS = {
+export const JUDGE_STATUS = {
   '-2': {
     name: 'Compile Error',
     color: 'yellow',
@@ -58,5 +58,20 @@ export const STATUS = {
     name: 'Submitting',
     color: 'yellow',
     type: 'warning'
+  }
+}
+
+export const CONTEST_STATUS = {
+  '1': {
+    name: 'Not Started',
+    color: 'yellow'
+  },
+  '0': {
+    name: 'Underway',
+    color: 'green'
+  },
+  '-1': {
+    name: 'Ended',
+    color: 'red'
   }
 }

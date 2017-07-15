@@ -128,7 +128,7 @@
 <script>
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
-  import {STATUS} from '../../utils/consts'
+  import {JUDGE_STATUS} from '../../utils/consts'
   import bus from '../../utils/eventBus'
 
   export default {
@@ -203,8 +203,8 @@
     computed: {
       submissionStatus() {
         return {
-          text: STATUS[this.result.result]['name'],
-          color: STATUS[this.result.result]['color']
+          text: JUDGE_STATUS[this.result.result]['name'],
+          color: JUDGE_STATUS[this.result.result]['color']
         }
       }
     },

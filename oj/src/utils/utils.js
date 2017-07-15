@@ -2,7 +2,7 @@ import moment from 'moment'
 
 export default {
   backendDatetimeFormat(dt) {
-    return moment(dt).format('YYYY.M.D  HH:mm:ss')
+    return moment(dt).format('YYYY-M-D  HH:mm:ss')
   },
   backendMemoryFormat(memory) {
     if (memory === undefined) return '--'
