@@ -118,7 +118,7 @@ export default {
     if (keyword) {
       params.keyword = keyword
     }
-    return ajax('contest', 'get', {
+    return ajax('contests', 'get', {
       options: {
         params: params
       }

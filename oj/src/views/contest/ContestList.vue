@@ -18,14 +18,28 @@
           <Row type="flex" justify="space-between" align="middle">
             <img class="left-media" src="../../assets/Cup.png"/>
             <Col :span="18" class="contest-main">
-            <p class="title">{{contest.title}}</p>
+            <p class="title">{{contest.title}}
+              <template v-if="contest.contest_type=='Public'">
+                <Tag color="green">
+                  {{contest.contest_type}}
+                </Tag>
+              </template>
+              <template v-else>
+                <Icon type="ios-locked-outline"></Icon>
+              </template>
+            </p>
             <ul class="detail">
               <li>
                 <Tag>{{contest.rule_type}}</Tag>
               </li>
+
+              <li>
+                <Icon type="calendar" color="#3091f2"></Icon>
+                {{formatDate(contest.start_time)}}
+              </li>
               <li>
                 <Icon type="android-time" color="#3091f2"></Icon>
-                {{formatDate(contest.start_time)}}
+                {{getDuration(contest.start_time, contest.end_time)}}
               </li>
             </ul>
             </Col>
@@ -68,6 +82,9 @@
       formatDate(backendDate) {
         let date = utils.backendDatetimeFormat(backendDate)
         return date.slice(0, date.length - 3)
+      },
+      getDuration(startTime, endTime) {
+        return utils.dateTimeDuration(startTime, endTime)
       }
     },
     beforeRouteEnter(to, from, next) {
@@ -92,7 +109,7 @@
     }
     #contest-list {
       > li {
-        padding: 30px;
+        padding: 25px;
         border-bottom: 1px solid rgba(128, 128, 128, 0.2);
 
         .left-media {
@@ -100,7 +117,7 @@
         }
         .contest-main {
           .title {
-            font-size: 22px;
+            font-size: 20px;
             /*font-weight: 300;*/
           }
           li {
