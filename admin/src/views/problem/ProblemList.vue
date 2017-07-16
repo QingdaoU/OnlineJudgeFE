@@ -72,7 +72,7 @@
     name: 'ProblemList',
     data () {
       return {
-        pageSize: 1,
+        pageSize: 10,
         total: 0,
         problemList: [],
         keyword: '',

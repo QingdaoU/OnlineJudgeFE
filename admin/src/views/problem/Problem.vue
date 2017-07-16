@@ -5,7 +5,7 @@
         action="/api/admin/test_case/upload"
         name="file"
         :data="{spj: problem.spj}"
-        :show-upload-list="false"
+        :show-file-list="false"
         :on-success="uploadSucceeded"
         :on-error="uploadFailed">
         <el-button size="small" type="primary">Choose File</el-button>
@@ -92,9 +92,10 @@
                   v-for="tag in problem.tags"
                   :closable="true"
                   :close-transition="false"
+                  :key="tag.id"
                   type="success"
                   @close="closeTag(tag)"
-                >{{tag}}</el-tag>
+                >{{tag.name}}</el-tag>
               </span>
               <el-autocomplete
                 v-if="inputVisible"
@@ -112,7 +113,7 @@
           <el-col :span="8">
             <el-form-item label="Languages" :error="error.languages" required>
               <el-checkbox-group v-model="problem.languages">
-                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" effect="dark" :content="lang.description" placement="top-start">
+                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" :key="'spj'+lang.name" effect="dark" :content="lang.description" placement="top-start">
                   <el-checkbox :label="lang.name"></el-checkbox>
                 </el-tooltip>
               </el-checkbox-group>
@@ -120,7 +121,7 @@
           </el-col>
         </el-row>
         <div>
-        <el-form-item v-for="(sample, index) in problem.samples">
+        <el-form-item v-for="(sample, index) in problem.samples" :key="'sample'+index">
           <Accordion :title="'Sample' + (index + 1)">
             <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete</el-button>
             <el-row :gutter="20">
@@ -153,7 +154,7 @@
         </div>
         <el-form-item label="Code Template">
           <el-row>
-            <el-col :span="24" v-for="(v, k) in template">
+            <el-col :span="24" v-for="(v, k) in template" :key="'template'+k">
               <el-form-item>
                 <el-checkbox v-model="v.checked">{{ k }}</el-checkbox>
                 <div v-if="v.checked">
@@ -171,7 +172,7 @@
             <el-col v-if="problem.spj" :span="12">
               <el-form-item label="Special Judge Language">
                 <el-radio-group v-model="problem.spj_language">
-                  <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" effect="dark" :content="lang.description" placement="top-start">
+                  <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" :key="lang.name" effect="dark" :content="lang.description" placement="top-start">
                     <el-radio :label="lang.name">{{ lang.name }}</el-radio>
                   </el-tooltip>
                 </el-radio-group>
@@ -189,7 +190,7 @@
                 action="/api/admin/test_case/upload"
                 name="file"
                 :data="{spj: problem.spj}"
-                :show-upload-list="false"
+                :show-file-list="false"
                 :on-success="uploadSucceeded"
                 :on-error="uploadFailed">
                 <el-button size="small" type="primary">Choose File</el-button>
@@ -401,7 +402,7 @@
         api.getProblemTagList().then(res => {
           let tagList = []
           for (let tag of res.data.data) {
-            tagList.push({value: tag})
+            tagList.push({value: tag.name})
           }
           cb(tagList)
         }).catch(() => {})
