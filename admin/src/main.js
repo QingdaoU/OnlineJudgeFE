@@ -7,10 +7,10 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import * as filters from './filters.js'
 
-import Panel from 'components/Panel.vue'
-import IconBtn from 'components/btn/IconBtn.vue'
-import Save from 'components/btn/Save.vue'
-import Cancel from 'components/btn/Cancel.vue'
+import Panel from './components/Panel.vue'
+import IconBtn from './components/btn/IconBtn.vue'
+import Save from './components/btn/Save.vue'
+import Cancel from './components/btn/Cancel.vue'
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
