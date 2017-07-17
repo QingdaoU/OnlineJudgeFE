@@ -92,10 +92,10 @@
                   v-for="tag in problem.tags"
                   :closable="true"
                   :close-transition="false"
-                  :key="tag.id"
+                  :key="tag"
                   type="success"
                   @close="closeTag(tag)"
-                >{{tag.name}}</el-tag>
+                >{{tag}}</el-tag>
               </span>
               <el-autocomplete
                 v-if="inputVisible"
@@ -504,7 +504,11 @@
           'edit-contest-problem': 'editContestProblem'
         }[this.routeName]
         api[funcName](this.problem).then(res => {
-          this.$router.push({name: 'problem-list'})
+          if (this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem') {
+            this.$router.push({name: 'contest-problem-list', params: {contestId: this.$route.params.contestId}})
+          } else {
+            this.$router.push({name: 'problem-list'})
+          }
         }).catch(() => {})
       }
     }

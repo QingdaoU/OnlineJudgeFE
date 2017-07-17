@@ -37,7 +37,8 @@
         <el-table-column
           label="Status">
           <template scope="props">
-            <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}</el-tag>
+            <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column
@@ -46,13 +47,14 @@
           fixed="right"
           label="Operation"
           width="180">
-            <div>
-              <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
-              <icon-btn name="Submission" icon="code"></icon-btn>
-            </div>
+          <div>
+            <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
+            <icon-btn name="Submission" icon="code"></icon-btn>
+          </div>
         </el-table-column>
       </el-table>
       <div class="option">
+        <el-button type="primary" size="small" @click.native="goCreateProblem" icon="plus">Create</el-button>
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -95,6 +97,13 @@
           this.$router.push({name: 'edit-contest-problem', params: {problemId: problemId, contestId: this.contestId}})
         }
       },
+      goCreateProblem () {
+        if (this.routeName === 'problem-list') {
+          this.$router.push({name: 'create-problem'})
+        } else if (this.routeName === 'contest-problem-list') {
+          this.$router.push({name: 'create-contest-problem', params: {contestId: this.contestId}})
+        }
+      },
       // 切换页码回调
       currentChange (page) {
         this.currentPage = page
@@ -113,6 +122,12 @@
       }
     },
     watch: {
+      '$route' (newVal, oldVal) {
+        console.log('hello')
+        this.contestId = newVal.params.contestId
+        this.routeName = newVal.name
+        this.getProblemList(this.currentPage)
+      },
       'keyword' () {
         this.currentChange()
       }
@@ -121,20 +136,20 @@
 </script>
 
 <style scoped lang="less">
-  .option{
+  .option {
     border: 1px solid #e0e6ed;
     border-top: none;
     padding: 8px;
     background-color: #fff;
     position: relative;
     height: 50px;
-  button{
-    margin-right: 10px;
-  }
-  >.page{
-     position: absolute;
-     right: 20px;
-     top: 10px;
-   }
+    button {
+      margin-right: 10px;
+    }
+    > .page {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
   }
 </style>
