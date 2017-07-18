@@ -8,7 +8,7 @@
           {{data.statistic_info.err_info}}
         </template>
         <template v-else>
-          <span>Time: {{data.statistic_info.time_cost}}MS</span>
+          <span>Time: {{parseTime(data.statistic_info.time_cost)}}</span>
           <span>Memory: {{parseMemory(data.statistic_info.memory_cost)}}</span>
           <span>Lang: {{data.language}}</span>
         </template>
@@ -97,6 +97,9 @@
     methods: {
       parseMemory(memory) {
         return utils.backendMemoryFormat(memory)
+      },
+      parseTime(time) {
+        return utils.backendTimeFormat(time)
       }
     },
     computed: {

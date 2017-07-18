@@ -9,6 +9,9 @@ import 'iview/dist/styles/iview.css'
 import 'font-awesome/css/font-awesome.min.css'
 import 'highlight.js/styles/atom-one-light.css'
 
+import VerticalMenu from '~/verticalMenu/verticalMenu.vue'
+import VerticalMenuItem from '~/verticalMenu/verticalMenu-item.vue'
+
 import * as filters from './utils/filters.js'
 
 // import IconBtn from 'components/btn/IconBtn.vue'
@@ -23,6 +26,8 @@ Object.keys(filters).forEach(key => {
 Vue.use(iView, {locale})
 Vue.use(VueHighlightJS)
 
+Vue.component(VerticalMenu.name, VerticalMenu)
+Vue.component(VerticalMenuItem.name, VerticalMenuItem)
 // Vue.use(VueI18n)
 // Vue.component(IconBtn.name, IconBtn)
 // Vue.component(Panel.name, Panel)

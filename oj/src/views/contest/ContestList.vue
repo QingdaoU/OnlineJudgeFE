@@ -18,7 +18,11 @@
           <Row type="flex" justify="space-between" align="middle">
             <img class="left-media" src="../../assets/Cup.png"/>
             <Col :span="18" class="contest-main">
-            <p class="title">{{contest.title}}
+            <p class="title">
+              <router-link class="entry":to="{name: 'contest-details', params: {'contestID': contest.id}}">
+                {{contest.title}}
+              </router-link>
+
               <template v-if="contest.contest_type=='Public'">
                 <Tag color="green">
                   {{contest.contest_type}}
@@ -109,7 +113,7 @@
     }
     #contest-list {
       > li {
-        padding: 25px;
+        padding: 20px;
         border-bottom: 1px solid rgba(128, 128, 128, 0.2);
 
         .left-media {
@@ -119,6 +123,13 @@
           .title {
             font-size: 20px;
             /*font-weight: 300;*/
+            .entry {
+              color: #495060;
+              &:hover {
+                color: #2d8cf0;
+                border-bottom: 1px solid #2d8cf0;
+              }
+            }
           }
           li {
             display: inline-block;

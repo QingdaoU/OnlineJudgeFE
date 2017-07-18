@@ -40,7 +40,7 @@
         api.login(this.loginForm.username, this.loginForm.password).then((res) => {
           api.getUsername().then((res) => {
             auth.setUser(res.data.data.username)
-            bus.$emit('loginSuccess', res)
+            bus.$emit('login-success', res)
           }, (res) => {})
         }, (res) => {})
       }

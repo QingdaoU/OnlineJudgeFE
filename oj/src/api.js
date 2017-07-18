@@ -118,7 +118,7 @@ export default {
     if (keyword) {
       params.keyword = keyword
     }
-    return ajax('contests', 'get', {
+    return ajax('contest', 'get', {
       options: {
         params: params
       }
@@ -137,7 +137,7 @@ export default {
     return ajax('problem/tags', 'get')
   },
   getProblem(id) {
-    return ajax('problems', 'get', {
+    return ajax('problem', 'get', {
       options: {
         params: {
           id
@@ -156,7 +156,7 @@ export default {
         params[element] = searchParams[element]
       }
     })
-    return ajax('problems', 'get', {
+    return ajax('problem', 'get', {
       options: {
         params: params
       }

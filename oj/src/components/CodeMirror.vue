@@ -1,23 +1,23 @@
 <template>
-  <div style="margin: 10px 0px">
+  <div style="margin: 0px 0px 15px 0px">
     <Row type="flex" justify="space-between" class="header">
-      <Col :span=8>
-        <span>
-          Language:
-          <Select v-model="lang" @on-change="onLangChange">
+      <Col :span=10>
+        <div>
+          <span>Language:</span>
+          <Select v-model="lang" @on-change="onLangChange" class="adjust">
             <Option v-for="item in languages" :key="item" :value="item">{{item}}
             </Option>
           </Select>
-        </span>
+        </div>
       </Col>
-      <Col :span=8>
-        <span >
-          Theme:
-          <Select v-model="options.theme">
+      <Col :span=10>
+        <div class="fl-right">
+          <span>Theme:</span>
+          <Select v-model="options.theme" class="adjust">
             <Option v-for="item in themes" :key="item.label" :value="item.value">{{item.label}}
             </Option>
           </Select>
-        </span>
+        </div>
       </Col>
     </Row>
     <codemirror :code="currentValue" :options="options" @change="onEditorCodeChange" ref="myEditor">
@@ -114,7 +114,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="less" scoped>
 .CodeMirror {
   height: auto !important;
 }
@@ -124,6 +124,13 @@ export default {
 }
 
 .header {
-  margin: 15px 5px;
+  margin: 5px 5px 15px 5px;
+  .adjust {
+    width: 150px;
+    margin-left: 10px;
+  }
+  .fl-right {
+    float: right;
+  }
 }
 </style>

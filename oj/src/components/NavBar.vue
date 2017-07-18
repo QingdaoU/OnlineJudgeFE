@@ -67,7 +67,7 @@
       }
     },
     mounted() {
-      bus.$on('loginSuccess', (res) => {
+      bus.$on('login-success', (res) => {
         this.username = res.data.data.username
         this.isAuthed = true
         this.handleRoute('/problems')

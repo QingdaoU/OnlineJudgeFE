@@ -123,7 +123,6 @@
     },
     watch: {
       '$route' (newVal, oldVal) {
-        console.log('hello')
         this.contestId = newVal.params.contestId
         this.routeName = newVal.name
         this.getProblemList(this.currentPage)

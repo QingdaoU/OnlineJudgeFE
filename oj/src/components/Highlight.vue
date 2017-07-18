@@ -29,7 +29,7 @@
     },
     watch: {
       'borderColor'(newVal, oldVal) {
-        this.styleObject['border-left'] = '2px solid ' + newVal
+        this.styleObject['border-left'] = '2.5px solid ' + newVal
       }
     }
   }

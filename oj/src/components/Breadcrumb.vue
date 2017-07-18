@@ -28,7 +28,7 @@
     mounted() {
       this.generateBread(this.$route)
       // 可以通过eventbus传一个字符串，该字符串会替换掉最后一个breadcrumb项，如：Problem.vue
-      bus.$on('changeBread', (res) => {
+      bus.$on('bread-crumb-change', (res) => {
         let i = this.breads.length - 1
         this.breads.splice(i, 1)
         this.breads.push(res)

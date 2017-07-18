@@ -3,7 +3,7 @@
 
     <!--problem main-->
     <Col :span=16>
-    <Card :padding="20" id="problem-main">
+    <Card :padding="20" dis-hover id="problem-main">
       <p class="title" style="margin-top: 0">Description</p>
       <p class="content" v-html=problem.description></p>
 
@@ -62,19 +62,17 @@
 
     <Col :span=6>
     <Row>
-
       <Col :span="24">
-      <Card :padding="0">
-        <ul id="operation-menu">
-          <li><a @click.prevent="handleRoute('/status/problem/'+problem._id)">
-            <Icon type="navicon-round"></Icon>
-            Submissions</a></li>
-          <li><a>
-            <Icon type="pie-graph"></Icon>
-            Statistic</a></li>
-        </ul>
-
-      </Card>
+      <VerticalMenu @on-click="handleRoute">
+        <VerticalMenu-item :route="{name: 'problem-submission-list', params: {id: this.$route.params.id}}">
+          <Icon type="navicon-round"></Icon>
+          Submissions
+        </VerticalMenu-item>
+        <VerticalMenu-item route="">
+          <Icon type="pie-graph"></Icon>
+          Statistic
+        </VerticalMenu-item>
+      </VerticalMenu>
       </Col>
 
       <Col :span="24">
@@ -82,39 +80,28 @@
         <div slot="title" class="header">
           Information
         </div>
-        <div>
-          <p class="title">ID</p>
-          <p>{{problem._id}}</p>
-        </div>
-        <div>
-          <p class="title">Time Limit</p>
-          <p>{{problem.time_limit}}MS</p>
-        </div>
-        <div>
-          <p class="title">Memory Limit</p>
-          <p>{{problem.memory_limit}}MB</p>
-        </div>
-
-        <div>
-          <p class="title">AC Count</p>
-          <p>{{problem.total_accepted_number}}</p>
-        </div>
-
-        <div>
-          <p class="title">Total Count</p>
-          <p>{{problem.total_submit_number}}</p>
-        </div>
-
-
-        <div>
-          <p class="title">Created By</p>
-          <p>{{problem.created_by.username}}</p>
-        </div>
-
-        <div>
-          <p class="title">Source</p>
-          <p>{{problem.source}}</p>
-        </div>
+        <ul>
+          <li><p>ID</p>
+            <p>{{problem._id}}</p></li>
+          <li>
+            <p>Time Limit</p>
+            <p>{{problem.time_limit}}MS</p></li>
+          <li>
+            <p>Memory Limit</p>
+            <p>{{problem.memory_limit}}MB</p></li>
+          <li>
+            <p>AC Count</p>
+            <p>{{problem.total_accepted_number}}</p></li>
+          <li>
+            <p>Total Count</p>
+            <p>{{problem.total_submit_number}}</p></li>
+          <li>
+            <p>Created By</p>
+            <p>{{problem.created_by.username}}</p></li>
+          <li>
+            <p>Source</p>
+            <p>{{problem.source}}</p></li>
+        </ul>
       </Card>
       </Col>
 
@@ -159,13 +146,10 @@
     mounted() {
       api.getProblem(this.$route.params.id).then(res => {
         this.problem = res.data.data
-        bus.$emit('changeBread', this.problem.title)
+        bus.$emit('bread-crumb-change', this.problem.title)
       })
     },
     methods: {
-      handleClick() {
-        console.log('hello')
-      },
       handleRoute(route) {
         this.$router.push(route)
       },
@@ -233,33 +217,25 @@
     margin-top: 20px;
   }
 
-  #operation-menu {
-    & > li > a {
-      color: #495060;
-      display: block;
-      text-align: left;
-      padding: 15px 20px;
-      &:hover {
-        background: #f8f8f9;
-        border-left: 3px solid #5cadff;
-      }
-      & > .ivu-icon {
-        font-size: 16px;
-        margin-right: 8px;
-      }
-    }
-  }
-
   #info {
     .header {
       font-size: 16px;
     }
-    p {
-      margin: 2px 0;
-      display: inline-block;
-    }
-    .title {
-      width: 120px;
+    ul {
+      list-style-type: none;
+      li {
+        border-bottom: 1px dotted #e9eaec;
+        margin-bottom: 10px;
+        p {
+          display: inline-block;
+        }
+        p:first-child {
+          width: 120px;
+        }
+        p:last-child {
+          float: right;
+        }
+      }
     }
   }
 
