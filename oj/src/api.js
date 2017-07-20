@@ -60,12 +60,6 @@ export default {
       }
     })
   },
-  // 获取用户名和登录状态
-  getUsername() {
-    return ajax('account/username', 'get', {
-      options: {}
-    })
-  },
   // 获取自身信息
   getUserInfo(username = undefined) {
     return ajax('account/profile', 'get', {
@@ -124,6 +118,23 @@ export default {
       }
     })
   },
+  getContestAccess(contestID) {
+    return ajax('contest/access', 'get', {
+      options: {
+        params: {
+          contest_id: contestID
+        }
+      }
+    })
+  },
+  checkContestPassword(contestID, password) {
+    return ajax('contest/password', 'post', {
+      body: {
+        contest_id: contestID,
+        password
+      }
+    })
+  },
   getContestAnnouncementList(contestId) {
     return ajax('contest/announcement', 'get', {
       options: {
@@ -136,11 +147,11 @@ export default {
   getProblemTagList() {
     return ajax('problem/tags', 'get')
   },
-  getProblem(id) {
+  getProblem(problemID) {
     return ajax('problem', 'get', {
       options: {
         params: {
-          id
+          problem_id: problemID
         }
       }
     })
@@ -162,29 +173,21 @@ export default {
       }
     })
   },
-  getContestProblemList(offset, limit, searchParams, contestId) {
-    let params = {
-      paging: true,
-      offset,
-      limit,
-      contest_id: contestId
-    }
-    Object.keys(searchParams).forEach((element) => {
-      if (searchParams[element]) {
-        params[element] = searchParams[element]
-      }
-    })
-    return ajax('contest/problem', 'get', {
-      options: {
-        params: params
-      }
-    })
-  },
-  getContestProblem(id) {
+  getContestProblemList(contestId) {
     return ajax('contest/problem', 'get', {
       options: {
         params: {
-          id
+          contest_id: contestId
+        }
+      }
+    })
+  },
+  getContestProblem(problemID, contestID) {
+    return ajax('contest/problem', 'get', {
+      options: {
+        params: {
+          contest_id: contestID,
+          problem_id: problemID
         }
       }
     })
@@ -227,6 +230,7 @@ export default {
     })
   }
 }
+
 /**
  ajax 请求
  @param url

@@ -29,7 +29,7 @@
         </Form>
       </div>
     </Card>
-      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" size="large"></Table>
+      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" size="large" disabled-hover></Table>
     <Pagination :total="total" :page-size="pageSize" @on-change="changePage"></Pagination>
 
     </Col>
@@ -42,7 +42,8 @@
 </template>
 
 <script>
-  import api from '../../api.js'
+  import api from '@/api.js'
+  import utils from '@/utils/utils'
   import Pagination from '../../components/Pagination'
 
   export default {
@@ -75,7 +76,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'problem-details', params: {id: params.row._id}})
+                    this.$router.push({name: 'problem-details', params: {problemID: params.row._id}})
                   }
                 },
                 style: {
@@ -103,7 +104,7 @@
             key: 'total_submit_number'
           },
           {
-            title: 'Acceptance',
+            title: 'AC Rate',
             render: (h, params) => {
               return h('span', this.getACRate(params.row.total_accepted_number, params.row.total_submit_number))
             }
@@ -133,8 +134,7 @@
     },
     methods: {
       getACRate(acCount, totalCount) {
-        let rate = totalCount === 0 ? 0.00 : (acCount / totalCount * 100).toFixed(2)
-        return String(rate) + '%'
+        return utils.getACRate(acCount, totalCount)
       },
       changePage(page) {
         this.$Loading.start()

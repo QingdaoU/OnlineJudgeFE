@@ -1,17 +1,24 @@
 <template>
-  <li @click.stop="handleClick"><slot></slot></li>
+  <li @click.stop="handleClick" :class="{disabled: disabled}">
+    <slot></slot>
+  </li>
 </template>
 
 <script>
   //  import api from '@/api'
   import Emitter from '~/mixins'
+
   export default {
     name: 'VerticalMenu-item',
-    mixins: [ Emitter ],
+    mixins: [Emitter],
     props: {
       route: {
         required: true,
         type: [String, Object]
+      },
+      disabled: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {
@@ -23,7 +30,21 @@
 </script>
 
 <style scoped lang="less">
-  li{
+  .disabled {
+    /*background-color: #ccc;*/
+    opacity: 1;
+    /*cursor: not-allowed;*/
+    pointer-events: none;
+    color: #ccc;
+    &:hover {
+      border-left:none;
+      color: #ccc;
+      background: #fff;
+    }
+  }
+
+  li {
+    /*border-bottom: 1px dashed #e9eaec;*/
     color: #495060;
     display: block;
     text-align: left;

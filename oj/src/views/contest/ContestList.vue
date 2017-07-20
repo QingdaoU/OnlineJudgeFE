@@ -19,9 +19,9 @@
             <img class="left-media" src="../../assets/Cup.png"/>
             <Col :span="18" class="contest-main">
             <p class="title">
-              <router-link class="entry":to="{name: 'contest-details', params: {'contestID': contest.id}}">
+              <a class="entry" @click.stop="handleContest(contest)">
                 {{contest.title}}
-              </router-link>
+              </a>
 
               <template v-if="contest.contest_type=='Public'">
                 <Tag color="green">
@@ -56,11 +56,20 @@
     </Card>
     <Pagination :total="total" :pageSize="limit" @on-change="changePage"></Pagination>
     </Col>
+
+    <Modal title="Input Password" v-model="passwordModal">
+      <Input v-model="password"/>
+      <div slot="footer">
+        <Button type="primary" :loading="btnLoading" @click="goCheckPasswd">GO</Button>
+      </div>
+    </Modal>
   </Row>
+
 </template>
 
 <script>
   import api from '@/api'
+  import auth from '@/utils/authHelper'
   import Pagination from '@/components/Pagination'
   import utils from '@/utils/utils'
   import {CONTEST_STATUS} from '@/utils/consts'
@@ -72,6 +81,12 @@
     },
     data() {
       return {
+//      for modal use
+        cur_contest_id: '',
+
+        passwordModal: false,
+        btnLoading: false,
+        password: '',
         limit: 10,
         total: 0,
         rows: '',
@@ -82,6 +97,41 @@
     methods: {
       changePage(page) {
         console.log(page)
+      },
+      handleContest(contest) {
+        this.cur_contest_id = contest.id
+        let route = {name: 'contest-details', params: {contestID: this.cur_contest_id}}
+        if (contest.contest_type !== 'Public') {
+          if (!auth.isAuthicated()) {
+            this.$error('Please login first.')
+            this.$router.push({name: 'login'})
+          } else if (contest.created_by.id === auth.getUid()) {
+            // contest.created_by is user self.
+            this.$router.push(route)
+          } else {
+            // check if contest have been authenticated
+            api.getContestAccess(contest.id).then((res) => {
+              let access = res.data.data.Access
+              if (access === false) {
+                this.passwordModal = true
+              } else {
+                this.$router.push(route)
+              }
+            })
+          }
+        } else {
+          this.$router.push(route)
+        }
+      },
+      goCheckPasswd() {
+        this.btnLoading = true
+        api.checkContestPassword(this.cur_contest_id, this.password).then((res) => {
+          this.btnLoading = false
+          this.passwordModal = false
+          this.$router.push({name: 'contest-details', params: {contestID: this.cur_contest_id}})
+        }, (res) => {
+          this.btnLoading = false
+        })
       },
       formatDate(backendDate) {
         let date = utils.backendDatetimeFormat(backendDate)

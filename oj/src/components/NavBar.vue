@@ -68,7 +68,7 @@
     },
     mounted() {
       bus.$on('login-success', (res) => {
-        this.username = res.data.data.username
+        this.username = res.user.username
         this.isAuthed = true
         this.handleRoute('/problems')
       })
@@ -76,17 +76,18 @@
         this.isAuthed = false
         this.username = ''
       })
-      api.getUsername().then((res) => {
+      api.getUserInfo().then((res) => {
         let data = res.data.data
-        if (data.isLogin === true) {
-          this.username = data.username
+        if (data.hasOwnProperty('user')) {
+          this.username = data.user.username
           this.isAuthed = true
-          auth.setUser(data.username)
+          auth.setUser(data)
         } else {
           this.isAuthed = false
           this.username = ''
           auth.clear()
         }
+      }, (res) => {
       })
     },
     watch: {

@@ -130,7 +130,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .container {
   margin-top: 30px;
 }

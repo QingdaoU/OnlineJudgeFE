@@ -27,11 +27,13 @@
     },
     mounted() {
       this.generateBread(this.$route)
-      // 可以通过eventbus传一个字符串，该字符串会替换掉最后一个breadcrumb项，如：Problem.vue
+      // 可以通过eventbus传一个字符串，该字符串会替换掉相应的breadcrumb项，参看：Problem.vue
       bus.$on('bread-crumb-change', (res) => {
-        let i = this.breads.length - 1
-        this.breads.splice(i, 1)
-        this.breads.push(res)
+        this.$set(this.breads, this.breads.length - 1, res)
+      })
+      // 改时间修改倒数第二个bread的内容，见contestproblem
+      bus.$on('bread-crumb-change2', (res) => {
+        this.$set(this.breads, this.breads.length - 2, res)
       })
     },
     watch: {
@@ -45,7 +47,7 @@
 <style scoped lang="less">
   #breadcrumb {
     background: #f8f8f9;
-    padding: 20px 30px;
+    padding: 15px 30px;
     .ivu-breadcrumb{
       text-transform: capitalize;
       &>span:last-child{

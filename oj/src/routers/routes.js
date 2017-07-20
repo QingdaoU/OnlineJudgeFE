@@ -1,6 +1,6 @@
 // all routes here.
 import Test from '../views/test'
-import {ProblemList, Logout, ContestList, ContestDetails} from '../views'
+import {ProblemList, Logout, ContestList, ContestDetails, ContestProblemList} from '../views'
 
 export default [
   {
@@ -16,14 +16,29 @@ export default [
     // }
   },
   {
+    name: 'problem-list',
+    path: '/problems',
+    component: ProblemList
+  },
+  {
     name: 'problem-details',
-    path: '/problem/:id',
+    path: '/problem/:problemID',
     component: () => import('@/views/problem/Problem.vue')
   },
   {
-    name: 'problem-submission-list',
-    path: '/status/problem/:id',
+    name: 'submission-list',
+    path: '/status',
     component: () => import('@/views/submission/SubmissionList.vue')
+  },
+  {
+    name: 'problem-submission-list',
+    path: '/status/problem/:problemID',
+    component: () => import('@/views/submission/SubmissionList.vue')
+  },
+  {
+    name: 'submission-details',
+    path: '/status/:id',
+    component: () => import('@/views/submission/SubmissionDetails.vue')
   },
   {
     name: 'contest-list',
@@ -33,28 +48,26 @@ export default [
   {
     name: 'contest-details',
     path: '/contest/:contestID/',
-    component: ContestDetails
+    component: ContestDetails,
+    children: [
+      {
+        name: 'contest-problem-list',
+        path: 'problems',
+        component: ContestProblemList
+      }
+    ]
   },
   {
-    name: 'submission-list',
-    path: '/status',
-    component: () => import('@/views/submission/SubmissionList.vue')
-  },
-  {
-    name: 'submission-details',
-    path: '/status/:id',
-    component: () => import('@/views/submission/SubmissionDetails.vue')
+    name: 'contest-problem-details',
+    path: '/contest/:contestID/problem/:problemID',
+    component: () => import('@/views/problem/Problem.vue')
   },
   {
     name: 'logout',
     path: '/logout',
     component: Logout
   },
-  {
-    name: 'problem-list',
-    path: '/problems',
-    component: ProblemList
-  },
+
   {
     path: '/test',
     name: 'Test',

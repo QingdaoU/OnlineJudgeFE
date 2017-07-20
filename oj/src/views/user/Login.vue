@@ -38,9 +38,9 @@
     methods: {
       onSubmit() {
         api.login(this.loginForm.username, this.loginForm.password).then((res) => {
-          api.getUsername().then((res) => {
-            auth.setUser(res.data.data.username)
-            bus.$emit('login-success', res)
+          api.getUserInfo().then((res) => {
+            auth.setUser(res.data.data)
+            bus.$emit('login-success', res.data.data)
           }, (res) => {})
         }, (res) => {})
       }
@@ -48,7 +48,7 @@
   }
 </script>
 
-<style lang="css">
+<style scoped lang="css">
   .center {
     margin-top: 50px;
   }

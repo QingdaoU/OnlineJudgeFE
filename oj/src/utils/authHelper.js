@@ -23,7 +23,17 @@ export default {
   clear() {
     storage.removeItem('userInfo')
   },
+  /**
+   * 是否已登录
+   * @returns {boolean}
+   */
   isAuthicated() {
     return !!storage.getItem('userInfo')
+  },
+  /**
+   * 获取当前用户id
+   */
+  getUid() {
+    return this.getUser().user.id
   }
 }

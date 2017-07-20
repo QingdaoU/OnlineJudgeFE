@@ -1,5 +1,5 @@
 <template>
-  <Card :padding="0">
+  <Card :padding="0" dis-hover>
     <ul>
       <slot></slot>
     </ul>

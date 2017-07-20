@@ -2,7 +2,7 @@
   <Row type="flex" justify="space-around">
 
     <!--problem main-->
-    <Col :span=16>
+    <Col :lg="18" :md="18" :sm="17" :xm="16">
     <Card :padding="20" dis-hover id="problem-main">
       <p class="title" style="margin-top: 0">Description</p>
       <p class="content" v-html=problem.description></p>
@@ -60,7 +60,7 @@
     </Card>
     </Col>
 
-    <Col :span=6>
+    <Col :lg="4" :md="4" :sm="5" :xm="6">
     <Row>
       <Col :span="24">
       <VerticalMenu @on-click="handleRoute">
@@ -144,7 +144,8 @@
       }
     },
     mounted() {
-      api.getProblem(this.$route.params.id).then(res => {
+      let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
+      api[func](this.$route.params.problemID, this.$route.params.contestID).then(res => {
         this.problem = res.data.data
         bus.$emit('bread-crumb-change', this.problem.title)
       })
