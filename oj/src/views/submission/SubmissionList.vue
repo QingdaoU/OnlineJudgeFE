@@ -89,14 +89,14 @@
             title: 'Time',
             align: 'center',
             render: (h, params) => {
-              return h('span', utils.backendTimeFormat(params.row.statistic_info.time_cost))
+              return h('span', utils.submissionTimeFormat(params.row.statistic_info.time_cost))
             }
           },
           {
             title: 'Memory',
             align: 'center',
             render: (h, params) => {
-              return h('span', utils.backendMemoryFormat(params.row.statistic_info.memory_cost))
+              return h('span', utils.submissionMemoryFormat(params.row.statistic_info.memory_cost))
             }
           },
           {

@@ -1,6 +1,6 @@
 // all routes here.
 import Test from '../views/test'
-import {ProblemList, Logout, ContestList, ContestDetails, ContestProblemList} from '../views'
+import {ProblemList, Logout, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement} from '../views'
 
 export default [
   {
@@ -54,6 +54,11 @@ export default [
         name: 'contest-problem-list',
         path: 'problems',
         component: ContestProblemList
+      },
+      {
+        name: 'contest-announcement-list',
+        path: 'announcements',
+        component: ContestAnnouncement
       }
     ]
   },

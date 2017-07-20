@@ -2,16 +2,32 @@
   <Row type="flex" justify="space-around">
     <Col :span="23">
     <Card :padding="0" id="contest-card" dis-hover>
-      <span slot="title" id="header">All Contests</span>
+      <span slot="title" id="header">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</span>
       <div slot="extra">
-        <Form>
-          <Form-item prop="difficulty">
-            <Select>
-              <Option value="OI">OI</Option>
-              <Option value="ACM">ACM</Option>
-            </Select>
-          </Form-item>
-        </Form>
+        <Dropdown @on-click="onRuleChange">
+          <span id="rule">{{query.rule_type === ''? 'Rule' : query.rule_type}}
+          <Icon type="arrow-down-b"></Icon>
+          </span>
+          <Dropdown-menu slot="list">
+            <Dropdown-item name="">All</Dropdown-item>
+            <Dropdown-item name="OI">OI</Dropdown-item>
+            <Dropdown-item name="ACM">ACM</Dropdown-item>
+          </Dropdown-menu>
+        </Dropdown>
+
+        <Dropdown @on-click="onStatusChange">
+          <span id="status">{{query.status === '' ? 'Status' : CONTEST_STATUS[query.status].name}}
+          <Icon type="arrow-down-b"></Icon>
+          </span>
+          <Dropdown-menu slot="list">
+            <Dropdown-item name="">All</Dropdown-item>
+            <Dropdown-item name="0">UnderWay</Dropdown-item>
+            <Dropdown-item name="1">Not Started</Dropdown-item>
+            <Dropdown-item name="-1">Ended</Dropdown-item>
+          </Dropdown-menu>
+        </Dropdown>
+
+        <Input size="small" id="keyword" @on-enter="onSearchKeyword" @on-click="onSearchKeyword" v-model="query.keyword" icon="ios-search-strong" />
       </div>
       <ol id="contest-list">
         <li v-for="contest in contests">
@@ -47,7 +63,7 @@
               </li>
             </ul>
             </Col>
-            <Col :span="4">
+            <Col :span="4" style="text-align: center">
             <Tag type="dot" :color="CONTEST_STATUS[contest.status].color">{{CONTEST_STATUS[contest.status].name}}</Tag>
             </Col>
           </Row>
@@ -81,9 +97,11 @@
     },
     data() {
       return {
-//      for modal use
-        cur_contest_id: '',
-
+        query: {
+          status: '',
+          keyword: '',
+          rule_type: ''
+        },
         passwordModal: false,
         btnLoading: false,
         password: '',
@@ -91,12 +109,31 @@
         total: 0,
         rows: '',
         contests: [],
-        CONTEST_STATUS: CONTEST_STATUS
+        CONTEST_STATUS: CONTEST_STATUS,
+//      for modal use
+        cur_contest_id: ''
       }
     },
     methods: {
+      getContestList(offset, limit, params) {
+        api.getContestList(offset, limit, params).then((res) => {
+          this.contests = res.data.data.results
+          this.total = res.data.data.total
+        })
+      },
       changePage(page) {
-        console.log(page)
+        this.getContestList()
+      },
+      onRuleChange(rule) {
+        this.query.rule_type = rule
+        this.getContestList(0, this.limit, this.query)
+      },
+      onStatusChange(status) {
+        this.query.status = status
+        this.getContestList(0, this.limit, this.query)
+      },
+      onSearchKeyword() {
+        this.getContestList(0, this.limit, this.query)
       },
       handleContest(contest) {
         this.cur_contest_id = contest.id
@@ -144,7 +181,6 @@
     beforeRouteEnter(to, from, next) {
       api.getContestList(0, 10).then((res) => {
         next((vm) => {
-          console.log(res.data.data)
           vm.contests = res.data.data.results
           vm.total = res.data.data.total
         })
@@ -156,6 +192,14 @@
 </script>
 <style lang="less" scoped>
   #contest-card {
+    #keyword {
+      width: 40%;
+      margin-right: 30px;
+    }
+    #rule, #status {
+      line-height: 30px;
+      margin-right: 30px;
+    }
     #header {
       font-size: 20px;
       font-weight: 300;
@@ -171,7 +215,7 @@
         }
         .contest-main {
           .title {
-            font-size: 20px;
+            font-size: 18px;
             /*font-weight: 300;*/
             .entry {
               color: #495060;

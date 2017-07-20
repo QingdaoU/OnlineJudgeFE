@@ -4,7 +4,7 @@
     <Card :padding="10" id="progress" dis-hover>
       <Row>
         <Col :span="8">
-        StartAt: 2017.6.5 3:50
+        3 Hours
         </Col>
         <Col :span="8">
         <p class="center">
@@ -13,12 +13,11 @@
         </Col>
         <Col :span="8">
         <p class="right">
-          3 Hours
+          -00:01:15
         </p>
         </Col>
       </Row>
       <Progress :percent="35" status="normal" :stroke-width="5" hide-info></Progress>
-      <Table :columns="columns" :data="contest_table" disabled-hover></Table>
     </Card>
     </Col>
 
@@ -26,11 +25,15 @@
     <!--子组件-->
     <router-view></router-view>
 
-    <Card v-if="route_name === 'contest-details'">
-      <div id="description">
-        <div v-html="contest.description"></div>
-      </div>
-    </Card>
+    <template v-if="route_name === 'contest-details'">
+      <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
+      <Card>
+        <div id="description">
+          <div v-html="contest.description"></div>
+        </div>
+      </Card>
+
+    </template>
     </Col>
 
     <Col :lg="4" :md="4" :sm="5" :xm="6">
@@ -41,7 +44,8 @@
         Problems
       </VerticalMenu-item>
 
-      <VerticalMenu-item :disabled="isDisabled" route="">
+      <VerticalMenu-item :disabled="isDisabled"
+                         :route="{name: 'contest-announcement-list', params: {contestID: contest_id}}">
         <Icon type="chatbubble-working"></Icon>
         Announcements
       </VerticalMenu-item>
@@ -70,6 +74,7 @@
   import api from '@/api'
   import bus from '@/utils/eventBus'
   import auth from '@/utils/authHelper'
+  import utils from '@/utils/utils'
 
   export default {
     name: 'ContestDetail',
@@ -84,8 +89,16 @@
         contest_table: [],
         columns: [
           {
-            title: 'StartAt',
-            key: 'start_time'
+            title: 'StartTime',
+            render: (h, params) => {
+              return h('span', utils.backendDatetimeFormat(params.row.start_time))
+            }
+          },
+          {
+            title: 'EndTime',
+            render: (h, params) => {
+              return h('span', utils.backendDatetimeFormat(params.row.end_time))
+            }
           },
           {
             title: 'ContestType',
@@ -111,13 +124,12 @@
     },
     methods: {
       handleRoute(route) {
-        console.log(route)
         this.$router.push(route)
       },
       changeBread(routeName) {
         if (routeName === 'contest-details') {
           bus.$emit('bread-crumb-change', this.contest.title)
-        } else if (routeName === 'contest-problem-list') {
+        } else if (routeName === 'contest-problem-list' || routeName === 'contest-announcement-list') {
           bus.$emit('bread-crumb-change2', this.contest.title)
         }
       },
@@ -170,10 +182,14 @@ https://vue-loader.vuejs.org/en/features/scoped-css.html
     }
   }
 
+  #contest-info {
+    margin: 0 0 20px 0;
+  }
+
 </style>
 <style scoped lang="css">
   /*使用scoped css注入*/
-  #description > > > pre {
+  #description >>> pre {
     margin: 15px 0px;
     padding: 5px;
     display: inline-block;

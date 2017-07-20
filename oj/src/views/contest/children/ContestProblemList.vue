@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table :data="problems" :columns="columns" @on-row-click="goContestProblem"></Table>
+    <Table :data="problems" :columns="columns" @on-row-click="goContestProblem" no-data-text="No Problems Here"></Table>
   </div>
 </template>
 

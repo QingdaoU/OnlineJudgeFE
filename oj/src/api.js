@@ -104,17 +104,21 @@ export default {
       }
     })
   },
-  getContestList(offset, limit, keyword) {
+  getContestList(offset, limit, searchParams) {
     let params = {
       offset,
       limit
     }
-    if (keyword) {
-      params.keyword = keyword
+    if (searchParams !== undefined) {
+      Object.keys(searchParams).forEach((element) => {
+        if (searchParams[element]) {
+          params[element] = searchParams[element]
+        }
+      })
     }
     return ajax('contest', 'get', {
       options: {
-        params: params
+        params
       }
     })
   },
@@ -245,7 +249,7 @@ export default {
  */
 
 function ajax(url, type, options) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     options = options || {}
     if (options.body === undefined) {
       options.body = options.options

@@ -68,7 +68,7 @@
             title: 'Memory',
             align: 'center',
             render: (h, params) => {
-              return h('span', utils.backendMemoryFormat(params.row.memory) + 'MB')
+              return h('span', utils.submissionMemoryFormat(params.row.memory) + 'MB')
             }
           }
         ],
@@ -96,10 +96,10 @@
     },
     methods: {
       parseMemory(memory) {
-        return utils.backendMemoryFormat(memory)
+        return utils.submissionMemoryFormat(memory)
       },
       parseTime(time) {
-        return utils.backendTimeFormat(time)
+        return utils.submissionTimeFormat(time)
       }
     },
     computed: {
