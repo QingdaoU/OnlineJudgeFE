@@ -32,12 +32,12 @@ export default [
   },
   {
     name: 'problem-submission-list',
-    path: '/status/problem/:problemID',
+    path: '/status/problem/:problemID/',
     component: () => import('@/views/submission/SubmissionList.vue')
   },
   {
     name: 'submission-details',
-    path: '/status/:id',
+    path: '/status/:id/',
     component: () => import('@/views/submission/SubmissionDetails.vue')
   },
   {
@@ -66,6 +66,10 @@ export default [
     name: 'contest-problem-details',
     path: '/contest/:contestID/problem/:problemID',
     component: () => import('@/views/problem/Problem.vue')
+  },
+  {
+    name: 'contest-submission-list',
+    path: '/contest/:contestID/submissions/'
   },
   {
     name: 'logout',

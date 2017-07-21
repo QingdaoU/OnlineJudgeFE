@@ -37,12 +37,6 @@ Vue.component(VerticalMenuItem.name, VerticalMenuItem)
 // 注册全局消息提示
 Vue.prototype.$error = Vue.prototype.$Message.error
 Vue.prototype.$info = Vue.prototype.$Message.info
-Vue.prototype.$success = (msg) => {
-  if (!msg) {
-    Vue.prototype.$Message.success('Success')
-  } else {
-    Vue.prototype.$Message.success(msg)
-  }
-}
+Vue.prototype.$success = Vue.prototype.$Message.success
 new Vue(Vue.util.extend({router}, App)).$mount('#app')
 

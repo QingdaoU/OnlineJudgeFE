@@ -50,7 +50,8 @@
         Announcements
       </VerticalMenu-item>
 
-      <VerticalMenu-item :disabled="isDisabled" route="">
+      <VerticalMenu-item :disabled="isDisabled"
+                         :route="{name: 'test'}">
         <Icon type="navicon-round"></Icon>
         Submissions
       </VerticalMenu-item>

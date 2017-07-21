@@ -112,16 +112,22 @@
         ],
         submissions: [],
         total: 30,
-        pageSize: 10
+        pageSize: 10,
+        contest_id: '',
+        problem_id: '',
+        route_name: ''
       }
     },
     created() {
+      this.contestID = this.$route.params.contestID
+      this.problemID = this.$route.params.problemID
+      this.routeName = this.$route.name
       this.getSubmissions()
       this.getProblemName()
     },
     methods: {
       getProblemName() {
-        let _id = this.$route.params.id
+        let _id = this.problemID
         if (_id !== undefined) {
           api.getProblem(_id).then((res) => {
             bus.$emit('changeBread', res.data.data.title)

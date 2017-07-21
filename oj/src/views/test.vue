@@ -8,15 +8,12 @@
   //  import api from '@/api'
   export default {
     name: 'test',
-    components: {
-    },
+    components: {},
     data() {
-      return {
-      }
+      return {}
     },
     mounted() {
-    },
-    methods: {}
+    }
   }
 </script>
 

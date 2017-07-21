@@ -1,42 +1,24 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
+import axios from 'axios'
 
-Vue.use(VueResource)
-Vue.http.options.root = '/api'
-Vue.http.options.emulateJSON = false
-
-function getCookie(name) {
-  let allCookies = document.cookie.split('; ')
-  for (let i = 0; i < allCookies.length; i++) {
-    let cookie = allCookies[i].split('=')
-    if (cookie[0] === name) {
-      return cookie[1]
-    } else {
-      return ''
-    }
-  }
-}
-
-Vue.http.interceptors.push((request, next) => {
-  request.headers.set('X-CSRFToken', getCookie('csrftoken'))
-  next()
-})
+Vue.prototype.$http = axios
+axios.defaults.baseURL = '/api'
+axios.defaults.xsrfHeaderName = 'X-CSTFToken'
+axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
   // 开发用简易登录
   devLogin(username, password) {
     return ajax('/api/login', 'get', {
-      options: {
-        params: {
-          username,
-          password
-        }
+      params: {
+        username,
+        password
       }
     })
   },
   login(username, password) {
     return ajax('login', 'post', {
-      body: {
+      data: {
         username,
         password
       }
@@ -45,7 +27,7 @@ export default {
   // 注册
   register(username, email, password, captcha) {
     return ajax('register', 'post', {
-      body: {
+      data: {
         username,
         email,
         password,
@@ -54,19 +36,13 @@ export default {
     })
   },
   logout() {
-    return ajax('logout', 'get', {
-      options: {
-        params: {}
-      }
-    })
+    return ajax('logout', 'get')
   },
   // 获取自身信息
   getUserInfo(username = undefined) {
     return ajax('account/profile', 'get', {
-      options: {
-        params: {
-          username
-        }
+      params: {
+        username
       }
     })
   },
@@ -74,7 +50,7 @@ export default {
   // 保存用户资料设置
   editProfileSetting(profile) {
     return ajax('account/profile', 'put', {
-      body: {
+      data: {
         blog: profile.blog,
         mood: profile.mood,
         school: profile.school,
@@ -87,7 +63,7 @@ export default {
   // 修改用户头像
   editAvatarSetting(avatar) {
     return ajax('account/profile', 'put', {
-      body: {
+      data: {
         avatar: avatar
       }
     })
@@ -95,12 +71,28 @@ export default {
   getLanguages() {
     return ajax('languages', 'get')
   },
-  getContest(id) {
-    return ajax('contest', 'get', {
-      options: {
-        params: {
-          id
-        }
+  getProblemTagList() {
+    return ajax('problem/tags', 'get')
+  },
+  getProblemList(offset, limit, searchParams) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
+    Object.keys(searchParams).forEach((element) => {
+      if (searchParams[element]) {
+        params[element] = searchParams[element]
+      }
+    })
+    return ajax('problem', 'get', {
+      params: params
+    })
+  },
+  getProblem(problemID) {
+    return ajax('problem', 'get', {
+      params: {
+        problem_id: problemID
       }
     })
   },
@@ -117,23 +109,26 @@ export default {
       })
     }
     return ajax('contest', 'get', {
-      options: {
-        params
+      params
+    })
+  },
+  getContest(id) {
+    return ajax('contest', 'get', {
+      params: {
+        id
       }
     })
   },
   getContestAccess(contestID) {
     return ajax('contest/access', 'get', {
-      options: {
-        params: {
-          contest_id: contestID
-        }
+      params: {
+        contest_id: contestID
       }
     })
   },
   checkContestPassword(contestID, password) {
     return ajax('contest/password', 'post', {
-      body: {
+      data: {
         contest_id: contestID,
         password
       }
@@ -141,74 +136,29 @@ export default {
   },
   getContestAnnouncementList(contestId) {
     return ajax('contest/announcement', 'get', {
-      options: {
-        params: {
-          contest_id: contestId
-        }
-      }
-    })
-  },
-  getProblemTagList() {
-    return ajax('problem/tags', 'get')
-  },
-  getProblem(problemID) {
-    return ajax('problem', 'get', {
-      options: {
-        params: {
-          problem_id: problemID
-        }
-      }
-    })
-  },
-  getProblemList(offset, limit, searchParams) {
-    let params = {
-      paging: true,
-      offset,
-      limit
-    }
-    Object.keys(searchParams).forEach((element) => {
-      if (searchParams[element]) {
-        params[element] = searchParams[element]
-      }
-    })
-    return ajax('problem', 'get', {
-      options: {
-        params: params
+      params: {
+        contest_id: contestId
       }
     })
   },
   getContestProblemList(contestId) {
     return ajax('contest/problem', 'get', {
-      options: {
-        params: {
-          contest_id: contestId
-        }
+      params: {
+        contest_id: contestId
       }
     })
   },
   getContestProblem(problemID, contestID) {
     return ajax('contest/problem', 'get', {
-      options: {
-        params: {
-          contest_id: contestID,
-          problem_id: problemID
-        }
+      params: {
+        contest_id: contestID,
+        problem_id: problemID
       }
-    })
-  },
-  createContestProblem(body) {
-    return ajax('contest/problem', 'post', {
-      body
-    })
-  },
-  editContestProblem(body) {
-    return ajax('contest/problem', 'put', {
-      body
     })
   },
   submitCode(problemId, language, code) {
     return ajax('submission', 'post', {
-      body: {
+      data: {
         problem_id: problemId,
         language,
         code
@@ -219,71 +169,65 @@ export default {
     params.limit = limit
     params.offset = offset
     return ajax('submissions', 'get', {
-      options: {
-        params
-      }
+      params
+    })
+  },
+  getContestSubmissionList(offset, limit, contestID, params = {}) {
+    params.limit = limit
+    params.offset = offset
+    params.contest_id = contestID
+    return ajax('contest/submissions', 'get', {
+      params
     })
   },
   getSubmission(id) {
     return ajax('submission', 'get', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   }
 }
 
 /**
- ajax 请求
- @param url
- @param type get|post|put|jsonp ....
- @param options options = {
-                      body: request body
-                      options: ..,
-                      succCallBack: Function
-                      errCallBack: Function
-                    }
- @return Promise
+ * @param url
+ * @param method get|post|put|delete...
+ * @param params like queryString. if a url is index?a=1&b=2, params = {a: '1', b: '2'}
+ * @param data post data, use for method put|post
+ * @returns {Promise}
  */
-
-function ajax(url, type, options) {
+function ajax(url, method, options) {
+  if (options !== undefined) {
+    var {params = {}, data = {}} = options
+  } else {
+    params = data = {}
+  }
   return new Promise((resolve, reject) => {
-    options = options || {}
-    if (options.body === undefined) {
-      options.body = options.options
-      options.options = undefined
-    }
-    Vue.http[type](url, options.body, options.options).then(res => {
-      // 出错了
+    axios({
+      url,
+      method,
+      params,
+      data
+    }).then(res => {
+      // API正常返回(status=20x), 是否错误通过有无error判断
       if (res.data.error !== null) {
         Vue.prototype.$error(res.data.data)
+        reject(res)
         // // 若后端返回为登录，则为session失效，应退出当前登录用户
         // if (res.data.data.startsWith('please login in first')) {
         //   Vue.$router.push('/logout')
         // }
-        reject(res)
-        if (options.errCallBack !== undefined) {
-          options.errCallBack(res)
-        }
       } else {
-        // 请求成功
         resolve(res)
-        if (options.succCallBack !== undefined) {
-          options.succCallBack(res)
-        } else if (type !== 'get') {
-          Vue.prototype.$success()
+        if (method !== 'get') {
+          Vue.prototype.$success('Success')
         }
       }
     }, res => {
-      // 请求失败
+      // API请求异常，一般为Server error 或 network error
       reject(res)
-      if (options.errCallBack !== undefined) {
-        options.errCallBack(res)
-      } else {
-        Vue.prototype.$error('Network Error')
-      }
+      Vue.prototype.$error(res.data.data)
     })
   })
 }
+
