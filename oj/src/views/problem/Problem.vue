@@ -64,14 +64,38 @@
     <Row>
       <Col :span="24">
       <VerticalMenu @on-click="handleRoute">
-        <VerticalMenu-item :route="{name: 'problem-submission-list', params: {id: this.$route.params.id}}">
+        <VerticalMenu-item
+          :route="{name: 'submission-list', query: {problemID: this.problemID, contestID: this.contestID}}">
           <Icon type="navicon-round"></Icon>
           Submissions
         </VerticalMenu-item>
-        <VerticalMenu-item route="">
+
+        <VerticalMenu-item v-if="this.contestID === undefined" route="">
           <Icon type="pie-graph"></Icon>
           Statistic
         </VerticalMenu-item>
+
+        <template v-if="this.contestID !== undefined">
+          <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
+            <Icon type="ios-photos"></Icon>
+            Problems
+          </VerticalMenu-item>
+
+          <VerticalMenu-item :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
+            <Icon type="chatbubble-working"></Icon>
+            Announcements
+          </VerticalMenu-item>
+
+          <VerticalMenu-item route="">
+            <Icon type="pie-graph"></Icon>
+            Ranklist
+          </VerticalMenu-item>
+
+          <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
+            <Icon type="home"></Icon>
+            View Contest
+          </VerticalMenu-item>
+        </template>
       </VerticalMenu>
       </Col>
 
@@ -126,6 +150,8 @@
     data() {
       return {
         statusVisible: false,
+        contestID: '',
+        problemID: '',
         submitting: false,
         code: '',
         language: 'C++',
@@ -144,13 +170,18 @@
       }
     },
     mounted() {
-      let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
-      api[func](this.$route.params.problemID, this.$route.params.contestID).then(res => {
-        this.problem = res.data.data
-        bus.$emit('bread-crumb-change', this.problem.title)
-      })
+      this.init()
     },
     methods: {
+      init() {
+        this.contestID = this.$route.params.contestID
+        this.problemID = this.$route.params.problemID
+        let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
+        api[func](this.problemID, this.contestID).then(res => {
+          this.problem = res.data.data
+          bus.$emit('bread-crumb-change', this.problem.title)
+        })
+      },
       handleRoute(route) {
         this.$router.push(route)
       },
@@ -169,7 +200,7 @@
         this.result = {result: 9}
         this.submitting = true
         this.statusVisible = true
-        api.submitCode(this.$route.params.id, this.language, this.code).then(res => {
+        api.submitCode(this.problemID, this.language, this.code).then(res => {
           this.submissionId = res.data.data.submission_id
           // 定时检查状态
           this.refreshStatus = setInterval(() => {
@@ -196,6 +227,11 @@
     // 防止切换组件后仍然不断请求
     beforeDestroy() {
       clearInterval(this.refreshStatus)
+    },
+    watch: {
+      '$route'() {
+        this.init()
+      }
     }
   }
 </script>

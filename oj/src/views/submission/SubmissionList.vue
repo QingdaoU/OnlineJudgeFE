@@ -119,13 +119,16 @@
       }
     },
     created() {
-      this.contestID = this.$route.params.contestID
-      this.problemID = this.$route.params.problemID
-      this.routeName = this.$route.name
-      this.getSubmissions()
-      this.getProblemName()
+      this.init()
     },
     methods: {
+      init() {
+        this.contestID = this.$route.query.contestID
+        this.problemID = this.$route.query.problemID
+        this.routeName = this.$route.name
+        this.getSubmissions()
+        this.getProblemName()
+      },
       getProblemName() {
         let _id = this.problemID
         if (_id !== undefined) {
@@ -134,25 +137,26 @@
           })
         }
       },
-      changePage(page) {
-        this.getSubmissions((page - 1) * this.pageSize, this.pageSize)
-      },
       // TODO myself 添加切换按钮
       getSubmissions(offset = 0, limit = this.pageSize) {
+        let funcName = this.contestID === undefined ? 'getSubmissionList' : 'getContestSubmissionList'
         let params = {
           myself: 0,
-          problem_id: this.$route.params.id
+          problem_id: this.problemID,
+          contest_id: this.contestID
         }
-        api.getSubmissionList(offset, limit, params).then((res) => {
+        api[funcName](offset, limit, params).then((res) => {
           this.submissions = res.data.data.results
           this.total = res.data.data.total
         })
+      },
+      changePage(page) {
+        this.getSubmissions((page - 1) * this.pageSize, this.pageSize)
       }
     },
     watch: {
       '$route'() {
-        this.getSubmissions()
-        this.getProblemName()
+        this.init()
       }
     }
   }

@@ -39,19 +39,19 @@
     <Col :lg="4" :md="4" :sm="5" :xm="6">
     <VerticalMenu @on-click="handleRoute">
       <VerticalMenu-item :disabled="isDisabled"
-                         :route="{name: 'contest-problem-list', params: {contestID: contest_id}}">
+                         :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
         <Icon type="ios-photos"></Icon>
         Problems
       </VerticalMenu-item>
 
       <VerticalMenu-item :disabled="isDisabled"
-                         :route="{name: 'contest-announcement-list', params: {contestID: contest_id}}">
+                         :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
         <Icon type="chatbubble-working"></Icon>
         Announcements
       </VerticalMenu-item>
 
       <VerticalMenu-item :disabled="isDisabled"
-                         :route="{name: 'test'}">
+                         :route="{name: 'submission-list' ,query: {contestID: contestID}}">
         <Icon type="navicon-round"></Icon>
         Submissions
       </VerticalMenu-item>
@@ -61,7 +61,7 @@
         Ranklist
       </VerticalMenu-item>
 
-      <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contest_id}}">
+      <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
         <Icon type="home"></Icon>
         Overview
       </VerticalMenu-item>
@@ -83,7 +83,7 @@
     data() {
       return {
         route_name: '',
-        contest_id: '',
+        contestID: '',
         contest: {
           description: 'abc'
         },
@@ -119,9 +119,9 @@
       }
     },
     created() {
-      this.contest_id = this.$route.params.contestID
+      this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
-      this.getContest(this.contest_id)
+      this.getContest(this.contestID)
     },
     methods: {
       handleRoute(route) {
@@ -160,7 +160,7 @@
     watch: {
       '$route'(newVal) {
         this.route_name = newVal.name
-        this.contest_id = newVal.params.contestID
+        this.contestID = newVal.params.contestID
         this.changeBread(newVal.name)
       }
     }

@@ -3,7 +3,7 @@ import axios from 'axios'
 
 Vue.prototype.$http = axios
 axios.defaults.baseURL = '/api'
-axios.defaults.xsrfHeaderName = 'X-CSTFToken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
@@ -172,10 +172,9 @@ export default {
       params
     })
   },
-  getContestSubmissionList(offset, limit, contestID, params = {}) {
+  getContestSubmissionList(offset, limit, params = {}) {
     params.limit = limit
     params.offset = offset
-    params.contest_id = contestID
     return ajax('contest/submissions', 'get', {
       params
     })
