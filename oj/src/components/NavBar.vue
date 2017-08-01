@@ -1,45 +1,36 @@
 <template>
   <div id="header">
-    <Row type="flex" justify="space-around">
-      <Col span="3">
-      <div class="logo"><span>QduOJ</span></div>
-      </Col>
-
-      <Col span="14">
-      <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu">
-        <Menu-item name="/problems">Problems</Menu-item>
-        <Menu-item name="/contests">Contests</Menu-item>
-        <Menu-item name="/status">Status</Menu-item>
-        <Menu-item name="/3">Rank</Menu-item>
-        <Menu-item name="/4">About</Menu-item>
-        <Menu-item name="/test">Test</Menu-item>
+      <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
+        <div class="logo"><span>OJ</span></div>
+        <Menu-item name="/test"><Icon type="home"></Icon>Home</Menu-item>
+        <Menu-item name="/problems"><Icon type="ios-keypad"></Icon>Problems</Menu-item>
+        <Menu-item name="/contests"><Icon type="trophy"></Icon>Contests</Menu-item>
+        <Menu-item name="/status"><Icon type="ios-pulse-strong"></Icon>Status</Menu-item>
+        <Menu-item name="/3"><Icon type="podium"></Icon>Rank</Menu-item>
+        <Menu-item name="/4"><Icon type="information-circled"></Icon>About</Menu-item>
+        <template v-if="!isAuthed">
+          <div class="btn-menu">
+            <Button type="ghost" shape="circle" @click="handleRoute('/login')">Login</Button>
+            <Button type="ghost" shape="circle" @click="handleRoute('/register')" style="margin-left: 5px;">Register
+            </Button>
+          </div>
+        </template>
+        <template v-else>
+          <Dropdown class="drop-menu" @on-click="handleRoute">
+            <Button class="btn-menu" type="text">{{ username }}
+              <Icon type="arrow-down-b"></Icon>
+            </Button>
+            <Dropdown-menu slot="list">
+              <Dropdown-item>Home</Dropdown-item>
+              <Dropdown-item>Submissions</Dropdown-item>
+              <Dropdown-item name="/settings">Settings</Dropdown-item>
+              <Dropdown-item divided name="/logout">Logout</Dropdown-item>
+            </Dropdown-menu>
+          </Dropdown>
+        </template>
       </Menu>
-      </Col>
 
-      <Col span="4">
-      <template v-if="!isAuthed">
-        <div class="btn-menu">
-          <Button type="ghost" shape="circle" @click="handleRoute('/login')">Login</Button>
-          <Button type="ghost" shape="circle" @click="handleRoute('/register')" style="margin-left: 5px;">Register
-          </Button>
-        </div>
-      </template>
 
-      <template v-else>
-        <Dropdown class="right" @on-click="handleRoute">
-          <Button class="btn-menu" type="text">{{ username }}
-            <Icon type="arrow-down-b"></Icon>
-          </Button>
-          <Dropdown-menu slot="list">
-            <Dropdown-item>Home</Dropdown-item>
-            <Dropdown-item>Submissions</Dropdown-item>
-            <Dropdown-item name="/settings">Settings</Dropdown-item>
-            <Dropdown-item divided name="/logout">Logout</Dropdown-item>
-          </Dropdown-menu>
-        </Dropdown>
-      </template>
-      </Col>
-    </Row>
   </div>
 </template>
 
@@ -102,27 +93,36 @@
 </script>
 
 <style lang="less" scoped>
-  .right {
-    float: right;
-  }
-
   #header {
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    z-index: 10;
     background-color: #fff;
     border-bottom: 1px solid #dddee1;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    .oj-menu {
+      background: #fdfdfd;
+    }
     .logo {
-      margin-left: 20px;
+      margin-left: 5%;
+      margin-right:2%;
       font-size: 20px;
       float: left;
       line-height: 60px;
     }
+    .drop-menu {
+      float: right;
+      margin-top: 10px;
+    }
+    .btn-menu {
+      font-size: 16px;
+      float: right;
+      margin-right: 10px;
+    }
   }
 
-  .ivu-menu-horizontal.ivu-menu-light:after {
-    height: 0;
-  }
-
-  .btn-menu {
-    font-size: 16px;
-    margin-top: 13px;
-  }
 </style>

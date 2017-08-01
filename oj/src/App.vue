@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <breadcrumb></breadcrumb>
+    <!--<breadcrumb></breadcrumb>-->
     <div class="content-app">
       <router-view></router-view>
       <div class="footer">
@@ -52,12 +52,12 @@
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     overflow: auto;
     -webkit-font-smoothing: antialiased;
-    background-color: #edf0f2;;
+    background-color: #eee;;
     overflow-y: scroll;
   }
 
   .content-app {
-    padding-top: 20px;
+    padding-top: 80px;
     padding-right: 10px;
     padding-left: 10px;
   }
@@ -66,5 +66,8 @@
     margin: 15px;
     text-align: center;
     font-size: small;
+  }
+  .ivu-table-wrapper {
+    border: 0;
   }
 </style>

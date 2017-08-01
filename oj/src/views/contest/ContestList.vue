@@ -1,7 +1,7 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="23">
-    <Card :padding="0" id="contest-card" dis-hover>
+    <Card :padding="0" id="contest-card" shadow>
       <span slot="title" id="header">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</span>
       <div slot="extra">
         <Dropdown @on-click="onRuleChange">

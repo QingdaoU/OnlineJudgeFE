@@ -200,7 +200,13 @@
         this.result = {result: 9}
         this.submitting = true
         this.statusVisible = true
-        api.submitCode(this.problemID, this.language, this.code).then(res => {
+        let data = {
+          problem_id: this.problemID,
+          language: this.language,
+          code: this.code,
+          contest_id: this.contestID
+        }
+        api.submitCode(data).then(res => {
           this.submissionId = res.data.data.submission_id
           // 定时检查状态
           this.refreshStatus = setInterval(() => {
@@ -213,6 +219,8 @@
               }
             })
           }, 1000)
+        }, res => {
+          this.submitting = false
         })
       }
     },

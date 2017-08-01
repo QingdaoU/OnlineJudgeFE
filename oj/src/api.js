@@ -156,13 +156,9 @@ export default {
       }
     })
   },
-  submitCode(problemId, language, code) {
+  submitCode(data) {
     return ajax('submission', 'post', {
-      data: {
-        problem_id: problemId,
-        language,
-        code
-      }
+      data
     })
   },
   getSubmissionList(offset, limit, params) {

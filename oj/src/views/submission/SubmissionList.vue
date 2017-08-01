@@ -1,6 +1,6 @@
 <template>
   <Row type="flex" justify="space-around">
-    <Col :span="23">
+    <Col :span="24">
     <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
     <Pagination :total="total" :pageSize="pageSize" @on-change="changePage"></Pagination>
     </Col>

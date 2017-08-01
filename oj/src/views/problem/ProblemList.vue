@@ -1,35 +1,35 @@
 <template>
   <Row type="flex" justify="space-around">
-    <Col :span=18>
-    <Card :bordered="false" dis-hover :padding="0">
-      <div slot="title">
-        <Form id="filterForm" ref="filterForm" :model="filterForm">
-          <Row type="flex" justify="space-between">
-            <Col :span="9">
-            <Form-item prop="keyword">
-              <Input icon="search" type="text" placeholder="keyword or problemID"/>
-            </Form-item>
-            </Col>
-            <Col :span="6">
-            <Form-item prop="difficulty">
-              <Select v-model="filterForm.difficulty">
-                <Option value="Low">Low</Option>
-                <Option value="Mid">Mid</Option>
-                <Option value="High">High</Option>
-              </Select>
-            </Form-item>
-            </Col>
-            <Col :span="7">
-            <Form-item style="float: right">
-              <Button type="ghost" @click="onReset" style="margin-right: 10px;">Reset</Button>
-              <Button type="primary" @click="onFilter">Filter</Button>
-            </Form-item>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-    </Card>
-      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" size="large" disabled-hover></Table>
+    <Col :span=19>
+    <!--<Card :bordered="false" dis-hover :padding="0">-->
+      <!--<div slot="title">-->
+        <!--<Form id="filterForm" ref="filterForm" :model="filterForm">-->
+          <!--<Row type="flex" justify="space-between">-->
+            <!--<Col :span="9">-->
+            <!--<Form-item prop="keyword">-->
+              <!--<Input icon="search" type="text" placeholder="keyword or problemID"/>-->
+            <!--</Form-item>-->
+            <!--</Col>-->
+            <!--<Col :span="6">-->
+            <!--<Form-item prop="difficulty">-->
+              <!--<Select v-model="filterForm.difficulty">-->
+                <!--<Option value="Low">Low</Option>-->
+                <!--<Option value="Mid">Mid</Option>-->
+                <!--<Option value="High">High</Option>-->
+              <!--</Select>-->
+            <!--</Form-item>-->
+            <!--</Col>-->
+            <!--<Col :span="7">-->
+            <!--<Form-item style="float: right">-->
+              <!--<Button type="ghost" @click="onReset" style="margin-right: 10px;">Reset</Button>-->
+              <!--<Button type="primary" @click="onFilter">Filter</Button>-->
+            <!--</Form-item>-->
+            <!--</Col>-->
+          <!--</Row>-->
+        <!--</Form>-->
+      <!--</div>-->
+    <!--</Card>-->
+      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList"  disabled-hover></Table>
     <Pagination :total="total" :page-size="pageSize" @on-change="changePage"></Pagination>
 
     </Col>
@@ -181,5 +181,6 @@
       margin-right: 10px;
     }
   }
+
 
 </style>

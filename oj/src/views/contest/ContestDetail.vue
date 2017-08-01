@@ -1,24 +1,24 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="23">
-    <Card :padding="10" id="progress" dis-hover>
-      <Row>
-        <Col :span="8">
-        3 Hours
-        </Col>
-        <Col :span="8">
-        <p class="center">
-          Not started
-        </p>
-        </Col>
-        <Col :span="8">
-        <p class="right">
-          -00:01:15
-        </p>
-        </Col>
-      </Row>
-      <Progress :percent="35" status="normal" :stroke-width="5" hide-info></Progress>
-    </Card>
+    <!--<Card :padding="10" id="progress" dis-hover>-->
+      <!--<Row>-->
+        <!--<Col :span="8">-->
+        <!--3 Hours-->
+        <!--</Col>-->
+        <!--<Col :span="8">-->
+        <!--<p class="center">-->
+          <!--Not started-->
+        <!--</p>-->
+        <!--</Col>-->
+        <!--<Col :span="8">-->
+        <!--<p class="right">-->
+          <!-- -00:01:15-->
+        <!--</p>-->
+        <!--</Col>-->
+      <!--</Row>-->
+      <!--<Progress :percent="35" status="normal" :stroke-width="5" hide-info></Progress>-->
+    <!--</Card>-->
     </Col>
 
     <Col :lg="18" :md="18" :sm="17" :xm="16">
@@ -57,7 +57,7 @@
       </VerticalMenu-item>
 
       <VerticalMenu-item :disabled="isDisabled" route="">
-        <Icon type="pie-graph"></Icon>
+        <Icon type="stats-bars"></Icon>
         Ranklist
       </VerticalMenu-item>
 
