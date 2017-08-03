@@ -1,6 +1,6 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span="23">
+  <Row type="flex">
+    <Col :span="24">
     <Card :padding="0" id="contest-card" shadow>
       <span slot="title" id="header">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</span>
       <div slot="extra">

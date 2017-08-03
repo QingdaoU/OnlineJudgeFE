@@ -57,9 +57,7 @@
   }
 
   .content-app {
-    padding-top: 80px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 80px 15px 0 15px;
   }
 
   .footer {
@@ -69,5 +67,11 @@
   }
   .ivu-table-wrapper {
     border: 0;
+  }
+  .flex-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-flow: row nowrap;
   }
 </style>

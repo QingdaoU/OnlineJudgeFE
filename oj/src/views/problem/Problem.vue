@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="flex-container">
     <div id="problem-main">
       <!--problem main-->
       <Card :padding="20" dis-hover id="problem-content">
@@ -66,11 +66,6 @@
           Submissions
         </VerticalMenu-item>
 
-        <VerticalMenu-item v-if="this.contestID === undefined" route="">
-          <Icon type="pie-graph"></Icon>
-          Statistic
-        </VerticalMenu-item>
-
         <template v-if="this.contestID !== undefined">
           <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
             <Icon type="ios-photos"></Icon>
@@ -96,7 +91,8 @@
 
       <Card id="info">
         <div slot="title" class="header">
-          Information
+          <Icon type="information-circled"></Icon>
+          <span class="card-title">Information</span>
         </div>
         <ul>
           <li><p>ID</p>
@@ -108,12 +104,6 @@
             <p>Memory Limit</p>
             <p>{{problem.memory_limit}}MB</p></li>
           <li>
-            <p>AC Count</p>
-            <p>{{problem.total_accepted_number}}</p></li>
-          <li>
-            <p>Total Count</p>
-            <p>{{problem.total_submit_number}}</p></li>
-          <li>
             <p>Created By</p>
             <p>{{problem.created_by.username}}</p></li>
           <li>
@@ -123,22 +113,53 @@
       </Card>
 
       <Card id="pieChart" :padding="0">
-        <div slot="title">Statistic</div>
-        <ECharts :options="pie" autoResize></ECharts>
+        <div slot="title">
+          <Icon type="ios-analytics"></Icon>
+          <span class="card-title">Statistic</span>
+          <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
+        </div>
+        <div class="echarts">
+          <ECharts :option="pie"></ECharts>
+        </div>
       </Card>
     </div>
-  </div>
 
+    <Modal v-model="graphVisible">
+      <div id="pieChart-detail">
+        <ECharts :option="largePie" :initOpts="largePieInitOpts"></ECharts>
+      </div>
+      <div slot="footer">
+        <Button type="ghost">Close</Button>
+      </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
-  import ECharts from 'vue-echarts/components/ECharts.vue'
+  import ECharts from 'vue-echarts-v3/src/lite.vue'
   import 'echarts/lib/chart/bar'
+  import 'echarts/lib/chart/pie'
+
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
   import {JUDGE_STATUS} from '../../utils/consts'
   import bus from '../../utils/eventBus'
 
+  // 作图用，如果更改pie图中的顺序 这个也要对应改
+  //  const pieNameMap = {
+  //    'AC': 4,
+  //    'WA': 2,
+  //    'TLE': 3,
+  //    'MLE': 1,
+  //    'RE': 0
+  //  }
+  const pieMap = {
+    'AC': {color: '#19be6b'},
+    'WA': {color: '#ed3f14'},
+    'TLE': {color: '#495060'},
+    'MLE': {color: '#80848f'},
+    'RE': {color: '#ff9900'}
+  }
   export default {
     name: 'Problem',
     components: {
@@ -148,6 +169,7 @@
     data() {
       return {
         statusVisible: false,
+        graphVisible: false,
         contestID: '',
         problemID: '',
         submitting: false,
@@ -166,26 +188,104 @@
           }
         },
         pie: {
+          legend: {
+            left: 'center',
+            top: '10',
+            orient: 'horizontal',
+            data: ['AC', 'WA']
+          },
           series: [
             {
-              name: '访问来源',
+              name: 'Summary',
               type: 'pie',
-              radius: '50%',
+              radius: '80%',
+              center: ['50%', '55%'],
+              itemStyle: {
+                normal: {color: this.getPieItemColor}
+              },
               data: [
-                {value: 450, name: 'AC'},
-                {value: 35, name: 'RE'},
-                {value: 650, name: 'WA'},
-                {value: 110, name: 'TLE'}
+                {value: 0, name: 'WA'},
+                {value: 0, name: 'AC'}
               ],
-              labelLine: {
+              label: {
                 normal: {
-                  length: 8,
-                  length2: 6
+                  position: 'inner',
+                  show: true,
+                  formatter: '{b}: {c}\n {d}%',
+                  textStyle: {
+                    fontWeight: 'bold'
+                  }
                 }
               }
-
             }
           ]
+        },
+        largePie: {
+          selectedMode: 'single',
+          legend: {
+            left: 'center',
+            top: '10',
+            orient: 'horizontal',
+            itemGap: 20,
+            data: ['AC', 'RE', 'WA', 'TLE', 'MLE']
+          },
+          series: [
+            {
+              name: 'Detail',
+              type: 'pie',
+              radius: ['45%', '70%'],
+              center: ['50%', '55%'],
+              itemStyle: {
+                normal: {color: this.getPieItemColor}
+              },
+              data: [
+                {value: 35, name: 'RE'},
+                {value: 650, name: 'WA'},
+                {value: 110, name: 'TLE'},
+                {value: 450, name: 'AC'},
+                {value: 0, name: 'MLE'}
+              ],
+              label: {
+                normal: {
+                  formatter: '{b}: {c}\n {d}%'
+                }
+              },
+              labelLine: {
+                normal: {}
+              }
+            },
+            {
+              name: 'Summary',
+              type: 'pie',
+              radius: '30%',
+              center: ['50%', '55%'],
+              itemStyle: {
+                normal: {color: this.getPieItemColor}
+              },
+              data: [
+                {
+                  value: '1245',
+                  name: 'WA'
+                },
+                {
+                  value: 450,
+                  name: 'AC',
+                  selected: true
+                }
+              ],
+              label: {
+                normal: {
+                  position: 'inner',
+                  formatter: '{b}: {c}\n {d}%'
+                }
+              }
+            }
+          ]
+        },
+        // echarts 无法获取隐藏dom的大小，需手动指定
+        largePieInitOpts: {
+          width: '500',
+          height: '500'
         }
       }
     },
@@ -199,8 +299,17 @@
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.problem = res.data.data
+          this.changePie(res.data.data)
           bus.$emit('bread-crumb-change', this.problem.title)
         })
+      },
+      changePie(problemData) {
+        let acNum = problemData.total_accepted_number
+        this.pie.series[0].data[1].value = acNum
+        this.pie.series[0].data[0].value = problemData.total_submit_number - acNum
+      },
+      getPieItemColor(obj) {
+        return pieMap[obj.name].color
       },
       handleRoute(route) {
         this.$router.push(route)
@@ -269,14 +378,14 @@
 </script>
 
 <style lang="less" scoped>
-  .container {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-around;
-    align-items: flex-start;
+  .card-title {
+    margin-left: 8px;
+  }
+
+  .flex-container {
     #problem-main {
       flex: auto;
-      margin-right: 1.5%;
+      margin-right: 18px;
     }
     #right-column {
       flex: none;
@@ -305,9 +414,6 @@
   #info {
     margin-bottom: 20px;
     margin-top: 20px;
-    .header {
-      font-size: 16px;
-    }
     ul {
       list-style-type: none;
       li {
@@ -326,14 +432,6 @@
     }
   }
 
-  #pieChart {
-    overflow: hidden;
-    .echarts {
-      height: 220px;
-      width: 220px;
-    }
-  }
-
   #status {
     float: left;
     span {
@@ -346,5 +444,21 @@
     float: right;
   }
 
+  #pieChart {
+    .echarts {
+      height: 250px;
+      width: 210px;
+    }
+    #detail {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+
+  #pieChart-detail {
+    width: 500px;
+    height: 500px;
+  }
 </style>
 

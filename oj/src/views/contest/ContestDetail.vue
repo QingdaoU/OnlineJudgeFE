@@ -1,74 +1,69 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span="23">
+  <div class="flex-container">
     <!--<Card :padding="10" id="progress" dis-hover>-->
-      <!--<Row>-->
-        <!--<Col :span="8">-->
-        <!--3 Hours-->
-        <!--</Col>-->
-        <!--<Col :span="8">-->
-        <!--<p class="center">-->
-          <!--Not started-->
-        <!--</p>-->
-        <!--</Col>-->
-        <!--<Col :span="8">-->
-        <!--<p class="right">-->
-          <!-- -00:01:15-->
-        <!--</p>-->
-        <!--</Col>-->
-      <!--</Row>-->
-      <!--<Progress :percent="35" status="normal" :stroke-width="5" hide-info></Progress>-->
+    <!--<Row>-->
+    <!--<Col :span="8">-->
+    <!--3 Hours-->
+    <!--</Col>-->
+    <!--<Col :span="8">-->
+    <!--<p class="center">-->
+    <!--Not started-->
+    <!--</p>-->
+    <!--</Col>-->
+    <!--<Col :span="8">-->
+    <!--<p class="right">-->
+    <!-- -00:01:15-->
+    <!--</p>-->
+    <!--</Col>-->
+    <!--</Row>-->
+    <!--<Progress :percent="35" status="normal" :stroke-width="5" hide-info></Progress>-->
     <!--</Card>-->
-    </Col>
-
-    <Col :lg="18" :md="18" :sm="17" :xm="16">
     <!--子组件-->
-    <router-view></router-view>
+    <div id="contest-main">
+      <router-view></router-view>
 
-    <template v-if="route_name === 'contest-details'">
-      <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
-      <Card>
-        <div id="description">
-          <div v-html="contest.description"></div>
-        </div>
-      </Card>
+      <template v-if="route_name === 'contest-details'">
+        <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
+        <Card>
+          <div id="description">
+            <div v-html="contest.description"></div>
+          </div>
+        </Card>
 
-    </template>
-    </Col>
+      </template>
+    </div>
+    <div id="contest-menu">
+      <VerticalMenu @on-click="handleRoute">
+        <VerticalMenu-item :disabled="isDisabled"
+                           :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
+          <Icon type="ios-photos"></Icon>
+          Problems
+        </VerticalMenu-item>
 
-    <Col :lg="4" :md="4" :sm="5" :xm="6">
-    <VerticalMenu @on-click="handleRoute">
-      <VerticalMenu-item :disabled="isDisabled"
-                         :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
-        <Icon type="ios-photos"></Icon>
-        Problems
-      </VerticalMenu-item>
+        <VerticalMenu-item :disabled="isDisabled"
+                           :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
+          <Icon type="chatbubble-working"></Icon>
+          Announcements
+        </VerticalMenu-item>
 
-      <VerticalMenu-item :disabled="isDisabled"
-                         :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
-        <Icon type="chatbubble-working"></Icon>
-        Announcements
-      </VerticalMenu-item>
+        <VerticalMenu-item :disabled="isDisabled"
+                           :route="{name: 'submission-list' ,query: {contestID: contestID}}">
+          <Icon type="navicon-round"></Icon>
+          Submissions
+        </VerticalMenu-item>
 
-      <VerticalMenu-item :disabled="isDisabled"
-                         :route="{name: 'submission-list' ,query: {contestID: contestID}}">
-        <Icon type="navicon-round"></Icon>
-        Submissions
-      </VerticalMenu-item>
+        <VerticalMenu-item :disabled="isDisabled" route="">
+          <Icon type="stats-bars"></Icon>
+          Ranklist
+        </VerticalMenu-item>
 
-      <VerticalMenu-item :disabled="isDisabled" route="">
-        <Icon type="stats-bars"></Icon>
-        Ranklist
-      </VerticalMenu-item>
-
-      <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
-        <Icon type="home"></Icon>
-        Overview
-      </VerticalMenu-item>
-    </VerticalMenu>
-    </Col>
-
-  </Row>
+        <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
+          <Icon type="home"></Icon>
+          Overview
+        </VerticalMenu-item>
+      </VerticalMenu>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -172,6 +167,16 @@
 https://vue-loader.vuejs.org/en/features/scoped-css.html
 -->
 <style scoped lang="less">
+  .flex-container {
+    #contest-main {
+      flex: auto;
+      margin-right: 18px;
+    }
+    #contest-menu {
+      flex: none;
+      width: 210px;
+    }
+  }
   #progress {
     margin: 0px 0 15px 0;
     p.center {

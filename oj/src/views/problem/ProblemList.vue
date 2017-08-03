@@ -1,6 +1,6 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span=19>
+  <Row type="flex" :gutter="18">
+    <Col :span=20>
     <!--<Card :bordered="false" dis-hover :padding="0">-->
       <!--<div slot="title">-->
         <!--<Form id="filterForm" ref="filterForm" :model="filterForm">-->
