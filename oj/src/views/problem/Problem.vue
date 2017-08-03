@@ -1,68 +1,64 @@
 <template>
-  <Row type="flex" justify="space-around">
+  <div class="container">
+    <div id="problem-main">
+      <!--problem main-->
+      <Card :padding="20" dis-hover id="problem-content">
+        <p class="title" style="margin-top: 0">Description</p>
+        <p class="content" v-html=problem.description></p>
 
-    <!--problem main-->
-    <Col :lg="18" :md="18" :sm="17" :xm="16">
-    <Card :padding="20" dis-hover id="problem-main">
-      <p class="title" style="margin-top: 0">Description</p>
-      <p class="content" v-html=problem.description></p>
+        <p class="title">Input</p>
+        <p class="content" v-html=problem.input_description></p>
 
-      <p class="title">Input</p>
-      <p class="content" v-html=problem.input_description></p>
-
-      <p class="title">Output</p>
-      <p class="content" v-html=problem.output_description></p>
+        <p class="title">Output</p>
+        <p class="content" v-html=problem.output_description></p>
 
 
-      <div v-for="sample, index in problem.samples">
+        <div v-for="sample, index in problem.samples">
+          <Row type="flex" justify="space-between">
+            <Col :span=11>
+            <p class="title">Sample Input {{index + 1}}</p>
+            <Card dis-hover :padding="8">
+              <div>{{sample.input}}</div>
+            </Card>
+            </Col>
+            <Col :span=11>
+            <p class="title">Sample Output {{index + 1}}</p>
+            <Card dis-hover :padding="8">
+              <div>{{sample.output}}</div>
+            </Card>
+            </Col>
+          </Row>
+        </div>
+        <div v-if="problem.hint">
+          <p class="title">Hint</p>
+          <Card dis-hover>
+            <div class="content" v-html=problem.hint></div>
+          </Card>
+        </div>
+      </Card>
+      <!--problem main end-->
+      <Card :padding="20" id="submit-code" dis-hover>
+        <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
-          <Col :span=11>
-          <p class="title">Sample Input {{index + 1}}</p>
-          <Card dis-hover :padding="8">
-            <div>{{sample.input}}</div>
-          </Card>
+          <Col :span="10">
+          <div id="status" v-if="statusVisible">
+            <span>Status:</span>
+            <a @click.prevent="handleRoute('/status/'+submissionId)">
+              <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
+            </a>
+          </div>
           </Col>
-          <Col :span=11>
-          <p class="title">Sample Output {{index + 1}}</p>
-          <Card dis-hover :padding="8">
-            <div>{{sample.output}}</div>
-          </Card>
+          <Col :span="10">
+          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" class="fl-right">
+            <span v-if="!submitting">Submit</span>
+            <span v-else>Submitting</span>
+          </Button>
           </Col>
         </Row>
-      </div>
-      <div v-if="problem.hint">
-        <p class="title">Hint</p>
-        <Card dis-hover>
-          <div class="content" v-html=problem.hint></div>
-        </Card>
-      </div>
-      <!--problem main end-->
+      </Card>
+    </div>
 
-    </Card>
-    <Card :padding="20" id="submit-code" dis-hover>
-      <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
-      <Row type="flex" justify="space-between">
-        <Col :span="10">
-        <div id="status" v-if="statusVisible">
-          <span>Status:</span>
-          <a @click.prevent="handleRoute('/status/'+submissionId)">
-            <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
-          </a>
-        </div>
-        </Col>
-        <Col :span="10">
-        <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" class="fl-right">
-          <span v-if="!submitting">Submit</span>
-          <span v-else>Submitting</span>
-        </Button>
-        </Col>
-      </Row>
-    </Card>
-    </Col>
-
-    <Col :lg="4" :md="4" :sm="5" :xm="6">
-    <Row>
-      <Col :span="24">
+    <div id="right-column">
       <VerticalMenu @on-click="handleRoute">
         <VerticalMenu-item
           :route="{name: 'submission-list', query: {problemID: this.problemID, contestID: this.contestID}}">
@@ -97,10 +93,8 @@
           </VerticalMenu-item>
         </template>
       </VerticalMenu>
-      </Col>
 
-      <Col :span="24">
-      <Card style="margin-top: 20px;" id="info">
+      <Card id="info">
         <div slot="title" class="header">
           Information
         </div>
@@ -127,16 +121,19 @@
             <p>{{problem.source}}</p></li>
         </ul>
       </Card>
-      </Col>
 
-    </Row>
-    </Col>
-
-  </Row>
+      <Card id="pieChart" :padding="0">
+        <div slot="title">Statistic</div>
+        <ECharts :options="pie" autoResize></ECharts>
+      </Card>
+    </div>
+  </div>
 
 </template>
 
 <script>
+  import ECharts from 'vue-echarts/components/ECharts.vue'
+  import 'echarts/lib/chart/bar'
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
   import {JUDGE_STATUS} from '../../utils/consts'
@@ -145,7 +142,8 @@
   export default {
     name: 'Problem',
     components: {
-      CodeMirror
+      CodeMirror,
+      ECharts
     },
     data() {
       return {
@@ -166,6 +164,28 @@
           created_by: {
             username: ''
           }
+        },
+        pie: {
+          series: [
+            {
+              name: '访问来源',
+              type: 'pie',
+              radius: '50%',
+              data: [
+                {value: 450, name: 'AC'},
+                {value: 35, name: 'RE'},
+                {value: 650, name: 'WA'},
+                {value: 110, name: 'TLE'}
+              ],
+              labelLine: {
+                normal: {
+                  length: 8,
+                  length2: 6
+                }
+              }
+
+            }
+          ]
         }
       }
     },
@@ -213,14 +233,18 @@
             let id = this.submissionId
             api.getSubmission(id).then(res => {
               this.result = res.data.data
-              if (Object.keys(res.data.data.statistic_info).length !== 0) {
+              if (res.data.data.statistic_info !== undefined) {
                 this.submitting = false
                 clearInterval(this.refreshStatus)
               }
+            }, res => {
+              this.submitting = false
+              clearInterval(this.refreshStatus)
             })
           }, 1000)
         }, res => {
           this.submitting = false
+          this.statusVisible = false
         })
       }
     },
@@ -245,7 +269,22 @@
 </script>
 
 <style lang="less" scoped>
-  #problem-main {
+  .container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    #problem-main {
+      flex: auto;
+      margin-right: 1.5%;
+    }
+    #right-column {
+      flex: none;
+      width: 220px;
+    }
+  }
+
+  #problem-content {
     .title {
       font-size: 19px;
       font-weight: 400;
@@ -260,9 +299,12 @@
 
   #submit-code {
     margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   #info {
+    margin-bottom: 20px;
+    margin-top: 20px;
     .header {
       font-size: 16px;
     }
@@ -275,12 +317,20 @@
           display: inline-block;
         }
         p:first-child {
-          width: 120px;
+          width: 90px;
         }
         p:last-child {
           float: right;
         }
       }
+    }
+  }
+
+  #pieChart {
+    overflow: hidden;
+    .echarts {
+      height: 220px;
+      width: 220px;
     }
   }
 

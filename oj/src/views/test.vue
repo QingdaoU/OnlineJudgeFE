@@ -36,38 +36,20 @@
 
       return {
         polar: {
-          title: {
-            text: '极坐标双数值轴'
-          },
-          legend: {
-            data: ['line']
-          },
-          polar: {
-            center: ['50%', '54%']
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross'
-            }
-          },
-          angleAxis: {
-            type: 'value',
-            startAngle: 0
-          },
-          radiusAxis: {
-            min: 0
-          },
           series: [
             {
-              coordinateSystem: 'polar',
-              name: 'line',
-              type: 'line',
-              showSymbol: false,
-              data: data
+              name: '访问来源',
+              type: 'pie',
+              radius: '55%',
+              data: [
+                {value: 235, name: '视频广告'},
+                {value: 274, name: '联盟广告'},
+                {value: 310, name: '邮件营销'},
+                {value: 335, name: '直接访问'},
+                {value: 400, name: '搜索引擎'}
+              ]
             }
-          ],
-          animationDuration: 2000
+          ]
         }
       }
     },

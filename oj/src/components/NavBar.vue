@@ -16,7 +16,7 @@
           </div>
         </template>
         <template v-else>
-          <Dropdown class="drop-menu" @on-click="handleRoute">
+          <Dropdown class="drop-menu" @on-click="handleRoute" placement="bottom-end">
             <Button class="btn-menu" type="text">{{ username }}
               <Icon type="arrow-down-b"></Icon>
             </Button>
@@ -117,6 +117,7 @@
     .drop-menu {
       float: right;
       margin-top: 10px;
+      padding-right: 10px;
     }
     .btn-menu {
       font-size: 16px;
@@ -124,5 +125,8 @@
       margin-right: 10px;
     }
   }
+  /*.ivu-menu-item {*/
+    /*font-size: 15px;*/
+  /*}*/
 
 </style>

@@ -88,6 +88,7 @@
     beforeRouteEnter(to, from, next) {
       api.getSubmission(to.params.id).then((res) => {
         next((vm) => {
+          console.log(res.data.data)
           vm.data = res.data.data
         })
       }, (res) => {
