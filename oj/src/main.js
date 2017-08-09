@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './routers/index'
 import iView from 'iview'
 import VueHighlightJS from 'vue-highlightjs'
+import ECharts from 'vue-echarts/components/ECharts.vue'
 import locale from 'iview/src/locale/lang/en-US'
 
 import 'iview/dist/styles/iview.css'
@@ -14,10 +15,6 @@ import VerticalMenuItem from '~/verticalMenu/verticalMenu-item.vue'
 
 import * as filters from './utils/filters.js'
 
-// import IconBtn from 'components/btn/IconBtn.vue'
-// import Save from 'components/btn/Save.vue'
-// import Cancel from 'components/btn/Cancel.vue'
-
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -28,11 +25,9 @@ Vue.use(VueHighlightJS)
 
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
+Vue.component('ECharts', ECharts)
+
 // Vue.use(VueI18n)
-// Vue.component(IconBtn.name, IconBtn)
-// Vue.component(Panel.name, Panel)
-// Vue.component(Save.name, Save)
-// Vue.component(Cancel.name, Cancel)
 
 // 注册全局消息提示
 Vue.prototype.$error = Vue.prototype.$Message.error

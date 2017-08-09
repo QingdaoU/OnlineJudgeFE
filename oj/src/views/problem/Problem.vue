@@ -119,14 +119,14 @@
           <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
         </div>
         <div class="echarts">
-          <ECharts :option="pie"></ECharts>
+          <ECharts :options="pie"></ECharts>
         </div>
       </Card>
     </div>
 
     <Modal v-model="graphVisible">
       <div id="pieChart-detail">
-        <ECharts :option="largePie" :initOpts="largePieInitOpts"></ECharts>
+        <ECharts :options="largePie" :initOptions="largePieInitOpts"></ECharts>
       </div>
       <div slot="footer">
         <Button type="ghost">Close</Button>
@@ -136,9 +136,9 @@
 </template>
 
 <script>
-  import ECharts from 'vue-echarts-v3/src/lite.vue'
-  import 'echarts/lib/chart/bar'
+  import ECharts from 'vue-echarts/components/ECharts.vue'
   import 'echarts/lib/chart/pie'
+  import 'echarts/lib/component/legend'
 
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
@@ -221,7 +221,7 @@
           ]
         },
         largePie: {
-          selectedMode: 'single',
+//          selectedMode: 'single',
           legend: {
             left: 'center',
             top: '10',

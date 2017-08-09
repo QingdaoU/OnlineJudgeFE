@@ -168,13 +168,6 @@ export default {
       params
     })
   },
-  getContestSubmissionList(offset, limit, params = {}) {
-    params.limit = limit
-    params.offset = offset
-    return ajax('contest/submissions', 'get', {
-      params
-    })
-  },
   getSubmission(id) {
     return ajax('submission', 'get', {
       params: {

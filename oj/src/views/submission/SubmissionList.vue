@@ -78,7 +78,15 @@
                   },
                   on: {
                     click: () => {
-                      this.$router.push('/problem/' + params.row.problem_id)
+                      if (this.contestID) {
+                        this.$router.push(
+                          {
+                            name: 'contest-problem-details',
+                            params: {problemID: params.row.problem_id, contestID: this.contestID}
+                          })
+                      } else {
+                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem_id}})
+                      }
                     }
                   }
                 },
@@ -139,13 +147,13 @@
       },
       // TODO myself 添加切换按钮
       getSubmissions(offset = 0, limit = this.pageSize) {
-        let funcName = this.contestID === undefined ? 'getSubmissionList' : 'getContestSubmissionList'
         let params = {
           myself: 0,
           problem_id: this.problemID,
           contest_id: this.contestID
         }
-        api[funcName](offset, limit, params).then((res) => {
+        api.getSubmissionList(offset, limit, params).then((res) => {
+          console.log(res.data.data.results)
           this.submissions = res.data.data.results
           this.total = res.data.data.total
         })
