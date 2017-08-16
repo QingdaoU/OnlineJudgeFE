@@ -129,7 +129,7 @@
         <ECharts :options="largePie" :initOptions="largePieInitOpts"></ECharts>
       </div>
       <div slot="footer">
-        <Button type="ghost">Close</Button>
+        <Button type="ghost" @click="graphVisible=false">Close</Button>
       </div>
     </Modal>
   </div>
@@ -145,20 +145,13 @@
   import {JUDGE_STATUS} from '../../utils/consts'
   import bus from '../../utils/eventBus'
 
-  // 作图用，如果更改pie图中的顺序 这个也要对应改
-  //  const pieNameMap = {
-  //    'AC': 4,
-  //    'WA': 2,
-  //    'TLE': 3,
-  //    'MLE': 1,
-  //    'RE': 0
-  //  }
   const pieMap = {
     'AC': {color: '#19be6b'},
     'WA': {color: '#ed3f14'},
     'TLE': {color: '#495060'},
     'MLE': {color: '#80848f'},
-    'RE': {color: '#ff9900'}
+    'RE': {color: '#ff6104'},
+    'CE': {color: '#ff9900'}
   }
   export default {
     name: 'Problem',
@@ -239,10 +232,10 @@
                 normal: {color: this.getPieItemColor}
               },
               data: [
-                {value: 35, name: 'RE'},
-                {value: 650, name: 'WA'},
-                {value: 110, name: 'TLE'},
-                {value: 450, name: 'AC'},
+                {value: 0, name: 'RE'},
+                {value: 0, name: 'WA'},
+                {value: 0, name: 'TLE'},
+                {value: 0, name: 'AC'},
                 {value: 0, name: 'MLE'}
               ],
               label: {
@@ -263,15 +256,8 @@
                 normal: {color: this.getPieItemColor}
               },
               data: [
-                {
-                  value: '1245',
-                  name: 'WA'
-                },
-                {
-                  value: 450,
-                  name: 'AC',
-                  selected: true
-                }
+                {value: '0', name: 'WA'},
+                {value: 0, name: 'AC', selected: true}
               ],
               label: {
                 normal: {
@@ -285,7 +271,7 @@
         // echarts 无法获取隐藏dom的大小，需手动指定
         largePieInitOpts: {
           width: '500',
-          height: '500'
+          height: '480'
         }
       }
     },
@@ -305,8 +291,25 @@
       },
       changePie(problemData) {
         let acNum = problemData.total_accepted_number
-        this.pie.series[0].data[1].value = acNum
-        this.pie.series[0].data[0].value = problemData.total_submit_number - acNum
+        let data = [
+          {name: 'WA', value: problemData.total_submit_number - acNum},
+          {name: 'AC', value: acNum}
+        ]
+        this.pie.series[0].data = data
+        this.largePie.series[1].data = data
+
+        // 根据结果设置legend
+        this.largePie.legend.data = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
+
+        let acCount = problemData.statistic_info['0']
+        delete problemData.statistic_info['0']
+
+        let largePieData = []
+        Object.keys(problemData.statistic_info).forEach(ele => {
+          largePieData.push({name: JUDGE_STATUS[ele].short, value: problemData.statistic_info[ele]})
+        })
+        largePieData.push({name: 'AC', value: acCount})
+        this.largePie.series[0].data = largePieData
       },
       getPieItemColor(obj) {
         return pieMap[obj.name].color
@@ -342,7 +345,7 @@
             let id = this.submissionId
             api.getSubmission(id).then(res => {
               this.result = res.data.data
-              if (res.data.data.statistic_info !== undefined) {
+              if (Object.keys(res.data.data.statistic_info).length !== 0) {
                 this.submitting = false
                 clearInterval(this.refreshStatus)
               }
@@ -457,8 +460,9 @@
   }
 
   #pieChart-detail {
+    margin-top: 20px;
     width: 500px;
-    height: 500px;
+    height: 480px;
   }
 </style>
 
