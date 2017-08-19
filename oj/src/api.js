@@ -24,19 +24,25 @@ export default {
       }
     })
   },
-  // 注册
-  register(username, email, password, captcha) {
-    return ajax('register', 'post', {
+  checkUsernameOrEmail(username, email) {
+    return ajax('check_username_or_email', 'post', {
       data: {
         username,
-        email,
-        password,
-        captcha
+        email
       }
+    })
+  },
+  // 注册
+  register(data) {
+    return ajax('register', 'post', {
+      data
     })
   },
   logout() {
     return ajax('logout', 'get')
+  },
+  getCaptcha() {
+    return ajax('captcha', 'get')
   },
   // 获取自身信息
   getUserInfo(username = undefined) {
@@ -207,9 +213,9 @@ function ajax(url, method, options) {
         // }
       } else {
         resolve(res)
-        if (method !== 'get') {
-          Vue.prototype.$success('Success')
-        }
+        // if (method !== 'get') {
+        //   Vue.prototype.$success('Success')
+        // }
       }
     }, res => {
       // API请求异常，一般为Server error 或 network error

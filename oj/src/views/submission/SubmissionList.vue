@@ -153,7 +153,6 @@
           contest_id: this.contestID
         }
         api.getSubmissionList(offset, limit, params).then((res) => {
-          console.log(res.data.data.results)
           this.submissions = res.data.data.results
           this.total = res.data.data.total
         })

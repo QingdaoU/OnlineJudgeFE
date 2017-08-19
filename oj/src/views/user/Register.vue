@@ -1,114 +1,180 @@
 <template>
-<div class="center">
-  <el-card class="box-card" id="login-card">
-
-    <div slot="header" class="clearfix" id="login-title">
-      <span style="line-height: 36px;">用户注册</span>
+  <Modal :value="visible" @on-cancel="$emit('update:visible', false)" :width="500">
+    <div slot="header">
+      <span>Welcome to register!</span>
     </div>
+    <Form ref="formRegister" :model="formRegister" :rules="ruleRegister">
+      <Form-item prop="username">
+        <Input type="text" v-model="formRegister.username" placeholder="Username" size="large">
+        <Icon type="ios-person-outline" slot="prepend"></Icon>
+        </Input>
+      </Form-item>
+      <Form-item prop="email">
+        <Input v-model="formRegister.email" placeholder="Email Address" size="large">
+        <Icon type="ios-email-outline" slot="prepend"></Icon>
+        </Input>
+      </Form-item>
+      <Form-item prop="password">
+        <Input type="password" v-model="formRegister.password" placeholder="Password" size="large">
+        <Icon type="ios-locked-outline" slot="prepend"></Icon>
+        </Input>
+      </Form-item>
+      <Form-item prop="passwordAgain">
+        <Input type="password" v-model="formRegister.passwordAgain" placeholder="Password Again" size="large">
+        <Icon type="ios-locked-outline" slot="prepend"></Icon>
+        </Input>
+      </Form-item>
+      <Form-item prop="captcha">
+        <div id="captcha">
+          <div id="captchaCode">
+            <Input v-model="formRegister.captcha" placeholder="Capacha" size="large">
+            <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
+            </Input>
+          </div>
+          <div id="captchaImg">
+            <Tooltip content="Click to refresh" placement="top">
+              <img :src="captchaSrc" @click="getCaptchaSrc"/>
+            </Tooltip>
+          </div>
+        </div>
+      </Form-item>
 
-    <el-form :label-position="labelPosition" :rules="rules" label-width="80px" :model="formLabelAlign">
-      <el-form-item label="账号" prop="username">
-        <el-input v-model="formLabelAlign.username"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="formLabelAlign.email" type="email"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="formLabelAlign.password" type="password"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码" prop="checkPassword">
-        <el-input v-model="formLabelAlign.checkPassword" type="password"></el-input>
-      </el-form-item>
-      <el-form-item label="验证码">
-        <el-input v-model="formLabelAlign.captcha"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
-      </el-form-item>
-    </el-form>
-
-  </el-card>
-</div>
+    </Form>
+    <div slot="footer">
+      <Button type="ghost" @click="handleReset('formRegister')">reset</Button>
+      <Button type="primary" @click="handleSubmit('formRegister')">submit</Button>
+    </div>
+  </Modal>
 </template>
 
 <script>
-import api from '../../api.js'
+  import api from '@/api'
 
-export default {
-  data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else {
-        if (this.formLabelAlign.checkPassword !== '') {
-          this.$refs.formLabelAlign.validateField('checkPassword')
+  export default {
+    data() {
+      const validateUsername = (rule, value, callback) => {
+        if (value !== '') {
+          api.checkUsernameOrEmail(value, undefined).then(res => {
+            if (res.data.data.username === false) {
+              callback(new Error('username already exists.'))
+            } else {
+              callback()
+            }
+          }, _ => {})
+        } else {
+          callback()
+        }
+      }
+      const validateEmail = (rule, value, callback) => {
+        if (value !== '') {
+          api.checkUsernameOrEmail(undefined, value).then(res => {
+            if (res.data.data.email === false) {
+              callback(new Error('email already exists'))
+            } else {
+              callback()
+            }
+          }, _ => {})
+        } else {
+          callback()
+        }
+      }
+      const validatePass = (rule, value, callback) => {
+        if (this.formRegister.passwdCheck !== '') {
+          // 对第二个密码框再次验证
+          this.$refs.formRegister.validateField('passwordAgain')
         }
         callback()
       }
-    }
-
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.formLabelAlign.password) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
+      const validatePassCheck = (rule, value, callback) => {
+        if (value !== this.formRegister.password) {
+          callback(new Error('password does not match'))
+        } else {
+          callback()
+        }
       }
-    }
 
-    return {
-      labelPosition: 'top',
-      formLabelAlign: {
-        username: '',
-        password: '',
-        email: '',
-        captcha: ''
-      },
-      rules: {
-        username: [{
-          required: true,
-          message: '请输入用户名',
-          trigger: 'blur'
-        }],
-        email: [{
-          required: true,
-          message: '请输入邮箱',
-          trigger: 'blur'
-        }],
-        password: [{
-          validator: validatePass,
-          trigger: 'blur'
-        }],
-        checkPassword: [{
-          validator: validatePass2,
-          trigger: 'blur'
-        }]
+      return {
+        captchaSrc: '',
+        formRegister: {
+          username: 'zemal',
+          password: '123555',
+          passwordAgain: '123555',
+          email: '213@zemal.com',
+          captcha: ''
+        },
+        ruleRegister: {
+          username: [
+            {required: true, trigger: 'blur'},
+            {validator: validateUsername, trigger: 'blur'}
+          ],
+          email: [
+            {required: true, type: 'email', trigger: 'blur'},
+            {validator: validateEmail, trigger: 'blur'}
+          ],
+          password: [
+            {required: true, trigger: 'blur', min: 6, max: 20},
+            {validator: validatePass, trigger: 'blur'}
+          ],
+          passwordAgain: [
+            {required: true, validator: validatePassCheck, trigger: 'change'}
+          ],
+          captcha: [
+            {required: true, trigger: 'blur', min: 1, max: 10}
+          ]
+        }
       }
-    }
-  },
-  methods: {
-    onSubmit() {
-      console.log('submit!')
-      api.register(this.formLabelAlign.username, this.formLabelAlign.email,
-        this.formLabelAlign.password, this.formLabelAlign.captcha).then(function(res) {
-          // 跳转problems
+    },
+    props: {
+      visible: {
+        required: true,
+        type: Boolean,
+        default: false
+      }
+    },
+    methods: {
+      handleSubmit(name) {
+        this.$refs[name].validate((valid) => {
+          if (!valid) {
+            this.$error('please validate the error fields')
+          } else {
+            let formData = Object.assign({}, this.formRegister)
+            delete formData['passwordAgain']
+            api.register(formData).then(res => {
+              console.log(res.data.data)
+            }, res => {
+              console.log(res)
+            })
+          }
         })
+      },
+      handleReset(name) {
+        this.$refs[name].resetFields()
+      },
+      getCaptchaSrc() {
+        api.getCaptcha().then(res => {
+          console.log(res.data.data)
+          this.captchaSrc = res.data.data
+        })
+      }
+    },
+    mounted() {
+      this.getCaptchaSrc()
     }
   }
-}
 </script>
 
-<style lang="css" scoped>
-.center{
-  margin-top: 50px;
-}
-#login-card{
-  max-width: 400px;
-  margin: auto;
-}
-#login-title{
-  text-align: center;
-  font-size: 20px;
-}
+<style scoped lang="less">
+  #captcha {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    #captchaCode {
+      flex: auto;
+    }
+    #captchaImg {
+      margin-left: 10px;
+      padding: 3px;
+      flex: initial;
+    }
+  }
 </style>
