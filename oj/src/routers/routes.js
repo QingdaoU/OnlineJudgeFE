@@ -2,14 +2,10 @@
 import Test from '../views/test'
 import {
   ProblemList, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement,
-  Logout, Register
+  Logout
 } from '../views'
 
 export default [
-  {
-    name: 'login',
-    path: '/login',
-    component: () => import('@/views/user/Login.vue')
     // beforeEnter(to, from, next) {
     //   if (auth.isAuthicated()) {
     //     next('/test')
@@ -17,6 +13,10 @@ export default [
     //     next()
     //   }
     // }
+  {
+    name: 'logout',
+    path: '/logout',
+    component: Logout
   },
   {
     name: 'problem-list',
@@ -65,17 +65,6 @@ export default [
     path: '/contest/:contestID/problem/:problemID',
     component: () => import('@/views/problem/Problem.vue')
   },
-  {
-    name: 'register',
-    path: '/register',
-    component: Register
-  },
-  {
-    name: 'logout',
-    path: '/logout',
-    component: Logout
-  },
-
   {
     path: '/test',
     name: 'Test',

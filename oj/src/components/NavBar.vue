@@ -10,8 +10,8 @@
         <Menu-item name="/4"><Icon type="information-circled"></Icon>About</Menu-item>
         <template v-if="!isAuthed">
           <div class="btn-menu">
-            <Button type="ghost" shape="circle" @click="handleRoute('/login')">Login</Button>
-            <Button type="ghost" shape="circle" @click="registerModalVisible = true" style="margin-left: 5px;">Register
+            <Button type="ghost" shape="circle" @click="registerModalVisible = true, modalMode='login'">Login</Button>
+            <Button type="ghost" shape="circle" @click="registerModalVisible = true, modalMode='register'" style="margin-left: 5px;">Register
             </Button>
           </div>
         </template>
@@ -29,7 +29,7 @@
           </Dropdown>
         </template>
       </Menu>
-    <Register :visible.sync="registerModalVisible"></Register>
+    <Register :visible.sync="registerModalVisible" :mode.sync="modalMode"></Register>
 
   </div>
 </template>
@@ -39,7 +39,7 @@
   import api from '@/api'
   import auth from '../utils/authHelper'
 
-  import Register from '@/views/user/Register'
+  import Register from '@/views/user/LoginORRegister'
 
   export default {
     components: {
@@ -47,6 +47,7 @@
     },
     data() {
       return {
+        modalMode: 'login',
         registerModalVisible: false,
         isAuthed: false,
         username: ''
