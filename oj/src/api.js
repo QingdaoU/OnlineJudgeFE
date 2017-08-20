@@ -46,7 +46,7 @@ export default {
   },
   // 获取自身信息
   getUserInfo(username = undefined) {
-    return ajax('account/profile', 'get', {
+    return ajax('profile', 'get', {
       params: {
         username
       }
@@ -55,7 +55,7 @@ export default {
 
   // 保存用户资料设置
   editProfileSetting(profile) {
-    return ajax('account/profile', 'put', {
+    return ajax('profile', 'put', {
       data: {
         blog: profile.blog,
         mood: profile.mood,
@@ -68,7 +68,7 @@ export default {
   },
   // 修改用户头像
   editAvatarSetting(avatar) {
-    return ajax('account/profile', 'put', {
+    return ajax('profile', 'put', {
       data: {
         avatar: avatar
       }
@@ -179,6 +179,16 @@ export default {
       params: {
         id
       }
+    })
+  },
+  getUserRank(offset, limit, rule = 'acm') {
+    let params = {
+      offset,
+      limit,
+      rule
+    }
+    return ajax('user_rank', 'get', {
+      params
     })
   }
 }

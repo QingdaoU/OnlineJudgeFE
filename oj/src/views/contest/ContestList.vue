@@ -90,6 +90,7 @@
   import utils from '@/utils/utils'
   import {CONTEST_STATUS} from '@/utils/consts'
 
+  const limit = 10
   export default {
     name: 'contest-list',
     components: {
@@ -105,12 +106,12 @@
         passwordModal: false,
         btnLoading: false,
         password: '',
-        limit: 10,
+        limit: limit,
         total: 0,
         rows: '',
         contests: [],
         CONTEST_STATUS: CONTEST_STATUS,
-//      for modal use
+//      for password modal use
         cur_contest_id: ''
       }
     },
@@ -179,7 +180,7 @@
       }
     },
     beforeRouteEnter(to, from, next) {
-      api.getContestList(0, 10).then((res) => {
+      api.getContestList(0, limit).then((res) => {
         next((vm) => {
           vm.contests = res.data.data.results
           vm.total = res.data.data.total

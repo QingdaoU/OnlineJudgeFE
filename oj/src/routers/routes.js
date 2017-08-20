@@ -2,7 +2,7 @@
 import Test from '../views/test'
 import {
   ProblemList, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement,
-  Logout
+  Logout, ACMRank
 } from '../views'
 
 export default [
@@ -64,6 +64,11 @@ export default [
     name: 'contest-problem-details',
     path: '/contest/:contestID/problem/:problemID',
     component: () => import('@/views/problem/Problem.vue')
+  },
+  {
+    name: 'acm-rank',
+    path: '/acm-rank',
+    component: ACMRank
   },
   {
     path: '/test',
