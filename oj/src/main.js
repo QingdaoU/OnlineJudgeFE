@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './routers/index'
 import iView from 'iview'
 import VueHighlightJS from 'vue-highlightjs'
-import ECharts from 'vue-echarts/components/ECharts.vue'
 import locale from 'iview/src/locale/lang/en-US'
 
 import 'iview/dist/styles/iview.css'
@@ -25,7 +24,6 @@ Vue.use(VueHighlightJS)
 
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
-Vue.component('ECharts', ECharts)
 
 // Vue.use(VueI18n)
 

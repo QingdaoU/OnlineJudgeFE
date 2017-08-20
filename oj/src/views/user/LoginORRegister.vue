@@ -5,13 +5,13 @@
     </div>
     <template v-if="mode === 'login'">
       <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
-        <Form-item prop="username">
-          <Input type="text" v-model="formLogin.username" placeholder="Username" size="large">
+        <Form-item prop="uname">
+          <Input type="text" v-model="formLogin.uname" placeholder="Username" size="large">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
-        <Form-item prop="password" style="margin-bottom: 10px">
-          <Input type="password" v-model="formLogin.password" placeholder="Password" size="large">
+        <Form-item prop="passwd" style="margin-bottom: 10px">
+          <Input type="password" v-model="formLogin.passwd" placeholder="Password" size="large">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
@@ -138,8 +138,8 @@
           captcha: ''
         },
         formLogin: {
-          username: '',
-          password: ''
+          uname: '',
+          passwd: ''
         },
         ruleRegister: {
           username: [
@@ -162,11 +162,11 @@
           ]
         },
         ruleLogin: {
-          username: [
-            {required: true, trigger: 'blur'}
+          uname: [
+            {required: true, trigger: 'blur', message: 'username is required'}
           ],
-          password: [
-            {required: true, trigger: 'change', min: 6, max: 20}
+          passwd: [
+            {required: true, trigger: 'change', min: 6, max: 20, message: 'password is required'}
           ]
         }
       }

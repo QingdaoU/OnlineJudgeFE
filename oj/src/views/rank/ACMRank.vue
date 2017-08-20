@@ -1,11 +1,31 @@
 <template>
-  <div>
+  <Row type="flex" justify="space-around">
+    <Col :span="20">
+    <Card :padding="10">
+      <div slot="title">
+        <span class="title">ACM Ranklist</span>
+      </div>
+      <div class="echarts">
+        <ECharts :options="options" ref="bar" auto-resize></ECharts>
+      </div>
+    </Card>
     <Table :data="dataRank" :columns="columns"></Table>
     <Pagination :total="total" :page-size="pageSize" @on-change="getRankData"></Pagination>
-  </div>
+    </Col>
+  </Row>
 </template>
 
 <script>
+  import ECharts from 'vue-echarts/components/ECharts.vue'
+  import 'echarts/lib/chart/bar'
+  import 'echarts/lib/chart/line'
+  import 'echarts/lib/component/legend'
+  import 'echarts/lib/component/tooltip'
+  import 'echarts/lib/component/toolbox'
+  import 'echarts/lib/component/markPoint'
+  //  import 'echarts/lib/component/axisPointer'
+  //  import 'echarts/lib/component/title'
+
   import api from '@/api'
   import Pagination from '~/Pagination'
   import utils from '@/utils/utils'
@@ -61,7 +81,8 @@
   export default {
     name: 'acm-rank',
     components: {
-      Pagination
+      Pagination,
+      ECharts
     },
     data() {
       return {
@@ -69,33 +90,103 @@
         pageSize: limit,
         total: 0,
         dataRank: [],
-        columns: columns
+        columns: columns,
+        options: {
+          tooltip: {
+            trigger: 'axis'
+          },
+          legend: {
+            data: ['AC', 'Total']
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              dataView: {show: true, readOnly: true},
+              magicType: {show: true, type: ['line', 'bar']},
+              restore: {show: true},
+              saveAsImage: {show: true}
+            },
+            right: '10%'
+          },
+          calculable: true,
+          xAxis: [
+            {
+              type: 'category',
+              data: ['root']
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: 'AC',
+              type: 'bar',
+              data: [1],
+              markPoint: {
+                data: [
+                  {type: 'max', name: 'max'}
+                ]
+              }
+            },
+            {
+              name: 'Total',
+              type: 'bar',
+              data: [1],
+              markPoint: {
+                data: [
+                  {type: 'max', name: 'max'}
+                ]
+              }
+            }
+          ]
+        }
       }
     },
     methods: {
+      initData(res) {
+        this.changeCharts(res.data.data.results)
+        this.total = res.data.data.total
+        this.dataRank = res.data.data.results
+      },
       getRankData(page) {
         let offset = (page - 1) * this.pageSize
+        let bar = this.$refs.bar
+        bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getUserRank(offset, this.pageSize, 'acm').then(res => {
-          console.log(res.data.data)
-          this.total = res.data.data.total
-          this.dataRank = res.data.data.results
+          this.initData(res)
+          bar.hideLoading()
         })
+      },
+      changeCharts(rankData) {
+        let [usernames, acData, totalData] = [[], [], []]
+        rankData.forEach(ele => {
+          usernames.push(ele.user.username)
+          acData.push(ele.accepted_number)
+          totalData.push(ele.submission_number)
+        })
+        this.options.xAxis[0].data = usernames
+        this.options.series[0].data = acData
+        this.options.series[1].data = totalData
       }
     },
-    beforeRouteEnter(to, from, next) {
-      api.getUserRank(0, limit).then(res => {
-        next(vm => {
-          console.log(res.data.data)
-          vm.total = res.data.data.total
-          vm.dataRank = res.data.data.results
-        })
-      }, _ => {
-        next()
-      })
+    mounted() {
+      this.getRankData(1)
     }
   }
 </script>
 
 <style scoped lang="less">
+  .echarts {
+    margin: 0 auto;
+    width: 95%;
+    height: 400px;
+  }
 
+  .title {
+    font-size: 20px;
+    font-weight: 400;
+  }
 </style>
