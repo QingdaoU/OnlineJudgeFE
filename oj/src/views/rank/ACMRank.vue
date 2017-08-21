@@ -124,7 +124,7 @@
             {
               name: 'AC',
               type: 'bar',
-              data: [1],
+              data: [0],
               markPoint: {
                 data: [
                   {type: 'max', name: 'max'}
@@ -134,7 +134,7 @@
             {
               name: 'Total',
               type: 'bar',
-              data: [1],
+              data: [0],
               markPoint: {
                 data: [
                   {type: 'max', name: 'max'}

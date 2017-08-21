@@ -57,11 +57,11 @@
     </template>
     <div slot="footer" class="footer">
       <template v-if="mode === 'login'">
-        <Button type="primary" @click="handleLogin('formLogin')" class="btn" long>Login</Button>
+        <Button type="primary" @click="handleLogin()" class="btn" long>Login</Button>
         <a @click.stop="handleUpdateProp('update:mode', 'register')">No account? Register now!</a>
       </template>
       <template v-else>
-        <Button type="primary" @click="handleRegister('formRegister')" class="btn" long>Register Now</Button>
+        <Button type="primary" @click="handleRegister()" class="btn" long>Register Now</Button>
         <a @click.stop="handleUpdateProp('update:mode', 'login')">Already registed? Login now!</a>
       </template>
     </div>
@@ -172,29 +172,41 @@
       }
     },
     methods: {
-      handleRegister(name) {
-        this.$refs[name].validate((valid) => {
+      validateForm(formName) {
+        let isValid = false
+        this.$refs[formName].validate(valid => {
           if (!valid) {
             this.$error('please validate the error fields')
-          } else {
-            let formData = Object.assign({}, this.formRegister)
-            delete formData['passwordAgain']
-            api.register(formData).then(res => {
-              this.$success('Register successed, go to login')
-              this.handleUpdateProp('update:mode', 'login')
-            }, _ => {})
           }
+          isValid = valid
         })
+        return isValid
+      },
+      handleRegister() {
+        if (this.validateForm('formRegister')) {
+          let formData = Object.assign({}, this.formRegister)
+          delete formData['passwordAgain']
+          api.register(formData).then(res => {
+            this.$success('Register successed, go to login')
+            this.handleUpdateProp('update:mode', 'login')
+          }, _ => {
+            this.getCaptchaSrc()
+            this.formRegister.captcha = ''
+          })
+        }
       },
       handleLogin() {
-        api.login(this.formLogin.username, this.formLogin.password).then(res => {
-          api.getUserInfo().then(res => {
-            auth.setUser(res.data.data)
-            bus.$emit('login-success', res.data.data)
-            this.$success('Welcome back to OJ')
-            this.handleUpdateProp('update:visible', false)
-          }, _ => {})
-        }, _ => {})
+        if (this.validateForm('formLogin')) {
+          api.login(this.formLogin.uname, this.formLogin.passwd).then(res => {
+            api.getUserInfo().then(res => {
+              auth.setUser(res.data.data)
+              bus.$emit('login-success', res.data.data)
+              this.$success('Welcome back to OJ')
+              this.handleUpdateProp('update:visible', false)
+            })
+          }, _ => {
+          })
+        }
       },
       handleUpdateProp(eventName, value) {
         this.$emit(eventName, value)
@@ -204,9 +216,6 @@
           this.captchaSrc = res.data.data
         })
       }
-    },
-    mounted() {
-      this.getCaptchaSrc()
     },
     watch: {
       'mode'(newVal) {
@@ -218,6 +227,11 @@
           this.$nextTick(() => {
             this.$refs['formRegister'].resetFields()
           })
+        }
+      },
+      'visible'(newVal) {
+        if (newVal === true) {
+          this.getCaptchaSrc()
         }
       }
     }
