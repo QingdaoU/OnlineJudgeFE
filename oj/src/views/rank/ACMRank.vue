@@ -1,6 +1,6 @@
 <template>
   <Row type="flex" justify="space-around">
-    <Col :span="20">
+    <Col :span="21">
     <Card :padding="10">
       <div slot="title">
         <span class="title">ACM Ranklist</span>
@@ -9,7 +9,7 @@
         <ECharts :options="options" ref="bar" auto-resize></ECharts>
       </div>
     </Card>
-    <Table :data="dataRank" :columns="columns"></Table>
+    <Table :data="dataRank" :columns="columns" size="large"></Table>
     <Pagination :total="total" :page-size="pageSize" @on-change="getRankData"></Pagination>
     </Col>
   </Row>

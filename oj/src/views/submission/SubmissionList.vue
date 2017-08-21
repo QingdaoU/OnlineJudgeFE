@@ -1,10 +1,38 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span="24">
-    <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
-    <Pagination :total="total" :pageSize="pageSize" @on-change="changePage"></Pagination>
-    </Col>
-  </Row>
+  <div class="flex-container">
+    <div id="main">
+      <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
+      <Pagination :total="total" :pageSize="pageSize" @on-change="changePage"></Pagination>
+    </div>
+    <div id="contest-menu" v-if="contestID">
+      <VerticalMenu @on-click="handleRoute">
+        <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
+          <Icon type="ios-photos"></Icon>
+          Problems
+        </VerticalMenu-item>
+
+        <VerticalMenu-item :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
+          <Icon type="chatbubble-working"></Icon>
+          Announcements
+        </VerticalMenu-item>
+
+        <VerticalMenu-item :route="{name: 'submission-list' ,query: {contestID: contestID}}">
+          <Icon type="navicon-round"></Icon>
+          Submissions
+        </VerticalMenu-item>
+
+        <VerticalMenu-item route="">
+          <Icon type="stats-bars"></Icon>
+          Ranklist
+        </VerticalMenu-item>
+
+        <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
+          <Icon type="home"></Icon>
+          Overview
+        </VerticalMenu-item>
+      </VerticalMenu>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -121,9 +149,9 @@
         submissions: [],
         total: 30,
         pageSize: 10,
-        contest_id: '',
-        problem_id: '',
-        route_name: ''
+        contestID: '',
+        problemID: '',
+        routeName: ''
       }
     },
     created() {
@@ -148,17 +176,21 @@
       // TODO myself 添加切换按钮
       getSubmissions(offset = 0, limit = this.pageSize) {
         let params = {
-          myself: 0,
-          problem_id: this.problemID,
-          contest_id: this.contestID
+          'myself': 0,
+          'problem_id': this.problemID,
+          'contest_id': this.contestID
         }
-        api.getSubmissionList(offset, limit, params).then((res) => {
+        api.getSubmissionList(offset, limit, params).then(res => {
           this.submissions = res.data.data.results
           this.total = res.data.data.total
+        }, _ => {
         })
       },
       changePage(page) {
         this.getSubmissions((page - 1) * this.pageSize, this.pageSize)
+      },
+      handleRoute(route) {
+        this.$router.push(route)
       }
     },
     watch: {
@@ -172,5 +204,16 @@
 <style scoped lang="less">
   .ivu-btn-text {
     color: #57a3f3;
+  }
+
+  .flex-container {
+    #main {
+      flex: auto;
+      margin-right: 18px;
+    }
+    #contest-menu {
+      flex: none;
+      width: 210px;
+    }
   }
 </style>

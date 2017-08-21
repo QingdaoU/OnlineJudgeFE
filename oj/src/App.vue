@@ -56,7 +56,7 @@
 
   .content-app {
     margin-top: 80px;
-    padding: 0 15px 0 15px;
+    padding: 0 20px;
     overflow-y: scroll;
   }
 

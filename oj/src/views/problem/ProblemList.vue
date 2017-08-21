@@ -29,7 +29,7 @@
         <!--</Form>-->
       <!--</div>-->
     <!--</Card>-->
-      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList"  disabled-hover></Table>
+      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" disabled-hover></Table>
     <Pagination :total="total" :page-size="pageSize" @on-change="changePage"></Pagination>
 
     </Col>

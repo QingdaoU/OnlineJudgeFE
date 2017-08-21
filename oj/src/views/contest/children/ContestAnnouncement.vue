@@ -6,7 +6,7 @@
   import api from '@/api'
   import utils from '@/utils/utils'
 
-  var child = {
+  const child = {
     template: '<div v-html="row.content"></div>',
     props: {
       row: Object
@@ -21,7 +21,7 @@
         columns: [
           {
             type: 'expand',
-            width: 50,
+            width: 60,
             render: (h, params) => {
               return h(child, {
                 props: {
@@ -31,14 +31,14 @@
             }
           },
           {
-            title: 'Title',
-            key: 'title'
-          },
-          {
             title: 'CreateTime',
             render: (h, params) => {
               return h('span', utils.backendDatetimeFormat(params.row.create_time))
             }
+          },
+          {
+            title: 'Title',
+            key: 'title'
           },
           {
             title: 'Creator',
@@ -51,7 +51,11 @@
     },
     created() {
       api.getContestAnnouncementList(this.$route.params.contestID).then((res) => {
-        this.announcements = res.data.data
+        let data = res.data.data
+        if (data.length > 0) {
+          data[0]._expanded = true
+          this.announcements = data
+        }
       })
     },
     methods: {}

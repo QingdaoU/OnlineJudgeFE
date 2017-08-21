@@ -39,10 +39,8 @@
     },
     mounted() {
       api.getContestProblemList(this.$route.params.contestID).then((res) => {
-        console.log(res.data.data)
         this.problems = res.data.data
-      }, (res) => {
-        this.$error(res.data.error)
+      }, _ => {
       })
     },
     methods: {

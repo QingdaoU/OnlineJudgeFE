@@ -135,8 +135,7 @@
           this.contest_table = []
           this.contest_table.push(res.data.data)
           this.changeBread(this.route_name)
-        }, (res) => {
-          this.$error(res.data.error)
+        }, _ => {
         })
       }
     },
