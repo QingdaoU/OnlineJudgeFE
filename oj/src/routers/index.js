@@ -2,7 +2,7 @@ import Vue from 'vue'
 import iView from 'iview'
 import VueRouter from 'vue-router'
 import routes from './routes'
-import auth from '../utils/authHelper'
+import auth from '../utils/auth'
 
 Vue.use(VueRouter)
 

@@ -64,7 +64,7 @@
 <script>
   import bus from '../utils/eventBus'
   import api from '@/api'
-  import auth from '../utils/authHelper'
+  import auth from '../utils/auth'
 
   import Register from '@/views/user/LoginORRegister'
 
@@ -97,7 +97,6 @@
       bus.$on('login-success', (res) => {
         this.username = res.user.username
         this.isAuthed = true
-        this.handleRoute('/problems')
       })
       bus.$on('logout', () => {
         this.isAuthed = false

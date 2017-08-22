@@ -69,7 +69,8 @@
 <script>
   import api from '@/api'
   import bus from '@/utils/eventBus'
-  import auth from '@/utils/authHelper'
+  import auth from '@/utils/auth'
+  import storage from '@/utils/storage'
   import utils from '@/utils/utils'
 
   export default {
@@ -131,24 +132,20 @@
       },
       getContest(contestID) {
         api.getContest(contestID).then((res) => {
-          this.contest = res.data.data
+          let contest = res.data.data
+          this.contest = contest
           this.contest_table = []
-          this.contest_table.push(res.data.data)
+          this.contest_table.push(contest)
           this.changeBread(this.route_name)
+          storage.set('contest_' + contest.id, contest)
         }, _ => {
         })
       }
     },
     computed: {
       isDisabled() {
-        let user = auth.getUser()
-        let loginID = -1
-        if (user === null) {
-          loginID = -1
-        } else {
-          loginID = user.id
-        }
-        return this.contest.status === '1' && this.contest.created_by.id !== loginID
+        let uid = auth.getUid()
+        return this.contest.status === '1' && this.contest.created_by.id !== uid
       }
     },
     watch: {

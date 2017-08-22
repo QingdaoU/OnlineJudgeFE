@@ -1,4 +1,4 @@
-const storage = window.localStorage
+import storage from './storage'
 
 export default {
   /**
@@ -6,7 +6,7 @@ export default {
    * @param userInfo
    */
   setUser(userInfo) {
-    storage.setItem('userInfo', JSON.stringify(userInfo))
+    storage.set('userInfo', userInfo)
   },
 
   /**
@@ -14,26 +14,29 @@ export default {
    * @returns {object}
    */
   getUser() {
-    return JSON.parse(storage.getItem('userInfo')) || null
+    return storage.get('userInfo')
   },
 
   /**
    * 清除用户信息
    */
   clear() {
-    storage.removeItem('userInfo')
+    storage.remove('userInfo')
   },
   /**
    * 是否已登录
    * @returns {boolean}
    */
   isAuthicated() {
-    return !!storage.getItem('userInfo')
+    return !!storage.get('userInfo')
   },
   /**
    * 获取当前用户id
    */
   getUid() {
-    return this.getUser().user.id
+    if (this.isAuthicated()) {
+      return this.getUid().user.id
+    }
+    return null
   }
 }

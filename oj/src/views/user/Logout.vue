@@ -3,7 +3,7 @@
 
 <script>
   import api from '../../api.js'
-  import auth from '@/utils/authHelper'
+  import auth from '@/utils/auth'
   import bus from '@/utils/eventBus'
 
   export default {

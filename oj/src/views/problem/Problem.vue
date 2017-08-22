@@ -41,15 +41,19 @@
         <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
-          <div id="status" v-if="statusVisible">
+          <div class="status" v-if="statusVisible">
             <span>Status:</span>
             <a @click.prevent="handleRoute('/status/'+submissionId)">
               <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
             </a>
           </div>
+          <div class="status" v-if="isSubmitDisabled">
+            <Alert type="warning" show-icon>Contest have ended</Alert>
+          </div>
           </Col>
           <Col :span="10">
-          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" class="fl-right">
+          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="isSubmitDisabled"
+                  class="fl-right">
             <span v-if="!submitting">Submit</span>
             <span v-else>Submitting</span>
           </Button>
@@ -140,10 +144,12 @@
   import 'echarts/lib/chart/pie'
   import 'echarts/lib/component/legend'
 
-  import CodeMirror from '../../components/CodeMirror'
-  import api from '../../api'
-  import {JUDGE_STATUS} from '../../utils/consts'
-  import bus from '../../utils/eventBus'
+  import CodeMirror from '@/components/CodeMirror'
+  import api from '@/api'
+  import auth from '@/utils/auth'
+  import storage from '@/utils/storage'
+  import {JUDGE_STATUS} from '@/utils/consts'
+  import bus from '@/utils/eventBus'
 
   const pieMap = {
     'AC': {color: '#19be6b'},
@@ -169,6 +175,7 @@
         code: '',
         language: 'C++',
         submissionId: '',
+        isSubmitDisabled: false,
         result: {
           result: 9
         },
@@ -282,6 +289,10 @@
       init() {
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
+        if (this.contestID) {
+          this.contest = storage.get('contest_' + this.contestID)
+          this.isSubmitDisabled = this.contest.status !== '0' && this.contest.created_by.id !== auth.getUid()
+        }
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.problem = res.data.data
@@ -435,7 +446,7 @@
     }
   }
 
-  #status {
+  .status {
     float: left;
     span {
       margin-right: 10px;

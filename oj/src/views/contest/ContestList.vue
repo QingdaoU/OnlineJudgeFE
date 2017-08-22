@@ -85,7 +85,7 @@
 
 <script>
   import api from '@/api'
-  import auth from '@/utils/authHelper'
+  import auth from '@/utils/auth'
   import Pagination from '@/components/Pagination'
   import utils from '@/utils/utils'
   import {CONTEST_STATUS} from '@/utils/consts'
