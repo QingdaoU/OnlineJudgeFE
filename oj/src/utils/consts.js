@@ -50,7 +50,7 @@ export const JUDGE_STATUS = {
   '6': {
     name: 'Pending',
     color: 'yellow',
-    type: 'error'
+    type: 'warning'
   },
   '7': {
     name: 'Judging',

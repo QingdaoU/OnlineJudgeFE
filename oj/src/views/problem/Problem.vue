@@ -151,14 +151,8 @@
   import {JUDGE_STATUS} from '@/utils/consts'
   import bus from '@/utils/eventBus'
 
-  const pieMap = {
-    'AC': {color: '#19be6b'},
-    'WA': {color: '#ed3f14'},
-    'TLE': {color: '#495060'},
-    'MLE': {color: '#80848f'},
-    'RE': {color: '#ff6104'},
-    'CE': {color: '#ff9900'}
-  }
+  import {pie, largePie} from './chartData'
+
   export default {
     name: 'Problem',
     components: {
@@ -187,94 +181,8 @@
             username: ''
           }
         },
-        pie: {
-          legend: {
-            left: 'center',
-            top: '10',
-            orient: 'horizontal',
-            data: ['AC', 'WA']
-          },
-          series: [
-            {
-              name: 'Summary',
-              type: 'pie',
-              radius: '80%',
-              center: ['50%', '55%'],
-              itemStyle: {
-                normal: {color: this.getPieItemColor}
-              },
-              data: [
-                {value: 0, name: 'WA'},
-                {value: 0, name: 'AC'}
-              ],
-              label: {
-                normal: {
-                  position: 'inner',
-                  show: true,
-                  formatter: '{b}: {c}\n {d}%',
-                  textStyle: {
-                    fontWeight: 'bold'
-                  }
-                }
-              }
-            }
-          ]
-        },
-        largePie: {
-//          selectedMode: 'single',
-          legend: {
-            left: 'center',
-            top: '10',
-            orient: 'horizontal',
-            itemGap: 20,
-            data: ['AC', 'RE', 'WA', 'TLE', 'MLE']
-          },
-          series: [
-            {
-              name: 'Detail',
-              type: 'pie',
-              radius: ['45%', '70%'],
-              center: ['50%', '55%'],
-              itemStyle: {
-                normal: {color: this.getPieItemColor}
-              },
-              data: [
-                {value: 0, name: 'RE'},
-                {value: 0, name: 'WA'},
-                {value: 0, name: 'TLE'},
-                {value: 0, name: 'AC'},
-                {value: 0, name: 'MLE'}
-              ],
-              label: {
-                normal: {
-                  formatter: '{b}: {c}\n {d}%'
-                }
-              },
-              labelLine: {
-                normal: {}
-              }
-            },
-            {
-              name: 'Summary',
-              type: 'pie',
-              radius: '30%',
-              center: ['50%', '55%'],
-              itemStyle: {
-                normal: {color: this.getPieItemColor}
-              },
-              data: [
-                {value: '0', name: 'WA'},
-                {value: 0, name: 'AC', selected: true}
-              ],
-              label: {
-                normal: {
-                  position: 'inner',
-                  formatter: '{b}: {c}\n {d}%'
-                }
-              }
-            }
-          ]
-        },
+        pie: pie,
+        largePie: largePie,
         // echarts 无法获取隐藏dom的大小，需手动指定
         largePieInitOpts: {
           width: '500',
@@ -307,11 +215,15 @@
           {name: 'AC', value: acNum}
         ]
         this.pie.series[0].data = data
-        this.largePie.series[1].data = data
+        // 只selected大图，这里需要做一下deepcopy
+        let data2 = JSON.parse(JSON.stringify(data))
+        data2[1].selected = true
+        this.largePie.series[1].data = data2
 
-        // 根据结果设置legend
+        // 根据结果设置legend,没有提交过的legend不显示
         this.largePie.legend.data = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
 
+        // 把ac的数据提取出来放在最后
         let acCount = problemData.statistic_info['0']
         delete problemData.statistic_info['0']
 
@@ -321,9 +233,6 @@
         })
         largePieData.push({name: 'AC', value: acCount})
         this.largePie.series[0].data = largePieData
-      },
-      getPieItemColor(obj) {
-        return pieMap[obj.name].color
       },
       handleRoute(route) {
         this.$router.push(route)
