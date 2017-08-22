@@ -35,7 +35,7 @@ export default {
    */
   getUid() {
     if (this.isAuthicated()) {
-      return this.getUid().user.id
+      return this.getUser().user.id
     }
     return null
   }

@@ -13,7 +13,6 @@
     mixins: [Emitter],
     props: {
       route: {
-        required: true,
         type: [String, Object]
       },
       disabled: {
@@ -23,7 +22,9 @@
     },
     methods: {
       handleClick() {
-        this.dispatch('VerticalMenu', 'on-click', this.route)
+        if (this.route) {
+          this.dispatch('VerticalMenu', 'on-click', this.route)
+        }
       }
     }
   }
@@ -37,7 +38,7 @@
     pointer-events: none;
     color: #ccc;
     &:hover {
-      border-left:none;
+      border-left: none;
       color: #ccc;
       background: #fff;
     }

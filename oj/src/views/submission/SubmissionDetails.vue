@@ -5,7 +5,7 @@
       <span class="title">{{statusName}}</span>
       <div slot="desc" class="content">
         <template v-if="data.result == -2">
-          {{data.statistic_info.err_info}}
+          <pre>{{data.statistic_info.err_info}}</pre>
         </template>
         <template v-else>
           <span>Time: {{parseTime(data.statistic_info.time_cost)}}</span>
@@ -14,7 +14,7 @@
         </template>
       </div>
     </Alert>
-    </Col>
+</Col>
 
     <!-- OI模式后台会返info -->
     <Col v-if="data.info && data.result != -2" :span="20">
@@ -33,6 +33,7 @@
   import {JUDGE_STATUS} from '@/utils/consts'
   import utils from '@/utils/utils'
   import Highlight from '@/components/Highlight'
+
   export default {
     name: 'submissionDetails',
     components: {
@@ -87,11 +88,10 @@
     },
     beforeRouteEnter(to, from, next) {
       api.getSubmission(to.params.id).then((res) => {
-        next((vm) => {
-          console.log(res.data.data)
+        next(vm => {
           vm.data = res.data.data
         })
-      }, (res) => {
+      }, _ => {
         next()
       })
     },

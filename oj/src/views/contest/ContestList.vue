@@ -2,7 +2,7 @@
   <Row type="flex">
     <Col :span="24">
     <Card :padding="0" id="contest-card" shadow>
-      <span slot="title" id="header">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</span>
+      <span slot="title" class="pannel-title">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</span>
       <div slot="extra">
         <Dropdown @on-click="onRuleChange">
           <span id="rule">{{query.rule_type === ''? 'Rule' : query.rule_type}}
@@ -29,6 +29,7 @@
 
         <Input size="small" id="keyword" @on-enter="onSearchKeyword" @on-click="onSearchKeyword" v-model="query.keyword" icon="ios-search-strong" />
       </div>
+      <p id="no-contest" v-if="contests.length == 0">No contest</p>
       <ol id="contest-list">
         <li v-for="contest in contests">
           <Row type="flex" justify="space-between" align="middle">
@@ -201,10 +202,10 @@
       line-height: 30px;
       margin-right: 30px;
     }
-    #header {
-      font-size: 20px;
-      font-weight: 300;
-      line-height: 30px;
+    #no-contest {
+      text-align: center;
+      font-size: 16px;
+      padding: 20px;
     }
     #contest-list {
       > li {

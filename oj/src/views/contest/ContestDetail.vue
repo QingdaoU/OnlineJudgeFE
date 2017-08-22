@@ -1,36 +1,23 @@
 <template>
   <div class="flex-container">
-    <!--<Card :padding="10" id="progress" dis-hover>-->
-    <!--<Row>-->
-    <!--<Col :span="8">-->
-    <!--3 Hours-->
-    <!--</Col>-->
-    <!--<Col :span="8">-->
-    <!--<p class="center">-->
-    <!--Not started-->
-    <!--</p>-->
-    <!--</Col>-->
-    <!--<Col :span="8">-->
-    <!--<p class="right">-->
-    <!-- -00:01:15-->
-    <!--</p>-->
-    <!--</Col>-->
-    <!--</Row>-->
-    <!--<Progress :percent="35" status="normal" :stroke-width="5" hide-info></Progress>-->
-    <!--</Card>-->
-    <!--子组件-->
     <div id="contest-main">
+      <!--children-->
       <router-view></router-view>
-
-      <template v-if="route_name === 'contest-details'">
-        <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
-        <Card>
-          <div id="description">
-            <div v-html="contest.description"></div>
+      <!--children end-->
+      <div class="flex-container">
+        <template v-if="route_name === 'contest-details'">
+          <div id="contest-desc">
+            <Card :padding="20" :bordered="false">
+              <div slot="title" class="pannel-title">
+                {{contest.title}}
+              </div>
+              <div v-html="contest.description"></div>
+            </Card>
+            <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
           </div>
-        </Card>
+        </template>
+      </div>
 
-      </template>
     </div>
     <div id="contest-menu">
       <VerticalMenu @on-click="handleRoute">
@@ -68,7 +55,6 @@
 
 <script>
   import api from '@/api'
-  import bus from '@/utils/eventBus'
   import auth from '@/utils/auth'
   import storage from '@/utils/storage'
   import utils from '@/utils/utils'
@@ -86,13 +72,13 @@
         contest_table: [],
         columns: [
           {
-            title: 'StartTime',
+            title: 'StartAt',
             render: (h, params) => {
               return h('span', utils.backendDatetimeFormat(params.row.start_time))
             }
           },
           {
-            title: 'EndTime',
+            title: 'EndAt',
             render: (h, params) => {
               return h('span', utils.backendDatetimeFormat(params.row.end_time))
             }
@@ -123,20 +109,13 @@
       handleRoute(route) {
         this.$router.push(route)
       },
-      changeBread(routeName) {
-        if (routeName === 'contest-details') {
-          bus.$emit('bread-crumb-change', this.contest.title)
-        } else if (routeName === 'contest-problem-list' || routeName === 'contest-announcement-list') {
-          bus.$emit('bread-crumb-change2', this.contest.title)
-        }
-      },
       getContest(contestID) {
         api.getContest(contestID).then((res) => {
+          console.log(res.data.data)
           let contest = res.data.data
           this.contest = contest
           this.contest_table = []
           this.contest_table.push(contest)
-          this.changeBread(this.route_name)
           storage.set('contest_' + contest.id, contest)
         }, _ => {
         })
@@ -152,7 +131,6 @@
       '$route'(newVal) {
         this.route_name = newVal.name
         this.contestID = newVal.params.contestID
-        this.changeBread(newVal.name)
       }
     }
   }
@@ -166,32 +144,20 @@ https://vue-loader.vuejs.org/en/features/scoped-css.html
   .flex-container {
     #contest-main {
       flex: auto;
-      margin-right: 18px;
+      #contest-desc {
+        flex: auto;
+      }
     }
     #contest-menu {
       flex: none;
       width: 210px;
+      margin-left: 18px;
     }
   }
-  #progress {
-    margin: 0px 0 15px 0;
-    p.center {
-      text-align: center;
-    }
-    p.right {
-      text-align: right;
-      padding-right: 10px;
-    }
-  }
-
-  #contest-info {
-    margin: 0 0 20px 0;
-  }
-
 </style>
-<style scoped lang="css">
+<style lang="css">
   /*使用scoped css注入*/
-  #description >>> pre {
+  #contest-desc > > > pre {
     margin: 15px 0px;
     padding: 5px;
     display: inline-block;

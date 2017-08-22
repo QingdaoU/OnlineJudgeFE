@@ -21,7 +21,7 @@
           Submissions
         </VerticalMenu-item>
 
-        <VerticalMenu-item route="">
+        <VerticalMenu-item>
           <Icon type="stats-bars"></Icon>
           Ranklist
         </VerticalMenu-item>

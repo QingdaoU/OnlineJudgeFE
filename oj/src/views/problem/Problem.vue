@@ -3,6 +3,7 @@
     <div id="problem-main">
       <!--problem main-->
       <Card :padding="20" dis-hover id="problem-content">
+        <div slot="title" class="pannel-title">{{problem.title}}</div>
         <p class="title" style="margin-top: 0">Description</p>
         <p class="content" v-html=problem.description></p>
 
@@ -64,13 +65,7 @@
 
     <div id="right-column">
       <VerticalMenu @on-click="handleRoute">
-        <VerticalMenu-item
-          :route="{name: 'submission-list', query: {problemID: this.problemID, contestID: this.contestID}}">
-          <Icon type="navicon-round"></Icon>
-          Submissions
-        </VerticalMenu-item>
-
-        <template v-if="this.contestID !== undefined">
+        <template v-if="this.contestID">
           <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
             <Icon type="ios-photos"></Icon>
             Problems
@@ -80,7 +75,15 @@
             <Icon type="chatbubble-working"></Icon>
             Announcements
           </VerticalMenu-item>
+        </template>
 
+        <VerticalMenu-item
+          :route="{name: 'submission-list', query: {problemID: this.problemID, contestID: this.contestID}}">
+          <Icon type="navicon-round"></Icon>
+          Submissions
+        </VerticalMenu-item>
+
+        <template v-if="this.contestID">
           <VerticalMenu-item route="">
             <Icon type="pie-graph"></Icon>
             Ranklist
@@ -221,7 +224,11 @@
         this.largePie.series[1].data = data2
 
         // 根据结果设置legend,没有提交过的legend不显示
-        this.largePie.legend.data = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
+        let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
+        if (legend.length === 0) {
+          legend.push('AC', 'WA')
+        }
+        this.largePie.legend.data = legend
 
         // 把ac的数据提取出来放在最后
         let acCount = problemData.statistic_info['0']
@@ -318,7 +325,7 @@
 
   #problem-content {
     .title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 400;
       margin: 25px 0 8px 0;
       color: #3091f2;
