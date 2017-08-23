@@ -57,7 +57,7 @@
   import api from '@/api'
   import auth from '@/utils/auth'
   import storage from '@/utils/storage'
-  import utils from '@/utils/utils'
+  import time from '@/utils/time'
 
   export default {
     name: 'ContestDetail',
@@ -74,13 +74,13 @@
           {
             title: 'StartAt',
             render: (h, params) => {
-              return h('span', utils.backendDatetimeFormat(params.row.start_time))
+              return h('span', time.utcToLocal(params.row.start_time))
             }
           },
           {
             title: 'EndAt',
             render: (h, params) => {
-              return h('span', utils.backendDatetimeFormat(params.row.end_time))
+              return h('span', time.utcToLocal(params.row.end_time))
             }
           },
           {

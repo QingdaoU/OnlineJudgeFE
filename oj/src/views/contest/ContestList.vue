@@ -56,7 +56,7 @@
 
               <li>
                 <Icon type="calendar" color="#3091f2"></Icon>
-                {{formatDate(contest.start_time)}}
+                {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
               </li>
               <li>
                 <Icon type="android-time" color="#3091f2"></Icon>
@@ -88,7 +88,7 @@
   import api from '@/api'
   import auth from '@/utils/auth'
   import Pagination from '@/components/Pagination'
-  import utils from '@/utils/utils'
+  import time from '@/utils/time'
   import {CONTEST_STATUS} from '@/utils/consts'
 
   const limit = 10
@@ -172,12 +172,8 @@
           this.btnLoading = false
         })
       },
-      formatDate(backendDate) {
-        let date = utils.backendDatetimeFormat(backendDate)
-        return date.slice(0, date.length - 3)
-      },
       getDuration(startTime, endTime) {
-        return utils.dateTimeDuration(startTime, endTime)
+        return time.duration(startTime, endTime)
       }
     },
     beforeRouteEnter(to, from, next) {

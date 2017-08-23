@@ -8,8 +8,8 @@
           <pre>{{data.statistic_info.err_info}}</pre>
         </template>
         <template v-else>
-          <span>Time: {{parseTime(data.statistic_info.time_cost)}}</span>
-          <span>Memory: {{parseMemory(data.statistic_info.memory_cost)}}</span>
+          <span>Time: {{data.statistic_info.time_cost | submissionTime}}</span>
+          <span>Memory: {{data.statistic_info.memory_cost | submissionMemory}}</span>
           <span>Lang: {{data.language}}</span>
         </template>
       </div>
@@ -94,14 +94,6 @@
       }, _ => {
         next()
       })
-    },
-    methods: {
-      parseMemory(memory) {
-        return utils.submissionMemoryFormat(memory)
-      },
-      parseTime(time) {
-        return utils.submissionTimeFormat(time)
-      }
     },
     computed: {
       type() {

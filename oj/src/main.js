@@ -12,7 +12,7 @@ import 'highlight.js/styles/atom-one-light.css'
 import VerticalMenu from '~/verticalMenu/verticalMenu.vue'
 import VerticalMenuItem from '~/verticalMenu/verticalMenu-item.vue'
 
-import * as filters from './utils/filters.js'
+import filters from './utils/filters.js'
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

@@ -40,6 +40,7 @@
   import bus from '@/utils/eventBus'
   import {JUDGE_STATUS} from '@/utils/consts'
   import utils from '@/utils/utils'
+  import time from '@/utils/time'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -54,7 +55,7 @@
             title: 'When',
             align: 'center',
             render: (h, params) => {
-              return h('span', utils.backendDatetimeFormat(params.row.created_time))
+              return h('span', time.utcToLocal(params.row.create_time))
             }
           },
           {

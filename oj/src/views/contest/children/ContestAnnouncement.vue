@@ -4,7 +4,7 @@
 
 <script>
   import api from '@/api'
-  import utils from '@/utils/utils'
+  import time from '@/utils/time'
 
   const child = {
     template: '<div v-html="row.content"></div>',
@@ -33,7 +33,7 @@
           {
             title: 'CreateTime',
             render: (h, params) => {
-              return h('span', utils.backendDatetimeFormat(params.row.create_time))
+              return h('span', time.utcToLocal(params.row.create_time))
             }
           },
           {
