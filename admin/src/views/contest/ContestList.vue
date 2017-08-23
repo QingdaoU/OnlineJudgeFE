@@ -17,12 +17,18 @@
         <el-table-column type="expand">
           <template scope="props">
             <div>
-              <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}</el-tag>
-              <el-tag :type="props.row.contest_status === 'Public' ? 'success' : 'primary'">{{ props.row.contest_type}}</el-tag>
-              <el-tag :type="props.row.status === 'Ended' ? 'gray' : props.row.status === 'Underway' ? 'success' : 'primary'">{{ props.row.status }}</el-tag>
+              <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
+              </el-tag>
+              <el-tag :type="props.row.contest_status === 'Public' ? 'success' : 'primary'">
+                {{ props.row.contest_type}}
+              </el-tag>
+              <el-tag
+                :type="props.row.status === 'Ended' ? 'gray' : props.row.status === 'Underway' ? 'success' : 'primary'">
+                {{ props.row.status }}
+              </el-tag>
             </div>
             <p>
-              Create Time: {{ props.row.create_time }}
+              Create Time: {{ props.row.create_time | localtime }}
             </p>
           </template>
         </el-table-column>
@@ -37,10 +43,16 @@
         <el-table-column
           prop="start_time"
           label="Start Time">
+          <template scope="scope">
+            {{scope.row.start_time | localtime }}
+          </template>
         </el-table-column>
         <el-table-column
           prop="end_time"
           label="End Time">
+          <template scope="scope">
+            {{scope.row.end_time | localtime }}
+          </template>
         </el-table-column>
         <el-table-column
           prop="created_by.username"
@@ -74,9 +86,9 @@
 <script>
   import api from '../../api.js'
 
-  export default{
+  export default {
     name: 'ContestList',
-    data () {
+    data() {
       return {
         pageSize: 5,
         total: 0,
@@ -86,16 +98,16 @@
         currentPage: 1
       }
     },
-    mounted () {
+    mounted() {
       this.getContestList(this.currentPage)
     },
     methods: {
       // 切换页码回调
-      currentChange (page) {
+      currentChange(page) {
         this.currentPage = page
         this.getContestList(page)
       },
-      getContestList (page) {
+      getContestList(page) {
         this.loading = true
         api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loading = false
@@ -105,18 +117,18 @@
           this.loading = false
         })
       },
-      goEdit (contestId) {
+      goEdit(contestId) {
         this.$router.push({name: 'edit-contest', params: {contestId}})
       },
-      goContestAnnouncement (contestId) {
+      goContestAnnouncement(contestId) {
         this.$router.push({name: 'contest-announcement', params: {contestId}})
       },
-      goContestProblemList (contestId) {
+      goContestProblemList(contestId) {
         this.$router.push({name: 'contest-problem-list', params: {contestId}})
       }
     },
     watch: {
-      'keyword' () {
+      'keyword'() {
         this.currentChange(1)
       }
     }
@@ -124,20 +136,20 @@
 </script>
 
 <style scoped lang="less">
-  .option{
+  .option {
     border: 1px solid #e0e6ed;
     border-top: none;
     padding: 8px;
     background-color: #fff;
     position: relative;
     height: 50px;
-  button{
-    margin-right: 10px;
-  }
-  >.page{
-     position: absolute;
-     right: 20px;
-     top: 10px;
-   }
+    button {
+      margin-right: 10px;
+    }
+    > .page {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
   }
 </style>

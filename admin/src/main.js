@@ -5,7 +5,7 @@ import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import locale from 'element-ui/lib/locale/lang/en'
 
-import * as filters from './filters.js'
+import filters from './filters.js'
 
 import Panel from './components/Panel.vue'
 import IconBtn from './components/btn/IconBtn.vue'

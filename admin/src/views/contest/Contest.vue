@@ -70,14 +70,13 @@
 <script>
   import api from '../../api.js'
   import Simditor from '../../components/Simditor.vue'
-  import { backendDatetimeToISOFormat } from '../../utils'
 
-  export default{
+  export default {
     name: 'CreateContest',
     components: {
       Simditor
     },
-    data () {
+    data() {
       return {
         title: 'Create Contest',
         disableRuleType: false,
@@ -94,21 +93,20 @@
       }
     },
     methods: {
-      saveContest () {
+      saveContest() {
         let funcName = this.$route.name === 'edit-contest' ? 'editContest' : 'createContest'
         api[funcName](this.contest).then(res => {
           this.$router.push({name: 'contest-list', query: {refresh: 'true'}})
-        }).catch(() => {})
+        }).catch(() => {
+        })
       }
     },
-    mounted () {
+    mounted() {
       if (this.$route.name === 'edit-contest') {
         this.title = 'Edit Contest'
         this.disableRuleType = true
         api.getContest(this.$route.params.contestId).then(res => {
           let data = res.data.data
-          data.start_time = backendDatetimeToISOFormat(data.start_time)
-          data.end_time = backendDatetimeToISOFormat(data.end_time)
           this.contest = data
         }).catch(() => {
         })

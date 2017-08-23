@@ -19,10 +19,16 @@
           <el-table-column
             prop="create_time"
             label="CreateTime">
+            <template scope="scope">
+              {{ scope.row.create_time | localtime }}
+            </template>
           </el-table-column>
           <el-table-column
             prop="last_update_time"
             label="LastUpdateTime">
+            <template scope="scope">
+              {{scope.row.last_update_time | localtime }}
+            </template>
           </el-table-column>
           <el-table-column
             prop="created_by.username"
@@ -50,7 +56,7 @@
             class="page"
             layout="prev, pager, next"
             @current-change="currentChange"
-            :page-size = "pageSize"
+            :page-size="pageSize"
             :total="total">
           </el-pagination>
         </div>
@@ -88,18 +94,18 @@
 <script>
   import Simditor from '../../components/Simditor.vue'
   import api from '../../api.js'
+
   export default {
     name: 'Announcement',
     components: {
       Simditor
     },
-    data () {
+    data() {
       return {
         // 显示编辑公告对话框
         showEditAnnouncementDialog: false,
         // 公告列表
-        announcementList: [
-        ],
+        announcementList: [],
         // 一页显示的公告数
         pageSize: 15,
         // 总公告数
@@ -122,11 +128,11 @@
     },
     methods: {
       // 切换页码回调
-      currentChange (page) {
+      currentChange(page) {
         this.currentPage = page
         this.getAnnouncementList((page - 1) * this.pageSize, this.pageSize)
       },
-      getAnnouncementList (page) {
+      getAnnouncementList(page) {
         this.loading = true
         api.getAnnouncementList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.loading = false
@@ -137,7 +143,7 @@
         })
       },
       // 打开编辑对话框的回调
-      onOpenEditDialog () {
+      onOpenEditDialog() {
         // todo 优化
         // 暂时解决 文本编辑器显示异常bug
         setTimeout(() => {
@@ -151,21 +157,23 @@
         }, 0)
       },
       // 提交编辑
-      saveAnnouncement () {
+      saveAnnouncement() {
         if (this.currentAnnouncementId) {
           api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.showEditAnnouncementDialog = false
             this.getAnnouncementList(this.currentPage - 1)
-          }).catch(() => {})
+          }).catch(() => {
+          })
         } else {
           api.createAnnouncement(this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.showEditAnnouncementDialog = false
             this.getAnnouncementList(this.currentPage)
-          }).catch(() => {})
+          }).catch(() => {
+          })
         }
       },
       // 删除公告
-      deleteAnnouncement (announcementId) {
+      deleteAnnouncement(announcementId) {
         this.$confirm('Are you sure you want to delete this announcement?', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
@@ -175,9 +183,10 @@
           api.deleteAnnouncement(announcementId).then(res => {
             this.getAnnouncementList(this.currentPage)
           })
-        }).catch(() => {})
+        }).catch(() => {
+        })
       },
-      openAnnouncementDialog (id) {
+      openAnnouncementDialog(id) {
         this.showEditAnnouncementDialog = true
         if (id !== null) {
           this.currentAnnouncementId = id
@@ -197,7 +206,7 @@
         }
       }
     },
-    mounted () {
+    mounted() {
       this.getAnnouncementList(1)
     }
   }
@@ -205,26 +214,28 @@
 
 <style lang="less" scoped>
   .announcement {
-    .option{
+    .option {
       border: 1px solid #e0e6ed;
       border-top: none;
       padding: 10px;
       background-color: #fff;
       position: relative;
-      button{
+      button {
         margin-right: 10px;
       }
-      >.page{
-         position: absolute;
-         right: 20px;
-         top: 10px;
-       }
+      > .page {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+      }
     }
   }
+
   .title-input {
     margin-bottom: 20px;
   }
-  .visible-box{
+
+  .visible-box {
     margin-top: 10px;
     width: 205px;
     float: left;

@@ -11,11 +11,15 @@
         <el-table-column
           type="expand">
           <template scope="props">
-            <p>IP: <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
-              Judger Version: <el-tag type="success">{{ props.row.judger_version }}</el-tag>
+            <p>IP:
+              <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
+              Judger Version:
+              <el-tag type="success">{{ props.row.judger_version }}</el-tag>
             </p>
             <p>Service URL: <code>{{ props.row.service_url }}</code></p>
-            <p>Last Heartbeat: {{ props.row.last_heartbeat}}&nbsp;&nbsp;Create Time: {{ props.row.create_time }}</p>
+            <p>
+              Last Heartbeat: {{ props.row.last_heartbeat | localtime}}&nbsp;&nbsp;Create Time: {{ props.row.create_time | localtime
+              }}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -65,29 +69,29 @@
 <script>
   import api from '../../api.js'
 
-  export default{
+  export default {
     name: 'JudgeServer',
-    data () {
+    data() {
       return {
         servers: [],
         token: '',
         intervalId: -1
       }
     },
-    mounted () {
+    mounted() {
       this.refreshJudgeServerList()
       this.intervalId = setInterval(() => {
         this.refreshJudgeServerList()
       }, 5000)
     },
     methods: {
-      refreshJudgeServerList () {
+      refreshJudgeServerList() {
         api.getJudgeServer().then(res => {
           this.servers = res.data.data.servers
           this.token = res.data.data.token
         })
       },
-      deleteJudgeServer (hostname) {
+      deleteJudgeServer(hostname) {
         this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
@@ -96,10 +100,11 @@
           api.deleteJudgeServer(hostname).then(res =>
             this.refreshJudgeServerList()
           )
-        }).catch(() => {})
+        }).catch(() => {
+        })
       }
     },
-    beforeRouteLeave (to, from, next) {
+    beforeRouteLeave(to, from, next) {
       clearInterval(this.intervalId)
       next()
     }

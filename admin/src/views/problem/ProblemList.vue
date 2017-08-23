@@ -33,6 +33,9 @@
         <el-table-column
           prop="create_time"
           label="Create Time">
+          <template scope="scope">
+            {{scope.row.create_time | localtime }}
+          </template>
         </el-table-column>
         <el-table-column
           label="Status">
@@ -70,9 +73,9 @@
 <script>
   import api from '../../api.js'
 
-  export default{
+  export default {
     name: 'ProblemList',
-    data () {
+    data() {
       return {
         pageSize: 10,
         total: 0,
@@ -84,20 +87,20 @@
         contestId: ''
       }
     },
-    mounted () {
+    mounted() {
       this.routeName = this.$route.name
       this.contestId = this.$route.params.contestId
       this.getProblemList(this.currentPage)
     },
     methods: {
-      goEdit (problemId) {
+      goEdit(problemId) {
         if (this.routeName === 'problem-list') {
           this.$router.push({name: 'edit-problem', params: {problemId}})
         } else if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'edit-contest-problem', params: {problemId: problemId, contestId: this.contestId}})
         }
       },
-      goCreateProblem () {
+      goCreateProblem() {
         if (this.routeName === 'problem-list') {
           this.$router.push({name: 'create-problem'})
         } else if (this.routeName === 'contest-problem-list') {
@@ -105,11 +108,11 @@
         }
       },
       // 切换页码回调
-      currentChange (page) {
+      currentChange(page) {
         this.currentPage = page
         this.getProblemList(page)
       },
-      getProblemList (page = 1) {
+      getProblemList(page = 1) {
         this.loading = true
         let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
         api[funcName]((page - 1) * this.pageSize, this.pageSize, this.keyword, this.contestId).then(res => {
@@ -122,12 +125,12 @@
       }
     },
     watch: {
-      '$route' (newVal, oldVal) {
+      '$route'(newVal, oldVal) {
         this.contestId = newVal.params.contestId
         this.routeName = newVal.name
         this.getProblemList(this.currentPage)
       },
-      'keyword' () {
+      'keyword'() {
         this.currentChange()
       }
     }
