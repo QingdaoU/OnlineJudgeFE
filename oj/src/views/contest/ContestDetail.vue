@@ -39,7 +39,8 @@
           Submissions
         </VerticalMenu-item>
 
-        <VerticalMenu-item :disabled="isDisabled" route="">
+        <VerticalMenu-item :disabled="isDisabled"
+                           :route="{name: 'contest-rank', params: {contestID: contestID}}">
           <Icon type="stats-bars"></Icon>
           Ranklist
         </VerticalMenu-item>
@@ -111,7 +112,6 @@
       },
       getContest(contestID) {
         api.getContest(contestID).then((res) => {
-          console.log(res.data.data)
           let contest = res.data.data
           this.contest = contest
           this.contest_table = []
@@ -151,7 +151,7 @@ https://vue-loader.vuejs.org/en/features/scoped-css.html
     #contest-menu {
       flex: none;
       width: 210px;
-      margin-left: 18px;
+      margin-left: 20px;
     }
   }
 </style>

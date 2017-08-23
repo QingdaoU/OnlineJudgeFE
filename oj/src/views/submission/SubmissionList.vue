@@ -21,7 +21,7 @@
           Submissions
         </VerticalMenu-item>
 
-        <VerticalMenu-item>
+        <VerticalMenu-item :route="{name: 'contest-rank', params: {contestID: contestID}}">
           <Icon type="stats-bars"></Icon>
           Ranklist
         </VerticalMenu-item>

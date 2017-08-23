@@ -101,12 +101,12 @@
           },
           {
             title: 'Total',
-            key: 'total_submit_number'
+            key: 'submission_number'
           },
           {
             title: 'AC Rate',
             render: (h, params) => {
-              return h('span', this.getACRate(params.row.total_accepted_number, params.row.total_submit_number))
+              return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
           }
 

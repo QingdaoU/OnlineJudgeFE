@@ -83,3 +83,8 @@ export const CONTEST_STATUS = {
     color: 'red'
   }
 }
+
+export const STORAGE_KEY = {
+  contest: 'contest_',
+  contestProblems: 'contest_problems_'
+}

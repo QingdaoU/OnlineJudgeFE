@@ -36,7 +36,7 @@
       </Menu-item>
       <template v-if="!isAuthed">
         <div class="btn-menu">
-          <Button type="ghost" shape="circle" @click="registerModalVisible = true, modalMode='login'">Login</Button>
+          <Button type="ghost" ref="loginBtn" shape="circle" @click="registerModalVisible = true, modalMode='login'">Login</Button>
           <Button type="ghost" shape="circle" @click="registerModalVisible = true, modalMode='register'"
                   style="margin-left: 5px;">Register
           </Button>
@@ -94,6 +94,9 @@
       }
     },
     mounted() {
+      bus.$on('login', () => {
+        this.$refs['loginBtn'].handleClick()
+      })
       bus.$on('login-success', (res) => {
         this.username = res.user.username
         this.isAuthed = true

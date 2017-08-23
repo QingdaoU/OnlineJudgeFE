@@ -2,7 +2,7 @@
   <Row type="flex">
     <Col :span="24">
     <Card :padding="0" id="contest-card" shadow>
-      <span slot="title" class="pannel-title">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</span>
+      <div slot="title" class="pannel-title">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</div>
       <div slot="extra">
         <Dropdown @on-click="onRuleChange">
           <span id="rule">{{query.rule_type === ''? 'Rule' : query.rule_type}}
@@ -75,7 +75,7 @@
     </Col>
 
     <Modal title="Input Password" v-model="passwordModal">
-      <Input v-model="password"/>
+      <Input v-model="password" />
       <div slot="footer">
         <Button type="primary" :loading="btnLoading" @click="goCheckPasswd">GO</Button>
       </div>
@@ -86,6 +86,7 @@
 
 <script>
   import api from '@/api'
+  import bus from '@/utils/eventBus'
   import auth from '@/utils/auth'
   import Pagination from '@/components/Pagination'
   import time from '@/utils/time'
@@ -143,7 +144,7 @@
         if (contest.contest_type !== 'Public') {
           if (!auth.isAuthicated()) {
             this.$error('Please login first.')
-            this.$router.push({name: 'login'})
+            bus.$emit('login')
           } else if (contest.created_by.id === auth.getUid()) {
             // contest.created_by is user self.
             this.$router.push(route)
@@ -195,7 +196,7 @@
       margin-right: 30px;
     }
     #rule, #status {
-      line-height: 30px;
+      line-height: 40px;
       margin-right: 30px;
     }
     #no-contest {

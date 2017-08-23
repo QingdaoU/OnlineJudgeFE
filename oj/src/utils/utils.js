@@ -1,3 +1,7 @@
+import api from '../api'
+import storage from './storage'
+import {STORAGE_KEY} from './consts'
+
 function submissionMemoryFormat(memory) {
   if (memory === undefined) return '--'
   // 1048576 = 1024 * 1024
@@ -15,9 +19,23 @@ function getACRate(acCount, totalCount) {
   return String(rate) + '%'
 }
 
+// 优先从本地读取contest,若不存在则从服务端获取
+function loadContest(contestID) {
+  let key = STORAGE_KEY.contest + contestID
+  let contest = storage.get(key)
+  if (contest) {
+    return contest
+  }
+  api.getContest(contestID).then(res => {
+    storage.set(key, res.data.data)
+    return res.data.data
+  })
+}
+
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
   submissionTimeFormat: submissionTimeFormat,
-  getACRate: getACRate
+  getACRate: getACRate,
+  loadContest: loadContest
 }
 

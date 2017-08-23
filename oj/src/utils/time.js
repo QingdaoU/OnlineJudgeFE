@@ -12,7 +12,13 @@ function duration(startTime, endTime) {
   return moment.duration(start.diff(end, 'seconds'), 'seconds').humanize()
 }
 
+function secondFormat(seconds) {
+  let m = moment.duration(seconds, 'seconds')
+  return m.hours() + ':' + m.minutes() + ':' + m.seconds()
+}
+
 export default {
   utcToLocal: utcToLocal,
-  duration: duration
+  duration: duration,
+  secondFormat: secondFormat
 }

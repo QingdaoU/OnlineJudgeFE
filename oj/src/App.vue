@@ -75,8 +75,8 @@
 
   .pannel-title {
     font-size: 20px;
-    font-weight: 300;
-    padding: 10px 10px;
+    font-weight: 400;
+    padding: 5px 10px;
     line-height: 30px;
   }
 </style>

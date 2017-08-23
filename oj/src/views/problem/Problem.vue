@@ -84,11 +84,11 @@
         </VerticalMenu-item>
 
         <template v-if="this.contestID">
-          <VerticalMenu-item route="">
-            <Icon type="pie-graph"></Icon>
+
+          <VerticalMenu-item :route="{name: 'contest-rank', params: {contestID: contestID}}">
+            <Icon type="stats-bars"></Icon>
             Ranklist
           </VerticalMenu-item>
-
           <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
             <Icon type="home"></Icon>
             View Contest
@@ -151,7 +151,7 @@
   import api from '@/api'
   import auth from '@/utils/auth'
   import storage from '@/utils/storage'
-  import {JUDGE_STATUS} from '@/utils/consts'
+  import {JUDGE_STATUS, STORAGE_KEY} from '@/utils/consts'
   import bus from '@/utils/eventBus'
 
   import {pie, largePie} from './chartData'
@@ -201,7 +201,7 @@
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
         if (this.contestID) {
-          this.contest = storage.get('contest_' + this.contestID)
+          this.contest = storage.get(STORAGE_KEY.contest + this.contestID)
           this.isSubmitDisabled = this.contest.status !== '0' && this.contest.created_by.id !== auth.getUid()
         }
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
@@ -212,9 +212,9 @@
         })
       },
       changePie(problemData) {
-        let acNum = problemData.total_accepted_number
+        let acNum = problemData.accepted_number
         let data = [
-          {name: 'WA', value: problemData.total_submit_number - acNum},
+          {name: 'WA', value: problemData.submission_number - acNum},
           {name: 'AC', value: acNum}
         ]
         this.pie.series[0].data = data

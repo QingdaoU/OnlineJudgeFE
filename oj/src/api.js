@@ -190,6 +190,16 @@ export default {
     return ajax('user_rank', 'get', {
       params
     })
+  },
+  getContestRank(offset, limit, contestID) {
+    let params = {
+      offset,
+      limit,
+      contest_id: contestID
+    }
+    return ajax('contest_rank', 'get', {
+      params
+    })
   }
 }
 

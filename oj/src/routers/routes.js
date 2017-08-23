@@ -1,18 +1,18 @@
 // all routes here.
 import Test from '../views/test'
 import {
-  ProblemList, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement,
+  ProblemList, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement, ContestRank,
   Logout, ACMRank
 } from '../views'
 
 export default [
-    // beforeEnter(to, from, next) {
-    //   if (auth.isAuthicated()) {
-    //     next('/test')
-    //   } else {
-    //     next()
-    //   }
-    // }
+  // beforeEnter(to, from, next) {
+  //   if (auth.isAuthicated()) {
+  //     next('/test')
+  //   } else {
+  //     next()
+  //   }
+  // }
   {
     name: 'logout',
     path: '/logout',
@@ -57,6 +57,11 @@ export default [
         name: 'contest-announcement-list',
         path: 'announcements',
         component: ContestAnnouncement
+      },
+      {
+        name: 'contest-rank',
+        path: 'rank',
+        component: ContestRank
       }
     ]
   },
