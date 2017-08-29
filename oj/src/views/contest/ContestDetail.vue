@@ -19,7 +19,7 @@
       </div>
 
     </div>
-    <div id="contest-menu">
+    <div v-if="showMenu" id="contest-menu">
       <VerticalMenu @on-click="handleRoute">
         <VerticalMenu-item :disabled="isDisabled"
                            :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
@@ -56,6 +56,7 @@
 
 <script>
   import api from '@/api'
+  import bus from '@/utils/eventBus'
   import auth from '@/utils/auth'
   import storage from '@/utils/storage'
   import time from '@/utils/time'
@@ -65,6 +66,7 @@
     components: {},
     data() {
       return {
+        showMenu: true,
         route_name: '',
         contestID: '',
         contest: {
@@ -105,6 +107,9 @@
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.getContest(this.contestID)
+      bus.$on('update:menuVisible', (visible) => {
+        this.showMenu = visible
+      })
     },
     methods: {
       handleRoute(route) {

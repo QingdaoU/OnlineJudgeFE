@@ -23,8 +23,7 @@
       switchView() {
         let contestID = this.$route.params.contestID
         let contest = utils.loadContest(contestID)
-        console.log(contest)
-        this.currentView = contest.rule_type === 'ACM' ? 'ACMContestRank' : ACMContestRank
+        this.currentView = contest.rule_type === 'ACM' ? 'ACMContestRank' : 'ACMContestRank'
       }
     },
     mounted() {

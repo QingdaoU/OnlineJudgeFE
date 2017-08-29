@@ -1,22 +1,104 @@
 <template>
-  <Table :columns="columns" :data="dataRank" disabled-hover></Table>
+  <Card :padding="0">
+    <div slot="title" class="pannel-title">
+      {{ contest.title }}
+    </div>
+    <div slot="extra" class="pannel-extra">
+      <Poptip trigger="hover" placement="left-start">
+        <Icon type="android-settings" size="20"></Icon>
+        <div slot="content" id="switchs">
+          <span>Menu</span>
+          <i-switch v-model="showMenu" @on-change="handleMenuSwitch"></i-switch>
+          <span>Chart</span>
+          <i-switch v-model="showChart"></i-switch>
+        </div>
+      </Poptip>
+    </div>
+    <div v-if="showChart" class="echarts">
+      <ECharts :options="options" ref="chart" auto-resize></ECharts>
+    </div>
+    <Table ref="tableRank" :columns="columns" :data="dataRank" disabled-hover></Table>
+    <Pagination :total="total" :page-size=limit></Pagination>
+  </Card>
 </template>
 <script>
+  import Pagination from '~/Pagination'
+
   import api from '@/api'
+  import bus from '@/utils/eventBus'
   import storage from '@/utils/storage'
   import {STORAGE_KEY} from '@/utils/consts'
   import time from '@/utils/time'
+  import utils from '@/utils/utils'
 
-  const limit = 10
+  const limit = 30
+  const chartData = {
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['AC', 'Total']
+    },
+    toolbox: {
+      show: true,
+      feature: {
+        dataView: {show: true, readOnly: true},
+        magicType: {show: true, type: ['line', 'bar']},
+        restore: {show: true},
+        saveAsImage: {show: true}
+      },
+      right: '10%'
+    },
+    calculable: true,
+    xAxis: [
+      {
+        type: 'category',
+        data: ['root']
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+      {
+        name: 'AC',
+        type: 'bar',
+        data: [0],
+        markPoint: {
+          data: [
+            {type: 'max', name: 'max'}
+          ]
+        }
+      },
+      {
+        name: 'Total',
+        type: 'bar',
+        data: [0],
+        markPoint: {
+          data: [
+            {type: 'max', name: 'max'}
+          ]
+        }
+      }
+    ]
+  }
 
   export default {
     name: 'acm-contest-rank',
+    components: {
+      Pagination
+    },
     data() {
       return {
         limit: limit,
         page: 0,
         total: 0,
+        showMenu: true,
+        showChart: true,
         contestID: '',
+        contest: '',
         columns: [
           {
             title: '#',
@@ -46,35 +128,53 @@
             }
           }
         ],
-        dataRank: []
+        dataRank: [],
+        options: chartData
       }
     },
     mounted() {
       this.contestID = this.$route.params.contestID
-      this.getContestProblems(this.contestID)
+      this.getContestAndProblems(this.contestID)
       this.getContestRankData(1)
     },
     methods: {
+      handleMenuSwitch() {
+        bus.$emit('update:menuVisible', this.showMenu)
+      },
       getContestRankData(page) {
         let offset = (page - 1) * limit
+        this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getContestRank(offset, limit, this.$route.params.contestID).then(res => {
-          console.log(res.data.data)
+          this.$refs.chart.hideLoading()
           this.total = res.data.data.total
-          this.applyToTable(res.data.data)
+          this.applyToChart(res.data.data.results)
+          this.applyToTable(res.data.data.results)
         })
       },
-      getContestProblems(contestID) {
-        // 优先从localStorage中读取problems
+      getContestAndProblems(contestID) {
+        // 优先从localStorage中读取
+        this.contest = utils.loadContest(this.contestID)
         let problems = storage.get(STORAGE_KEY.contestProblems + this.contestID)
         if (problems === null) {
           api.getContestProblemList(this.contestID).then(res => {
             problems = res.data.data
-            this.addProblemColumns(problems)
+            this.addTableColumns(problems)
           }, _ => {
           })
         } else {
-          this.addProblemColumns(problems)
+          this.addTableColumns(problems)
         }
+      },
+      applyToChart(data) {
+        let [usernames, acData, totalData] = [[], [], []]
+        data.forEach(rank => {
+          usernames.push(rank.user.username)
+          acData.push(rank.accepted_number)
+          totalData.push(rank.submission_number)
+        })
+        this.options.xAxis[0].data = usernames
+        this.options.series[0].data = acData
+        this.options.series[1].data = totalData
       },
       applyToTable(data) {
         // deepcopy
@@ -98,10 +198,9 @@
           })
           dataRank[i].cellClassName = cellClass
         })
-        console.log(dataRank)
         this.dataRank = dataRank
       },
-      addProblemColumns(problems) {
+      addTableColumns(problems) {
         let alphaCode = 65
         problems.forEach(ele => {
           // 生成problem对应的字母 并以此为title作为一个column添加到table中
@@ -146,14 +245,38 @@
           })
         })
       }
+    },
+    watch: {
+      'showMenu'(newVal) {
+        if (this.showChart) {
+          this.$refs.chart.resize()
+        }
+      }
     }
   }
 </script>
+<style scoped lang="less">
+  .echarts {
+    margin: 30px auto 0 auto;
+    height: 300px;
+    width: 100%;
+  }
+
+  .pannel-extra {
+    margin-right: 20px;
+    #switchs {
+      span {
+        margin-left: 8px;
+      }
+    }
+  }
+</style>
 
 <style lang="less">
   .ivu-table td {
-    border-bottom-color: #dadada;
+    border-bottom-color: #dddddd;
   }
+
   .ivu-table .first-ac {
     background-color: #33CC99;
     color: #3c763d;

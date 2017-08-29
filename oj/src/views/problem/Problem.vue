@@ -143,10 +143,6 @@
 </template>
 
 <script>
-  import ECharts from 'vue-echarts/components/ECharts.vue'
-  import 'echarts/lib/chart/pie'
-  import 'echarts/lib/component/legend'
-
   import CodeMirror from '@/components/CodeMirror'
   import api from '@/api'
   import auth from '@/utils/auth'
@@ -159,8 +155,7 @@
   export default {
     name: 'Problem',
     components: {
-      CodeMirror,
-      ECharts
+      CodeMirror
     },
     data() {
       return {

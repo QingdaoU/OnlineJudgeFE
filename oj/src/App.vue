@@ -51,7 +51,7 @@
     padding: 0;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
-    background-color: #f7f7f7;
+    background-color: #eee;
   }
 
   .content-app {
@@ -68,9 +68,14 @@
 
   .flex-container {
     display: flex;
+    width: 100%;
     justify-content: space-around;
     align-items: flex-start;
     flex-flow: row nowrap;
+  }
+
+  table {
+    width: 100% !important
   }
 
   .pannel-title {
@@ -78,5 +83,13 @@
     font-weight: 400;
     padding: 5px 10px;
     line-height: 30px;
+  }
+
+  .pannel-extra {
+    line-height: 40px;
+  }
+
+  .ivu-table td {
+    border-bottom-color: #dddddd;
   }
 </style>

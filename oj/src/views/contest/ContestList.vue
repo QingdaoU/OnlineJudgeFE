@@ -3,7 +3,7 @@
     <Col :span="24">
     <Card :padding="0" id="contest-card" shadow>
       <div slot="title" class="pannel-title">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</div>
-      <div slot="extra">
+      <div slot="extra" class="pannel-extra">
         <Dropdown @on-click="onRuleChange">
           <span id="rule">{{query.rule_type === ''? 'Rule' : query.rule_type}}
           <Icon type="arrow-down-b"></Icon>
@@ -75,7 +75,7 @@
     </Col>
 
     <Modal title="Input Password" v-model="passwordModal">
-      <Input v-model="password" />
+      <Input v-model="password" type="password" />
       <div slot="footer">
         <Button type="primary" :loading="btnLoading" @click="goCheckPasswd">GO</Button>
       </div>
@@ -196,7 +196,6 @@
       margin-right: 30px;
     }
     #rule, #status {
-      line-height: 40px;
       margin-right: 30px;
     }
     #no-contest {

@@ -14,6 +14,16 @@ import VerticalMenuItem from '~/verticalMenu/verticalMenu-item.vue'
 
 import filters from './utils/filters.js'
 
+import ECharts from 'vue-echarts/components/ECharts.vue'
+import 'echarts/lib/chart/bar'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/pie'
+
+import 'echarts/lib/component/legend'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/toolbox'
+import 'echarts/lib/component/markPoint'
+
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -22,6 +32,7 @@ Object.keys(filters).forEach(key => {
 Vue.use(iView, {locale})
 Vue.use(VueHighlightJS)
 
+Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
 

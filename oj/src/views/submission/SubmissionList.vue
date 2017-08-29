@@ -63,12 +63,10 @@
             align: 'center',
             render: (h, params) => {
               if (params.row.show_link) {
-                return h('Button', {
-                  props: {
-                    type: 'text'
-                  },
+                return h('span', {
                   style: {
-                    color: '#57a3f3'
+                    color: '#57a3f3',
+                    cursor: 'pointer'
                   },
                   on: {
                     click: () => {
@@ -97,13 +95,11 @@
             title: 'Problem ID',
             align: 'center',
             render: (h, params) => {
-              return h('Button',
+              return h('span',
                 {
-                  props: {
-                    type: 'text'
-                  },
                   style: {
-                    color: '#57a3f3'
+                    color: '#57a3f3',
+                    cursor: 'pointer'
                   },
                   on: {
                     click: () => {

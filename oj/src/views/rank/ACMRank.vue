@@ -6,7 +6,7 @@
         <span class="title">ACM Ranklist</span>
       </div>
       <div class="echarts">
-        <ECharts :options="options" ref="bar" auto-resize></ECharts>
+        <ECharts :options="options" ref="chart" auto-resize></ECharts>
       </div>
     </Card>
     <Table :data="dataRank" :columns="columns" size="large"></Table>
@@ -16,13 +16,7 @@
 </template>
 
 <script>
-  import ECharts from 'vue-echarts/components/ECharts.vue'
-  import 'echarts/lib/chart/bar'
-  import 'echarts/lib/chart/line'
-  import 'echarts/lib/component/legend'
-  import 'echarts/lib/component/tooltip'
-  import 'echarts/lib/component/toolbox'
-  import 'echarts/lib/component/markPoint'
+
   //  import 'echarts/lib/component/axisPointer'
   //  import 'echarts/lib/component/title'
 
@@ -81,8 +75,7 @@
   export default {
     name: 'acm-rank',
     components: {
-      Pagination,
-      ECharts
+      Pagination
     },
     data() {
       return {
@@ -153,7 +146,7 @@
       },
       getRankData(page) {
         let offset = (page - 1) * this.pageSize
-        let bar = this.$refs.bar
+        let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getUserRank(offset, this.pageSize, 'acm').then(res => {
           this.initData(res)
