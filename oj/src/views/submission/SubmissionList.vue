@@ -1,8 +1,33 @@
 <template>
   <div class="flex-container">
     <div id="main">
-      <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
-      <Pagination :total="total" :pageSize="pageSize" @on-change="changePage"></Pagination>
+      <Panel shadow>
+        <div slot="title">{{ contestID === undefined ? "Status" : "Submissions"}}</div>
+        <div slot="extra">
+          <ul class="filter">
+            <li>
+              <Dropdown @on-click="handleStatusChange">
+                <span>{{ filtedStatus === '' ? 'Status' : JUDGE_STATUS[filtedStatus].name }}
+                  <Icon type="arrow-down-b"></Icon>
+                </span>
+                <Dropdown-menu slot="list">
+                  <Dropdown-item name="">All</Dropdown-item>
+                  <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">{{JUDGE_STATUS[status].name}}</Dropdown-item>
+                </Dropdown-menu>
+              </Dropdown>
+            </li>
+
+            <li>
+              <i-switch size="large" v-model="myself" @on-change="changePage(1)">
+                <span slot="open">Mine</span>
+                <span slot="close">All</span>
+              </i-switch>
+            </li>
+          </ul>
+        </div>
+        <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
+        <Pagination :total="total" :page-size="limit" @on-change="changePage"></Pagination>
+      </Panel>
     </div>
     <div id="contest-menu" v-if="contestID">
       <VerticalMenu @on-click="handleRoute">
@@ -37,7 +62,6 @@
 
 <script>
   import api from '@/api'
-  import bus from '@/utils/eventBus'
   import {JUDGE_STATUS} from '@/utils/consts'
   import utils from '@/utils/utils'
   import time from '@/utils/time'
@@ -50,6 +74,8 @@
     },
     data() {
       return {
+        myself: false,
+        filtedStatus: '',
         columns: [
           {
             title: 'When',
@@ -145,14 +171,18 @@
         ],
         submissions: [],
         total: 30,
-        pageSize: 10,
+        limit: 10,
         contestID: '',
         problemID: '',
-        routeName: ''
+        routeName: '',
+        JUDGE_STATUS: ''
       }
     },
     created() {
       this.init()
+      this.JUDGE_STATUS = Object.assign({}, JUDGE_STATUS)
+      // 去除submitting的状态
+      delete this.JUDGE_STATUS['9']
     },
     methods: {
       init() {
@@ -160,20 +190,11 @@
         this.problemID = this.$route.query.problemID
         this.routeName = this.$route.name
         this.getSubmissions()
-        this.getProblemName()
       },
-      getProblemName() {
-        let _id = this.problemID
-        if (_id !== undefined) {
-          api.getProblem(_id).then((res) => {
-            bus.$emit('changeBread', res.data.data.title)
-          })
-        }
-      },
-      // TODO myself 添加切换按钮
-      getSubmissions(offset = 0, limit = this.pageSize) {
+      getSubmissions(offset = 0, limit = this.limit) {
         let params = {
-          'myself': 0,
+          'result': this.filtedStatus,
+          'myself': this.myself === true ? '1' : '0',
           'problem_id': this.problemID,
           'contest_id': this.contestID
         }
@@ -183,8 +204,12 @@
         }, _ => {
         })
       },
+      handleStatusChange(status) {
+        this.filtedStatus = status
+        this.getSubmissions()
+      },
       changePage(page) {
-        this.getSubmissions((page - 1) * this.pageSize, this.pageSize)
+        this.getSubmissions((page - 1) * this.limit, this.limit)
       },
       handleRoute(route) {
         this.$router.push(route)

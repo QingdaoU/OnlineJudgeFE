@@ -1,36 +1,35 @@
 <template>
   <Row type="flex" :gutter="18">
     <Col :span=20>
-    <!--<Card :bordered="false" dis-hover :padding="0">-->
-      <!--<div slot="title">-->
-        <!--<Form id="filterForm" ref="filterForm" :model="filterForm">-->
-          <!--<Row type="flex" justify="space-between">-->
-            <!--<Col :span="9">-->
-            <!--<Form-item prop="keyword">-->
-              <!--<Input icon="search" type="text" placeholder="keyword or problemID"/>-->
-            <!--</Form-item>-->
-            <!--</Col>-->
-            <!--<Col :span="6">-->
-            <!--<Form-item prop="difficulty">-->
-              <!--<Select v-model="filterForm.difficulty">-->
-                <!--<Option value="Low">Low</Option>-->
-                <!--<Option value="Mid">Mid</Option>-->
-                <!--<Option value="High">High</Option>-->
-              <!--</Select>-->
-            <!--</Form-item>-->
-            <!--</Col>-->
-            <!--<Col :span="7">-->
-            <!--<Form-item style="float: right">-->
-              <!--<Button type="ghost" @click="onReset" style="margin-right: 10px;">Reset</Button>-->
-              <!--<Button type="primary" @click="onFilter">Filter</Button>-->
-            <!--</Form-item>-->
-            <!--</Col>-->
-          <!--</Row>-->
-        <!--</Form>-->
-      <!--</div>-->
-    <!--</Card>-->
+    <Panel shadow>
+      <div slot="title">Problems List</div>
+      <div slot="extra">
+        <ul class="filter">
+          <li>
+            <Dropdown @on-click="onDifficultyChange">
+              <span>{{filter.difficulty === '' ? 'Difficulty' : filter.difficulty}}
+                <Icon type="arrow-down-b"></Icon>
+              </span>
+              <Dropdown-menu slot="list">
+                <Dropdown-item name="">All</Dropdown-item>
+                <Dropdown-item name="Low">Low</Dropdown-item>
+                <Dropdown-item name="Mid">Mid</Dropdown-item>
+                <Dropdown-item name="High">High</Dropdown-item>
+              </Dropdown-menu>
+            </Dropdown>
+          </li>
+          <li>
+            <Input v-model="filter.keyword"
+                   @on-enter="getProblemList"
+                   @on-click="getProblemList"
+                   placeholder="keyword"
+                   icon="ios-search-strong"/>
+          </li>
+        </ul>
+      </div>
       <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" disabled-hover></Table>
-    <Pagination :total="total" :page-size="pageSize" @on-change="changePage"></Pagination>
+    </Panel>
+    <Pagination :total="total" :page-size="limit" @on-change="getProblemList"></Pagination>
 
     </Col>
 
@@ -112,17 +111,14 @@
 
         ],
         problemList: [],
-        pageSize: 5,
+        limit: 5,
         total: 0,
         problemLoading: false,
         tagLoading: false,
-        currentPage: 1,
         routeName: '',
-        contestId: '',
-        filterForm: {
+        filter: {
           keyword: '',
-          difficulty: '',
-          tag: ''
+          difficulty: ''
         },
         spinShow: true
       }
@@ -136,15 +132,11 @@
       getACRate(acCount, totalCount) {
         return utils.getACRate(acCount, totalCount)
       },
-      changePage(page) {
-        this.$Loading.start()
-        this.currentPage = page
-        this.getProblemList(page)
-      },
       getProblemList(page = 1) {
+        this.$Loading.start()
         let self = this
-        let offset = (page - 1) * this.pageSize
-        api.getProblemList(offset, this.pageSize, {}, this.contestId).then(res => {
+        let offset = (page - 1) * this.limit
+        api.getProblemList(offset, this.limit, this.filter).then(res => {
           self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
@@ -160,16 +152,18 @@
           this.spinShow = false
         })
       },
+      onDifficultyChange(difficulty) {
+        this.filter.difficulty = difficulty
+        this.getProblemList()
+      },
       onReset() {
         this.filterForm = {
           keyword: '',
           difficulty: ''
         }
         this.getProblemList(1)
-      },
-      onFilter() {
-        console.log(this.filterForm)
       }
+
     }
   }
 </script>
@@ -181,6 +175,4 @@
       margin-right: 10px;
     }
   }
-
-
 </style>

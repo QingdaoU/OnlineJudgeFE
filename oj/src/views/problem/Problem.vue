@@ -2,8 +2,9 @@
   <div class="flex-container">
     <div id="problem-main">
       <!--problem main-->
-      <Card :padding="20" dis-hover id="problem-content">
-        <div slot="title" class="pannel-title">{{problem.title}}</div>
+      <Panel :padding="20" shadow id="problem-content">
+        <div slot="title">{{problem.title}}</div>
+
         <p class="title" style="margin-top: 0">Description</p>
         <p class="content" v-html=problem.description></p>
 
@@ -36,7 +37,7 @@
             <div class="content" v-html=problem.hint></div>
           </Card>
         </div>
-      </Card>
+      </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
         <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>

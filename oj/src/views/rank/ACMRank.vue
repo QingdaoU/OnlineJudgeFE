@@ -1,16 +1,14 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="21">
-    <Card :padding="10">
-      <div slot="title">
-        <span class="title">ACM Ranklist</span>
-      </div>
+    <Panel :padding="10">
+      <div slot="title">ACM Ranklist</div>
       <div class="echarts">
         <ECharts :options="options" ref="chart" auto-resize></ECharts>
       </div>
-    </Card>
+    </Panel>
     <Table :data="dataRank" :columns="columns" size="large"></Table>
-    <Pagination :total="total" :page-size="pageSize" @on-change="getRankData"></Pagination>
+    <Pagination :total="total" :page-size="limit" @on-change="getRankData"></Pagination>
     </Col>
   </Row>
 </template>
@@ -66,7 +64,7 @@
       key: 'submission_number'
     },
     {
-      title: 'Rate',
+      title: 'Rating',
       render: (h, params) => {
         return h('span', utils.getACRate(params.row.accepted_number, params.row.submission_number))
       }
@@ -80,7 +78,7 @@
     data() {
       return {
         page: 1,
-        pageSize: limit,
+        limit: limit,
         total: 0,
         dataRank: [],
         columns: columns,
@@ -96,7 +94,6 @@
             feature: {
               dataView: {show: true, readOnly: true},
               magicType: {show: true, type: ['line', 'bar']},
-              restore: {show: true},
               saveAsImage: {show: true}
             },
             right: '10%'
@@ -145,10 +142,10 @@
         this.dataRank = res.data.data.results
       },
       getRankData(page) {
-        let offset = (page - 1) * this.pageSize
+        let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
-        api.getUserRank(offset, this.pageSize, 'acm').then(res => {
+        api.getUserRank(offset, this.limit, 'acm').then(res => {
           this.initData(res)
           bar.hideLoading()
         })
@@ -176,10 +173,5 @@
     margin: 0 auto;
     width: 95%;
     height: 400px;
-  }
-
-  .title {
-    font-size: 20px;
-    font-weight: 400;
   }
 </style>

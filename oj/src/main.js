@@ -8,7 +8,9 @@ import locale from 'iview/src/locale/lang/en-US'
 import 'iview/dist/styles/iview.css'
 import 'font-awesome/css/font-awesome.min.css'
 import 'highlight.js/styles/atom-one-light.css'
+import './styles/index.less'
 
+import Panel from '~/Panel.vue'
 import VerticalMenu from '~/verticalMenu/verticalMenu.vue'
 import VerticalMenuItem from '~/verticalMenu/verticalMenu-item.vue'
 
@@ -18,7 +20,6 @@ import ECharts from 'vue-echarts/components/ECharts.vue'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/pie'
-
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
@@ -35,6 +36,7 @@ Vue.use(VueHighlightJS)
 Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
+Vue.component(Panel.name, Panel)
 
 // Vue.use(VueI18n)
 

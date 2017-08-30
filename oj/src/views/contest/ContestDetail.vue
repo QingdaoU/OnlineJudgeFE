@@ -7,12 +7,12 @@
       <div class="flex-container">
         <template v-if="route_name === 'contest-details'">
           <div id="contest-desc">
-            <Card :padding="20" :bordered="false">
-              <div slot="title" class="pannel-title">
+            <Panel :padding="20" shadow>
+              <div slot="title">
                 {{contest.title}}
               </div>
               <div v-html="contest.description"></div>
-            </Card>
+            </Panel>
             <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
           </div>
         </template>

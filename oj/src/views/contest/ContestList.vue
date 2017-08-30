@@ -1,33 +1,40 @@
 <template>
   <Row type="flex">
     <Col :span="24">
-    <Card :padding="0" id="contest-card" shadow>
-      <div slot="title" class="pannel-title">{{query.rule_type === ''? 'All' : query.rule_type}} Contests</div>
-      <div slot="extra" class="pannel-extra">
-        <Dropdown @on-click="onRuleChange">
-          <span id="rule">{{query.rule_type === ''? 'Rule' : query.rule_type}}
-          <Icon type="arrow-down-b"></Icon>
-          </span>
-          <Dropdown-menu slot="list">
-            <Dropdown-item name="">All</Dropdown-item>
-            <Dropdown-item name="OI">OI</Dropdown-item>
-            <Dropdown-item name="ACM">ACM</Dropdown-item>
-          </Dropdown-menu>
-        </Dropdown>
-
-        <Dropdown @on-click="onStatusChange">
-          <span id="status">{{query.status === '' ? 'Status' : CONTEST_STATUS[query.status].name}}
-          <Icon type="arrow-down-b"></Icon>
-          </span>
-          <Dropdown-menu slot="list">
-            <Dropdown-item name="">All</Dropdown-item>
-            <Dropdown-item name="0">UnderWay</Dropdown-item>
-            <Dropdown-item name="1">Not Started</Dropdown-item>
-            <Dropdown-item name="-1">Ended</Dropdown-item>
-          </Dropdown-menu>
-        </Dropdown>
-
-        <Input size="small" id="keyword" @on-enter="onSearchKeyword" @on-click="onSearchKeyword" v-model="query.keyword" icon="ios-search-strong" />
+    <Panel id="contest-card" shadow>
+      <div slot="title">{{query.rule_type === '' ? 'All' : query.rule_type}} Contests</div>
+      <div slot="extra">
+        <ul class="filter">
+          <li>
+            <Dropdown @on-click="onRuleChange">
+              <span>{{query.rule_type === '' ? 'Rule' : query.rule_type}}
+                <Icon type="arrow-down-b"></Icon>
+              </span>
+              <Dropdown-menu slot="list">
+                <Dropdown-item name="">All</Dropdown-item>
+                <Dropdown-item name="OI">OI</Dropdown-item>
+                <Dropdown-item name="ACM">ACM</Dropdown-item>
+              </Dropdown-menu>
+            </Dropdown>
+          </li>
+          <li>
+            <Dropdown @on-click="onStatusChange">
+              <span>{{query.status === '' ? 'Status' : CONTEST_STATUS[query.status].name}}
+                <Icon type="arrow-down-b"></Icon>
+              </span>
+              <Dropdown-menu slot="list">
+                <Dropdown-item name="">All</Dropdown-item>
+                <Dropdown-item name="0">UnderWay</Dropdown-item>
+                <Dropdown-item name="1">Not Started</Dropdown-item>
+                <Dropdown-item name="-1">Ended</Dropdown-item>
+              </Dropdown-menu>
+            </Dropdown>
+          </li>
+          <li>
+            <Input id="keyword" @on-enter="getContestList" @on-click="getContestList" v-model="query.keyword"
+                   icon="ios-search-strong"/>
+          </li>
+        </ul>
       </div>
       <p id="no-contest" v-if="contests.length == 0">No contest</p>
       <ol id="contest-list">
@@ -36,14 +43,11 @@
             <img class="left-media" src="../../assets/Cup.png"/>
             <Col :span="18" class="contest-main">
             <p class="title">
-              <a class="entry" @click.stop="handleContest(contest)">
+              <a class="entry" @click.stop="goContest(contest)">
                 {{contest.title}}
               </a>
-
               <template v-if="contest.contest_type=='Public'">
-                <Tag color="green">
-                  {{contest.contest_type}}
-                </Tag>
+                <Tag color="green">{{contest.contest_type}}</Tag>
               </template>
               <template v-else>
                 <Icon type="ios-locked-outline"></Icon>
@@ -53,7 +57,6 @@
               <li>
                 <Tag>{{contest.rule_type}}</Tag>
               </li>
-
               <li>
                 <Icon type="calendar" color="#3091f2"></Icon>
                 {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
@@ -70,12 +73,12 @@
           </Row>
         </li>
       </ol>
-    </Card>
-    <Pagination :total="total" :pageSize="limit" @on-change="changePage"></Pagination>
+    </Panel>
+    <Pagination :total="total" :pageSize="limit" @on-change="getContestList"></Pagination>
     </Col>
 
     <Modal title="Input Password" v-model="passwordModal">
-      <Input v-model="password" type="password" />
+      <Input v-model="password" type="password"/>
       <div slot="footer">
         <Button type="primary" :loading="btnLoading" @click="goCheckPasswd">GO</Button>
       </div>
@@ -118,27 +121,22 @@
       }
     },
     methods: {
-      getContestList(offset, limit, params) {
-        api.getContestList(offset, limit, params).then((res) => {
+      getContestList(page = 1) {
+        let offset = (page - 1) * this.limit
+        api.getContestList(offset, this.limit, this.query).then((res) => {
           this.contests = res.data.data.results
           this.total = res.data.data.total
         })
       },
-      changePage(page) {
-        this.getContestList()
-      },
       onRuleChange(rule) {
         this.query.rule_type = rule
-        this.getContestList(0, this.limit, this.query)
+        this.getContestList()
       },
       onStatusChange(status) {
         this.query.status = status
-        this.getContestList(0, this.limit, this.query)
+        this.getContestList()
       },
-      onSearchKeyword() {
-        this.getContestList(0, this.limit, this.query)
-      },
-      handleContest(contest) {
+      goContest(contest) {
         this.cur_contest_id = contest.id
         let route = {name: 'contest-details', params: {contestID: this.cur_contest_id}}
         if (contest.contest_type !== 'Public') {
@@ -192,10 +190,7 @@
 <style lang="less" scoped>
   #contest-card {
     #keyword {
-      width: 40%;
-      margin-right: 30px;
-    }
-    #rule, #status {
+      width: 80%;
       margin-right: 30px;
     }
     #no-contest {
@@ -206,7 +201,7 @@
     #contest-list {
       > li {
         padding: 20px;
-        border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        border-bottom: 1px solid rgba(187, 187, 187, 0.5);
 
         .left-media {
           height: 40px;
@@ -214,7 +209,6 @@
         .contest-main {
           .title {
             font-size: 18px;
-            /*font-weight: 300;*/
             .entry {
               color: #495060;
               &:hover {

@@ -1,9 +1,7 @@
 <template>
-  <Card :padding="0">
-    <div slot="title" class="pannel-title">
-      {{ contest.title }}
-    </div>
-    <div slot="extra" class="pannel-extra">
+  <Panel shadow>
+    <div slot="title">{{ contest.title }}</div>
+    <div slot="extra">
       <Poptip trigger="hover" placement="left-start">
         <Icon type="android-settings" size="20"></Icon>
         <div slot="content" id="switchs">
@@ -18,8 +16,8 @@
       <ECharts :options="options" ref="chart" auto-resize></ECharts>
     </div>
     <Table ref="tableRank" :columns="columns" :data="dataRank" disabled-hover></Table>
-    <Pagination :total="total" :page-size=limit></Pagination>
-  </Card>
+    <Pagination :total="total" :page-size=limit @on-change="getContestRankData" show-sizer></Pagination>
+  </Panel>
 </template>
 <script>
   import Pagination from '~/Pagination'
@@ -31,7 +29,7 @@
   import time from '@/utils/time'
   import utils from '@/utils/utils'
 
-  const limit = 30
+  const limit = 10
   const chartData = {
     tooltip: {
       trigger: 'axis'
@@ -44,7 +42,6 @@
       feature: {
         dataView: {show: true, readOnly: true},
         magicType: {show: true, type: ['line', 'bar']},
-        restore: {show: true},
         saveAsImage: {show: true}
       },
       right: '10%'
@@ -93,7 +90,6 @@
     data() {
       return {
         limit: limit,
-        page: 0,
         total: 0,
         showMenu: true,
         showChart: true,
@@ -147,7 +143,9 @@
         api.getContestRank(offset, limit, this.$route.params.contestID).then(res => {
           this.$refs.chart.hideLoading()
           this.total = res.data.data.total
-          this.applyToChart(res.data.data.results)
+          if (page === 1) {
+            this.applyToChart(res.data.data.results.slice(0, 10))
+          }
           this.applyToTable(res.data.data.results)
         })
       },
@@ -263,32 +261,10 @@
   }
 
   .pannel-extra {
-    margin-right: 20px;
     #switchs {
       span {
         margin-left: 8px;
       }
     }
-  }
-</style>
-
-<style lang="less">
-  .ivu-table td {
-    border-bottom-color: #dddddd;
-  }
-
-  .ivu-table .first-ac {
-    background-color: #33CC99;
-    color: #3c763d;
-  }
-
-  .ivu-table .ac {
-    background-color: #dff0d8;;
-    color: #3c763d;
-  }
-
-  .ivu-table .wa {
-    color: #a94442;
-    background-color: #f2dede;
   }
 </style>
