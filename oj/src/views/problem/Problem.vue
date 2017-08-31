@@ -149,7 +149,6 @@
   import auth from '@/utils/auth'
   import storage from '@/utils/storage'
   import {JUDGE_STATUS, STORAGE_KEY} from '@/utils/consts'
-  import bus from '@/utils/eventBus'
 
   import {pie, largePie} from './chartData'
 
@@ -204,7 +203,6 @@
         api[func](this.problemID, this.contestID).then(res => {
           this.problem = res.data.data
           this.changePie(res.data.data)
-          bus.$emit('bread-crumb-change', this.problem.title)
         })
       },
       changePie(problemData) {

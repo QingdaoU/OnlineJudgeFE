@@ -27,7 +27,8 @@
           </li>
         </ul>
       </div>
-      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList" disabled-hover></Table>
+      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList"
+             disabled-hover></Table>
     </Panel>
     <Pagination :total="total" :page-size="limit" @on-change="getProblemList"></Pagination>
 
@@ -42,16 +43,19 @@
 
 <script>
   import api from '@/api.js'
-  import utils from '@/utils/utils'
+  import auth from '@/utils/auth'
+  import {problemMixin} from '~/mixins'
   import Pagination from '../../components/Pagination'
 
   export default {
     name: 'ProblemList',
+    mixins: [problemMixin],
     components: {
       Pagination
     },
     data() {
       return {
+        userProfile: {},
         tagTableColumns: [
           {
             title: 'Tags',
@@ -123,14 +127,14 @@
         spinShow: true
       }
     },
-    created() {
-      this.routeName = this.$route.name
-      this.getTagList()
-      this.getProblemList()
+    mounted() {
+      this.init()
     },
     methods: {
-      getACRate(acCount, totalCount) {
-        return utils.getACRate(acCount, totalCount)
+      init() {
+        this.routeName = this.$route.name
+        this.getTagList()
+        this.getProblemList()
       },
       getProblemList(page = 1) {
         this.$Loading.start()
@@ -140,6 +144,9 @@
           self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
+          if (auth.isAuthicated()) {
+            this.addStatusColumn(res.data.data.results)
+          }
         }, res => {
           self.$Loading.error()
         })
@@ -163,7 +170,6 @@
         }
         this.getProblemList(1)
       }
-
     }
   }
 </script>

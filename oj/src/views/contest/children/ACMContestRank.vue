@@ -23,7 +23,6 @@
   import Pagination from '~/Pagination'
 
   import api from '@/api'
-  import bus from '@/utils/eventBus'
   import storage from '@/utils/storage'
   import {STORAGE_KEY} from '@/utils/consts'
   import time from '@/utils/time'
@@ -135,7 +134,7 @@
     },
     methods: {
       handleMenuSwitch() {
-        bus.$emit('update:menuVisible', this.showMenu)
+        this.$bus.$emit('update:menuVisible', this.showMenu)
       },
       getContestRankData(page) {
         let offset = (page - 1) * limit

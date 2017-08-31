@@ -62,7 +62,6 @@
 </template>
 
 <script>
-  import bus from '../utils/eventBus'
   import api from '@/api'
   import auth from '../utils/auth'
 
@@ -94,14 +93,14 @@
       }
     },
     mounted() {
-      bus.$on('login', () => {
+      this.$bus.$on('login', () => {
         this.$refs['loginBtn'].handleClick()
       })
-      bus.$on('login-success', (res) => {
+      this.$bus.$on('login-success', (res) => {
         this.username = res.user.username
         this.isAuthed = true
       })
-      bus.$on('logout', () => {
+      this.$bus.$on('logout', () => {
         this.isAuthed = false
         this.username = ''
       })

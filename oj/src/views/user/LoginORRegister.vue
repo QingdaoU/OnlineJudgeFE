@@ -71,7 +71,6 @@
 <script>
   import api from '@/api'
   import auth from '@/utils/auth'
-  import bus from '@/utils/eventBus'
 
   export default {
     props: {
@@ -200,7 +199,7 @@
           api.login(this.formLogin.uname, this.formLogin.passwd).then(res => {
             api.getUserInfo().then(res => {
               auth.setUser(res.data.data)
-              bus.$emit('login-success', res.data.data)
+              this.$bus.$emit('login-success', res.data.data)
               this.$success('Welcome back to OJ')
               this.handleUpdateProp('update:visible', false)
             })

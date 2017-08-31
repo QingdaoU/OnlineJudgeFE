@@ -13,7 +13,6 @@
 
 <script>
   import Navbar from './components/NavBar.vue'
-  import breadcrumb from './components/Breadcrumb.vue'
 
   export default {
     name: 'app',
@@ -23,8 +22,7 @@
       }
     },
     components: {
-      Navbar,
-      breadcrumb
+      Navbar
     },
     methods: {}
   }

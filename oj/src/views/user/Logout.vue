@@ -4,14 +4,13 @@
 <script>
   import api from '../../api.js'
   import auth from '@/utils/auth'
-  import bus from '@/utils/eventBus'
 
   export default {
     mounted() {
       api.logout().then(res => {
         this.$success('logout succeeded')
         auth.clear()
-        bus.$emit('logout')
+        this.$bus.$emit('logout')
         this.$router.replace({
           path: '/'
         })

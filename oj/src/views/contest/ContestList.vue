@@ -89,7 +89,6 @@
 
 <script>
   import api from '@/api'
-  import bus from '@/utils/eventBus'
   import auth from '@/utils/auth'
   import Pagination from '@/components/Pagination'
   import time from '@/utils/time'
@@ -142,7 +141,7 @@
         if (contest.contest_type !== 'Public') {
           if (!auth.isAuthicated()) {
             this.$error('Please login first.')
-            bus.$emit('login')
+            this.$bus.$emit('login')
           } else if (contest.created_by.id === auth.getUid()) {
             // contest.created_by is user self.
             this.$router.push(route)

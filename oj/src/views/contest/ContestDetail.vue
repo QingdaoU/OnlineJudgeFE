@@ -56,7 +56,6 @@
 
 <script>
   import api from '@/api'
-  import bus from '@/utils/eventBus'
   import auth from '@/utils/auth'
   import storage from '@/utils/storage'
   import time from '@/utils/time'
@@ -104,12 +103,14 @@
       }
     },
     created() {
+      this.$bus.$on('update:menuVisible', (visible) => {
+        this.showMenu = visible
+      })
+    },
+    mounted() {
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.getContest(this.contestID)
-      bus.$on('update:menuVisible', (visible) => {
-        this.showMenu = visible
-      })
     },
     methods: {
       handleRoute(route) {
@@ -137,6 +138,9 @@
         this.route_name = newVal.name
         this.contestID = newVal.params.contestID
       }
+    },
+    beforeDestory() {
+      this.$bus.$off('update:menuVisible')
     }
   }
 </script>
