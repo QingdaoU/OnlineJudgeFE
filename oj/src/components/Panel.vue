@@ -1,5 +1,5 @@
 <template>
-  <Card :padding="padding" :shadow="shadow">
+  <Card :padding="padding" :shadow="shadow" :dis-hover="disHover" :bordered="bordered">
     <div slot="title" class="panel-title">
       <slot name="title"></slot>
     </div>
@@ -23,6 +23,16 @@
         required: false,
         type: Number,
         default: 0
+      },
+      disHover: {
+        required: false,
+        type: Boolean,
+        default: false
+      },
+      bordered: {
+        required: false,
+        type: Boolean,
+        default: true
       }
     }
   }

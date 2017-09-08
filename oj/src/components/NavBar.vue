@@ -48,9 +48,9 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">
-            <Dropdown-item>Home</Dropdown-item>
-            <Dropdown-item>Submissions</Dropdown-item>
-            <Dropdown-item name="/settings">Settings</Dropdown-item>
+            <Dropdown-item name="/profile">Home</Dropdown-item>
+            <Dropdown-item name="/status?myself=1">Submissions</Dropdown-item>
+            <Dropdown-item name="/setting">Settings</Dropdown-item>
             <Dropdown-item divided name="/logout">Logout</Dropdown-item>
           </Dropdown-menu>
         </Dropdown>

@@ -12,7 +12,9 @@
                 </span>
                 <Dropdown-menu slot="list">
                   <Dropdown-item name="">All</Dropdown-item>
-                  <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">{{JUDGE_STATUS[status].name}}</Dropdown-item>
+                  <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
+                    {{JUDGE_STATUS[status].name}}
+                  </Dropdown-item>
                 </Dropdown-menu>
               </Dropdown>
             </li>
@@ -189,6 +191,7 @@
         this.contestID = this.$route.query.contestID
         this.problemID = this.$route.query.problemID
         this.routeName = this.$route.name
+        this.myself = this.$route.query.myself === '1'
         this.getSubmissions()
       },
       getSubmissions(offset = 0, limit = this.limit) {

@@ -54,24 +54,9 @@ export default {
   },
 
   // 保存用户资料设置
-  editProfileSetting(profile) {
+  updateProfile(profile) {
     return ajax('profile', 'put', {
-      data: {
-        blog: profile.blog,
-        mood: profile.mood,
-        school: profile.school,
-        student_id: profile.student_id,
-        phone_number: profile.phone_number,
-        major: profile.major
-      }
-    })
-  },
-  // 修改用户头像
-  editAvatarSetting(avatar) {
-    return ajax('profile', 'put', {
-      data: {
-        avatar: avatar
-      }
+      data: profile
     })
   },
   getLanguages() {

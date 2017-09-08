@@ -2,7 +2,7 @@
 import Test from '../views/test'
 import {
   ProblemList, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement, ContestRank,
-  Logout, ACMRank
+  Logout, ACMRank, Settings, ProfileSetting
 } from '../views'
 
 export default [
@@ -74,6 +74,27 @@ export default [
     name: 'acm-rank',
     path: '/acm-rank',
     component: ACMRank
+  },
+  // {
+  //   name: 'profile',
+  //   path: '/profile',
+  //   component: Profile
+  // },
+  {
+    path: '/setting',
+    component: Settings,
+    children: [
+      {
+        name: 'default-setting',
+        path: '',
+        component: ProfileSetting
+      },
+      {
+        name: 'profile-setting',
+        path: 'profile',
+        component: ProfileSetting
+      }
+    ]
   },
   {
     path: '/test',
