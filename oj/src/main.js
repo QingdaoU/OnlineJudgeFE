@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './routers/index'
+import router from './router/index'
 import iView from 'iview'
-import VueHighlightJS from 'vue-highlightjs'
 import locale from 'iview/src/locale/lang/en-US'
+import VueHighlightJS from 'vue-highlightjs'
 
 import 'iview/dist/styles/iview.css'
-import 'font-awesome/css/font-awesome.min.css'
 import 'highlight.js/styles/atom-one-light.css'
 import './styles/index.less'
 

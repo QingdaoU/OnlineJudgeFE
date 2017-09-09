@@ -1,6 +1,6 @@
 <template>
   <Row type="flex" justify="space-around">
-    <Col :span="21">
+    <Col :span="22">
     <Panel :padding="10">
       <div slot="title">ACM Ranklist</div>
       <div class="echarts">

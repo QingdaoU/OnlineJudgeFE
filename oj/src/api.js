@@ -7,15 +7,6 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
-  // 开发用简易登录
-  devLogin(username, password) {
-    return ajax('/api/login', 'get', {
-      params: {
-        username,
-        password
-      }
-    })
-  },
   login(username, password) {
     return ajax('login', 'post', {
       data: {
@@ -43,6 +34,9 @@ export default {
   },
   getCaptcha() {
     return ajax('captcha', 'get')
+  },
+  getTwoFactorQrcode() {
+    return ajax('two_factor_auth', 'get')
   },
   // 获取自身信息
   getUserInfo(username = undefined) {

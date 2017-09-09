@@ -39,11 +39,11 @@
 </script>
 
 <style lang="less">
+  @import (reference) '../styles/common.less';
+
   .panel-title {
-    font-size: 21px;
-    font-weight: 400;
+    .section-title;
     padding: 5px 15px;
-    line-height: 30px;
   }
 
   .panel-extra {

@@ -6,7 +6,7 @@
 
 <script>
   //  import api from '@/api'
-  import Emitter from '~/mixins'
+  import {Emitter} from '~/mixins'
 
   export default {
     name: 'VerticalMenu-item',

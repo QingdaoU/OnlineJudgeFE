@@ -11,13 +11,13 @@
 <script>
   import api from '@/api'
   import auth from '@/utils/auth'
-  import {problemMixin} from '~/mixins'
+  import {ProblemMixin} from '~/mixins'
   import storage from '@/utils/storage'
   import {STORAGE_KEY} from '@/utils/consts'
 
   export default {
     name: 'ContestProblemList',
-    mixins: [problemMixin],
+    mixins: [ProblemMixin],
     data() {
       return {
         problems: [],

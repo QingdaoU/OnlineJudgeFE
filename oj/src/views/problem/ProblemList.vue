@@ -44,12 +44,12 @@
 <script>
   import api from '@/api.js'
   import auth from '@/utils/auth'
-  import {problemMixin} from '~/mixins'
+  import {ProblemMixin} from '~/mixins'
   import Pagination from '../../components/Pagination'
 
   export default {
     name: 'ProblemList',
-    mixins: [problemMixin],
+    mixins: [ProblemMixin],
     components: {
       Pagination
     },
