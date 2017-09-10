@@ -56,7 +56,7 @@
         </Dropdown>
       </template>
     </Menu>
-    <Register :visible.sync="registerModalVisible" :mode.sync="modalMode"></Register>
+    <LoginOrRegister :visible.sync="registerModalVisible" :mode.sync="modalMode"></LoginOrRegister>
 
   </div>
 </template>
@@ -65,11 +65,11 @@
   import api from '@/api'
   import auth from '../utils/auth'
 
-  import Register from '@/views/user/LoginORRegister'
+  import LoginOrRegister from '@/views/user/LoginOrRegister'
 
   export default {
     components: {
-      Register
+      LoginOrRegister
     },
     data() {
       return {

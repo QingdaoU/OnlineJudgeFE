@@ -1,8 +1,10 @@
 // all routes here.
 import Test from '../views/test'
 import {
-  ProblemList, ContestList, ContestDetails, ContestProblemList, ContestAnnouncement, ContestRank,
-  Logout, ACMRank, Settings, ProfileSetting
+  Logout, ApplyResetPassword, ResetPassword,
+  ProfileSetting, SecuritySetting, Settings,
+  ContestAnnouncement, ContestDetails, ContestList, ContestProblemList, ContestRank,
+  ProblemList, ACMRank
 } from '../views'
 
 export default [
@@ -17,6 +19,16 @@ export default [
     name: 'logout',
     path: '/logout',
     component: Logout
+  },
+  {
+    name: 'apply-reset-password',
+    path: '/apply-reset-password',
+    component: ApplyResetPassword
+  },
+  {
+    name: 'reset-password',
+    path: '/reset-password/:token',
+    component: ResetPassword
   },
   {
     name: 'problem-list',
@@ -93,6 +105,11 @@ export default [
         name: 'profile-setting',
         path: 'profile',
         component: ProfileSetting
+      },
+      {
+        name: 'security-setting',
+        path: 'security',
+        component: SecuritySetting
       }
     ]
   },
@@ -100,8 +117,8 @@ export default [
     path: '/test',
     name: 'Test',
     component: Test
+  },
+  {
+    path: '*', redirect: '/problems'
   }
-  // {
-  //   path: '*', redirect: '/problems'
-  // }
 ]

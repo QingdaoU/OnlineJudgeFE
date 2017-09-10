@@ -1,5 +1,5 @@
 <template>
-  <Modal :value="visible" @on-cancel="handleUpdateProp('update:visible', false)" :width="350">
+  <Modal :value="visible" @on-cancel="handleUpdateProp('update:visible', false)" :width="400" className="modal">
     <div slot="header">
       <span class="title">Welcome to OJ</span>
     </div>
@@ -42,7 +42,7 @@
         <Form-item prop="captcha" style="margin-bottom:10px">
           <div id="captcha">
             <div id="captchaCode">
-              <Input v-model="formRegister.captcha" placeholder="Capacha" size="large">
+              <Input v-model="formRegister.captcha" placeholder="Captcha" size="large">
               <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
               </Input>
             </div>
@@ -57,12 +57,30 @@
     </template>
     <div slot="footer" class="footer">
       <template v-if="mode === 'login'">
-        <Button type="primary" @click="handleLogin()" class="btn" long>Login</Button>
+        <Button
+          type="primary"
+          @click="handleLogin()"
+          class="btn" long
+          :loading="btnLoginLoading">
+          Login
+        </Button>
         <a @click.stop="handleUpdateProp('update:mode', 'register')">No account? Register now!</a>
+        <a @click.stop="goResetPassword" style="float: right">Forget Password</a>
       </template>
       <template v-else>
-        <Button type="primary" @click="handleRegister()" class="btn" long>Register Now</Button>
-        <a @click.stop="handleUpdateProp('update:mode', 'login')">Already registed? Login now!</a>
+        <Button
+          type="primary"
+          @click="handleRegister()"
+          class="btn" long
+          :loading="btnRegisterLoading">
+          Register
+        </Button>
+        <Button
+          type="ghost"
+          @click="handleUpdateProp('update:mode', 'login')"
+          class="btn" long>
+          Already registed? Login now!
+        </Button>
       </template>
     </div>
   </Modal>
@@ -71,8 +89,10 @@
 <script>
   import api from '@/api'
   import auth from '@/utils/auth'
+  import {FormMixin} from '~/mixins'
 
   export default {
+    mixins: [FormMixin],
     props: {
       visible: {
         required: true,
@@ -90,7 +110,7 @@
       const validateUsername = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(value, undefined).then(res => {
-            if (res.data.data.username === false) {
+            if (res.data.data.username === true) {
               callback(new Error('username already exists.'))
             } else {
               callback()
@@ -103,8 +123,8 @@
       const validateEmail = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(undefined, value).then(res => {
-            if (res.data.data.email === false) {
-              callback(new Error('email already exists'))
+            if (res.data.data.email === true) {
+              callback(new Error('email already exist'))
             } else {
               callback()
             }
@@ -129,6 +149,8 @@
 
       return {
         captchaSrc: '',
+        btnRegisterLoading: false,
+        btnLoginLoading: false,
         formRegister: {
           username: '',
           password: '',
@@ -171,32 +193,30 @@
       }
     },
     methods: {
-      validateForm(formName) {
-        let isValid = false
-        this.$refs[formName].validate(valid => {
-          if (!valid) {
-            this.$error('please validate the error fields')
-          }
-          isValid = valid
-        })
-        return isValid
+      handleUpdateProp(eventName, value) {
+        this.$emit(eventName, value)
       },
       handleRegister() {
         if (this.validateForm('formRegister')) {
           let formData = Object.assign({}, this.formRegister)
           delete formData['passwordAgain']
+          this.btnRegisterLoading = true
           api.register(formData).then(res => {
             this.$success('Register successed, go to login')
             this.handleUpdateProp('update:mode', 'login')
+            this.btnRegisterLoading = false
           }, _ => {
             this.getCaptchaSrc()
             this.formRegister.captcha = ''
+            this.btnRegisterLoading = false
           })
         }
       },
       handleLogin() {
         if (this.validateForm('formLogin')) {
+          this.btnLoginLoading = true
           api.login(this.formLogin.uname, this.formLogin.passwd).then(res => {
+            this.btnLoginLoading = false
             api.getUserInfo().then(res => {
               auth.setUser(res.data.data)
               this.$bus.$emit('login-success', res.data.data)
@@ -204,16 +224,14 @@
               this.handleUpdateProp('update:visible', false)
             })
           }, _ => {
+            this.btnLoginLoading = false
           })
         }
       },
-      handleUpdateProp(eventName, value) {
-        this.$emit(eventName, value)
-      },
-      getCaptchaSrc() {
-        api.getCaptcha().then(res => {
-          this.captchaSrc = res.data.data
-        })
+
+      goResetPassword() {
+        this.handleUpdateProp('update:visible', false)
+        this.$router.push({name: 'apply-reset-password'})
       }
     },
     watch: {
@@ -255,15 +273,18 @@
   }
 
   .title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
   }
 
   .footer {
-    text-align: center;
     margin: 0;
+    text-align: left;
     .btn {
-      margin: 0 0 10px 0;
+      margin: 0 0 15px 0;
+      &:last-child {
+        margin: 0;
+      }
     }
   }
 </style>

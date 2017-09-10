@@ -1,21 +1,25 @@
 <template>
-  <Card :padding="0" id="settings-card">
-    <div class="flex-container">
-      <div class="menu">
-        <Menu accordion @on-select="goRoute" activeName="/setting/profile" style="text-align: center;">
-          <div>
-            <img class="avatar" src="../../assets/profile.jpg"/>
-          </div>
-          <Menu-item name="/setting/profile">Profile</Menu-item>
-          <Menu-item name="/setting/1">Security</Menu-item>
-          <Menu-item name="/setting/2">Perference</Menu-item>
-        </Menu>
+  <Row type="flex" justify="space-around">
+    <Col :span="22">
+    <Card :padding="0" id="settings-card">
+      <div class="flex-container">
+        <div class="menu">
+          <Menu accordion @on-select="goRoute" activeName="/setting/profile" style="text-align: center;">
+            <div>
+              <img class="avatar" src="../../assets/profile.jpg"/>
+            </div>
+            <Menu-item name="/setting/profile">Profile</Menu-item>
+            <Menu-item name="/setting/security">Security</Menu-item>
+            <Menu-item name="/setting/2">Perference</Menu-item>
+          </Menu>
+        </div>
+        <div class="panel">
+          <router-view></router-view>
+        </div>
       </div>
-      <div class="panel">
-        <router-view></router-view>
-      </div>
-    </div>
-  </Card>
+    </Card>
+    </Col>
+  </Row>
 </template>
 <script>
   export default {
@@ -63,5 +67,12 @@
   .ivu-menu-vertical.ivu-menu-light:after {
     /*取消默认的伪元素*/
     width: 0;
+  }
+</style>
+
+<style>
+  .setting-main {
+    margin: 10px 40px;
+    padding-bottom: 40px;
   }
 </style>

@@ -35,9 +35,6 @@ export default {
   getCaptcha() {
     return ajax('captcha', 'get')
   },
-  getTwoFactorQrcode() {
-    return ajax('two_factor_auth', 'get')
-  },
   // 获取自身信息
   getUserInfo(username = undefined) {
     return ajax('profile', 'get', {
@@ -46,11 +43,23 @@ export default {
       }
     })
   },
-
   // 保存用户资料设置
   updateProfile(profile) {
     return ajax('profile', 'put', {
       data: profile
+    })
+  },
+  getTwoFactorQrcode() {
+    return ajax('two_factor_auth', 'get')
+  },
+  apply_reset_password(data) {
+    return ajax('apply_reset_password', 'post', {
+      data
+    })
+  },
+  changePassword(data) {
+    return ajax('change_password', 'post', {
+      data
     })
   },
   getLanguages() {

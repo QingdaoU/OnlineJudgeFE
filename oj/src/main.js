@@ -50,6 +50,9 @@ Vue.component(Panel.name, Panel)
 // Vue.use(VueI18n)
 
 // 注册全局消息提示
+Vue.prototype.$Message.config({
+  duration: 1.8
+})
 Vue.prototype.$error = Vue.prototype.$Message.error
 Vue.prototype.$info = Vue.prototype.$Message.info
 Vue.prototype.$success = Vue.prototype.$Message.success
