@@ -117,8 +117,8 @@ export default [
     path: '/test',
     name: 'Test',
     component: Test
-  },
-  {
-    path: '*', redirect: '/problems'
   }
+  // {
+  //   path: '*', redirect: '/problems'
+  // }
 ]

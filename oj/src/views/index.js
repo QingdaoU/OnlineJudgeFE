@@ -8,8 +8,8 @@ export {
   Logout, ResetPassword, ApplyResetPassword,
   ProblemList, ACMRank
 }
-export {ContestRank, ContestProblemList, ContestList, ContestDetails, ContestAnnouncement} from './contest'
-export {Settings, ProfileSetting, SecuritySetting} from './setting'
+export * from './contest'
+export * from './setting'
 /* 组件导出分为两类, 一类常用的直接导出，另一类诸如Login, Logout等用懒加载,懒加载不在此处导出
  *   在对应的route内加载
  *   见https://router.vuejs.org/en/advanced/lazy-loading.html

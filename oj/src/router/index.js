@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import iView from 'iview'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import auth from '../utils/auth'
@@ -20,8 +19,7 @@ const router = new VueRouter({
 
 // 全局身份确认
 router.beforeEach((to, from, next) => {
-  iView.LoadingBar.start()
-  iView.LoadingBar.update(30)
+  Vue.prototype.$Loading.start()
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!auth.isAuthicated()) {
@@ -37,7 +35,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from, next) => {
-  iView.LoadingBar.finish()
+  Vue.prototype.$Loading.finish()
 })
 
 export default router

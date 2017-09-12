@@ -40,13 +40,13 @@
           </Input>
         </Form-item>
         <Form-item prop="captcha" style="margin-bottom:10px">
-          <div id="captcha">
-            <div id="captchaCode">
+          <div class="oj-captcha">
+            <div class="oj-captcha-code">
               <Input v-model="formRegister.captcha" placeholder="Captcha" size="large">
               <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
               </Input>
             </div>
-            <div id="captchaImg">
+            <div class="oj-captcha-img">
               <Tooltip content="Click to refresh" placement="top">
                 <img :src="captchaSrc" @click="getCaptchaSrc"/>
               </Tooltip>
@@ -107,11 +107,11 @@
       }
     },
     data() {
-      const validateUsername = (rule, value, callback) => {
+      const CheckUsernameNotExist = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(value, undefined).then(res => {
             if (res.data.data.username === true) {
-              callback(new Error('username already exists.'))
+              callback(new Error('The username already exists.'))
             } else {
               callback()
             }
@@ -120,11 +120,11 @@
           callback()
         }
       }
-      const validateEmail = (rule, value, callback) => {
+      const CheckEmailNotExist = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(undefined, value).then(res => {
             if (res.data.data.email === true) {
-              callback(new Error('email already exist'))
+              callback(new Error('The email already exist'))
             } else {
               callback()
             }
@@ -133,14 +133,16 @@
           callback()
         }
       }
-      const validatePass = (rule, value, callback) => {
-        if (this.formRegister.passwdCheck !== '') {
+      const CheckPassword = (rule, value, callback) => {
+        console.log(rule, value, callback)
+        if (this.formRegister.password !== '') {
           // 对第二个密码框再次验证
           this.$refs.formRegister.validateField('passwordAgain')
         }
         callback()
       }
-      const validatePassCheck = (rule, value, callback) => {
+
+      const CheckAgainPassword = (rule, value, callback) => {
         if (value !== this.formRegister.password) {
           callback(new Error('password does not match'))
         }
@@ -165,18 +167,18 @@
         ruleRegister: {
           username: [
             {required: true, trigger: 'blur'},
-            {validator: validateUsername, trigger: 'blur'}
+            {validator: CheckUsernameNotExist, trigger: 'blur'}
           ],
           email: [
             {required: true, type: 'email', trigger: 'blur'},
-            {validator: validateEmail, trigger: 'blur'}
+            {validator: CheckEmailNotExist, trigger: 'blur'}
           ],
           password: [
             {required: true, trigger: 'blur', min: 6, max: 20},
-            {validator: validatePass, trigger: 'blur'}
+            {validator: CheckPassword, trigger: 'blur'}
           ],
           passwordAgain: [
-            {required: true, validator: validatePassCheck, trigger: 'change'}
+            {required: true, validator: CheckAgainPassword, trigger: 'change'}
           ],
           captcha: [
             {required: true, trigger: 'blur', min: 1, max: 10}
@@ -197,7 +199,7 @@
         this.$emit(eventName, value)
       },
       handleRegister() {
-        if (this.validateForm('formRegister')) {
+        this.validateForm('formRegister').then(valid => {
           let formData = Object.assign({}, this.formRegister)
           delete formData['passwordAgain']
           this.btnRegisterLoading = true
@@ -210,10 +212,10 @@
             this.formRegister.captcha = ''
             this.btnRegisterLoading = false
           })
-        }
+        })
       },
       handleLogin() {
-        if (this.validateForm('formLogin')) {
+        this.validateForm('formLogin').then(valid => {
           this.btnLoginLoading = true
           api.login(this.formLogin.uname, this.formLogin.passwd).then(res => {
             this.btnLoginLoading = false
@@ -226,9 +228,8 @@
           }, _ => {
             this.btnLoginLoading = false
           })
-        }
+        })
       },
-
       goResetPassword() {
         this.handleUpdateProp('update:visible', false)
         this.$router.push({name: 'apply-reset-password'})
@@ -256,22 +257,6 @@
 </script>
 
 <style scoped lang="less">
-  #captcha {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    width: 100%;
-    height: 36px;
-    #captchaCode {
-      flex: auto;
-    }
-    #captchaImg {
-      margin-left: 10px;
-      padding: 3px;
-      flex: initial;
-    }
-  }
-
   .title {
     font-size: 18px;
     font-weight: 600;

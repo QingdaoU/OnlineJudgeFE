@@ -148,7 +148,7 @@
           this.applyToTable(res.data.data.results)
         })
       },
-      getContestAndProblems() {
+      getContestAndProblems(contestID) {
         // 优先从localStorage中读取
         this.contest = utils.loadContest(this.contestID)
         let problems = storage.get(STORAGE_KEY.contestProblems + this.contestID)

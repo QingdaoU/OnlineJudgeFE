@@ -9,13 +9,13 @@
           </Input>
         </Form-item>
         <Form-item prop="captcha" style="margin-bottom:10px">
-          <div id="captcha">
-            <div id="captchaCode">
+          <div class="oj-captcha">
+            <div class="oj-captcha-code">
               <Input v-model="formResetPassword.captcha" placeholder="Captcha" size="large">
               <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
               </Input>
             </div>
-            <div id="captchaImg">
+            <div class="oj-captcha-img">
               <Tooltip content="Click to refresh" placement="top">
                 <img :src="captchaSrc" @click="getCaptchaSrc"/>
               </Tooltip>
@@ -44,11 +44,11 @@
   export default {
     mixins: [FormMixin],
     data() {
-      const validateEmail = (rule, value, callback) => {
+      const CheckEmailExist = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(undefined, value).then(res => {
             if (res.data.data.email === false) {
-              callback(new Error('This email doesn\'t exist'))
+              callback(new Error('The email doesn\'t exist'))
             } else {
               callback()
             }
@@ -68,7 +68,7 @@
         ruleResetPassword: {
           email: [
             {required: true, type: 'email', trigger: 'blur'},
-            {validator: validateEmail, trigger: 'blur'}
+            {validator: CheckEmailExist, trigger: 'blur'}
           ],
           captcha: [
             {required: true, trigger: 'blur', min: 1, max: 10}
@@ -94,7 +94,6 @@
             this.formResetPassword.captcha = ''
             this.getCaptchaSrc()
           })
-        }, _ => {
         })
       }
     }
@@ -107,21 +106,6 @@
     margin: auto;
     .center {
       text-align: center;
-    }
-    #captcha {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-      width: 100%;
-      height: 36px;
-      #captchaCode {
-        flex: auto;
-      }
-      #captchaImg {
-        margin-left: 10px;
-        padding: 3px;
-        flex: initial;
-      }
     }
     .btn {
       margin-top: 18px;

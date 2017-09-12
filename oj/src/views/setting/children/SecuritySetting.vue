@@ -44,12 +44,18 @@
 
 <script>
   import api from '@/api.js'
-  import {SettingMixin} from '~/mixins'
+  import {SettingMixin, FormMixin} from '~/mixins'
 
   export default {
-    mixins: [SettingMixin],
+    mixins: [SettingMixin, FormMixin],
     data() {
-      const validatePass = (rule, value, callback) => {
+      const CheckAgainPassword = (rule, value, callback) => {
+        if (value !== this.formPassword.new_password) {
+          callback(new Error('password does not match'))
+        }
+        callback()
+      }
+      const CheckNewPassword = (rule, value, callback) => {
         if (this.formPassword.old_password !== '') {
           if (this.formPassword.old_password === this.formPassword.new_password) {
             callback(new Error('The new password doesn\'t change'))
@@ -57,12 +63,6 @@
             // 对第二个密码框再次验证
             this.$refs.formPassword.validateField('again_password')
           }
-        }
-        callback()
-      }
-      const validatePassAgain = (rule, value, callback) => {
-        if (value !== this.formPassword.new_password) {
-          callback(new Error('password does not match'))
         }
         callback()
       }
@@ -92,10 +92,10 @@
           ],
           new_password: [
             {required: true, trigger: 'blur', min: 6, max: 20},
-            {validator: validatePass, trigger: 'blur'}
+            {validator: CheckNewPassword, trigger: 'blur'}
           ],
           again_password: [
-            {required: true, validator: validatePassAgain, trigger: 'change'}
+            {required: true, validator: CheckAgainPassword, trigger: 'change'}
           ]
         },
         ruleEmail: {}
@@ -112,18 +112,20 @@
         }
       },
       changePassword() {
-        this.loading.btnPassword = true
-        let data = Object.assign({}, this.formPassword)
-        delete data.again_password
-        api.changePassword(data).then(res => {
-          this.loading.btnPassword = false
-          this.visible.passwordAlert = true
-          setTimeout(() => {
-            this.visible.passwordAlert = false
-            this.$router.push({name: 'logout'})
-          }, 3000)
-        }, _ => {
-          this.loading.btnPassword = false
+        this.validateForm('formPassword').then(valid => {
+          this.loading.btnPassword = true
+          let data = Object.assign({}, this.formPassword)
+          delete data.again_password
+          api.changePassword(data).then(res => {
+            this.loading.btnPassword = false
+            this.visible.passwordAlert = true
+            setTimeout(() => {
+              this.visible.passwordAlert = false
+              this.$router.push({name: 'logout'})
+            }, 3000)
+          }, _ => {
+            this.loading.btnPassword = false
+          })
         })
       },
       changeEmail() {

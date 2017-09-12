@@ -7,7 +7,6 @@ export default {
         this.$refs[formName].validate(valid => {
           if (!valid) {
             this.$error('please validate the error fields')
-            reject(valid)
           } else {
             resolve(valid)
           }
