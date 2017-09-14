@@ -9,8 +9,8 @@
               <img class="avatar" src="../../assets/profile.jpg"/>
             </div>
             <Menu-item name="/setting/profile">Profile</Menu-item>
+            <Menu-item name="/setting/account">Account</Menu-item>
             <Menu-item name="/setting/security">Security</Menu-item>
-            <Menu-item name="/setting/2">Perference</Menu-item>
           </Menu>
         </div>
         <div class="panel">

@@ -7,12 +7,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
-  login(username, password) {
+  login(data) {
     return ajax('login', 'post', {
-      data: {
-        username,
-        password
-      }
+      data
     })
   },
   checkUsernameOrEmail(username, email) {
@@ -49,8 +46,17 @@ export default {
       data: profile
     })
   },
-  getTwoFactorQrcode() {
-    return ajax('two_factor_auth', 'get')
+  twoFactorAuth(method, data) {
+    return ajax('two_factor_auth', method, {
+      data
+    })
+  },
+  tfaRequiredCheck(username) {
+    return ajax('tfa_required', 'post', {
+      data: {
+        username
+      }
+    })
   },
   apply_reset_password(data) {
     return ajax('apply_reset_password', 'post', {

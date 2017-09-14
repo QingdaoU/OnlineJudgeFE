@@ -5,41 +5,46 @@
     </div>
     <template v-if="mode === 'login'">
       <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
-        <Form-item prop="uname">
-          <Input type="text" v-model="formLogin.uname" placeholder="Username" size="large">
+        <FormItem prop="username">
+          <Input type="text" v-model="formLogin.username" placeholder="Username" size="large">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item prop="passwd" style="margin-bottom: 10px">
-          <Input type="password" v-model="formLogin.passwd" placeholder="Password" size="large">
+        </FormItem>
+        <FormItem prop="password">
+          <Input type="password" v-model="formLogin.password" placeholder="Password" size="large">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
+        </FormItem>
+        <FormItem prop="tfa_code" v-if="tfaRequired">
+          <Input v-model="formLogin.tfa_code" placeholder="Code from your TFA app">
+          <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
+          </Input>
+        </FormItem>
       </Form>
     </template>
     <template v-else>
       <Form v-if="mode === 'register'" ref="formRegister" :model="formRegister" :rules="ruleRegister">
-        <Form-item prop="username">
+        <FormItem prop="username">
           <Input type="text" v-model="formRegister.username" placeholder="Username" size="large">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item prop="email">
+        </FormItem>
+        <FormItem prop="email">
           <Input v-model="formRegister.email" placeholder="Email Address" size="large">
           <Icon type="ios-email-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item prop="password">
+        </FormItem>
+        <FormItem prop="password">
           <Input type="password" v-model="formRegister.password" placeholder="Password" size="large">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item prop="passwordAgain">
+        </FormItem>
+        <FormItem prop="passwordAgain">
           <Input type="password" v-model="formRegister.passwordAgain" placeholder="Password Again" size="large">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
-        </Form-item>
-        <Form-item prop="captcha" style="margin-bottom:10px">
+        </FormItem>
+        <FormItem prop="captcha" style="margin-bottom:10px">
           <div class="oj-captcha">
             <div class="oj-captcha-code">
               <Input v-model="formRegister.captcha" placeholder="Captcha" size="large">
@@ -52,7 +57,7 @@
               </Tooltip>
             </div>
           </div>
-        </Form-item>
+        </FormItem>
       </Form>
     </template>
     <div slot="footer" class="footer">
@@ -108,33 +113,24 @@
     },
     data() {
       const CheckUsernameNotExist = (rule, value, callback) => {
-        if (value !== '') {
-          api.checkUsernameOrEmail(value, undefined).then(res => {
-            if (res.data.data.username === true) {
-              callback(new Error('The username already exists.'))
-            } else {
-              callback()
-            }
-          }, _ => callback())
-        } else {
-          callback()
-        }
+        api.checkUsernameOrEmail(value, undefined).then(res => {
+          if (res.data.data.username === true) {
+            callback(new Error('The username already exists.'))
+          } else {
+            callback()
+          }
+        }, _ => callback())
       }
       const CheckEmailNotExist = (rule, value, callback) => {
-        if (value !== '') {
-          api.checkUsernameOrEmail(undefined, value).then(res => {
-            if (res.data.data.email === true) {
-              callback(new Error('The email already exist'))
-            } else {
-              callback()
-            }
-          }, _ => callback())
-        } else {
-          callback()
-        }
+        api.checkUsernameOrEmail(undefined, value).then(res => {
+          if (res.data.data.email === true) {
+            callback(new Error('The email already exist'))
+          } else {
+            callback()
+          }
+        }, _ => callback())
       }
       const CheckPassword = (rule, value, callback) => {
-        console.log(rule, value, callback)
         if (this.formRegister.password !== '') {
           // 对第二个密码框再次验证
           this.$refs.formRegister.validateField('passwordAgain')
@@ -149,8 +145,16 @@
         callback()
       }
 
+      const CheckRequiredTFA = (rule, value, callback) => {
+        api.tfaRequiredCheck(value).then(res => {
+          this.tfaRequired = res.data.data.result
+        })
+        callback()
+      }
+
       return {
         captchaSrc: '',
+        tfaRequired: false,
         btnRegisterLoading: false,
         btnLoginLoading: false,
         formRegister: {
@@ -161,8 +165,9 @@
           captcha: ''
         },
         formLogin: {
-          uname: '',
-          passwd: ''
+          username: '',
+          password: '',
+          tfa_code: ''
         },
         ruleRegister: {
           username: [
@@ -185,11 +190,12 @@
           ]
         },
         ruleLogin: {
-          uname: [
-            {required: true, trigger: 'blur', message: 'username is required'}
+          username: [
+            {required: true, trigger: 'blur'},
+            {validator: CheckRequiredTFA, trigger: 'blur'}
           ],
-          passwd: [
-            {required: true, trigger: 'change', min: 6, max: 20, message: 'password is required'}
+          password: [
+            {required: true, trigger: 'change', min: 6, max: 20}
           ]
         }
       }
@@ -217,7 +223,7 @@
       handleLogin() {
         this.validateForm('formLogin').then(valid => {
           this.btnLoginLoading = true
-          api.login(this.formLogin.uname, this.formLogin.passwd).then(res => {
+          api.login(this.formLogin).then(res => {
             this.btnLoginLoading = false
             api.getUserInfo().then(res => {
               auth.setUser(res.data.data)

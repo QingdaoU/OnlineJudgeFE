@@ -2,7 +2,7 @@
 import Test from '../views/test'
 import {
   Logout, ApplyResetPassword, ResetPassword,
-  ProfileSetting, SecuritySetting, Settings,
+  ProfileSetting, SecuritySetting, AccountSetting, Settings,
   ContestAnnouncement, ContestDetails, ContestList, ContestProblemList, ContestRank,
   ProblemList, ACMRank
 } from '../views'
@@ -105,6 +105,11 @@ export default [
         name: 'profile-setting',
         path: 'profile',
         component: ProfileSetting
+      },
+      {
+        name: 'account-setting',
+        path: 'account',
+        component: AccountSetting
       },
       {
         name: 'security-setting',
