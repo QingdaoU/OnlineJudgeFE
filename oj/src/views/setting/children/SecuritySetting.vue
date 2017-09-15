@@ -1,5 +1,32 @@
 <template>
   <div>
+    <p class="section-title">Sessions</p>
+    <div class="setting-main flex-container">
+      <template v-for="session in sessions">
+        <Card :padding="20" class="flex-child">
+          <span slot="title">{{session.ip}}</span>
+          <div slot="extra">
+            <Tag v-if="session.current_session" color="green">Current</Tag>
+            <Button v-else
+                    type="warning"
+                    size="small"
+                    @click="deleteSession(session.id)">Revoke</Button>
+          </div>
+          <Form :label-width="100">
+            <FormItem label="OS :" class="item">
+              {{session.user_agent | platform}}
+            </FormItem>
+            <FormItem label="Browser :" class="item">
+              {{session.user_agent | browser}}
+            </FormItem>
+            <FormItem label="Last Activity :" class="item">
+              {{session.last_activity | localtime }}
+            </FormItem>
+          </Form>
+        </Card>
+      </template>
+    </div>
+
     <p class="section-title">Two Factor Authentication</p>
     <div class="mini-container">
       <Form class="setting-main">
@@ -8,9 +35,9 @@
                class="notice"
                showIcon>You have enabled two-factor authentication.
         </Alert>
-        <Alert v-else class="notice">
-          Two-factor authentication adds an extra layer of security to your account.
-        </Alert>
+        <!--<Alert v-else class="notice">-->
+          <!--Two-factor authentication adds an extra layer of security to your account.-->
+        <!--</Alert>-->
         <FormItem v-if="!alreadyAuthed">
           <div class="oj-relative">
             <img :src="qrcodeSrc" id="qr-img">
@@ -40,6 +67,19 @@
 <script>
   import api from '@/api'
   import {SettingMixin} from '~/mixins'
+  import browserDetector from 'browser-detect'
+
+  const browsers = {}
+  const loadBrowser = (userAgent) => {
+    let browser = {}
+    if (userAgent in Object.keys(browsers)) {
+      browser = browsers[userAgent]
+    } else {
+      browser = browserDetector(userAgent)
+      browsers[userAgent] = browser
+    }
+    return browser
+  }
 
   export default {
     mixins: [SettingMixin],
@@ -50,11 +90,13 @@
         loadingBtn: false,
         formTwoFactor: {
           code: ''
-        }
+        },
+        sessions: []
       }
     },
     mounted() {
       this.loadProfile()
+      this.getSessions()
       if (this.profile.user && !this.profile.user.two_factor_auth) {
         this.getAuthImg()
       }
@@ -65,6 +107,27 @@
         api.twoFactorAuth('get').then(res => {
           this.loadingQRcode = false
           this.qrcodeSrc = res.data.data
+        })
+      },
+      getSessions() {
+        api.getSessions().then(res => {
+          let data = res.data.data
+          // 将当前session放到第一个
+          let sessions = data.filter(session => {
+            return session.current_session
+          })
+          data.forEach(session => {
+            if (!session.current_session) {
+              sessions.push(session)
+            }
+          })
+          this.sessions = sessions
+        })
+      },
+      deleteSession(id) {
+        api.deleteSession(id).then(res => {
+          this.getSessions()
+        }, _ => {
         })
       },
       closeTFA() {
@@ -87,15 +150,33 @@
             this.formTwoFactor.code = ''
           }
           this.formTwoFactor.code = ''
-        }, _ => {
+        }, err => {
           this.formTwoFactor.code = ''
           this.loadingBtn = false
+          if (err.data.data.indexOf('session') > -1) {
+            this.getProfile()
+            this.getAuthImg()
+          }
         })
       }
     },
     computed: {
       alreadyAuthed() {
         return this.profile.user && this.profile.user.two_factor_auth
+      }
+    },
+    filters: {
+      browser(value) {
+        let b = loadBrowser(value)
+        if (b.name && b.version) {
+          return b.name + ' ' + b.version
+        } else {
+          return 'Unknown'
+        }
+      },
+      platform(value) {
+        let b = loadBrowser(value)
+        return b.os ? b.os : 'Unknown'
       }
     }
   }
@@ -112,8 +193,21 @@
       width: 150px;
       #qr-img {
         width: 300px;
-        margin-left: -20px;
-        margin-bottom: -20px;
+        margin: -20px;
+      }
+    }
+  }
+
+  .flex-container {
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    .flex-child {
+      flex: none;
+      width: 300px;
+      margin-right: 30px;
+      margin-bottom: 30px;
+      .item {
+        margin-bottom: 0;
       }
     }
   }

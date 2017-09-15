@@ -97,7 +97,7 @@
           this.btnLoading = true
           let data = Object.assign({}, this.formResetPassword)
           delete data.passwordAgain
-          api.reset_password(data).then(res => {
+          api.resetPassword(data).then(res => {
             this.btnLoading = false
             this.resetSuccess = true
           }, _ => {

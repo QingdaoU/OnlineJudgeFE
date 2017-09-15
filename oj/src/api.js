@@ -58,8 +58,23 @@ export default {
       }
     })
   },
-  apply_reset_password(data) {
+  getSessions() {
+    return ajax('sessions', 'get')
+  },
+  deleteSession(id) {
+    return ajax('sessions', 'delete', {
+      data: {
+        id
+      }
+    })
+  },
+  applyResetPassword(data) {
     return ajax('apply_reset_password', 'post', {
+      data
+    })
+  },
+  resetPassword(data) {
+    return ajax('reset_password', 'post', {
       data
     })
   },

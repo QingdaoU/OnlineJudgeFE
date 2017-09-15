@@ -223,7 +223,11 @@
       handleLogin() {
         this.validateForm('formLogin').then(valid => {
           this.btnLoginLoading = true
-          api.login(this.formLogin).then(res => {
+          let formData = Object.assign({}, this.formLogin)
+          if (!this.tfaRequired) {
+            delete formData['tfa_code']
+          }
+          api.login(formData).then(res => {
             this.btnLoginLoading = false
             api.getUserInfo().then(res => {
               auth.setUser(res.data.data)
@@ -254,7 +258,7 @@
         }
       },
       'visible'(newVal) {
-        if (newVal === true) {
+        if (newVal === true && this.mode === 'register') {
           this.getCaptchaSrc()
         }
       }

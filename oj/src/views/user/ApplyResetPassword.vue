@@ -83,7 +83,7 @@
       sendEmail() {
         this.validateForm('formResetPassword').then(() => {
           this.btnLoading = true
-          api.apply_reset_password(this.formResetPassword).then(res => {
+          api.applyResetPassword(this.formResetPassword).then(res => {
             // 伪加载
             setTimeout(() => {
               this.btnLoading = false

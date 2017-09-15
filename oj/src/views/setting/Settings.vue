@@ -73,6 +73,6 @@
 <style>
   .setting-main {
     margin: 10px 40px;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
   }
 </style>
