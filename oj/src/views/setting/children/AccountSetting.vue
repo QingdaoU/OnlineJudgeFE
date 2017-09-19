@@ -1,9 +1,9 @@
 <template>
-  <div style="position: relative">
+  <div class="setting-main">
     <div class="flex-container">
       <div class="left">
         <p class="section-title">Change Password</p>
-        <Form class="setting-main" ref="formPassword" :model="formPassword" :rules="rulePassword">
+        <Form class="setting-content" ref="formPassword" :model="formPassword" :rules="rulePassword">
           <FormItem label="Old password" prop="old_password">
             <Input v-model="formPassword.old_password" type="password"/>
           </FormItem>
@@ -24,7 +24,7 @@
 
       <div class="right">
         <p class="section-title">Change Email</p>
-        <Form class="setting-main" ref="formEmail" :model="formEmail">
+        <Form class="setting-content" ref="formEmail" :model="formEmail">
           <FormItem label="Current password">
             <Input v-model="formEmail.password"/>
           </FormItem>
@@ -101,10 +101,10 @@
       }
     },
     mounted() {
-      this.getProfile()
+      this.init()
     },
     methods: {
-      getProfile() {
+      init() {
         let profile = this.loadProfile()
         if (profile !== null && profile !== undefined) {
           this.formEmail.old_email = profile.user.email
@@ -140,14 +140,16 @@
   .flex-container {
     justify-content: flex-start;
     .left {
-      flex: 1 1;
+      flex: 1 0;
+      width: 250px;
       padding-right: 5%;
     }
     >.middle {
       flex: none;
     }
     .right {
-      flex: 1 1;
+      flex: 1 0;
+      width: 250px;
     }
   }
 </style>

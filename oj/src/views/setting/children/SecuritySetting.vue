@@ -1,16 +1,17 @@
 <template>
-  <div>
+  <div class="setting-main">
     <p class="section-title">Sessions</p>
-    <div class="setting-main flex-container">
+    <div class="flex-container setting-content">
       <template v-for="session in sessions">
         <Card :padding="20" class="flex-child">
-          <span slot="title">{{session.ip}}</span>
+          <span slot="title" style="line-height: 20px">{{session.ip}}</span>
           <div slot="extra">
             <Tag v-if="session.current_session" color="green">Current</Tag>
             <Button v-else
                     type="warning"
                     size="small"
-                    @click="deleteSession(session.id)">Revoke</Button>
+                    @click="deleteSession(session.session_key)">Revoke
+            </Button>
           </div>
           <Form :label-width="100">
             <FormItem label="OS :" class="item">
@@ -28,16 +29,13 @@
     </div>
 
     <p class="section-title">Two Factor Authentication</p>
-    <div class="mini-container">
-      <Form class="setting-main">
+    <div class="mini-container setting-content">
+      <Form>
         <Alert v-if="alreadyAuthed"
                type="success"
                class="notice"
                showIcon>You have enabled two-factor authentication.
         </Alert>
-        <!--<Alert v-else class="notice">-->
-          <!--Two-factor authentication adds an extra layer of security to your account.-->
-        <!--</Alert>-->
         <FormItem v-if="!alreadyAuthed">
           <div class="oj-relative">
             <img :src="qrcodeSrc" id="qr-img">
@@ -124,10 +122,16 @@
           this.sessions = sessions
         })
       },
-      deleteSession(id) {
-        api.deleteSession(id).then(res => {
-          this.getSessions()
-        }, _ => {
+      deleteSession(sessionKey) {
+        this.$Modal.confirm({
+          title: 'Confirm',
+          content: 'Are you sure to revoke the session?',
+          onOk: () => {
+            api.deleteSession(sessionKey).then(res => {
+              this.getSessions()
+            }, _ => {
+            })
+          }
         })
       },
       closeTFA() {
@@ -183,18 +187,17 @@
 </script>
 
 <style lang="less" scoped>
-  .mini-container {
-    width: 500px;
-    .notice {
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-    .oj-relative {
-      width: 150px;
-      #qr-img {
-        width: 300px;
-        margin: -20px;
-      }
+  .notice {
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .oj-relative {
+    width: 150px;
+    #qr-img {
+      width: 300px;
+      margin: -10px 0 -30px -20px;
     }
   }
 
@@ -202,8 +205,8 @@
     flex-flow: row wrap;
     justify-content: flex-start;
     .flex-child {
-      flex: none;
-      width: 300px;
+      flex: 1 0;
+      max-width: 350px;
       margin-right: 30px;
       margin-bottom: 30px;
       .item {

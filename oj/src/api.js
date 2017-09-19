@@ -32,7 +32,6 @@ export default {
   getCaptcha() {
     return ajax('captcha', 'get')
   },
-  // 获取自身信息
   getUserInfo(username = undefined) {
     return ajax('profile', 'get', {
       params: {
@@ -40,7 +39,6 @@ export default {
       }
     })
   },
-  // 保存用户资料设置
   updateProfile(profile) {
     return ajax('profile', 'put', {
       data: profile
@@ -61,10 +59,10 @@ export default {
   getSessions() {
     return ajax('sessions', 'get')
   },
-  deleteSession(id) {
+  deleteSession(sessionKey) {
     return ajax('sessions', 'delete', {
-      data: {
-        id
+      params: {
+        session_key: sessionKey
       }
     })
   },

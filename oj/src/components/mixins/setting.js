@@ -18,9 +18,14 @@ export default {
       }
     },
     getProfile() {
-      api.getUserInfo().then(res => {
-        this.profile = res.data.data
-        auth.setUser(res.data.data)
+      return new Promise((resolve, reject) => {
+        api.getUserInfo().then(res => {
+          this.profile = res.data.data
+          auth.setUser(res.data.data)
+          resolve(res)
+        }, err => {
+          reject(err)
+        })
       })
     }
   }

@@ -1,13 +1,22 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span="22">
-    <Card :padding="0" id="settings-card">
+  <div class="container">
+    <Card :padding="0">
       <div class="flex-container">
         <div class="menu">
-          <Menu accordion @on-select="goRoute" activeName="/setting/profile" style="text-align: center;">
-            <div>
-              <img class="avatar" src="../../assets/profile.jpg"/>
+          <Menu accordion @on-select="goRoute" activeName="/setting/profile" style="text-align: center;" width="auto">
+            <div class="avatar-editor">
+              <div class="avatar-container">
+                <img class="avatar" :src="profile.avatar"/>
+                <div class="avatar-mask">
+                  <a @click.stop="goRoute({name: 'profile-setting'})"><div class="mask-content">
+                    <Icon type="camera" size="30"></Icon>
+                    <p class="text">change avatar</p>
+                  </div>
+                  </a>
+                </div>
+              </div>
             </div>
+
             <Menu-item name="/setting/profile">Profile</Menu-item>
             <Menu-item name="/setting/account">Account</Menu-item>
             <Menu-item name="/setting/security">Security</Menu-item>
@@ -18,36 +27,92 @@
         </div>
       </div>
     </Card>
-    </Col>
-  </Row>
+  </div>
 </template>
 <script>
+  import {SettingMixin} from '~/mixins'
+
   export default {
     name: 'profile',
-    data() {
-      return {}
+    mixins: [SettingMixin],
+    mounted() {
+      this.loadProfile()
+      this.$bus.$on('update:avatar', () => {
+        this.loadProfile()
+      })
     },
     methods: {
       goRoute(routePath) {
         this.$router.push(routePath)
       }
+    },
+    beforeDestory() {
+      this.$bus.$off('update:avatar')
     }
   }
 </script>
 
 <style lang="less" scoped>
-  #settings-card {
+  @avatar-radius: 50%;
+
+  .container {
+    width: 90%;
+    min-width: 800px;
+    margin: auto;
+  }
+
+  .flex-container {
     .menu {
-      flex: none;
-      width: 240px;
-      .avatar {
-        max-width: 180px;
-        max-height: 180px;
-        margin: 20px auto;
-        display: block;
-        border-radius: 5%;
+      flex: 1 0 150px;
+      max-width: 250px;
+      .avatar-editor {
+        padding: 10% 20%;
+        margin-bottom: 10px;
+        .avatar-container {
+          &:hover {
+            .avatar-mask {
+              opacity: .4;
+            }
+          }
+          position: relative;
+          .avatar {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            display: block;
+            border-radius: @avatar-radius;
+            box-shadow: 0px 0px 1px 0px;
+          }
+          .avatar-mask {
+            transition: opacity .2s ease-in;
+            z-index: 1;
+            border-radius: @avatar-radius;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: black;
+            opacity: 0;
+            .mask-content {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              z-index: 3;
+              color: #fff;
+              font-size: 16px;
+              text-align: center;
+              transform: translate(-50%, -50%);
+              .text {
+                white-space: nowrap;
+              }
+            }
+          }
+        }
       }
+
     }
+
     .panel {
       flex: auto;
       &::before {
@@ -62,6 +127,7 @@
         z-index: 1;
       }
     }
+
   }
 
   .ivu-menu-vertical.ivu-menu-light:after {
@@ -70,9 +136,16 @@
   }
 </style>
 
-<style>
+<style lang="less">
   .setting-main {
+    position: relative;
     margin: 10px 40px;
     padding-bottom: 20px;
+    .setting-content {
+      margin-left: 20px;
+    }
+    .mini-container {
+      width: 500px;
+    }
   }
 </style>
