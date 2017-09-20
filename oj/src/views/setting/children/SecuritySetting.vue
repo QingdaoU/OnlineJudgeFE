@@ -64,7 +64,7 @@
 
 <script>
   import api from '@/api'
-  import {SettingMixin} from '~/mixins'
+  import {ProfileMixin} from '~/mixins'
   import browserDetector from 'browser-detect'
 
   const browsers = {}
@@ -80,7 +80,7 @@
   }
 
   export default {
-    mixins: [SettingMixin],
+    mixins: [ProfileMixin],
     data() {
       return {
         qrcodeSrc: '',

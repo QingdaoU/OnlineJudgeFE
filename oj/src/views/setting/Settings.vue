@@ -30,11 +30,11 @@
   </div>
 </template>
 <script>
-  import {SettingMixin} from '~/mixins'
+  import {ProfileMixin} from '~/mixins'
 
   export default {
     name: 'profile',
-    mixins: [SettingMixin],
+    mixins: [ProfileMixin],
     mounted() {
       this.loadProfile()
       this.$bus.$on('update:avatar', () => {

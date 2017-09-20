@@ -17,9 +17,9 @@ export default {
         return auth.getUser()
       }
     },
-    getProfile() {
+    getProfile(username) {
       return new Promise((resolve, reject) => {
-        api.getUserInfo().then(res => {
+        api.getUserInfo(username).then(res => {
           this.profile = res.data.data
           auth.setUser(res.data.data)
           resolve(res)

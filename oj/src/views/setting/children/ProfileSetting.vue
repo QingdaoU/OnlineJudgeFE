@@ -69,11 +69,11 @@
         <FormItem label="Real Name">
           <Input v-model="formProfile.real_name"/>
         </FormItem>
-        <Form-item label="Phone">
-          <Input v-model="formProfile.phone_number"/>
+         <Form-item label="School">
+          <Input v-model="formProfile.school"/>
         </Form-item>
-        <Form-item label="Mood">
-          <Input v-model="formProfile.mood"/>
+        <Form-item label="Major">
+          <Input v-model="formProfile.major"/>
         </Form-item>
         <Form-item>
           <Button type="primary" @click="updateProfile" :loading="btnLoading">Save All</Button>
@@ -81,14 +81,14 @@
         </Col>
 
         <Col :span="11">
-        <Form-item label="Major">
-          <Input v-model="formProfile.major"/>
+        <Form-item label="Mood">
+          <Input v-model="formProfile.mood"/>
         </Form-item>
         <Form-item label="Blog">
           <Input v-model="formProfile.blog"/>
         </Form-item>
-        <Form-item label="Language">
-          <Input v-model="formProfile.language"/>
+        <Form-item label="Githb">
+          <Input v-model="formProfile.github" />
         </Form-item>
         </Col>
       </Row>
@@ -99,11 +99,11 @@
 <script>
   import api from '@/api.js'
   import auth from '@/utils/auth'
-  import {SettingMixin} from '~/mixins'
+  import {ProfileMixin} from '~/mixins'
   import vueCropper from 'vue-cropper'
 
   export default {
-    mixins: [SettingMixin],
+    mixins: [ProfileMixin],
     components: {
       vueCropper
     },
@@ -123,8 +123,8 @@
           mood: '',
           major: '',
           blog: '',
-          phone_number: '',
-          language: ''
+          school: '',
+          github: ''
         }
       }
     },

@@ -43,10 +43,10 @@
 
 <script>
   import api from '@/api.js'
-  import {SettingMixin, FormMixin} from '~/mixins'
+  import {ProfileMixin, FormMixin} from '~/mixins'
 
   export default {
-    mixins: [SettingMixin, FormMixin],
+    mixins: [ProfileMixin, FormMixin],
     data() {
       const CheckAgainPassword = (rule, value, callback) => {
         if (value !== this.formPassword.new_password) {

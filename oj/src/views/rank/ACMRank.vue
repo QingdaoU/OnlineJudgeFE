@@ -23,53 +23,7 @@
   import utils from '@/utils/utils'
 
   const limit = 10
-  const columns = [
-    {
-      type: 'index',
-      align: 'center',
-      width: 60
-    },
-    {
-      title: 'user',
-      align: 'center',
-      render: (h, params) => {
-        return h('Button', {
-          props: {
-            type: 'text'
-          },
-          style: {
-            color: '#57a3f3'
-          },
-          on: {
-            click: () => {
-              console.log('push')
-            }
-          }
-        }, params.row.user.username)
-      }
-    },
-    {
-      title: 'mood',
-      align: 'center',
-      key: 'mood'
-    },
-    {
-      title: 'AC',
-      align: 'center',
-      key: 'accepted_number'
-    },
-    {
-      title: 'Total',
-      align: 'center',
-      key: 'submission_number'
-    },
-    {
-      title: 'Rating',
-      render: (h, params) => {
-        return h('span', utils.getACRate(params.row.accepted_number, params.row.submission_number))
-      }
-    }
-  ]
+
   export default {
     name: 'acm-rank',
     components: {
@@ -81,7 +35,57 @@
         limit: limit,
         total: 0,
         dataRank: [],
-        columns: columns,
+        columns: [
+          {
+            type: 'index',
+            align: 'center',
+            width: 60
+          },
+          {
+            title: 'user',
+            align: 'center',
+            render: (h, params) => {
+              return h('Button', {
+                props: {
+                  type: 'text'
+                },
+                style: {
+                  color: '#57a3f3'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push(
+                      {
+                        name: 'home',
+                        query: {username: params.row.user.username}
+                      })
+                  }
+                }
+              }, params.row.user.username)
+            }
+          },
+          {
+            title: 'mood',
+            align: 'center',
+            key: 'mood'
+          },
+          {
+            title: 'AC',
+            align: 'center',
+            key: 'accepted_number'
+          },
+          {
+            title: 'Total',
+            align: 'center',
+            key: 'submission_number'
+          },
+          {
+            title: 'Rating',
+            render: (h, params) => {
+              return h('span', utils.getACRate(params.row.accepted_number, params.row.submission_number))
+            }
+          }
+        ],
         options: {
           tooltip: {
             trigger: 'axis'

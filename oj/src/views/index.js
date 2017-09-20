@@ -3,9 +3,10 @@ import ACMRank from './rank/ACMRank.vue'
 import Logout from './user/Logout.vue'
 import ApplyResetPassword from './user/ApplyResetPassword.vue'
 import ResetPassword from './user/ResetPassword.vue'
+import Home from './user/Home.vue'
 
 export {
-  Logout, ResetPassword, ApplyResetPassword,
+  Logout, ResetPassword, ApplyResetPassword, Home,
   ProblemList, ACMRank
 }
 export * from './contest'

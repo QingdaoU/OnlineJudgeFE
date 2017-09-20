@@ -1,7 +1,7 @@
 // all routes here.
 import Test from '../views/test'
 import {
-  Logout, ApplyResetPassword, ResetPassword,
+  Logout, ApplyResetPassword, ResetPassword, Home,
   ProfileSetting, SecuritySetting, AccountSetting, Settings,
   ContestAnnouncement, ContestDetails, ContestList, ContestProblemList, ContestRank,
   ProblemList, ACMRank
@@ -87,11 +87,11 @@ export default [
     path: '/acm-rank',
     component: ACMRank
   },
-  // {
-  //   name: 'profile',
-  //   path: '/profile',
-  //   component: Profile
-  // },
+  {
+    name: 'home',
+    path: '/home',
+    component: Home
+  },
   {
     path: '/setting',
     component: Settings,
