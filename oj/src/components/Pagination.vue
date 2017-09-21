@@ -1,6 +1,11 @@
 <template>
   <div class="page">
-    <Page class="pagination" :total="total" :page-size="pageSize" @on-change="onChange" :show-sizer="showSizer"></Page>
+    <Page class="pagination"
+          :total="total"
+          :page-size="pageSize"
+          @on-change="onChange"
+          :show-sizer="showSizer"
+          :current="current"></Page>
   </div>
 </template>
 
@@ -20,10 +25,15 @@
         required: false,
         type: Boolean,
         default: false
+      },
+      current: {
+        required: false,
+        type: Number
       }
     },
     methods: {
       onChange(page) {
+        this.$emit('update:current', page)
         this.$emit('on-change', page)
       }
     }

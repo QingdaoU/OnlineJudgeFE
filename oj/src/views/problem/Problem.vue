@@ -193,6 +193,7 @@
     },
     methods: {
       init() {
+        this.$Loading.start()
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
         if (this.contestID) {
@@ -201,8 +202,11 @@
         }
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
+          this.$Loading.finish()
           this.problem = res.data.data
           this.changePie(res.data.data)
+        }, () => {
+          this.$Loading.error()
         })
       },
       changePie(problemData) {

@@ -4,10 +4,10 @@
     <Panel shadow>
       <div slot="title">Problem List</div>
       <div slot="extra">
-        <ul class="filter">
+        <ul class="filter move-right">
           <li>
-            <Dropdown @on-click="onDifficultyChange">
-              <span>{{filter.difficulty === '' ? 'Difficulty' : filter.difficulty}}
+            <Dropdown @on-click="filterByDifficulty">
+              <span>{{query.difficulty === '' ? 'Difficulty' : query.difficulty}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
@@ -19,23 +19,47 @@
             </Dropdown>
           </li>
           <li>
-            <Input v-model="filter.keyword"
-                   @on-enter="getProblemList"
-                   @on-click="getProblemList"
+            <Input v-model="query.keyword"
+                   @on-enter="pushRouter"
+                   @on-click="pushRouter"
                    placeholder="keyword"
                    icon="ios-search-strong"/>
           </li>
+          <li>
+            <Button type="primary" @click="onReset">
+              <Icon type="refresh"></Icon>
+              Reset
+            </Button>
+          </li>
         </ul>
       </div>
-      <Table style="width: 100%; font-size: 16px;" :columns="problemTableColumns" :data="problemList"
+      <Table style="width: 100%; font-size: 16px;"
+             :columns="problemTableColumns"
+             :data="problemList"
              disabled-hover></Table>
     </Panel>
-    <Pagination :total="total" :page-size="limit" @on-change="getProblemList"></Pagination>
+    <Pagination :total="total" :page-size="limit" @on-change="pushRouter" :current.sync="query.page"></Pagination>
 
     </Col>
 
     <Col :span="4">
-    <Table :columns="tagTableColumns" :data="tagList"></Table>
+    <Panel :padding="10">
+      <div slot="title" class="taglist-title">Tags</div>
+      <Button v-for="tag in tagList"
+              key="tag"
+              @click="filterByTag(tag.name)"
+              type="ghost"
+              :disabled="query.tag === tag.name"
+              shape="circle"
+              class="tag-btn">{{tag.name}}
+      </Button>
+
+      <Button long
+              id="pick-one">
+        <Icon type="shuffle"></Icon>
+        Pick one
+      </Button>
+    </Panel>
     <Spin v-if="spinShow" fix size="large"></Spin>
     </Col>
   </Row>
@@ -43,6 +67,7 @@
 
 <script>
   import api from '@/api.js'
+  import utils from '@/utils/utils'
   import auth from '@/utils/auth'
   import {ProblemMixin} from '~/mixins'
   import Pagination from '../../components/Pagination'
@@ -55,13 +80,6 @@
     },
     data() {
       return {
-        userProfile: {},
-        tagTableColumns: [
-          {
-            title: 'Tags',
-            key: 'name'
-          }
-        ],
         tagList: [],
         problemTableColumns: [
           {
@@ -115,14 +133,16 @@
 
         ],
         problemList: [],
-        limit: 5,
+        limit: 2,
         total: 0,
         problemLoading: false,
         tagLoading: false,
         routeName: '',
-        filter: {
+        query: {
           keyword: '',
-          difficulty: ''
+          difficulty: '',
+          tag: '',
+          page: 10
         },
         spinShow: true
       }
@@ -131,16 +151,29 @@
       this.init()
     },
     methods: {
-      init() {
+      init(simulate = false) {
         this.routeName = this.$route.name
-        this.getTagList()
+        let query = this.$route.query
+        this.query.difficulty = query.difficulty || ''
+        this.query.keyword = query.keyword || ''
+        this.query.tag = query.tag || ''
+        this.query.page = parseInt(query.page) || 1
+        if (!simulate) {
+          this.getTagList()
+        }
         this.getProblemList()
       },
-      getProblemList(page = 1) {
+      pushRouter() {
+        this.$router.push({
+          name: 'problem-list',
+          query: utils.filterEmptyValue(this.query)
+        })
+      },
+      getProblemList() {
         this.$Loading.start()
         let self = this
-        let offset = (page - 1) * this.limit
-        api.getProblemList(offset, this.limit, this.filter).then(res => {
+        let offset = (this.query.page - 1) * this.limit
+        api.getProblemList(offset, this.limit, this.query).then(res => {
           self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
@@ -159,26 +192,44 @@
           this.spinShow = false
         })
       },
-      onDifficultyChange(difficulty) {
-        this.filter.difficulty = difficulty
-        this.getProblemList()
+      filterByTag(tagName) {
+        this.query.tag = tagName
+        this.pushRouter()
+      },
+      filterByDifficulty(difficulty) {
+        this.query.difficulty = difficulty
+        this.pushRouter()
       },
       onReset() {
-        this.filterForm = {
-          keyword: '',
-          difficulty: ''
+        this.$router.push({name: 'problem-list'})
+      }
+    },
+    watch: {
+      '$route'(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.init(true)
         }
-        this.getProblemList(1)
       }
     }
   }
 </script>
 
 <style scoped lang="less">
-  #filterForm {
-    .ivu-form-item {
-      margin-bottom: 0;
-      margin-right: 10px;
-    }
+  .move-right {
+    margin-right: -20px;
+  }
+
+  .taglist-title {
+    margin-left: -10px;
+    margin-bottom: -10px;
+  }
+
+  .tag-btn {
+    margin-right: 5px;
+    margin-bottom: 10px;
+  }
+
+  #pick-one {
+    margin-top: 10px;
   }
 </style>

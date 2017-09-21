@@ -1,6 +1,11 @@
 import utils from '@/utils/utils'
 
 export default {
+  data() {
+    return {
+      statusColumn: false
+    }
+  },
   created() {
     this.$bus.$on('login-success', this.init)
   },
@@ -10,6 +15,7 @@ export default {
     },
     addStatusColumn(dataProblems) {
       // 只在有做题记录时才添加column
+      if (this.statusColumn) return
       let isAdd = dataProblems.some((item, index) => {
         if (item.my_status !== null && item.my_status !== undefined) {
           return true
@@ -19,7 +25,7 @@ export default {
         return
       }
       this.problemTableColumns.splice(0, 0, {
-        width: '50',
+        width: '60',
         title: ' ',
         render: (h, params) => {
           let status = params.row.my_status
@@ -28,7 +34,8 @@ export default {
           }
           return h('Icon', {
             props: {
-              type: status === 0 ? 'checkmark-round' : 'minus-round'
+              type: status === 0 ? 'checkmark-round' : 'minus-round',
+              size: '16'
             },
             style: {
               color: status === 0 ? '#19be6b' : '#ed3f14'
@@ -36,6 +43,7 @@ export default {
           })
         }
       })
+      this.statusColumn = true
     }
   },
   beforeDestroy() {

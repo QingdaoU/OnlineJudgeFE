@@ -2,12 +2,12 @@
   <div class="flex-container">
     <div id="main">
       <Panel shadow>
-        <div slot="title">{{ contestID === undefined ? "Status" : "Submissions"}}</div>
+        <div slot="title">{{title}}</div>
         <div slot="extra">
           <ul class="filter">
             <li>
-              <Dropdown @on-click="handleStatusChange">
-                <span>{{ filtedStatus === '' ? 'Status' : JUDGE_STATUS[filtedStatus].name }}
+              <Dropdown @on-click="handleResultChange">
+                <span>{{status}}
                   <Icon type="arrow-down-b"></Icon>
                 </span>
                 <Dropdown-menu slot="list">
@@ -20,7 +20,7 @@
             </li>
 
             <li>
-              <i-switch size="large" v-model="myself" @on-change="changePage(1)">
+              <i-switch size="large" v-model="myself" @on-change="handleSwitchChange">
                 <span slot="open">Mine</span>
                 <span slot="close">All</span>
               </i-switch>
@@ -28,11 +28,11 @@
           </ul>
         </div>
         <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
-        <Pagination :total="total" :page-size="limit" @on-change="changePage"></Pagination>
+        <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
       </Panel>
     </div>
     <div id="contest-menu" v-if="contestID">
-      <VerticalMenu @on-click="handleRoute">
+      <VerticalMenu @on-click="goRoute">
         <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
           <Icon type="ios-photos"></Icon>
           Problems
@@ -77,7 +77,7 @@
     data() {
       return {
         myself: false,
-        filtedStatus: '',
+        result: '',
         columns: [
           {
             title: 'When',
@@ -174,13 +174,14 @@
         submissions: [],
         total: 30,
         limit: 10,
+        page: 1,
         contestID: '',
         problemID: '',
         routeName: '',
         JUDGE_STATUS: ''
       }
     },
-    created() {
+    mounted() {
       this.init()
       this.JUDGE_STATUS = Object.assign({}, JUDGE_STATUS)
       // 去除submitting的状态
@@ -188,39 +189,71 @@
     },
     methods: {
       init() {
-        this.contestID = this.$route.query.contestID
-        this.problemID = this.$route.query.problemID
+        let query = this.$route.query
+        this.contestID = query.contestID
+        this.problemID = query.problemID
+        this.myself = query.myself === '1'
+        this.result = query.result || ''
+        this.page = parseInt(query.page) || 1
         this.routeName = this.$route.name
-        this.myself = this.$route.query.myself === '1'
         this.getSubmissions()
       },
-      getSubmissions(offset = 0, limit = this.limit) {
+      getSubmissions() {
+        this.$Loading.start()
         let params = {
-          'result': this.filtedStatus,
+          'result': this.result,
           'myself': this.myself === true ? '1' : '0',
           'problem_id': this.problemID,
           'contest_id': this.contestID
         }
-        api.getSubmissionList(offset, limit, params).then(res => {
+        let offset = (this.page - 1) * this.limit
+        api.getSubmissionList(offset, this.limit, params).then(res => {
+          this.$Loading.finish()
           this.submissions = res.data.data.results
           this.total = res.data.data.total
         }, _ => {
+          this.$Loading.error()
         })
       },
-      handleStatusChange(status) {
-        this.filtedStatus = status
-        this.getSubmissions()
+      // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态
+      changeRoute() {
+        let query = {
+          contestID: this.contestID,
+          problemID: this.problemID,
+          myself: this.myself === true ? '1' : '0',
+          result: this.result,
+          page: this.page
+        }
+        this.$router.push({
+          name: 'submission-list',
+          query: utils.filterEmptyValue(query)
+        })
       },
-      changePage(page) {
-        this.getSubmissions((page - 1) * this.limit, this.limit)
-      },
-      handleRoute(route) {
+      goRoute(route) {
         this.$router.push(route)
+      },
+      handleResultChange(status) {
+        this.result = status
+        this.changeRoute()
+      },
+      handleSwitchChange() {
+        this.page = 1
+        this.changeRoute()
+      }
+    },
+    computed: {
+      title() {
+        return this.contestID === undefined ? 'Status' : 'Submissions'
+      },
+      status() {
+        return this.result === '' ? 'Status' : JUDGE_STATUS[this.result].name
       }
     },
     watch: {
-      '$route'() {
-        this.init()
+      '$route'(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.init()
+        }
       }
     }
   }

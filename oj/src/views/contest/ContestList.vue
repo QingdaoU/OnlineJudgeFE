@@ -31,7 +31,7 @@
             </Dropdown>
           </li>
           <li>
-            <Input id="keyword" @on-enter="getContestList" @on-click="getContestList" v-model="query.keyword"
+            <Input id="keyword" @on-enter="changeRoute" @on-click="changeRoute" v-model="query.keyword"
                    icon="ios-search-strong"/>
           </li>
         </ul>
@@ -74,7 +74,7 @@
         </li>
       </ol>
     </Panel>
-    <Pagination :total="total" :pageSize="limit" @on-change="getContestList"></Pagination>
+    <Pagination :total="total" :pageSize="limit" @on-change="getContestList" :current.sync="page"></Pagination>
     </Col>
 
     <Modal title="Input Password" v-model="passwordModal">
@@ -90,11 +90,13 @@
 <script>
   import api from '@/api'
   import auth from '@/utils/auth'
+  import utils from '@/utils/utils'
   import Pagination from '@/components/Pagination'
   import time from '@/utils/time'
   import {CONTEST_STATUS} from '@/utils/consts'
 
-  const limit = 10
+  const limit = 4
+
   export default {
     name: 'contest-list',
     components: {
@@ -102,6 +104,7 @@
     },
     data() {
       return {
+        page: 1,
         query: {
           status: '',
           keyword: '',
@@ -119,7 +122,25 @@
         cur_contest_id: ''
       }
     },
+    beforeRouteEnter(to, from, next) {
+      api.getContestList(0, limit).then((res) => {
+        next((vm) => {
+          vm.contests = res.data.data.results
+          vm.total = res.data.data.total
+        })
+      }, (res) => {
+        next()
+      })
+    },
     methods: {
+      init() {
+        let route = this.$route.query
+        this.query.status = route.status || ''
+        this.query.rule_type = route.rule_type || ''
+        this.query.keyword = route.keyword || ''
+        this.page = parseInt(route.page) || 1
+        this.getContestList()
+      },
       getContestList(page = 1) {
         let offset = (page - 1) * this.limit
         api.getContestList(offset, this.limit, this.query).then((res) => {
@@ -127,13 +148,21 @@
           this.total = res.data.data.total
         })
       },
+      changeRoute() {
+        let query = Object.assign({}, this.query)
+        query.page = this.page
+        this.$router.push({
+          name: 'contest-list',
+          query: utils.filterEmptyValue(query)
+        })
+      },
       onRuleChange(rule) {
         this.query.rule_type = rule
-        this.getContestList()
+        this.changeRoute()
       },
       onStatusChange(status) {
         this.query.status = status
-        this.getContestList()
+        this.changeRoute()
       },
       goContest(contest) {
         this.cur_contest_id = contest.id
@@ -174,16 +203,14 @@
         return time.duration(startTime, endTime)
       }
     },
-    beforeRouteEnter(to, from, next) {
-      api.getContestList(0, limit).then((res) => {
-        next((vm) => {
-          vm.contests = res.data.data.results
-          vm.total = res.data.data.total
-        })
-      }, (res) => {
-        next()
-      })
+    watch: {
+      '$route'(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.init()
+        }
+      }
     }
+
   }
 </script>
 <style lang="less" scoped>
