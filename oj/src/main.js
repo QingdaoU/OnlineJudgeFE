@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/index'
+import router from './router'
+import store from './store'
 import iView from 'iview'
 import locale from 'iview/src/locale/lang/en-US'
 import VueHighlightJS from 'vue-highlightjs'
@@ -56,5 +57,6 @@ Vue.prototype.$Message.config({
 Vue.prototype.$error = Vue.prototype.$Message.error
 Vue.prototype.$info = Vue.prototype.$Message.info
 Vue.prototype.$success = Vue.prototype.$Message.success
-new Vue(Vue.util.extend({router}, App)).$mount('#app')
+
+new Vue(Vue.util.extend({router, store}, App)).$mount('#app')
 

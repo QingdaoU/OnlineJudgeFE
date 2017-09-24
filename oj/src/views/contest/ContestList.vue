@@ -170,7 +170,7 @@
         if (contest.contest_type !== 'Public') {
           if (!auth.isAuthicated()) {
             this.$error('Please login first.')
-            this.$bus.$emit('login')
+            this.$store.dispatch('changeModalStatus', {visible: true})
           } else if (contest.created_by.id === auth.getUid()) {
             // contest.created_by is user self.
             this.$router.push(route)

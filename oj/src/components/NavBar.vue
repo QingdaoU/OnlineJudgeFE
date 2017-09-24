@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
-      <div class="logo"><span>{{websiteConf.name}}</span></div>
+      <div class="logo"><span>{{website.name}}</span></div>
       <Menu-item name="/test">
         <Icon type="home"></Icon>
         Home
@@ -34,14 +34,14 @@
         <Icon type="information-circled"></Icon>
         About
       </Menu-item>
-      <template v-if="!isAuthed">
+      <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"
                   ref="loginBtn"
                   shape="circle"
                   @click="handleBtnClick('login')">Login
           </Button>
-          <Button v-if="websiteConf.allow_register"
+          <Button v-if="website.allow_register"
                   type="ghost"
                   shape="circle"
                   @click="handleBtnClick('register')"
@@ -63,16 +63,13 @@
         </Dropdown>
       </template>
     </Menu>
-    <LoginOrRegister :visible.sync="modalVisible" :mode.sync="modalMode"></LoginOrRegister>
+    <LoginOrRegister></LoginOrRegister>
 
   </div>
 </template>
 
 <script>
-  import api from '@/api'
-  import auth from '../utils/auth'
-  import utils from '@/utils/utils'
-
+  import {mapGetters, mapActions} from 'vuex'
   import LoginOrRegister from '@/views/user/LoginOrRegister'
 
   export default {
@@ -82,65 +79,31 @@
     data() {
       return {
         modalMode: 'login',
-        modalVisible: false,
-        isAuthed: false,
-        username: '',
-        websiteConf: {}
+        modalVisible: false
       }
     },
     mounted() {
-      this.$bus.$on('login', () => {
-        this.$refs['loginBtn'].handleClick()
-      })
-      this.$bus.$on('login-success', (res) => {
-        this.username = res.user.username
-        this.isAuthed = true
-      })
-      this.$bus.$on('logout', () => {
-        this.isAuthed = false
-        this.username = ''
-      })
-      this.getUserInfo()
-      this.websiteConf = utils.getWebsiteConf()
+      this.getProfile()
     },
     methods: {
-      getUserInfo() {
-        api.getUserInfo().then((res) => {
-          let data = res.data.data
-          if (data.hasOwnProperty('user')) {
-            this.username = data.user.username
-            this.isAuthed = true
-            auth.setUser(data)
-          } else {
-            this.isAuthed = false
-            this.username = ''
-            auth.clear()
-          }
-        }, (res) => {
-        })
-      },
+      ...mapActions(['getProfile', 'changeModalStatus']),
       handleRoute(route) {
         if (route) {
           this.$router.push(route)
         }
       },
       handleBtnClick(mode) {
-        this.modalVisible = true
-        this.modalMode = mode
+        this.changeModalStatus({
+          visible: true,
+          mode: mode
+        })
       }
     },
     computed: {
+      ...mapGetters(['website', 'username', 'isAuthenticated']),
       // 跟随路由变化
       activeMenu() {
         return '/' + this.$route.path.split('/')[1]
-      }
-    },
-    watch: {
-      '$route'() {
-        if (!auth.isAuthicated()) {
-          this.username = ''
-          this.isAuthed = false
-        }
       }
     }
   }

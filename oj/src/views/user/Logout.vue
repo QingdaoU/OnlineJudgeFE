@@ -3,14 +3,12 @@
 
 <script>
   import api from '../../api.js'
-  import auth from '@/utils/auth'
 
   export default {
     mounted() {
       api.logout().then(res => {
         this.$success('logout succeeded')
-        auth.clear()
-        this.$bus.$emit('logout')
+        this.$store.dispatch('clearProfile')
         this.$router.replace({
           path: '/'
         })

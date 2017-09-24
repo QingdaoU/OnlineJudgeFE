@@ -1,9 +1,9 @@
 <template>
-  <Modal :value="visible" @on-cancel="handleUpdateProp('update:visible', false)" :width="400" className="modal">
+  <Modal v-model="visible" :width="400" className="modal">
     <div slot="header">
       <span class="title">Welcome to OJ</span>
     </div>
-    <template v-if="mode === 'login'">
+    <template v-if="modalStatus.mode === 'login'">
       <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
         <FormItem prop="username">
           <Input type="text" v-model="formLogin.username" placeholder="Username" size="large">
@@ -23,7 +23,7 @@
       </Form>
     </template>
     <template v-else>
-      <Form v-if="mode === 'register'" ref="formRegister" :model="formRegister" :rules="ruleRegister">
+      <Form v-if="modalStatus.mode === 'register'" ref="formRegister" :model="formRegister" :rules="ruleRegister">
         <FormItem prop="username">
           <Input type="text" v-model="formRegister.username" placeholder="Username" size="large">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
@@ -61,7 +61,7 @@
       </Form>
     </template>
     <div slot="footer" class="footer">
-      <template v-if="mode === 'login'">
+      <template v-if="modalStatus.mode === 'login'">
         <Button
           type="primary"
           @click="handleLogin()"
@@ -69,7 +69,7 @@
           :loading="btnLoginLoading">
           Login
         </Button>
-        <a v-if="websiteConf.allow_register" @click.stop="handleUpdateProp('update:mode', 'register')">No account? Register now!</a>
+        <a v-if="website.allow_register" @click.stop="handleBtnClick('register')">No account? Register now!</a>
         <a @click.stop="goResetPassword" style="float: right">Forget Password</a>
       </template>
       <template v-else>
@@ -82,7 +82,7 @@
         </Button>
         <Button
           type="ghost"
-          @click="handleUpdateProp('update:mode', 'login')"
+          @click="handleBtnClick('login')"
           class="btn" long>
           Already registed? Login now!
         </Button>
@@ -92,28 +92,13 @@
 </template>
 
 <script>
+  import {mapGetters, mapActions} from 'vuex'
   import api from '@/api'
-  import auth from '@/utils/auth'
-  import utils from '@/utils/utils'
   import {FormMixin} from '~/mixins'
 
   export default {
     mixins: [FormMixin],
-    props: {
-      visible: {
-        required: true,
-        type: Boolean,
-        default: true
-      },
-      mode: {
-        required: true,
-        type: String,
-        // login or register
-        default: 'login'
-      }
-    },
     mounted() {
-      this.websiteConf = utils.getWebsiteConf()
     },
     data() {
       const CheckUsernameNotExist = (rule, value, callback) => {
@@ -161,7 +146,6 @@
         tfaRequired: false,
         btnRegisterLoading: false,
         btnLoginLoading: false,
-        websiteConf: {},
         formRegister: {
           username: '',
           password: '',
@@ -206,8 +190,12 @@
       }
     },
     methods: {
-      handleUpdateProp(eventName, value) {
-        this.$emit(eventName, value)
+      ...mapActions(['changeModalStatus', 'getProfile']),
+      handleBtnClick(mode) {
+        this.changeModalStatus({
+          mode,
+          visible: true
+        })
       },
       handleRegister() {
         this.validateForm('formRegister').then(valid => {
@@ -234,37 +222,27 @@
           }
           api.login(formData).then(res => {
             this.btnLoginLoading = false
-            api.getUserInfo().then(res => {
-              auth.setUser(res.data.data)
-              this.$bus.$emit('login-success', res.data.data)
-              this.$success('Welcome back to OJ')
-              this.handleUpdateProp('update:visible', false)
-            })
+            this.changeModalStatus({visible: false})
+            this.getProfile()
+            this.$success('Welcome back to OJ')
           }, _ => {
             this.btnLoginLoading = false
           })
         })
       },
       goResetPassword() {
-        this.handleUpdateProp('update:visible', false)
+        this.changeModalStatus({visible: false})
         this.$router.push({name: 'apply-reset-password'})
       }
     },
-    watch: {
-      'mode'(newVal) {
-        if (newVal === 'login') {
-          this.$nextTick(() => {
-            this.$refs['formLogin'].resetFields()
-          })
-        } else {
-          this.$nextTick(() => {
-            this.$refs['formRegister'].resetFields()
-          })
-        }
-      },
-      'visible'(newVal) {
-        if (newVal === true && this.mode === 'register') {
-          this.getCaptchaSrc()
+    computed: {
+      ...mapGetters(['website', 'modalStatus']),
+      visible: {
+        get() {
+          return this.modalStatus.visible
+        },
+        set(value) {
+          this.changeModalStatus({visible: value})
         }
       }
     }
