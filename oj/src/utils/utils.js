@@ -42,11 +42,21 @@ function filterEmptyValue(object) {
   })
   return query
 }
+
+function setWebsiteConf(data) {
+  storage.set(STORAGE_KEY.websiteConf, data)
+}
+
+function getWebsiteConf() {
+  return storage.get(STORAGE_KEY.websiteConf)
+}
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
   submissionTimeFormat: submissionTimeFormat,
   getACRate: getACRate,
   loadContest: loadContest,
-  filterEmptyValue: filterEmptyValue
+  filterEmptyValue: filterEmptyValue,
+  setWebsiteConf: setWebsiteConf,
+  getWebsiteConf: getWebsiteConf
 }
 

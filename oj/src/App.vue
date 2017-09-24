@@ -1,28 +1,37 @@
 <template>
   <div>
-    <Navbar></Navbar>
+    <NavBar></NavBar>
     <!--<breadcrumb></breadcrumb>-->
     <div class="content-app">
       <router-view></router-view>
       <div class="footer">
-        Build Version: {{ version }}
+        {{footer}} Build Version: {{ version }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Navbar from './components/NavBar.vue'
+  import api from '@/api'
+  import utils from '@/utils/utils'
+  import NavBar from './components/NavBar.vue'
 
   export default {
     name: 'app',
+    mounted() {
+      api.getWebsiteConf().then(res => {
+        utils.setWebsiteConf(res.data.data)
+        this.footer = res.data.data.footer
+      })
+    },
     data() {
       return {
-        version: process.env.VERSION
+        version: process.env.VERSION,
+        footer: ''
       }
     },
     components: {
-      Navbar
+      NavBar
     },
     methods: {}
   }

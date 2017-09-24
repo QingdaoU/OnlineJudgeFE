@@ -69,7 +69,7 @@
           :loading="btnLoginLoading">
           Login
         </Button>
-        <a @click.stop="handleUpdateProp('update:mode', 'register')">No account? Register now!</a>
+        <a v-if="websiteConf.allow_register" @click.stop="handleUpdateProp('update:mode', 'register')">No account? Register now!</a>
         <a @click.stop="goResetPassword" style="float: right">Forget Password</a>
       </template>
       <template v-else>
@@ -94,6 +94,7 @@
 <script>
   import api from '@/api'
   import auth from '@/utils/auth'
+  import utils from '@/utils/utils'
   import {FormMixin} from '~/mixins'
 
   export default {
@@ -110,6 +111,9 @@
         // login or register
         default: 'login'
       }
+    },
+    mounted() {
+      this.websiteConf = utils.getWebsiteConf()
     },
     data() {
       const CheckUsernameNotExist = (rule, value, callback) => {
@@ -157,6 +161,7 @@
         tfaRequired: false,
         btnRegisterLoading: false,
         btnLoginLoading: false,
+        websiteConf: {},
         formRegister: {
           username: '',
           password: '',
@@ -273,6 +278,7 @@
   }
 
   .footer {
+    overflow: auto;
     margin: 0;
     text-align: left;
     .btn {

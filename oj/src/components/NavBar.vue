@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
-      <div class="logo"><span>OJ</span></div>
+      <div class="logo"><span>{{websiteConf.name}}</span></div>
       <Menu-item name="/test">
         <Icon type="home"></Icon>
         Home
@@ -36,8 +36,15 @@
       </Menu-item>
       <template v-if="!isAuthed">
         <div class="btn-menu">
-          <Button type="ghost" ref="loginBtn" shape="circle" @click="registerModalVisible = true, modalMode='login'">Login</Button>
-          <Button type="ghost" shape="circle" @click="registerModalVisible = true, modalMode='register'"
+          <Button type="ghost"
+                  ref="loginBtn"
+                  shape="circle"
+                  @click="handleBtnClick('login')">Login
+          </Button>
+          <Button v-if="websiteConf.allow_register"
+                  type="ghost"
+                  shape="circle"
+                  @click="handleBtnClick('register')"
                   style="margin-left: 5px;">Register
           </Button>
         </div>
@@ -56,7 +63,7 @@
         </Dropdown>
       </template>
     </Menu>
-    <LoginOrRegister :visible.sync="registerModalVisible" :mode.sync="modalMode"></LoginOrRegister>
+    <LoginOrRegister :visible.sync="modalVisible" :mode.sync="modalMode"></LoginOrRegister>
 
   </div>
 </template>
@@ -64,6 +71,7 @@
 <script>
   import api from '@/api'
   import auth from '../utils/auth'
+  import utils from '@/utils/utils'
 
   import LoginOrRegister from '@/views/user/LoginOrRegister'
 
@@ -74,22 +82,10 @@
     data() {
       return {
         modalMode: 'login',
-        registerModalVisible: false,
+        modalVisible: false,
         isAuthed: false,
-        username: ''
-      }
-    },
-    methods: {
-      handleRoute(route) {
-        if (route) {
-          this.$router.push(route)
-        }
-      }
-    },
-    computed: {
-      // 跟随路由变化
-      activeMenu() {
-        return '/' + this.$route.path.split('/')[1]
+        username: '',
+        websiteConf: {}
       }
     },
     mounted() {
@@ -104,19 +100,40 @@
         this.isAuthed = false
         this.username = ''
       })
-      api.getUserInfo().then((res) => {
-        let data = res.data.data
-        if (data.hasOwnProperty('user')) {
-          this.username = data.user.username
-          this.isAuthed = true
-          auth.setUser(data)
-        } else {
-          this.isAuthed = false
-          this.username = ''
-          auth.clear()
+      this.getUserInfo()
+      this.websiteConf = utils.getWebsiteConf()
+    },
+    methods: {
+      getUserInfo() {
+        api.getUserInfo().then((res) => {
+          let data = res.data.data
+          if (data.hasOwnProperty('user')) {
+            this.username = data.user.username
+            this.isAuthed = true
+            auth.setUser(data)
+          } else {
+            this.isAuthed = false
+            this.username = ''
+            auth.clear()
+          }
+        }, (res) => {
+        })
+      },
+      handleRoute(route) {
+        if (route) {
+          this.$router.push(route)
         }
-      }, (res) => {
-      })
+      },
+      handleBtnClick(mode) {
+        this.modalVisible = true
+        this.modalMode = mode
+      }
+    },
+    computed: {
+      // 跟随路由变化
+      activeMenu() {
+        return '/' + this.$route.path.split('/')[1]
+      }
     },
     watch: {
       '$route'() {
