@@ -5,14 +5,11 @@
 </template>
 <script>
   import ACMContestRank from './ACMContestRank.vue'
-  import test from '@/views/test.vue'
-  import utils from '@/utils/utils'
 
   export default {
     name: 'contest-rank',
     components: {
-      ACMContestRank,
-      test
+      ACMContestRank
     },
     data() {
       return {
@@ -21,13 +18,16 @@
     },
     methods: {
       switchView() {
-        let contestID = this.$route.params.contestID
-        let contest = utils.loadContest(contestID)
-        this.currentView = contest.rule_type === 'ACM' ? 'ACMContestRank' : 'ACMContestRank'
+        this.currentView = this.contest.rule_type === 'ACM' ? 'ACMContestRank' : 'ACMContestRank'
       }
     },
     mounted() {
       this.switchView()
+    },
+    computed: {
+      contest() {
+        return this.$store.state.contest.contest
+      }
     },
     watch: {
       '$route'() {

@@ -53,11 +53,10 @@
   </div>
 </template>
 <script>
-  import {ProfileMixin} from '~/mixins'
   import time from '@/utils/time'
+  import api from '@/api'
 
   export default {
-    mixins: [ProfileMixin],
     data() {
       return {
         profile: {},
@@ -65,26 +64,36 @@
       }
     },
     mounted() {
-      let username = this.$route.query.username
-      this.getProfile(username).then(res => {
-        this.profile = res.data.data
-        this.getSolvedProblems()
-        let registerTime = time.utcToLocal(this.profile.user.create_time, 'YYYY-MM-D')
-        console.log('The guy registered at ' + registerTime + '.')
-      })
+      this.init()
     },
     methods: {
+      init() {
+        let username = this.$route.query.username
+        api.getUserInfo(username).then(res => {
+          this.profile = res.data.data
+          this.getSolvedProblems()
+          let registerTime = time.utcToLocal(this.profile.user.create_time, 'YYYY-MM-D')
+          console.log('The guy registered at ' + registerTime + '.')
+        })
+      },
       getSolvedProblems() {
         let ACMProblems = this.profile.acm_problems_status.problems || {}
-        let results = Object.keys(ACMProblems).filter(problem => {
+        // todo oi problems
+        this.problems = Object.keys(ACMProblems).filter(problem => {
           if (ACMProblems[problem] === 0) {
             return true
           }
         })
-        this.problems = results
       },
       goProblem(problemID) {
         this.$router.push({name: 'problem-details', params: {problemID: problemID}})
+      }
+    },
+    watch: {
+      '$route'(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.init()
+        }
       }
     }
   }

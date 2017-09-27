@@ -85,7 +85,7 @@ export const CONTEST_STATUS = {
 }
 
 export const STORAGE_KEY = {
+  AUTHED: 'authed',
   contest: 'contest_',
-  contestProblems: 'contest_problems_',
-  websiteConf: 'website_conf'
+  contestProblems: 'contest_problems_'
 }

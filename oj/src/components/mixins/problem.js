@@ -6,9 +6,6 @@ export default {
       statusColumn: false
     }
   },
-  created() {
-    this.$bus.$on('login-success', this.init)
-  },
   methods: {
     getACRate(ACCount, TotalCount) {
       return utils.getACRate(ACCount, TotalCount)
@@ -45,8 +42,5 @@ export default {
       })
       this.statusColumn = true
     }
-  },
-  beforeDestroy() {
-    this.$bus.$off('login-success', this.init)
   }
 }

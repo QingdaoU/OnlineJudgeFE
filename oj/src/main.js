@@ -52,7 +52,7 @@ Vue.component(Panel.name, Panel)
 
 // 注册全局消息提示
 Vue.prototype.$Message.config({
-  duration: 1.8
+  duration: 2
 })
 Vue.prototype.$error = Vue.prototype.$Message.error
 Vue.prototype.$info = Vue.prototype.$Message.info

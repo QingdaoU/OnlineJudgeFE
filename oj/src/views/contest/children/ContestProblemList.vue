@@ -9,18 +9,14 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import auth from '@/utils/auth'
+  import {mapState} from 'vuex'
   import {ProblemMixin} from '~/mixins'
-  import storage from '@/utils/storage'
-  import {STORAGE_KEY} from '@/utils/consts'
 
   export default {
     name: 'ContestProblemList',
     mixins: [ProblemMixin],
     data() {
       return {
-        problems: [],
         problemTableColumns: [
           {
             title: '#',
@@ -45,18 +41,14 @@
       }
     },
     mounted() {
-      this.init()
+      this.getContestProblems()
     },
     methods: {
-      init() {
-        let contestID = this.$route.params.contestID
-        api.getContestProblemList(contestID).then(res => {
-          storage.set(STORAGE_KEY.contestProblems + contestID, res.data.data)
-          this.problems = res.data.data
-          if (auth.isAuthicated()) {
+      getContestProblems() {
+        this.$store.dispatch('getContestProblems').then(res => {
+          if (this.isAuthenticated) {
             this.addStatusColumn(res.data.data)
           }
-        }, _ => {
         })
       },
       goContestProblem(row) {
@@ -67,6 +59,14 @@
             problemID: row._id
           }
         })
+      }
+    },
+    computed: {
+      ...mapState({
+        problems: state => state.contest.contestProblems
+      }),
+      isAuthenticated() {
+        return this.$store.getters.isAuthenticated
       }
     }
   }

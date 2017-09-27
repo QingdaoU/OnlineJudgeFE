@@ -54,7 +54,7 @@
           </div>
           </Col>
           <Col :span="10">
-          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="isSubmitDisabled"
+          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="submitDisabled"
                   class="fl-right">
             <span v-if="!submitting">Submit</span>
             <span v-else>Submitting</span>
@@ -146,9 +146,7 @@
 <script>
   import CodeMirror from '@/components/CodeMirror'
   import api from '@/api'
-  import auth from '@/utils/auth'
-  import storage from '@/utils/storage'
-  import {JUDGE_STATUS, STORAGE_KEY} from '@/utils/consts'
+  import {JUDGE_STATUS} from '@/utils/consts'
 
   import {pie, largePie} from './chartData'
 
@@ -196,10 +194,6 @@
         this.$Loading.start()
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
-        if (this.contestID) {
-          this.contest = storage.get(STORAGE_KEY.contest + this.contestID)
-          this.isSubmitDisabled = this.contest.status !== '0' && this.contest.created_by.id !== auth.getUid()
-        }
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
@@ -291,6 +285,12 @@
           text: JUDGE_STATUS[this.result.result]['name'],
           color: JUDGE_STATUS[this.result.result]['color']
         }
+      },
+      submitDisabled() {
+        return this.$store.getters.problemSubmitDisabled
+      },
+      contest() {
+        return this.$store.state.contest.contest
       }
     },
     // 防止切换组件后仍然不断请求

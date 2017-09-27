@@ -43,10 +43,10 @@
 
 <script>
   import api from '@/api.js'
-  import {ProfileMixin, FormMixin} from '~/mixins'
+  import {FormMixin} from '~/mixins'
 
   export default {
-    mixins: [ProfileMixin, FormMixin],
+    mixins: [FormMixin],
     data() {
       const CheckAgainPassword = (rule, value, callback) => {
         if (value !== this.formPassword.new_password) {
@@ -101,15 +101,9 @@
       }
     },
     mounted() {
-      this.init()
+      this.formEmail.old_email = this.$store.getters.user.email || ''
     },
     methods: {
-      init() {
-        let profile = this.loadProfile()
-        if (profile !== null && profile !== undefined) {
-          this.formEmail.old_email = profile.user.email
-        }
-      },
       changePassword() {
         this.validateForm('formPassword').then(valid => {
           this.loading.btnPassword = true

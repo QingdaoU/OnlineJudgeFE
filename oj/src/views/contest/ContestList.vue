@@ -89,7 +89,7 @@
 
 <script>
   import api from '@/api'
-  import auth from '@/utils/auth'
+  import {mapGetters} from 'vuex'
   import utils from '@/utils/utils'
   import Pagination from '@/components/Pagination'
   import time from '@/utils/time'
@@ -168,10 +168,10 @@
         this.cur_contest_id = contest.id
         let route = {name: 'contest-details', params: {contestID: this.cur_contest_id}}
         if (contest.contest_type !== 'Public') {
-          if (!auth.isAuthicated()) {
+          if (!this.isAuthenticated) {
             this.$error('Please login first.')
             this.$store.dispatch('changeModalStatus', {visible: true})
-          } else if (contest.created_by.id === auth.getUid()) {
+          } else if (contest.created_by.id === this.user.id) {
             // contest.created_by is user self.
             this.$router.push(route)
           } else {
@@ -202,6 +202,9 @@
       getDuration(startTime, endTime) {
         return time.duration(startTime, endTime)
       }
+    },
+    computed: {
+      ...mapGetters(['isAuthenticated', 'user'])
     },
     watch: {
       '$route'(newVal, oldVal) {

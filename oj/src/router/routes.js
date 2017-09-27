@@ -1,20 +1,24 @@
 // all routes here.
 import Test from '../views/test'
 import {
-  Logout, ApplyResetPassword, ResetPassword, Home,
-  ProfileSetting, SecuritySetting, AccountSetting, Settings,
-  ContestAnnouncement, ContestDetails, ContestList, ContestProblemList, ContestRank,
-  ProblemList, ACMRank
+  AccountSetting,
+  ACMRank,
+  ApplyResetPassword,
+  ContestAnnouncement,
+  ContestDetails,
+  ContestList,
+  ContestProblemList,
+  ContestRank,
+  Home,
+  Logout,
+  ProblemList,
+  ProfileSetting,
+  ResetPassword,
+  SecuritySetting,
+  Settings
 } from '../views'
 
 export default [
-  // beforeEnter(to, from, next) {
-  //   if (auth.isAuthicated()) {
-  //     next('/test')
-  //   } else {
-  //     next()
-  //   }
-  // }
   {
     name: 'logout',
     path: '/logout',
@@ -90,11 +94,13 @@ export default [
   {
     name: 'home',
     path: '/home',
-    component: Home
+    component: Home,
+    meta: {requiresAuth: true}
   },
   {
     path: '/setting',
     component: Settings,
+    meta: {requiresAuth: true},
     children: [
       {
         name: 'default-setting',
@@ -119,8 +125,8 @@ export default [
     ]
   },
   {
+    name: 'test',
     path: '/test',
-    name: 'Test',
     component: Test
   }
   // {

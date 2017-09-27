@@ -8,10 +8,11 @@
               <div class="avatar-container">
                 <img class="avatar" :src="profile.avatar"/>
                 <div class="avatar-mask">
-                  <a @click.stop="goRoute({name: 'profile-setting'})"><div class="mask-content">
-                    <Icon type="camera" size="30"></Icon>
-                    <p class="text">change avatar</p>
-                  </div>
+                  <a @click.stop="goRoute({name: 'profile-setting'})">
+                    <div class="mask-content">
+                      <Icon type="camera" size="30"></Icon>
+                      <p class="text">change avatar</p>
+                    </div>
                   </a>
                 </div>
               </div>
@@ -30,24 +31,17 @@
   </div>
 </template>
 <script>
-  import {ProfileMixin} from '~/mixins'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'profile',
-    mixins: [ProfileMixin],
-    mounted() {
-      this.loadProfile()
-      this.$bus.$on('update:avatar', () => {
-        this.loadProfile()
-      })
-    },
     methods: {
       goRoute(routePath) {
         this.$router.push(routePath)
       }
     },
-    beforeDestory() {
-      this.$bus.$off('update:avatar')
+    computed: {
+      ...mapGetters(['profile'])
     }
   }
 </script>

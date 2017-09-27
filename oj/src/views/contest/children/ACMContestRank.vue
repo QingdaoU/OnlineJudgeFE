@@ -6,7 +6,7 @@
         <Icon type="android-settings" size="20"></Icon>
         <div slot="content" id="switchs">
           <span>Menu</span>
-          <i-switch v-model="showMenu" @on-change="handleMenuSwitch"></i-switch>
+          <i-switch v-model="showMenu"></i-switch>
           <span>Chart</span>
           <i-switch v-model="showChart"></i-switch>
         </div>
@@ -22,11 +22,10 @@
 <script>
   import Pagination from '~/Pagination'
 
+  import {mapActions, mapState} from 'vuex'
+  import {types} from '@/store'
   import api from '@/api'
-  import storage from '@/utils/storage'
-  import {STORAGE_KEY} from '@/utils/consts'
   import time from '@/utils/time'
-  import utils from '@/utils/utils'
 
   const limit = 10
   const chartData = {
@@ -90,10 +89,8 @@
       return {
         limit: limit,
         total: 0,
-        showMenu: true,
         showChart: true,
         contestID: '',
-        contest: '',
         columns: [
           {
             title: '#',
@@ -129,13 +126,17 @@
     },
     mounted() {
       this.contestID = this.$route.params.contestID
-      this.getContestAndProblems(this.contestID)
       this.getContestRankData(1)
+      if (this.contestProblems.length === 0) {
+        this.getContestProblems().then((res) => {
+          this.addTableColumns(res.data.data)
+        })
+      } else {
+        this.addTableColumns(this.contestProblems)
+      }
     },
     methods: {
-      handleMenuSwitch() {
-        this.$bus.$emit('update:menuVisible', this.showMenu)
-      },
+      ...mapActions(['getContestProblems']),
       getContestRankData(page) {
         let offset = (page - 1) * limit
         this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
@@ -147,20 +148,6 @@
           }
           this.applyToTable(res.data.data.results)
         })
-      },
-      getContestAndProblems(contestID) {
-        // 优先从localStorage中读取
-        this.contest = utils.loadContest(this.contestID)
-        let problems = storage.get(STORAGE_KEY.contestProblems + this.contestID)
-        if (problems === null) {
-          api.getContestProblemList(this.contestID).then(res => {
-            problems = res.data.data
-            this.addTableColumns(problems)
-          }, _ => {
-          })
-        } else {
-          this.addTableColumns(problems)
-        }
       },
       applyToChart(data) {
         let [usernames, acData, totalData] = [[], [], []]
@@ -243,10 +230,22 @@
         })
       }
     },
-    watch: {
-      'showMenu'(newVal) {
-        if (this.showChart) {
-          this.$refs.chart.resize()
+    computed: {
+      ...mapState({
+        'contest': state => state.contest.contest,
+        'contestProblems': state => state.contest.contestProblems
+      }),
+      showMenu: {
+        get() {
+          return this.$store.state.contest.contestMenuVisible
+        },
+        set(value) {
+          this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
+          if (this.showChart) {
+            this.$nextTick(() => {
+              this.$refs.chart.resize()
+            })
+          }
         }
       }
     }

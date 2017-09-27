@@ -69,7 +69,7 @@
         <FormItem label="Real Name">
           <Input v-model="formProfile.real_name"/>
         </FormItem>
-         <Form-item label="School">
+        <Form-item label="School">
           <Input v-model="formProfile.school"/>
         </Form-item>
         <Form-item label="Major">
@@ -88,7 +88,7 @@
           <Input v-model="formProfile.blog"/>
         </Form-item>
         <Form-item label="Githb">
-          <Input v-model="formProfile.github" />
+          <Input v-model="formProfile.github"/>
         </Form-item>
         </Col>
       </Row>
@@ -98,12 +98,9 @@
 
 <script>
   import api from '@/api.js'
-  import auth from '@/utils/auth'
-  import {ProfileMixin} from '~/mixins'
   import vueCropper from 'vue-cropper'
 
   export default {
-    mixins: [ProfileMixin],
     components: {
       vueCropper
     },
@@ -129,19 +126,14 @@
       }
     },
     mounted() {
-      this.init()
+      let profile = this.$store.state.user.profile
+      Object.keys(this.formProfile).forEach(element => {
+        if (profile[element] !== undefined) {
+          this.formProfile[element] = profile[element]
+        }
+      })
     },
     methods: {
-      init() {
-        let profile = this.loadProfile()
-        if (profile !== null && profile !== undefined) {
-          Object.keys(this.formProfile).forEach(element => {
-            if (profile[element] !== undefined) {
-              this.formProfile[element] = profile[element]
-            }
-          })
-        }
-      },
       checkFileType(file) {
         if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(file.name)) {
           this.$Notice.warning({
@@ -213,10 +205,7 @@
             this.$success('Successfully set new avatar')
             this.uploadModalVisible = false
             this.avatarOption.imgSrc = ''
-            this.getProfile().then(res => {
-              this.init()
-              this.$bus.$emit('update:avatar')
-            })
+            this.$store.dispatch('getProfile')
           })
         })
       },
@@ -225,7 +214,6 @@
         api.updateProfile(this.formProfile).then(res => {
           this.$success('Success')
           this.btnLoading = false
-          auth.setUser(res.data.data)
         }, _ => {
           this.btnLoading = false
         })

@@ -3,14 +3,17 @@ import Vuex from 'vuex'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
+
 import user from './modules/user'
+import contest from './modules/contest'
 
 Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   modules: {
-    user
+    user,
+    contest
   },
   state: {
     website: {},
@@ -25,5 +28,10 @@ export default new Vuex.Store({
   strict: debug
 })
 
-export {types} from './types'
+// import types from './types'
+// export
+// {
+//   types
+// }
 
+export {default as types} from './types'

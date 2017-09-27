@@ -66,9 +66,9 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import api from '@/api.js'
   import utils from '@/utils/utils'
-  import auth from '@/utils/auth'
   import {ProblemMixin} from '~/mixins'
   import Pagination from '../../components/Pagination'
 
@@ -177,7 +177,7 @@
           self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
-          if (auth.isAuthicated()) {
+          if (this.isAuthenticated) {
             this.addStatusColumn(res.data.data.results)
           }
         }, res => {
@@ -204,10 +204,18 @@
         this.$router.push({name: 'problem-list'})
       }
     },
+    computed: {
+      ...mapGetters(['isAuthenticated'])
+    },
     watch: {
       '$route'(newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init(true)
+        }
+      },
+      'isAuthenticated'(newVal) {
+        if (newVal === true) {
+          this.init()
         }
       }
     }

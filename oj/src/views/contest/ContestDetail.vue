@@ -55,9 +55,7 @@
 </template>
 
 <script>
-  import api from '@/api'
-  import auth from '@/utils/auth'
-  import storage from '@/utils/storage'
+  import {mapState, mapGetters} from 'vuex'
   import time from '@/utils/time'
 
   export default {
@@ -65,13 +63,8 @@
     components: {},
     data() {
       return {
-        showMenu: true,
         route_name: '',
         contestID: '',
-        contest: {
-          description: 'abc'
-        },
-        contest_table: [],
         columns: [
           {
             title: 'StartAt',
@@ -102,45 +95,31 @@
         ]
       }
     },
-    created() {
-      this.$bus.$on('update:menuVisible', (visible) => {
-        this.showMenu = visible
-      })
-    },
     mounted() {
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
-      this.getContest(this.contestID)
+      this.$store.dispatch('getContest')
     },
     methods: {
       handleRoute(route) {
         this.$router.push(route)
-      },
-      getContest(contestID) {
-        api.getContest(contestID).then((res) => {
-          let contest = res.data.data
-          this.contest = contest
-          this.contest_table = []
-          this.contest_table.push(contest)
-          storage.set('contest_' + contest.id, contest)
-        }, _ => {
-        })
       }
     },
     computed: {
-      isDisabled() {
-        let uid = auth.getUid()
-        return this.contest.status === '1' && this.contest.created_by.id !== uid
-      }
+      ...mapState({
+        showMenu: state => state.contest.contestMenuVisible,
+        contest: state => state.contest.contest,
+        contest_table: state => [state.contest.contest]
+      }),
+      ...mapGetters({
+        isDisabled: 'contestMenuDisabled'
+      })
     },
     watch: {
       '$route'(newVal) {
         this.route_name = newVal.name
         this.contestID = newVal.params.contestID
       }
-    },
-    beforeDestory() {
-      this.$bus.$off('update:menuVisible')
     }
   }
 </script>
@@ -166,7 +145,7 @@ https://vue-loader.vuejs.org/en/features/scoped-css.html
 </style>
 <style lang="css">
   /*使用scoped css注入*/
-  #contest-desc > > > pre {
+  #contest-desc >>> pre {
     margin: 15px 0px;
     padding: 5px;
     display: inline-block;

@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
-import auth from '../utils/auth'
+import storage from '@/utils/storage'
+import {STORAGE_KEY} from '@/utils/consts'
+import {sync} from 'vuex-router-sync'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -11,7 +14,7 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      return {x: 0, y: 0}
     }
   },
   routes
@@ -20,11 +23,11 @@ const router = new VueRouter({
 // 全局身份确认
 router.beforeEach((to, from, next) => {
   Vue.prototype.$Loading.start()
-
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!auth.isAuthicated()) {
+    if (!storage.get(STORAGE_KEY.AUTHED)) {
+      Vue.prototype.$error('please login first')
       next({
-        path: '/login'
+        name: 'test'
       })
     } else {
       next()
@@ -37,6 +40,8 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from, next) => {
   Vue.prototype.$Loading.finish()
 })
+
+sync(store, router)
 
 export default router
 

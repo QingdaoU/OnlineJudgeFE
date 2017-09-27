@@ -31,12 +31,12 @@
     <p class="section-title">Two Factor Authentication</p>
     <div class="mini-container setting-content">
       <Form>
-        <Alert v-if="alreadyAuthed"
+        <Alert v-if="TFAOpened"
                type="success"
                class="notice"
                showIcon>You have enabled two-factor authentication.
         </Alert>
-        <FormItem v-if="!alreadyAuthed">
+        <FormItem v-if="!TFAOpened">
           <div class="oj-relative">
             <img :src="qrcodeSrc" id="qr-img">
             <Spin size="large" fix v-if="loadingQRcode"></Spin>
@@ -49,7 +49,7 @@
           <Button type="primary"
                   :loading="loadingBtn"
                   @click="updateTFA(false)"
-                  v-if="!alreadyAuthed">Open TFA
+                  v-if="!TFAOpened">Open TFA
           </Button>
           <Button type="error"
                   :loading="loadingBtn"
@@ -64,7 +64,7 @@
 
 <script>
   import api from '@/api'
-  import {ProfileMixin} from '~/mixins'
+  import {mapGetters, mapActions} from 'vuex'
   import browserDetector from 'browser-detect'
 
   const browsers = {}
@@ -80,7 +80,6 @@
   }
 
   export default {
-    mixins: [ProfileMixin],
     data() {
       return {
         qrcodeSrc: '',
@@ -93,13 +92,13 @@
       }
     },
     mounted() {
-      this.loadProfile()
       this.getSessions()
-      if (this.profile.user && !this.profile.user.two_factor_auth) {
+      if (!this.TFAOpened) {
         this.getAuthImg()
       }
     },
     methods: {
+      ...mapActions(['getProfile']),
       getAuthImg() {
         this.loadingQRcode = true
         api.twoFactorAuth('get').then(res => {
@@ -165,8 +164,9 @@
       }
     },
     computed: {
-      alreadyAuthed() {
-        return this.profile.user && this.profile.user.two_factor_auth
+      ...mapGetters(['user']),
+      TFAOpened() {
+        return this.user && this.user.two_factor_auth
       }
     },
     filters: {

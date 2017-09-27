@@ -51,7 +51,7 @@
       </template>
       <template v-else>
         <Dropdown class="drop-menu" @on-click="handleRoute" placement="bottom-end">
-          <Button class="btn-menu" type="text">{{ username }}
+          <Button class="btn-menu" type="text">{{ user.username }}
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">
@@ -100,7 +100,7 @@
       }
     },
     computed: {
-      ...mapGetters(['website', 'username', 'isAuthenticated']),
+      ...mapGetters(['website', 'user', 'isAuthenticated']),
       // 跟随路由变化
       activeMenu() {
         return '/' + this.$route.path.split('/')[1]
