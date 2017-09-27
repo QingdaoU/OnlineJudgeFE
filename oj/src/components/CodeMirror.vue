@@ -64,7 +64,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       currentValue: '',
       lang: 'C++',
@@ -98,15 +98,15 @@ export default {
       ]
     }
   },
-  mounted() {
+  mounted () {
     this.currentValue = this.value
   },
   methods: {
-    onEditorCodeChange(newCode) {
+    onEditorCodeChange (newCode) {
       this.currentValue = newCode
       this.$emit('changeCode', newCode)
     },
-    onLangChange(newVal) {
+    onLangChange (newVal) {
       this.$refs.myEditor.editor.setOption('mode', this.mode[newVal])
       this.$emit('changeLang', newVal)
     }

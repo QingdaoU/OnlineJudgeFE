@@ -80,7 +80,7 @@
   }
 
   export default {
-    data() {
+    data () {
       return {
         qrcodeSrc: '',
         loadingQRcode: false,
@@ -91,7 +91,7 @@
         sessions: []
       }
     },
-    mounted() {
+    mounted () {
       this.getSessions()
       if (!this.TFAOpened) {
         this.getAuthImg()
@@ -99,14 +99,14 @@
     },
     methods: {
       ...mapActions(['getProfile']),
-      getAuthImg() {
+      getAuthImg () {
         this.loadingQRcode = true
         api.twoFactorAuth('get').then(res => {
           this.loadingQRcode = false
           this.qrcodeSrc = res.data.data
         })
       },
-      getSessions() {
+      getSessions () {
         api.getSessions().then(res => {
           let data = res.data.data
           // 将当前session放到第一个
@@ -121,7 +121,7 @@
           this.sessions = sessions
         })
       },
-      deleteSession(sessionKey) {
+      deleteSession (sessionKey) {
         this.$Modal.confirm({
           title: 'Confirm',
           content: 'Are you sure to revoke the session?',
@@ -133,7 +133,7 @@
           }
         })
       },
-      closeTFA() {
+      closeTFA () {
         this.$Modal.confirm({
           title: 'Confirm',
           content: 'Two-factor Authentication is a powerful tool to protect your account, are you sure to close it?',
@@ -142,7 +142,7 @@
           }
         })
       },
-      updateTFA(close) {
+      updateTFA (close) {
         let method = close === false ? 'post' : 'put'
         this.loadingBtn = true
         api.twoFactorAuth(method, this.formTwoFactor).then(res => {
@@ -165,12 +165,12 @@
     },
     computed: {
       ...mapGetters(['user']),
-      TFAOpened() {
+      TFAOpened () {
         return this.user && this.user.two_factor_auth
       }
     },
     filters: {
-      browser(value) {
+      browser (value) {
         let b = loadBrowser(value)
         if (b.name && b.version) {
           return b.name + ' ' + b.version
@@ -178,7 +178,7 @@
           return 'Unknown'
         }
       },
-      platform(value) {
+      platform (value) {
         let b = loadBrowser(value)
         return b.os ? b.os : 'Unknown'
       }

@@ -74,7 +74,7 @@
     components: {
       Pagination
     },
-    data() {
+    data () {
       return {
         myself: false,
         result: '',
@@ -181,14 +181,14 @@
         JUDGE_STATUS: ''
       }
     },
-    mounted() {
+    mounted () {
       this.init()
       this.JUDGE_STATUS = Object.assign({}, JUDGE_STATUS)
       // 去除submitting的状态
       delete this.JUDGE_STATUS['9']
     },
     methods: {
-      init() {
+      init () {
         let query = this.$route.query
         this.contestID = query.contestID
         this.problemID = query.problemID
@@ -198,7 +198,7 @@
         this.routeName = this.$route.name
         this.getSubmissions()
       },
-      getSubmissions() {
+      getSubmissions () {
         this.$Loading.start()
         let params = {
           'result': this.result,
@@ -216,7 +216,7 @@
         })
       },
       // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态
-      changeRoute() {
+      changeRoute () {
         let query = {
           contestID: this.contestID,
           problemID: this.problemID,
@@ -229,28 +229,28 @@
           query: utils.filterEmptyValue(query)
         })
       },
-      goRoute(route) {
+      goRoute (route) {
         this.$router.push(route)
       },
-      handleResultChange(status) {
+      handleResultChange (status) {
         this.result = status
         this.changeRoute()
       },
-      handleSwitchChange() {
+      handleSwitchChange () {
         this.page = 1
         this.changeRoute()
       }
     },
     computed: {
-      title() {
+      title () {
         return this.contestID === undefined ? 'Status' : 'Submissions'
       },
-      status() {
+      status () {
         return this.result === '' ? 'Status' : JUDGE_STATUS[this.result].name
       }
     },
     watch: {
-      '$route'(newVal, oldVal) {
+      '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init()
         }

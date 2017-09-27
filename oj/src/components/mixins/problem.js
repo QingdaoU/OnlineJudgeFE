@@ -1,16 +1,16 @@
 import utils from '@/utils/utils'
 
 export default {
-  data() {
+  data () {
     return {
       statusColumn: false
     }
   },
   methods: {
-    getACRate(ACCount, TotalCount) {
+    getACRate (ACCount, TotalCount) {
       return utils.getACRate(ACCount, TotalCount)
     },
-    addStatusColumn(dataProblems) {
+    addStatusColumn (dataProblems) {
       // 只在有做题记录时才添加column
       if (this.statusColumn) return
       let isAdd = dataProblems.some((item, index) => {

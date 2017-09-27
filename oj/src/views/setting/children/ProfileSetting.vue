@@ -104,7 +104,7 @@
     components: {
       vueCropper
     },
-    data() {
+    data () {
       return {
         btnLoading: false,
         uploadModalVisible: false,
@@ -125,7 +125,7 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       let profile = this.$store.state.user.profile
       Object.keys(this.formProfile).forEach(element => {
         if (profile[element] !== undefined) {
@@ -134,7 +134,7 @@
       })
     },
     methods: {
-      checkFileType(file) {
+      checkFileType (file) {
         if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(file.name)) {
           this.$Notice.warning({
             title: 'File type not support',
@@ -144,7 +144,7 @@
         }
         return true
       },
-      checkFileSize(file) {
+      checkFileSize (file) {
         // max size is 2MB
         if (file.size > 2 * 1024 * 1024) {
           this.$Notice.warning({
@@ -155,7 +155,7 @@
         }
         return true
       },
-      handleSelectFile(file) {
+      handleSelectFile (file) {
         let isOk = this.checkFileType(file) && this.checkFileSize(file)
         if (!isOk) {
           return false
@@ -167,17 +167,17 @@
         reader.readAsDataURL(file)
         return false
       },
-      realTime(data) {
+      realTime (data) {
         this.preview = data
       },
-      rotate(direction) {
+      rotate (direction) {
         if (direction === 'left') {
           this.$refs.cropper.rotateLeft()
         } else {
           this.$refs.cropper.rotateRight()
         }
       },
-      reselect() {
+      reselect () {
         this.$Modal.confirm({
           content: 'Are you sure to disgard the changes?',
           onOk: () => {
@@ -185,13 +185,13 @@
           }
         })
       },
-      finishCrop() {
+      finishCrop () {
         this.$refs.cropper.getCropData(data => {
           this.uploadImgSrc = data
           this.uploadModalVisible = true
         })
       },
-      uploadAvatar() {
+      uploadAvatar () {
         this.$refs.cropper.getCropBlob(blob => {
           let form = new window.FormData()
           let file = new window.File([blob], 'avatar.' + this.avatarOption.outputType)
@@ -209,7 +209,7 @@
           })
         })
       },
-      updateProfile() {
+      updateProfile () {
         this.btnLoading = true
         api.updateProfile(this.formProfile).then(res => {
           this.$success('Success')
@@ -220,7 +220,7 @@
       }
     },
     computed: {
-      previewStyle() {
+      previewStyle () {
         return {
           'width': this.preview.w + 'px',
           'height': this.preview.h + 'px',

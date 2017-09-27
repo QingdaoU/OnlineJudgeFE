@@ -29,7 +29,7 @@ import 'echarts/lib/component/markPoint'
 const EventBus = new Vue()
 Object.defineProperties(Vue.prototype, {
   $bus: {
-    get() {
+    get () {
       return EventBus
     }
   }

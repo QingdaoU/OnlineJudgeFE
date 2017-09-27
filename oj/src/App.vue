@@ -16,10 +16,10 @@
 
   export default {
     name: 'app',
-    mounted() {
+    mounted () {
       this.getWebsiteConfig()
     },
-    data() {
+    data () {
       return {
         version: process.env.VERSION
       }

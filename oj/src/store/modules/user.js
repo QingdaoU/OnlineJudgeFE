@@ -16,21 +16,21 @@ const getters = {
 }
 
 const mutations = {
-  [types.CHANGE_PROFILE](state, {profile}) {
+  [types.CHANGE_PROFILE] (state, {profile}) {
     state.profile = profile
     storage.set(STORAGE_KEY.AUTHED, !!profile.user)
   }
 }
 
 const actions = {
-  getProfile({commit}) {
+  getProfile ({commit}) {
     api.getUserInfo().then(res => {
       commit(types.CHANGE_PROFILE, {
         profile: res.data.data
       })
     })
   },
-  clearProfile({commit}) {
+  clearProfile ({commit}) {
     commit(types.CHANGE_PROFILE, {
       profile: {}
     })

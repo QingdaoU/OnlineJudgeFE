@@ -11,26 +11,26 @@
     components: {
       ACMContestRank
     },
-    data() {
+    data () {
       return {
         currentView: 'ACMContestRank'
       }
     },
     methods: {
-      switchView() {
+      switchView () {
         this.currentView = this.contest.rule_type === 'ACM' ? 'ACMContestRank' : 'ACMContestRank'
       }
     },
-    mounted() {
+    mounted () {
       this.switchView()
     },
     computed: {
-      contest() {
+      contest () {
         return this.$store.state.contest.contest
       }
     },
     watch: {
-      '$route'() {
+      '$route' () {
         this.switchView()
       }
     }

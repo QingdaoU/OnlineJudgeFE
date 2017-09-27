@@ -15,7 +15,7 @@
 
   export default {
     name: 'Announcement',
-    data() {
+    data () {
       return {
         announcements: [],
         columns: [
@@ -49,7 +49,7 @@
         ]
       }
     },
-    created() {
+    created () {
       api.getContestAnnouncementList(this.$route.params.contestID).then((res) => {
         let data = res.data.data
         if (data.length > 0) {

@@ -98,9 +98,9 @@
 
   export default {
     mixins: [FormMixin],
-    mounted() {
+    mounted () {
     },
-    data() {
+    data () {
       const CheckUsernameNotExist = (rule, value, callback) => {
         api.checkUsernameOrEmail(value, undefined).then(res => {
           if (res.data.data.username === true) {
@@ -191,13 +191,13 @@
     },
     methods: {
       ...mapActions(['changeModalStatus', 'getProfile']),
-      handleBtnClick(mode) {
+      handleBtnClick (mode) {
         this.changeModalStatus({
           mode,
           visible: true
         })
       },
-      handleRegister() {
+      handleRegister () {
         this.validateForm('formRegister').then(valid => {
           let formData = Object.assign({}, this.formRegister)
           delete formData['passwordAgain']
@@ -213,7 +213,7 @@
           })
         })
       },
-      handleLogin() {
+      handleLogin () {
         this.validateForm('formLogin').then(valid => {
           this.btnLoginLoading = true
           let formData = Object.assign({}, this.formLogin)
@@ -230,7 +230,7 @@
           })
         })
       },
-      goResetPassword() {
+      goResetPassword () {
         this.changeModalStatus({visible: false})
         this.$router.push({name: 'apply-reset-password'})
       }
@@ -238,10 +238,10 @@
     computed: {
       ...mapGetters(['website', 'modalStatus']),
       visible: {
-        get() {
+        get () {
           return this.modalStatus.visible
         },
-        set(value) {
+        set (value) {
           this.changeModalStatus({visible: value})
         }
       }

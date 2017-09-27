@@ -48,7 +48,7 @@
   export default {
     name: 'reset-password',
     mixins: [FormMixin],
-    data() {
+    data () {
       const CheckPassword = (rule, value, callback) => {
         if (this.formResetPassword.passwdCheck !== '') {
           // 对第二个密码框再次验证
@@ -87,12 +87,12 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       this.formResetPassword.token = this.$route.params.token
       this.getCaptchaSrc()
     },
     methods: {
-      resetPassword() {
+      resetPassword () {
         this.validateForm('formResetPassword').then(valid => {
           this.btnLoading = true
           let data = Object.assign({}, this.formResetPassword)

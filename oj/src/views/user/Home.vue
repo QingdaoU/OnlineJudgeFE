@@ -57,17 +57,17 @@
   import api from '@/api'
 
   export default {
-    data() {
+    data () {
       return {
         profile: {},
         problems: []
       }
     },
-    mounted() {
+    mounted () {
       this.init()
     },
     methods: {
-      init() {
+      init () {
         let username = this.$route.query.username
         api.getUserInfo(username).then(res => {
           this.profile = res.data.data
@@ -76,7 +76,7 @@
           console.log('The guy registered at ' + registerTime + '.')
         })
       },
-      getSolvedProblems() {
+      getSolvedProblems () {
         let ACMProblems = this.profile.acm_problems_status.problems || {}
         // todo oi problems
         this.problems = Object.keys(ACMProblems).filter(problem => {
@@ -85,12 +85,12 @@
           }
         })
       },
-      goProblem(problemID) {
+      goProblem (problemID) {
         this.$router.push({name: 'problem-details', params: {problemID: problemID}})
       }
     },
     watch: {
-      '$route'(newVal, oldVal) {
+      '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init()
         }

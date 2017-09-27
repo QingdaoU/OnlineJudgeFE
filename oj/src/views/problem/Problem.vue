@@ -155,7 +155,7 @@
     components: {
       CodeMirror
     },
-    data() {
+    data () {
       return {
         statusVisible: false,
         graphVisible: false,
@@ -186,11 +186,11 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       this.init()
     },
     methods: {
-      init() {
+      init () {
         this.$Loading.start()
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
@@ -203,7 +203,7 @@
           this.$Loading.error()
         })
       },
-      changePie(problemData) {
+      changePie (problemData) {
         let acNum = problemData.accepted_number
         let data = [
           {name: 'WA', value: problemData.submission_number - acNum},
@@ -233,16 +233,16 @@
         largePieData.push({name: 'AC', value: acCount})
         this.largePie.series[0].data = largePieData
       },
-      handleRoute(route) {
+      handleRoute (route) {
         this.$router.push(route)
       },
-      onChangeCode(newCode) {
+      onChangeCode (newCode) {
         this.code = newCode
       },
-      onChangeLang(newLang) {
+      onChangeLang (newLang) {
         this.language = newLang
       },
-      submitCode() {
+      submitCode () {
         if (this.code.trim() === '') {
           this.$error('Code can not be empty')
           return
@@ -280,25 +280,25 @@
       }
     },
     computed: {
-      submissionStatus() {
+      submissionStatus () {
         return {
           text: JUDGE_STATUS[this.result.result]['name'],
           color: JUDGE_STATUS[this.result.result]['color']
         }
       },
-      submitDisabled() {
+      submitDisabled () {
         return this.$store.getters.problemSubmitDisabled
       },
-      contest() {
+      contest () {
         return this.$store.state.contest.contest
       }
     },
     // 防止切换组件后仍然不断请求
-    beforeDestroy() {
+    beforeDestroy () {
       clearInterval(this.refreshStatus)
     },
     watch: {
-      '$route'() {
+      '$route' () {
         this.init()
       }
     }

@@ -32,7 +32,7 @@
       }
     },
     methods: {
-      onChange(page) {
+      onChange (page) {
         this.$emit('update:current', page)
         this.$emit('on-change', page)
       }

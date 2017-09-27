@@ -5,7 +5,7 @@
   import api from '../../api.js'
 
   export default {
-    mounted() {
+    mounted () {
       api.logout().then(res => {
         this.$success('logout succeeded')
         this.$store.dispatch('clearProfile')

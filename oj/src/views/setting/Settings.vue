@@ -36,7 +36,7 @@
   export default {
     name: 'profile',
     methods: {
-      goRoute(routePath) {
+      goRoute (routePath) {
         this.$router.push(routePath)
       }
     },

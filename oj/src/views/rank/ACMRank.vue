@@ -29,7 +29,7 @@
     components: {
       Pagination
     },
-    data() {
+    data () {
       return {
         page: 1,
         limit: limit,
@@ -140,12 +140,12 @@
       }
     },
     methods: {
-      initData(res) {
+      initData (res) {
         this.changeCharts(res.data.data.results)
         this.total = res.data.data.total
         this.dataRank = res.data.data.results
       },
-      getRankData(page) {
+      getRankData (page) {
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
@@ -154,7 +154,7 @@
           bar.hideLoading()
         })
       },
-      changeCharts(rankData) {
+      changeCharts (rankData) {
         let [usernames, acData, totalData] = [[], [], []]
         rankData.forEach(ele => {
           usernames.push(ele.user.username)
@@ -166,7 +166,7 @@
         this.options.series[1].data = totalData
       }
     },
-    mounted() {
+    mounted () {
       this.getRankData(1)
     }
   }

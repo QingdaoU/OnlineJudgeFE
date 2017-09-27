@@ -1,8 +1,8 @@
 export default {
-  'website'(state) {
+  'website' (state) {
     return state.website
   },
-  'modalStatus'(state) {
+  'modalStatus' (state) {
     return state.modalStatus
   }
 }

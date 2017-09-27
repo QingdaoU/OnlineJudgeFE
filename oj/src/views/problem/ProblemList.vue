@@ -78,7 +78,7 @@
     components: {
       Pagination
     },
-    data() {
+    data () {
       return {
         tagList: [],
         problemTableColumns: [
@@ -147,11 +147,11 @@
         spinShow: true
       }
     },
-    mounted() {
+    mounted () {
       this.init()
     },
     methods: {
-      init(simulate = false) {
+      init (simulate = false) {
         this.routeName = this.$route.name
         let query = this.$route.query
         this.query.difficulty = query.difficulty || ''
@@ -163,13 +163,13 @@
         }
         this.getProblemList()
       },
-      pushRouter() {
+      pushRouter () {
         this.$router.push({
           name: 'problem-list',
           query: utils.filterEmptyValue(this.query)
         })
       },
-      getProblemList() {
+      getProblemList () {
         this.$Loading.start()
         let self = this
         let offset = (this.query.page - 1) * this.limit
@@ -184,7 +184,7 @@
           self.$Loading.error()
         })
       },
-      getTagList() {
+      getTagList () {
         api.getProblemTagList().then(res => {
           this.tagList = res.data.data
           this.spinShow = false
@@ -192,15 +192,15 @@
           this.spinShow = false
         })
       },
-      filterByTag(tagName) {
+      filterByTag (tagName) {
         this.query.tag = tagName
         this.pushRouter()
       },
-      filterByDifficulty(difficulty) {
+      filterByDifficulty (difficulty) {
         this.query.difficulty = difficulty
         this.pushRouter()
       },
-      onReset() {
+      onReset () {
         this.$router.push({name: 'problem-list'})
       }
     },
@@ -208,12 +208,12 @@
       ...mapGetters(['isAuthenticated'])
     },
     watch: {
-      '$route'(newVal, oldVal) {
+      '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init(true)
         }
       },
-      'isAuthenticated'(newVal) {
+      'isAuthenticated' (newVal) {
         if (newVal === true) {
           this.init()
         }

@@ -7,7 +7,7 @@ const pieColorMap = {
   'CE': {color: '#ff9900'}
 }
 
-function getItemColor(obj) {
+function getItemColor (obj) {
   return pieColorMap[obj.name].color
 }
 

@@ -21,7 +21,7 @@
       }
     },
     methods: {
-      handleClick() {
+      handleClick () {
         if (this.route) {
           this.dispatch('VerticalMenu', 'on-click', this.route)
         }

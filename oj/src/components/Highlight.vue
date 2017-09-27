@@ -7,7 +7,7 @@
 <script>
   export default {
     name: 'highlight',
-    data() {
+    data () {
       return {
         styleObject: {
           'border-left': '2px solid green'
@@ -28,7 +28,7 @@
       }
     },
     watch: {
-      'borderColor'(newVal, oldVal) {
+      'borderColor' (newVal, oldVal) {
         this.styleObject['border-left'] = '2.5px solid ' + newVal
       }
     }

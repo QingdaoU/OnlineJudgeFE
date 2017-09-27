@@ -61,7 +61,7 @@
   export default {
     name: 'ContestDetail',
     components: {},
-    data() {
+    data () {
       return {
         route_name: '',
         contestID: '',
@@ -95,13 +95,13 @@
         ]
       }
     },
-    mounted() {
+    mounted () {
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest')
     },
     methods: {
-      handleRoute(route) {
+      handleRoute (route) {
         this.$router.push(route)
       }
     },
@@ -116,7 +116,7 @@
       })
     },
     watch: {
-      '$route'(newVal) {
+      '$route' (newVal) {
         this.route_name = newVal.name
         this.contestID = newVal.params.contestID
       }

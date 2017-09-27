@@ -22,19 +22,19 @@ const getters = {
 }
 
 const mutations = {
-  [types.CHANGE_CONTEST](state, payload) {
+  [types.CHANGE_CONTEST] (state, payload) {
     state.contest = payload.contest
   },
-  [types.CHANGE_CONTEST_MENU_VISIBLE](state, payload) {
+  [types.CHANGE_CONTEST_MENU_VISIBLE] (state, payload) {
     state.contestMenuVisible = payload.visible
   },
-  [types.CHANGE_CONTEST_PROBLEMS](state, payload) {
+  [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
   }
 }
 
 const actions = {
-  getContest({commit, rootState}) {
+  getContest ({commit, rootState}) {
     return new Promise((resolve, reject) => {
       api.getContest(rootState.route.params.contestID).then((res) => {
         commit(types.CHANGE_CONTEST, {contest: res.data.data})
@@ -44,7 +44,7 @@ const actions = {
       })
     })
   },
-  getContestProblems({commit, rootState}) {
+  getContestProblems ({commit, rootState}) {
     return new Promise((resolve, reject) => {
       api.getContestProblemList(rootState.route.params.contestID).then(res => {
         commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: res.data.data})

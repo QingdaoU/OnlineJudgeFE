@@ -43,7 +43,7 @@
 
   export default {
     mixins: [FormMixin],
-    data() {
+    data () {
       const CheckEmailExist = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(undefined, value).then(res => {
@@ -76,11 +76,11 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       this.getCaptchaSrc()
     },
     methods: {
-      sendEmail() {
+      sendEmail () {
         this.validateForm('formResetPassword').then(() => {
           this.btnLoading = true
           api.applyResetPassword(this.formResetPassword).then(res => {

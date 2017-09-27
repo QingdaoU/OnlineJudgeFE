@@ -7,15 +7,15 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
-  getWebsiteConf() {
+  getWebsiteConf () {
     return ajax('website', 'get')
   },
-  login(data) {
+  login (data) {
     return ajax('login', 'post', {
       data
     })
   },
-  checkUsernameOrEmail(username, email) {
+  checkUsernameOrEmail (username, email) {
     return ajax('check_username_or_email', 'post', {
       data: {
         username,
@@ -24,73 +24,73 @@ export default {
     })
   },
   // 注册
-  register(data) {
+  register (data) {
     return ajax('register', 'post', {
       data
     })
   },
-  logout() {
+  logout () {
     return ajax('logout', 'get')
   },
-  getCaptcha() {
+  getCaptcha () {
     return ajax('captcha', 'get')
   },
-  getUserInfo(username = undefined) {
+  getUserInfo (username = undefined) {
     return ajax('profile', 'get', {
       params: {
         username
       }
     })
   },
-  updateProfile(profile) {
+  updateProfile (profile) {
     return ajax('profile', 'put', {
       data: profile
     })
   },
-  twoFactorAuth(method, data) {
+  twoFactorAuth (method, data) {
     return ajax('two_factor_auth', method, {
       data
     })
   },
-  tfaRequiredCheck(username) {
+  tfaRequiredCheck (username) {
     return ajax('tfa_required', 'post', {
       data: {
         username
       }
     })
   },
-  getSessions() {
+  getSessions () {
     return ajax('sessions', 'get')
   },
-  deleteSession(sessionKey) {
+  deleteSession (sessionKey) {
     return ajax('sessions', 'delete', {
       params: {
         session_key: sessionKey
       }
     })
   },
-  applyResetPassword(data) {
+  applyResetPassword (data) {
     return ajax('apply_reset_password', 'post', {
       data
     })
   },
-  resetPassword(data) {
+  resetPassword (data) {
     return ajax('reset_password', 'post', {
       data
     })
   },
-  changePassword(data) {
+  changePassword (data) {
     return ajax('change_password', 'post', {
       data
     })
   },
-  getLanguages() {
+  getLanguages () {
     return ajax('languages', 'get')
   },
-  getProblemTagList() {
+  getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
-  getProblemList(offset, limit, searchParams) {
+  getProblemList (offset, limit, searchParams) {
     let params = {
       paging: true,
       offset,
@@ -105,14 +105,14 @@ export default {
       params: params
     })
   },
-  getProblem(problemID) {
+  getProblem (problemID) {
     return ajax('problem', 'get', {
       params: {
         problem_id: problemID
       }
     })
   },
-  getContestList(offset, limit, searchParams) {
+  getContestList (offset, limit, searchParams) {
     let params = {
       offset,
       limit
@@ -128,21 +128,21 @@ export default {
       params
     })
   },
-  getContest(id) {
+  getContest (id) {
     return ajax('contest', 'get', {
       params: {
         id
       }
     })
   },
-  getContestAccess(contestID) {
+  getContestAccess (contestID) {
     return ajax('contest/access', 'get', {
       params: {
         contest_id: contestID
       }
     })
   },
-  checkContestPassword(contestID, password) {
+  checkContestPassword (contestID, password) {
     return ajax('contest/password', 'post', {
       data: {
         contest_id: contestID,
@@ -150,21 +150,21 @@ export default {
       }
     })
   },
-  getContestAnnouncementList(contestId) {
+  getContestAnnouncementList (contestId) {
     return ajax('contest/announcement', 'get', {
       params: {
         contest_id: contestId
       }
     })
   },
-  getContestProblemList(contestId) {
+  getContestProblemList (contestId) {
     return ajax('contest/problem', 'get', {
       params: {
         contest_id: contestId
       }
     })
   },
-  getContestProblem(problemID, contestID) {
+  getContestProblem (problemID, contestID) {
     return ajax('contest/problem', 'get', {
       params: {
         contest_id: contestID,
@@ -172,26 +172,26 @@ export default {
       }
     })
   },
-  submitCode(data) {
+  submitCode (data) {
     return ajax('submission', 'post', {
       data
     })
   },
-  getSubmissionList(offset, limit, params) {
+  getSubmissionList (offset, limit, params) {
     params.limit = limit
     params.offset = offset
     return ajax('submissions', 'get', {
       params
     })
   },
-  getSubmission(id) {
+  getSubmission (id) {
     return ajax('submission', 'get', {
       params: {
         id
       }
     })
   },
-  getUserRank(offset, limit, rule = 'acm') {
+  getUserRank (offset, limit, rule = 'acm') {
     let params = {
       offset,
       limit,
@@ -201,7 +201,7 @@ export default {
       params
     })
   },
-  getContestRank(offset, limit, contestID) {
+  getContestRank (offset, limit, contestID) {
     let params = {
       offset,
       limit,
@@ -220,7 +220,7 @@ export default {
  * @param data post data, use for method put|post
  * @returns {Promise}
  */
-function ajax(url, method, options) {
+function ajax (url, method, options) {
   if (options !== undefined) {
     var {params = {}, data = {}} = options
   } else {

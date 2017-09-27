@@ -102,7 +102,7 @@
     components: {
       Pagination
     },
-    data() {
+    data () {
       return {
         page: 1,
         query: {
@@ -122,7 +122,7 @@
         cur_contest_id: ''
       }
     },
-    beforeRouteEnter(to, from, next) {
+    beforeRouteEnter (to, from, next) {
       api.getContestList(0, limit).then((res) => {
         next((vm) => {
           vm.contests = res.data.data.results
@@ -133,7 +133,7 @@
       })
     },
     methods: {
-      init() {
+      init () {
         let route = this.$route.query
         this.query.status = route.status || ''
         this.query.rule_type = route.rule_type || ''
@@ -141,14 +141,14 @@
         this.page = parseInt(route.page) || 1
         this.getContestList()
       },
-      getContestList(page = 1) {
+      getContestList (page = 1) {
         let offset = (page - 1) * this.limit
         api.getContestList(offset, this.limit, this.query).then((res) => {
           this.contests = res.data.data.results
           this.total = res.data.data.total
         })
       },
-      changeRoute() {
+      changeRoute () {
         let query = Object.assign({}, this.query)
         query.page = this.page
         this.$router.push({
@@ -156,15 +156,15 @@
           query: utils.filterEmptyValue(query)
         })
       },
-      onRuleChange(rule) {
+      onRuleChange (rule) {
         this.query.rule_type = rule
         this.changeRoute()
       },
-      onStatusChange(status) {
+      onStatusChange (status) {
         this.query.status = status
         this.changeRoute()
       },
-      goContest(contest) {
+      goContest (contest) {
         this.cur_contest_id = contest.id
         let route = {name: 'contest-details', params: {contestID: this.cur_contest_id}}
         if (contest.contest_type !== 'Public') {
@@ -189,7 +189,7 @@
           this.$router.push(route)
         }
       },
-      goCheckPasswd() {
+      goCheckPasswd () {
         this.btnLoading = true
         api.checkContestPassword(this.cur_contest_id, this.password).then((res) => {
           this.btnLoading = false
@@ -199,7 +199,7 @@
           this.btnLoading = false
         })
       },
-      getDuration(startTime, endTime) {
+      getDuration (startTime, endTime) {
         return time.duration(startTime, endTime)
       }
     },
@@ -207,7 +207,7 @@
       ...mapGetters(['isAuthenticated', 'user'])
     },
     watch: {
-      '$route'(newVal, oldVal) {
+      '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init()
         }

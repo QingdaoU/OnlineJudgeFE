@@ -39,7 +39,7 @@
     components: {
       Highlight
     },
-    data() {
+    data () {
       return {
         columns: [
           {
@@ -86,7 +86,7 @@
         }
       }
     },
-    beforeRouteEnter(to, from, next) {
+    beforeRouteEnter (to, from, next) {
       api.getSubmission(to.params.id).then((res) => {
         next(vm => {
           vm.data = res.data.data
@@ -96,13 +96,13 @@
       })
     },
     computed: {
-      type() {
+      type () {
         return JUDGE_STATUS[this.data.result].type
       },
-      statusName() {
+      statusName () {
         return JUDGE_STATUS[this.data.result].name
       },
-      color() {
+      color () {
         return JUDGE_STATUS[this.data.result].color
       }
     }

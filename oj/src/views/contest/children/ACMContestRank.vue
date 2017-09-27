@@ -85,7 +85,7 @@
     components: {
       Pagination
     },
-    data() {
+    data () {
       return {
         limit: limit,
         total: 0,
@@ -124,7 +124,7 @@
         options: chartData
       }
     },
-    mounted() {
+    mounted () {
       this.contestID = this.$route.params.contestID
       this.getContestRankData(1)
       if (this.contestProblems.length === 0) {
@@ -137,7 +137,7 @@
     },
     methods: {
       ...mapActions(['getContestProblems']),
-      getContestRankData(page) {
+      getContestRankData (page) {
         let offset = (page - 1) * limit
         this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getContestRank(offset, limit, this.$route.params.contestID).then(res => {
@@ -149,7 +149,7 @@
           this.applyToTable(res.data.data.results)
         })
       },
-      applyToChart(data) {
+      applyToChart (data) {
         let [usernames, acData, totalData] = [[], [], []]
         data.forEach(rank => {
           usernames.push(rank.user.username)
@@ -160,7 +160,7 @@
         this.options.series[0].data = acData
         this.options.series[1].data = totalData
       },
-      applyToTable(data) {
+      applyToTable (data) {
         // deepcopy
         let dataRank = JSON.parse(JSON.stringify(data))
         // 从submission_info中取出相应的problem_id 放入到父object中,这么做主要是为了适应iview table的data格式
@@ -184,7 +184,7 @@
         })
         this.dataRank = dataRank
       },
-      addTableColumns(problems) {
+      addTableColumns (problems) {
         let alphaCode = 65
         problems.forEach(ele => {
           // 生成problem对应的字母 并以此为title作为一个column添加到table中
@@ -236,10 +236,10 @@
         'contestProblems': state => state.contest.contestProblems
       }),
       showMenu: {
-        get() {
+        get () {
           return this.$store.state.contest.contestMenuVisible
         },
-        set(value) {
+        set (value) {
           this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
           if (this.showChart) {
             this.$nextTick(() => {

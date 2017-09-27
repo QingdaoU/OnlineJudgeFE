@@ -15,7 +15,7 @@
   export default {
     name: 'ContestProblemList',
     mixins: [ProblemMixin],
-    data() {
+    data () {
       return {
         problemTableColumns: [
           {
@@ -40,18 +40,18 @@
         ]
       }
     },
-    mounted() {
+    mounted () {
       this.getContestProblems()
     },
     methods: {
-      getContestProblems() {
+      getContestProblems () {
         this.$store.dispatch('getContestProblems').then(res => {
           if (this.isAuthenticated) {
             this.addStatusColumn(res.data.data)
           }
         })
       },
-      goContestProblem(row) {
+      goContestProblem (row) {
         this.$router.push({
           name: 'contest-problem-details',
           params: {
@@ -65,7 +65,7 @@
       ...mapState({
         problems: state => state.contest.contestProblems
       }),
-      isAuthenticated() {
+      isAuthenticated () {
         return this.$store.getters.isAuthenticated
       }
     }

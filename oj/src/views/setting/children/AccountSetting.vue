@@ -47,7 +47,7 @@
 
   export default {
     mixins: [FormMixin],
-    data() {
+    data () {
       const CheckAgainPassword = (rule, value, callback) => {
         if (value !== this.formPassword.new_password) {
           callback(new Error('password does not match'))
@@ -100,11 +100,11 @@
         ruleEmail: {}
       }
     },
-    mounted() {
+    mounted () {
       this.formEmail.old_email = this.$store.getters.user.email || ''
     },
     methods: {
-      changePassword() {
+      changePassword () {
         this.validateForm('formPassword').then(valid => {
           this.loading.btnPassword = true
           let data = Object.assign({}, this.formPassword)
@@ -121,7 +121,7 @@
           })
         })
       },
-      changeEmail() {
+      changeEmail () {
         this.btnEmailLoading = true
         // todo
       }

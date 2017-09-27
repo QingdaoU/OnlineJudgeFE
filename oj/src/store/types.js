@@ -1,4 +1,4 @@
-function keyMirror(obj) {
+function keyMirror (obj) {
   if (obj instanceof Object) {
     var _obj = Object.assign({}, obj)
     var _keyArray = Object.keys(obj)

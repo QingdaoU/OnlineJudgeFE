@@ -76,23 +76,23 @@
     components: {
       LoginOrRegister
     },
-    data() {
+    data () {
       return {
         modalMode: 'login',
         modalVisible: false
       }
     },
-    mounted() {
+    mounted () {
       this.getProfile()
     },
     methods: {
       ...mapActions(['getProfile', 'changeModalStatus']),
-      handleRoute(route) {
+      handleRoute (route) {
         if (route) {
           this.$router.push(route)
         }
       },
-      handleBtnClick(mode) {
+      handleBtnClick (mode) {
         this.changeModalStatus({
           visible: true,
           mode: mode
@@ -102,7 +102,7 @@
     computed: {
       ...mapGetters(['website', 'user', 'isAuthenticated']),
       // 跟随路由变化
-      activeMenu() {
+      activeMenu () {
         return '/' + this.$route.path.split('/')[1]
       }
     }
