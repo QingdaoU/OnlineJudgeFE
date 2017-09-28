@@ -12,7 +12,7 @@
             <i-switch v-model="showChart"></i-switch>
           </p>
           <p style="margin-top: 10px">
-            <span>Auto Refresh</span>
+            <span>Auto Refresh(30s)</span>
             <i-switch @on-change="handleAutoRefresh"></i-switch>
           </p>
         </div>

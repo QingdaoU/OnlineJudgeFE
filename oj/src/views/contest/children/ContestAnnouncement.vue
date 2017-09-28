@@ -1,5 +1,5 @@
 <template>
-  <Panel>
+  <Panel shadow>
     <div slot="title">Contest Announcements</div>
     <Table :data="announcements" :columns="columns" disabled-hover no-data-text="No Announcement Now"></Table>
   </Panel>

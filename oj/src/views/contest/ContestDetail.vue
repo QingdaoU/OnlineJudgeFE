@@ -11,6 +11,12 @@
               <div slot="title">
                 {{contest.title}}
               </div>
+              <div slot="extra">
+                <Tag type="dot" :color="countdownColor">
+                  <span id="countdown">{{countdown}}</span>
+                </Tag>
+                <!--<Alert v-if="contestStatus === CONTEST_STATUS_REVERSE.ENDED">Contest have ended.</Alert>-->
+              </div>
               <div v-html="contest.description"></div>
             </Panel>
             <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
@@ -55,7 +61,10 @@
 </template>
 
 <script>
-  import {mapState, mapGetters} from 'vuex'
+  import moment from 'moment'
+  import { mapState, mapGetters } from 'vuex'
+  import { types } from '@/store'
+  import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/consts'
   import time from '@/utils/time'
 
   export default {
@@ -63,6 +72,7 @@
     components: {},
     data () {
       return {
+        CONTEST_STATUS_REVERSE: CONTEST_STATUS_REVERSE,
         route_name: '',
         contestID: '',
         columns: [
@@ -98,7 +108,14 @@
     mounted () {
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
-      this.$store.dispatch('getContest')
+      this.$store.dispatch('getContest').then(res => {
+        let endTime = moment(res.data.data.end_time)
+        if (endTime.isAfter(moment())) {
+          this.timer = setInterval(() => {
+            this.$store.commit(types.NOW, {now: moment()})
+          }, 1000)
+        }
+      })
     },
     methods: {
       handleRoute (route) {
@@ -112,23 +129,31 @@
         contest_table: state => [state.contest.contest]
       }),
       ...mapGetters({
-        isDisabled: 'contestMenuDisabled'
-      })
+        isDisabled: 'contestMenuDisabled',
+        'contestStatus': 'contestStatus',
+        'countdown': 'countdown'
+      }),
+      countdownColor () {
+        return CONTEST_STATUS[this.contestStatus].color
+      }
     },
     watch: {
       '$route' (newVal) {
         this.route_name = newVal.name
         this.contestID = newVal.params.contestID
       }
+    },
+    beforeDestroy () {
+      clearInterval(this.timer)
     }
   }
 </script>
 
-<!--
-官方暂不支持less的nested scoped, 等更新
-https://vue-loader.vuejs.org/en/features/scoped-css.html
--->
 <style scoped lang="less">
+  #countdown {
+    font-size: 16px;
+  }
+
   .flex-container {
     #contest-main {
       flex: auto;

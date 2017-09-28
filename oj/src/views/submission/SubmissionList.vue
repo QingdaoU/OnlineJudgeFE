@@ -135,15 +135,15 @@
                         this.$router.push(
                           {
                             name: 'contest-problem-details',
-                            params: {problemID: params.row.problem_id, contestID: this.contestID}
+                            params: {problemID: params.row.problem, contestID: this.contestID}
                           })
                       } else {
-                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem_id}})
+                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem}})
                       }
                     }
                   }
                 },
-                params.row.problem_id)
+                params.row.problem)
             }
           },
           {

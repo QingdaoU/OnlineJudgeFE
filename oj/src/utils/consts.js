@@ -69,6 +69,12 @@ export const JUDGE_STATUS = {
   }
 }
 
+export const CONTEST_STATUS_REVERSE = {
+  'NOT_START': '1',
+  'UNDERWAY': '0',
+  'ENDED': '-1'
+}
+
 export const CONTEST_STATUS = {
   '1': {
     name: 'Not Started',
@@ -89,3 +95,4 @@ export const STORAGE_KEY = {
   contest: 'contest_',
   contestProblems: 'contest_problems_'
 }
+
