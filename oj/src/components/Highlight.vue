@@ -1,7 +1,5 @@
 <template>
-  <div class="code_container">
-    <pre v-highlightjs="code"><code :class="language" :style="styleObject"></code></pre>
-  </div>
+  <pre v-highlightjs="code"><code :class="language" :style="styleObject"></code></pre>
 </template>
 
 <script>
@@ -36,8 +34,12 @@
 </script>
 
 <style scoped lang="less">
-  code {
-    padding: 20px;
-    font-size: 1.1em;
+  pre {
+    padding: 0;
+    display: block;
+    code {
+      padding: 20px;
+      font-size: 1.1em;
+    }
   }
 </style>

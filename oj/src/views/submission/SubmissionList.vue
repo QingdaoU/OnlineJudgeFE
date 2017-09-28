@@ -64,7 +64,7 @@
 
 <script>
   import api from '@/api'
-  import {JUDGE_STATUS} from '@/utils/consts'
+  import { JUDGE_STATUS } from '@/utils/consts'
   import utils from '@/utils/utils'
   import time from '@/utils/time'
   import Pagination from '@/components/Pagination'
@@ -243,7 +243,13 @@
     },
     computed: {
       title () {
-        return this.contestID === undefined ? 'Status' : 'Submissions'
+        if (!this.contestID) {
+          return 'Status'
+        } else if (this.problemID) {
+          return 'Problem Submissions'
+        } else {
+          return 'Submissions'
+        }
       },
       status () {
         return this.result === '' ? 'Status' : JUDGE_STATUS[this.result].name

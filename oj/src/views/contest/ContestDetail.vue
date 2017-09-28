@@ -143,14 +143,3 @@ https://vue-loader.vuejs.org/en/features/scoped-css.html
     }
   }
 </style>
-<style lang="css">
-  /*使用scoped css注入*/
-  #contest-desc >>> pre {
-    margin: 15px 0px;
-    padding: 5px;
-    display: inline-block;
-    background: #f8f8f9;
-    border: 1px dashed #e9eaec;
-  }
-
-</style>

@@ -1,9 +1,9 @@
 <template>
   <div class="page">
-    <Page class="pagination"
-          :total="total"
+    <Page :total="total"
           :page-size="pageSize"
           @on-change="onChange"
+          @on-page-size-change="onPageSizeChange"
           :show-sizer="showSizer"
           :current="current"></Page>
   </div>
@@ -11,14 +11,14 @@
 
 <script>
   export default {
-    name: 'pagina',
+    name: 'pagination',
     props: {
       total: {
         required: true,
         type: Number
       },
       pageSize: {
-        required: true,
+        required: false,
         type: Number
       },
       showSizer: {
@@ -35,6 +35,10 @@
       onChange (page) {
         this.$emit('update:current', page)
         this.$emit('on-change', page)
+      },
+      onPageSizeChange (pageSize) {
+        this.$emit('update:pageSize', pageSize)
+        this.$emit('on-page-size-change', pageSize)
       }
     }
   }

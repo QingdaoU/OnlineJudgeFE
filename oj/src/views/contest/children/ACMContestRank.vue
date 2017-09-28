@@ -5,10 +5,16 @@
       <Poptip trigger="hover" placement="left-start">
         <Icon type="android-settings" size="20"></Icon>
         <div slot="content" id="switchs">
-          <span>Menu</span>
-          <i-switch v-model="showMenu"></i-switch>
-          <span>Chart</span>
-          <i-switch v-model="showChart"></i-switch>
+          <p>
+            <span>Menu</span>
+            <i-switch v-model="showMenu"></i-switch>
+            <span>Chart</span>
+            <i-switch v-model="showChart"></i-switch>
+          </p>
+          <p style="margin-top: 10px">
+            <span>Auto Refresh</span>
+            <i-switch @on-change="handleAutoRefresh"></i-switch>
+          </p>
         </div>
       </Poptip>
     </div>
@@ -16,69 +22,21 @@
       <ECharts :options="options" ref="chart" auto-resize></ECharts>
     </div>
     <Table ref="tableRank" :columns="columns" :data="dataRank" disabled-hover></Table>
-    <Pagination :total="total" :page-size=limit @on-change="getContestRankData" show-sizer></Pagination>
+    <Pagination :total="total"
+                :page-size.sync=limit
+                @on-change="getContestRankData"
+                @on-page-size-change="getContestRankData(1)"
+                show-sizer></Pagination>
   </Panel>
 </template>
 <script>
+  import moment from 'moment'
   import Pagination from '~/Pagination'
 
-  import {mapActions, mapState} from 'vuex'
-  import {types} from '@/store'
+  import { mapActions, mapState } from 'vuex'
+  import { types } from '@/store'
   import api from '@/api'
   import time from '@/utils/time'
-
-  const limit = 10
-  const chartData = {
-    tooltip: {
-      trigger: 'axis'
-    },
-    legend: {
-      data: ['AC', 'Total']
-    },
-    toolbox: {
-      show: true,
-      feature: {
-        dataView: {show: true, readOnly: true},
-        magicType: {show: true, type: ['line', 'bar']},
-        saveAsImage: {show: true}
-      },
-      right: '10%'
-    },
-    calculable: true,
-    xAxis: [
-      {
-        type: 'category',
-        data: ['root']
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    series: [
-      {
-        name: 'AC',
-        type: 'bar',
-        data: [0],
-        markPoint: {
-          data: [
-            {type: 'max', name: 'max'}
-          ]
-        }
-      },
-      {
-        name: 'Total',
-        type: 'bar',
-        data: [0],
-        markPoint: {
-          data: [
-            {type: 'max', name: 'max'}
-          ]
-        }
-      }
-    ]
-  }
 
   export default {
     name: 'acm-contest-rank',
@@ -87,7 +45,7 @@
     },
     data () {
       return {
-        limit: limit,
+        limit: 10,
         total: 0,
         showChart: true,
         contestID: '',
@@ -101,7 +59,23 @@
             title: 'User',
             align: 'center',
             render: (h, params) => {
-              return h('span', params.row.user.username)
+              return h('Button', {
+                props: {
+                  type: 'text'
+                },
+                style: {
+                  color: '#57a3f3'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push(
+                      {
+                        name: 'home',
+                        query: {username: params.row.user.username}
+                      })
+                  }
+                }
+              }, params.row.user.username)
             }
           },
           {
@@ -121,7 +95,56 @@
           }
         ],
         dataRank: [],
-        options: chartData
+        options: {
+          title: {
+            text: 'Top 10 Teams',
+            left: 'center',
+            top: '0'
+          },
+          dataZoom: [
+            {
+              type: 'inside',
+              xAxisIndex: [0],
+              start: 0,
+              end: 100
+            }
+          ],
+          toolbox: {
+            show: true,
+            feature: {
+              saveAsImage: {show: true, title: 'save as image'}
+            },
+            right: '10%'
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              axis: 'x'
+            }
+          },
+          legend: {
+            orient: 'vertical',
+            x: 'right',
+            y: 'center',
+            data: []
+          },
+          xAxis: [{
+            type: 'time',
+            splitLine: false,
+            axisPointer: {
+              show: true,
+              snap: true
+            }
+          }],
+          yAxis: [
+            {
+              type: 'category',
+              boundaryGap: false,
+              data: [0]
+            }],
+          series: []
+        }
       }
     },
     mounted () {
@@ -130,17 +153,19 @@
       if (this.contestProblems.length === 0) {
         this.getContestProblems().then((res) => {
           this.addTableColumns(res.data.data)
+          this.addChartCategory(res.data.data)
         })
       } else {
         this.addTableColumns(this.contestProblems)
+        this.addChartCategory(this.contestProblems)
       }
     },
     methods: {
       ...mapActions(['getContestProblems']),
-      getContestRankData (page) {
-        let offset = (page - 1) * limit
+      getContestRankData (page = 1) {
+        let offset = (page - 1) * this.limit
         this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
-        api.getContestRank(offset, limit, this.$route.params.contestID).then(res => {
+        api.getContestRank(offset, this.limit, this.$route.params.contestID).then(res => {
           this.$refs.chart.hideLoading()
           this.total = res.data.data.total
           if (page === 1) {
@@ -149,16 +174,44 @@
           this.applyToTable(res.data.data.results)
         })
       },
-      applyToChart (data) {
-        let [usernames, acData, totalData] = [[], [], []]
-        data.forEach(rank => {
-          usernames.push(rank.user.username)
-          acData.push(rank.accepted_number)
-          totalData.push(rank.submission_number)
+      addChartCategory (contestProblems) {
+        let category = []
+        for (let i = 0; i <= contestProblems.length; ++i) {
+          category.push(i)
+        }
+        this.options.yAxis[0].data = category
+      },
+      applyToChart (rankData) {
+        let [users, seriesData] = [[], []]
+        rankData.forEach(rank => {
+          users.push(rank.user.username)
+          let info = rank.submission_info
+          // 提取出已AC题目的时间
+          let timeData = []
+          Object.keys(info).forEach(problemID => {
+            if (info[problemID].is_ac) {
+              timeData.push(info[problemID].ac_time)
+            }
+          })
+          timeData.sort((a, b) => {
+            return a - b
+          })
+
+          let data = []
+          data.push([this.contest.start_time, 0])
+          // index here can be regarded as stacked accepted number count.
+          for (let [index, value] of timeData.entries()) {
+            let realTime = moment(this.contest.start_time).add(value, 'seconds').format()
+            data.push([realTime, index + 1])
+          }
+          seriesData.push({
+            name: rank.user.username,
+            type: 'line',
+            data
+          })
         })
-        this.options.xAxis[0].data = usernames
-        this.options.series[0].data = acData
-        this.options.series[1].data = totalData
+        this.options.legend.data = users
+        this.options.series = seriesData
       },
       applyToTable (data) {
         // deepcopy
@@ -191,9 +244,8 @@
           let problemChar = String.fromCharCode(alphaCode)
           alphaCode += 1
           this.columns.push({
-            title: ele._id,
             align: 'center',
-            key: ele._id,
+            key: ele.id,
             renderHeader: (h, params) => {
               return h('Button', {
                 props: {
@@ -214,8 +266,8 @@
               }, problemChar)
             },
             render: (h, params) => {
-              if (params.row[ele._id]) {
-                let status = params.row[ele._id]
+              if (params.row[ele.id]) {
+                let status = params.row[ele.id]
                 let acTime, errorNumber
                 if (status.is_ac) {
                   acTime = h('span', status.ac_time)
@@ -228,6 +280,13 @@
             }
           })
         })
+      },
+      handleAutoRefresh (status) {
+        if (status === true) {
+          this.refreshFunc = setInterval(this.getContestRankData, 30000)
+        } else {
+          clearInterval(this.refreshFunc)
+        }
       }
     },
     computed: {
@@ -248,14 +307,17 @@
           }
         }
       }
+    },
+    beforeDestory () {
+      clearInterval(this.refreshFunc)
     }
   }
 </script>
 <style scoped lang="less">
   .echarts {
     margin: 30px auto 0 auto;
-    height: 300px;
-    width: 100%;
+    height: 350px;
+    width: 95%;
   }
 
   .pannel-extra {

@@ -252,7 +252,7 @@
         this.submitting = true
         this.statusVisible = true
         let data = {
-          problem_id: this.problemID,
+          problem_id: this.problem.id,
           language: this.language,
           code: this.code,
           contest_id: this.contestID
@@ -267,6 +267,7 @@
               if (Object.keys(res.data.data.statistic_info).length !== 0) {
                 this.submitting = false
                 clearInterval(this.refreshStatus)
+                this.init()
               }
             }, res => {
               this.submitting = false
