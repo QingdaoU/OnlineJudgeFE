@@ -14,7 +14,7 @@
             <Input v-model="formPassword.again_password" type="password"/>
           </FormItem>
           <FormItem v-if="visible.passwordAlert">
-            <Alert type="success">Password successfully updated, you have to login again after 3 seconds..</Alert>
+            <Alert type="success">You will need to login again after 5 seconds..</Alert>
           </FormItem>
           <Button type="primary" @click="changePassword">Update password</Button>
         </Form>
@@ -112,10 +112,11 @@
           api.changePassword(data).then(res => {
             this.loading.btnPassword = false
             this.visible.passwordAlert = true
+            this.$success('update password successfully')
             setTimeout(() => {
               this.visible.passwordAlert = false
               this.$router.push({name: 'logout'})
-            }, 3000)
+            }, 5000)
           }, _ => {
             this.loading.btnPassword = false
           })

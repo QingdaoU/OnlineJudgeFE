@@ -30,7 +30,7 @@
         </div>
         <div id="problems">
           <p v-if="problems.length">List of solved problems</p>
-          <p v-else>The guy is so lazy that have not solved any problem yet.</p>
+          <p v-else>The guy is so lazy that has not solved any problem yet.</p>
           <div class="btns">
             <div class="problem-btn" v-for="problemID in problems">
               <Button type="ghost" @click="goProblem(problemID)">{{problemID}}</Button>

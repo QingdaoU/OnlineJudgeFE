@@ -15,7 +15,6 @@
                 <Tag type="dot" :color="countdownColor">
                   <span id="countdown">{{countdown}}</span>
                 </Tag>
-                <!--<Alert v-if="contestStatus === CONTEST_STATUS_REVERSE.ENDED">Contest have ended.</Alert>-->
               </div>
               <div v-html="contest.description"></div>
             </Panel>
@@ -27,25 +26,26 @@
     </div>
     <div v-if="showMenu" id="contest-menu">
       <VerticalMenu @on-click="handleRoute">
-        <VerticalMenu-item :disabled="isDisabled"
+        <VerticalMenu-item :disabled="contestMenuDisabled"
                            :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
           <Icon type="ios-photos"></Icon>
           Problems
         </VerticalMenu-item>
 
-        <VerticalMenu-item :disabled="isDisabled"
+        <VerticalMenu-item :disabled="contestMenuDisabled"
                            :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
           <Icon type="chatbubble-working"></Icon>
           Announcements
         </VerticalMenu-item>
 
-        <VerticalMenu-item :disabled="isDisabled"
-                           :route="{name: 'submission-list' ,query: {contestID: contestID}}">
+        <VerticalMenu-item v-if="contestRuleType !== 'OI'"
+                           :disabled="contestMenuDisabled"
+                           :route="{name: 'contest-submission-list'}">
           <Icon type="navicon-round"></Icon>
           Submissions
         </VerticalMenu-item>
 
-        <VerticalMenu-item :disabled="isDisabled"
+        <VerticalMenu-item :disabled="contestMenuDisabled"
                            :route="{name: 'contest-rank', params: {contestID: contestID}}">
           <Icon type="stats-bars"></Icon>
           Ranklist
@@ -128,13 +128,11 @@
         contest: state => state.contest.contest,
         contest_table: state => [state.contest.contest]
       }),
-      ...mapGetters({
-        isDisabled: 'contestMenuDisabled',
-        'contestStatus': 'contestStatus',
-        'countdown': 'countdown'
-      }),
+      ...mapGetters(['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown']),
       countdownColor () {
-        return CONTEST_STATUS[this.contestStatus].color
+        if (this.contestStatus) {
+          return CONTEST_STATUS[this.contestStatus].color
+        }
       }
     },
     watch: {
@@ -145,6 +143,7 @@
     },
     beforeDestroy () {
       clearInterval(this.timer)
+      this.$store.commit(types.CLEAR_CONTEST)
     }
   }
 </script>

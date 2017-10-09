@@ -31,34 +31,6 @@
         <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
       </Panel>
     </div>
-    <div id="contest-menu" v-if="contestID">
-      <VerticalMenu @on-click="goRoute">
-        <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
-          <Icon type="ios-photos"></Icon>
-          Problems
-        </VerticalMenu-item>
-
-        <VerticalMenu-item :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
-          <Icon type="chatbubble-working"></Icon>
-          Announcements
-        </VerticalMenu-item>
-
-        <VerticalMenu-item :route="{name: 'submission-list' ,query: {contestID: contestID}}">
-          <Icon type="navicon-round"></Icon>
-          Submissions
-        </VerticalMenu-item>
-
-        <VerticalMenu-item :route="{name: 'contest-rank', params: {contestID: contestID}}">
-          <Icon type="stats-bars"></Icon>
-          Ranklist
-        </VerticalMenu-item>
-
-        <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
-          <Icon type="home"></Icon>
-          Overview
-        </VerticalMenu-item>
-      </VerticalMenu>
-    </div>
   </div>
 </template>
 
@@ -189,8 +161,8 @@
     },
     methods: {
       init () {
+        this.contestID = this.$route.params.contestID
         let query = this.$route.query
-        this.contestID = query.contestID
         this.problemID = query.problemID
         this.myself = query.myself === '1'
         this.result = query.result || ''
@@ -207,7 +179,8 @@
           'contest_id': this.contestID
         }
         let offset = (this.page - 1) * this.limit
-        api.getSubmissionList(offset, this.limit, params).then(res => {
+        let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
+        api[func](offset, this.limit, params).then(res => {
           this.$Loading.finish()
           this.submissions = res.data.data.results
           this.total = res.data.data.total

@@ -80,7 +80,7 @@
     <Modal title="Input Password" v-model="passwordModal">
       <Input v-model="password" type="password"/>
       <div slot="footer">
-        <Button type="primary" :loading="btnLoading" @click="goCheckPasswd">GO</Button>
+        <Button type="primary" :loading="btnLoading" @click="checkPasswd">GO</Button>
       </div>
     </Modal>
   </Row>
@@ -177,7 +177,7 @@
           } else {
             // check if contest have been authenticated
             api.getContestAccess(contest.id).then((res) => {
-              let access = res.data.data.Access
+              let access = res.data.data.access
               if (access === false) {
                 this.passwordModal = true
               } else {
@@ -189,7 +189,7 @@
           this.$router.push(route)
         }
       },
-      goCheckPasswd () {
+      checkPasswd () {
         this.btnLoading = true
         api.checkContestPassword(this.cur_contest_id, this.password).then((res) => {
           this.btnLoading = false

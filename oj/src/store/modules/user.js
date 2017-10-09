@@ -26,7 +26,7 @@ const actions = {
   getProfile ({commit}) {
     api.getUserInfo().then(res => {
       commit(types.CHANGE_PROFILE, {
-        profile: res.data.data
+        profile: res.data.data || {}
       })
     })
   },

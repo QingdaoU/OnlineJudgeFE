@@ -13,8 +13,10 @@ export default keyMirror({
   'CHANGE_PROFILE': null,
   'CHANGE_MODAL_STATUS': null,
   'UPDATE_WEBSITE_CONF': null,
+
   'NOW': null,
   'CHANGE_CONTEST': null,
   'CHANGE_CONTEST_PROBLEMS': null,
-  'CHANGE_CONTEST_MENU_VISIBLE': null
+  'CHANGE_CONTEST_MENU_VISIBLE': null,
+  'CLEAR_CONTEST': null
 })

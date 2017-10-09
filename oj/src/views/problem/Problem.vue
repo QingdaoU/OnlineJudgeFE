@@ -43,7 +43,7 @@
         <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
-          <div class="status" v-if="statusVisible">
+          <div class="status" v-if="statusVisible && contestRuleType !== 'OI'">
             <span>Status:</span>
             <a @click.prevent="handleRoute('/status/'+submissionId)">
               <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
@@ -78,14 +78,12 @@
           </VerticalMenu-item>
         </template>
 
-        <VerticalMenu-item
-          :route="{name: 'submission-list', query: {problemID: this.problemID, contestID: this.contestID}}">
+        <VerticalMenu-item v-if="contestRuleType !=='OI'" :route="submissionRoute">
           <Icon type="navicon-round"></Icon>
           Submissions
         </VerticalMenu-item>
 
         <template v-if="this.contestID">
-
           <VerticalMenu-item :route="{name: 'contest-rank', params: {contestID: contestID}}">
             <Icon type="stats-bars"></Icon>
             Ranklist
@@ -120,7 +118,7 @@
         </ul>
       </Card>
 
-      <Card id="pieChart" :padding="0">
+      <Card id="pieChart" :padding="0" v-if="contestRuleType !== 'OI'">
         <div slot="title">
           <Icon type="ios-analytics"></Icon>
           <span class="card-title">Statistic</span>
@@ -144,11 +142,13 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+  import { types } from '@/store'
   import CodeMirror from '@/components/CodeMirror'
   import api from '@/api'
-  import {JUDGE_STATUS} from '@/utils/consts'
+  import { JUDGE_STATUS } from '@/utils/consts'
 
-  import {pie, largePie} from './chartData'
+  import { pie, largePie } from './chartData'
 
   export default {
     name: 'Problem',
@@ -187,6 +187,7 @@
       }
     },
     mounted () {
+      this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: false})
       this.init()
     },
     methods: {
@@ -242,6 +243,22 @@
       onChangeLang (newLang) {
         this.language = newLang
       },
+      checkSubmissionStatus () {
+        this.refreshStatus = setInterval(() => {
+          let id = this.submissionId
+          api.getSubmission(id).then(res => {
+            this.result = res.data.data
+            if (Object.keys(res.data.data.statistic_info).length !== 0) {
+              this.submitting = false
+              clearInterval(this.refreshStatus)
+              this.init()
+            }
+          }, res => {
+            this.submitting = false
+            clearInterval(this.refreshStatus)
+          })
+        }, 1000)
+      },
       submitCode () {
         if (this.code.trim() === '') {
           this.$error('Code can not be empty')
@@ -260,20 +277,12 @@
         api.submitCode(data).then(res => {
           this.submissionId = res.data.data.submission_id
           // 定时检查状态
-          this.refreshStatus = setInterval(() => {
-            let id = this.submissionId
-            api.getSubmission(id).then(res => {
-              this.result = res.data.data
-              if (Object.keys(res.data.data.statistic_info).length !== 0) {
-                this.submitting = false
-                clearInterval(this.refreshStatus)
-                this.init()
-              }
-            }, res => {
-              this.submitting = false
-              clearInterval(this.refreshStatus)
-            })
-          }, 1000)
+          if (this.contestRuleType === 'OI') {
+            this.submitting = false
+            this.$success('Submit code successfully')
+          } else {
+            this.checkSubmissionStatus()
+          }
         }, res => {
           this.submitting = false
           this.statusVisible = false
@@ -281,22 +290,31 @@
       }
     },
     computed: {
+      ...mapGetters({
+        'submitDisabled': 'problemSubmitDisabled',
+        'contestRuleType': 'contestRuleType'
+      }),
+      contest () {
+        return this.$store.state.contest.contest
+      },
       submissionStatus () {
         return {
           text: JUDGE_STATUS[this.result.result]['name'],
           color: JUDGE_STATUS[this.result.result]['color']
         }
       },
-      submitDisabled () {
-        return this.$store.getters.problemSubmitDisabled
-      },
-      contest () {
-        return this.$store.state.contest.contest
+      submissionRoute () {
+        if (this.contestID) {
+          return {name: 'contest-submission-list', query: {problemID: this.problemID}}
+        } else {
+          return {name: 'submission-list', query: {problemID: this.problemID}}
+        }
       }
     },
     // 防止切换组件后仍然不断请求
     beforeDestroy () {
       clearInterval(this.refreshStatus)
+      this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: true})
     },
     watch: {
       '$route' () {

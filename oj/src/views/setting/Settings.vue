@@ -65,7 +65,7 @@
         .avatar-container {
           &:hover {
             .avatar-mask {
-              opacity: .4;
+              opacity: .5;
             }
           }
           position: relative;

@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
-      <div class="logo"><span>{{website.name}}</span></div>
+      <div class="logo"><span>{{website.website_name}}</span></div>
       <Menu-item name="/test">
         <Icon type="home"></Icon>
         Home
@@ -63,24 +63,22 @@
         </Dropdown>
       </template>
     </Menu>
-    <LoginOrRegister></LoginOrRegister>
+    <keep-alive>
+      <component :is="modalStatus.mode"></component>
+    </keep-alive>
 
   </div>
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import LoginOrRegister from '@/views/user/LoginOrRegister'
+  import { mapGetters, mapActions } from 'vuex'
+  import login from '@/views/user/Login'
+  import register from '@/views/user/Register'
 
   export default {
     components: {
-      LoginOrRegister
-    },
-    data () {
-      return {
-        modalMode: 'login',
-        modalVisible: false
-      }
+      login,
+      register
     },
     mounted () {
       this.getProfile()
@@ -100,7 +98,7 @@
       }
     },
     computed: {
-      ...mapGetters(['website', 'user', 'isAuthenticated']),
+      ...mapGetters(['website', 'modalStatus', 'user', 'isAuthenticated']),
       // 跟随路由变化
       activeMenu () {
         return '/' + this.$route.path.split('/')[1]
@@ -112,7 +110,7 @@
 <style lang="less" scoped>
   #header {
     position: fixed;
-    overflow: hidden;
+    /*overflow: hidden;*/
     top: 0;
     left: 0;
     height: 60px;
@@ -125,7 +123,7 @@
     }
 
     .logo {
-      margin-left: 5%;
+      margin-left: 2%;
       margin-right: 2%;
       font-size: 20px;
       float: left;

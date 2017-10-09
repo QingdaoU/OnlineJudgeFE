@@ -4,7 +4,7 @@
     <div class="content-app">
       <router-view></router-view>
       <div class="footer">
-        {{website.footer}} Build Version: {{ version }}
+        {{website.website_footer}} Build Version: {{ version }}
       </div>
     </div>
   </div>

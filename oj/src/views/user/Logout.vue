@@ -7,7 +7,6 @@
   export default {
     mounted () {
       api.logout().then(res => {
-        this.$success('logout succeeded')
         this.$store.dispatch('clearProfile')
         this.$router.replace({
           path: '/'

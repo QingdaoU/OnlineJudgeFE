@@ -52,7 +52,7 @@
       </div>
     </template>
     <Modal v-model="uploadModalVisible"
-           title="upload the avatar">
+           title="Upload the avatar">
       <div class="upload-modal">
         <p class="notice">Your avatar will be set to:</p>
         <img :src="uploadImgSrc"/>

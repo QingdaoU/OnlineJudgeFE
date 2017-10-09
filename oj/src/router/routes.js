@@ -65,9 +65,19 @@ export default [
     component: ContestDetails,
     children: [
       {
+        name: 'contest-submission-list',
+        path: 'submissions',
+        component: () => import('@/views/submission/SubmissionList.vue')
+      },
+      {
         name: 'contest-problem-list',
         path: 'problems',
         component: ContestProblemList
+      },
+      {
+        name: 'contest-problem-details',
+        path: 'problem/:problemID/',
+        component: () => import('@/views/problem/Problem.vue')
       },
       {
         name: 'contest-announcement-list',
@@ -80,11 +90,6 @@ export default [
         component: ContestRank
       }
     ]
-  },
-  {
-    name: 'contest-problem-details',
-    path: '/contest/:contestID/problem/:problemID',
-    component: () => import('@/views/problem/Problem.vue')
   },
   {
     name: 'acm-rank',

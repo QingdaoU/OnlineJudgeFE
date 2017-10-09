@@ -13,8 +13,12 @@ const state = {
 }
 
 const getters = {
+  // contest 是否加载完成
+  contestLoaded: (state) => {
+    return !!state.contest.status
+  },
   contestStatus: (state, getters) => {
-    if (!state.contest.status) return CONTEST_STATUS_REVERSE.NOT_START
+    if (!getters.contestLoaded) return null
     let startTime = Date.parse(state.contest.start_time)
     let endTime = Date.parse(state.contest.end_time)
     let now = state.now
@@ -27,12 +31,18 @@ const getters = {
       return CONTEST_STATUS_REVERSE.UNDERWAY
     }
   },
+  contestRuleType: (state) => {
+    return state.contest.rule_type || null
+  },
   contestMenuDisabled: (state, getters) => {
     return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START &&
       state.contest.created_by.id !== getters.user.id
   },
   problemSubmitDisabled: (state, getters) => {
-    return getters.contestStatus !== CONTEST_STATUS_REVERSE.UNDERWAY &&
+    if (getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
+      return true
+    }
+    return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START &&
       state.contest.created_by.id !== getters.user.id
   },
   contestStartTime: (state) => {
@@ -48,7 +58,7 @@ const getters = {
       if (duration.weeks() > 0) {
         return 'Start At ' + duration.humanize()
       }
-      let texts = [-duration.hours(), -duration.minutes(), -duration.seconds()]
+      let texts = [duration.hours(), duration.minutes(), duration.seconds()]
       return '-' + texts.join(':')
     } else if (getters.contestStatus === CONTEST_STATUS_REVERSE.UNDERWAY) {
       let duration = moment.duration(getters.contestEndTime.diff(state.now, 'seconds'), 'seconds')
@@ -69,6 +79,9 @@ const mutations = {
   },
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
+  },
+  [types.CLEAR_CONTEST] (state) {
+    state.contest = {created_by: {}}
   },
   [types.NOW] (state, payload) {
     state.now = payload.now

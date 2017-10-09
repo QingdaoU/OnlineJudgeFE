@@ -1,6 +1,11 @@
 import api from '@/api'
 
 export default {
+  data () {
+    return {
+      captchaSrc: ''
+    }
+  },
   methods: {
     validateForm (formName) {
       return new Promise((resolve, reject) => {
