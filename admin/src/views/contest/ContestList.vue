@@ -88,7 +88,7 @@
 
   export default {
     name: 'ContestList',
-    data() {
+    data () {
       return {
         pageSize: 5,
         total: 0,
@@ -98,16 +98,16 @@
         currentPage: 1
       }
     },
-    mounted() {
+    mounted () {
       this.getContestList(this.currentPage)
     },
     methods: {
       // 切换页码回调
-      currentChange(page) {
+      currentChange (page) {
         this.currentPage = page
         this.getContestList(page)
       },
-      getContestList(page) {
+      getContestList (page) {
         this.loading = true
         api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loading = false
@@ -117,18 +117,18 @@
           this.loading = false
         })
       },
-      goEdit(contestId) {
+      goEdit (contestId) {
         this.$router.push({name: 'edit-contest', params: {contestId}})
       },
-      goContestAnnouncement(contestId) {
+      goContestAnnouncement (contestId) {
         this.$router.push({name: 'contest-announcement', params: {contestId}})
       },
-      goContestProblemList(contestId) {
+      goContestProblemList (contestId) {
         this.$router.push({name: 'contest-problem-list', params: {contestId}})
       }
     },
     watch: {
-      'keyword'() {
+      'keyword' () {
         this.currentChange(1)
       }
     }

@@ -131,7 +131,7 @@
 
   export default {
     name: 'User',
-    data() {
+    data () {
       return {
         // 一页显示的用户数
         pageSize: 5,
@@ -151,17 +151,17 @@
         currentPage: 0
       }
     },
-    mounted() {
+    mounted () {
       this.getUserList(1)
     },
     methods: {
       // 切换页码回调
-      currentChange(page) {
+      currentChange (page) {
         this.currentPage = page
         this.getUserList(page)
       },
       // 提交修改用户的信息
-      saveUser() {
+      saveUser () {
         api.editUser(this.user).then(res => {
           // 更新列表
           this.getUserList(this.currentPage)
@@ -171,7 +171,7 @@
         })
       },
       // 打开用户对话框
-      openUserDialog(id) {
+      openUserDialog (id) {
         this.showUserDialog = true
         api.getUser(id).then(res => {
           this.user = res.data.data
@@ -179,7 +179,7 @@
         })
       },
       // 获取用户列表
-      getUserList(page) {
+      getUserList (page) {
         this.loading = true
         api.getUserList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loading = false
@@ -191,10 +191,10 @@
       }
     },
     watch: {
-      'keyword'() {
+      'keyword' () {
         this.currentChange(1)
       },
-      'user.admin_type'() {
+      'user.admin_type' () {
         if (this.user.admin_type === 'Super Admin') {
           this.user.problem_permission = 'All'
         } else if (this.user.admin_type === 'Regular User') {

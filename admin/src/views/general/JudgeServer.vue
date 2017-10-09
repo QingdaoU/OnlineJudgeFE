@@ -71,27 +71,27 @@
 
   export default {
     name: 'JudgeServer',
-    data() {
+    data () {
       return {
         servers: [],
         token: '',
         intervalId: -1
       }
     },
-    mounted() {
+    mounted () {
       this.refreshJudgeServerList()
       this.intervalId = setInterval(() => {
         this.refreshJudgeServerList()
       }, 5000)
     },
     methods: {
-      refreshJudgeServerList() {
+      refreshJudgeServerList () {
         api.getJudgeServer().then(res => {
           this.servers = res.data.data.servers
           this.token = res.data.data.token
         })
       },
-      deleteJudgeServer(hostname) {
+      deleteJudgeServer (hostname) {
         this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
@@ -104,7 +104,7 @@
         })
       }
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave (to, from, next) {
       clearInterval(this.intervalId)
       next()
     }

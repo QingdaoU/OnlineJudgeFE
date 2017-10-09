@@ -100,7 +100,7 @@
     components: {
       Simditor
     },
-    data() {
+    data () {
       return {
         // 显示编辑公告对话框
         showEditAnnouncementDialog: false,
@@ -128,11 +128,11 @@
     },
     methods: {
       // 切换页码回调
-      currentChange(page) {
+      currentChange (page) {
         this.currentPage = page
         this.getAnnouncementList((page - 1) * this.pageSize, this.pageSize)
       },
-      getAnnouncementList(page) {
+      getAnnouncementList (page) {
         this.loading = true
         api.getAnnouncementList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.loading = false
@@ -143,7 +143,7 @@
         })
       },
       // 打开编辑对话框的回调
-      onOpenEditDialog() {
+      onOpenEditDialog () {
         // todo 优化
         // 暂时解决 文本编辑器显示异常bug
         setTimeout(() => {
@@ -157,7 +157,7 @@
         }, 0)
       },
       // 提交编辑
-      saveAnnouncement() {
+      saveAnnouncement () {
         if (this.currentAnnouncementId) {
           api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
             this.showEditAnnouncementDialog = false
@@ -173,7 +173,7 @@
         }
       },
       // 删除公告
-      deleteAnnouncement(announcementId) {
+      deleteAnnouncement (announcementId) {
         this.$confirm('Are you sure you want to delete this announcement?', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
@@ -186,7 +186,7 @@
         }).catch(() => {
         })
       },
-      openAnnouncementDialog(id) {
+      openAnnouncementDialog (id) {
         this.showEditAnnouncementDialog = true
         if (id !== null) {
           this.currentAnnouncementId = id
@@ -206,7 +206,7 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       this.getAnnouncementList(1)
     }
   }

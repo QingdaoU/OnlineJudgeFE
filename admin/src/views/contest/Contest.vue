@@ -76,7 +76,7 @@
     components: {
       Simditor
     },
-    data() {
+    data () {
       return {
         title: 'Create Contest',
         disableRuleType: false,
@@ -93,7 +93,7 @@
       }
     },
     methods: {
-      saveContest() {
+      saveContest () {
         let funcName = this.$route.name === 'edit-contest' ? 'editContest' : 'createContest'
         api[funcName](this.contest).then(res => {
           this.$router.push({name: 'contest-list', query: {refresh: 'true'}})
@@ -101,7 +101,7 @@
         })
       }
     },
-    mounted() {
+    mounted () {
       if (this.$route.name === 'edit-contest') {
         this.title = 'Edit Contest'
         this.disableRuleType = true
