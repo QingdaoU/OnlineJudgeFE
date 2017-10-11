@@ -38,12 +38,13 @@ const getters = {
     return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START &&
       state.contest.created_by.id !== getters.user.id
   },
-  problemSubmitDisabled: (state, getters) => {
+  problemSubmitDisabled: (state, getters, _, rootGetters) => {
     if (getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
       return true
+    } else if (getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START) {
+      return state.contest.created_by.id !== getters.user.id
     }
-    return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START &&
-      state.contest.created_by.id !== getters.user.id
+    return !rootGetters.isAuthenticated
   },
   contestStartTime: (state) => {
     return moment(state.contest.start_time)

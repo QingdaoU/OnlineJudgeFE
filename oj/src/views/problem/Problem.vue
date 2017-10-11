@@ -257,7 +257,7 @@
             this.submitting = false
             clearInterval(this.refreshStatus)
           })
-        }, 1000)
+        }, 2000)
       },
       submitCode () {
         if (this.code.trim() === '') {

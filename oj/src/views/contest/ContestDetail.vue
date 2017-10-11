@@ -149,6 +149,9 @@
 </script>
 
 <style scoped lang="less">
+  pre {
+    display: inline-block;
+  }
   #countdown {
     font-size: 16px;
   }

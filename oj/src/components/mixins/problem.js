@@ -11,14 +11,15 @@ export default {
       return utils.getACRate(ACCount, TotalCount)
     },
     addStatusColumn (dataProblems) {
-      // 只在有做题记录时才添加column
+      // 已添加过直接返回
       if (this.statusColumn) return
-      let isAdd = dataProblems.some((item, index) => {
+      // 只在有做题记录时才添加column
+      let needAdd = dataProblems.some((item, index) => {
         if (item.my_status !== null && item.my_status !== undefined) {
           return true
         }
       })
-      if (!isAdd) {
+      if (!needAdd) {
         return
       }
       this.problemTableColumns.splice(0, 0, {

@@ -79,11 +79,13 @@
       getSolvedProblems () {
         let ACMProblems = this.profile.acm_problems_status.problems || {}
         // todo oi problems
-        this.problems = Object.keys(ACMProblems).filter(problem => {
-          if (ACMProblems[problem] === 0) {
-            return true
+        let problems = []
+        Object.keys(ACMProblems).forEach(problemID => {
+          if (ACMProblems[problemID]['status'] === 0) {
+            problems.push(ACMProblems[problemID]['_id'])
           }
         })
+        this.problems = problems
       },
       goProblem (problemID) {
         this.$router.push({name: 'problem-details', params: {problemID: problemID}})
