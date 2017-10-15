@@ -4,25 +4,37 @@
     <Alert :type="type" showIcon>
       <span class="title">{{statusName}}</span>
       <div slot="desc" class="content">
-        <template v-if="data.result == -2">
-          <pre>{{data.statistic_info.err_info}}</pre>
+        <template v-if="submission.result == -2">
+          <pre>{{submission.statistic_info.err_info}}</pre>
         </template>
         <template v-else>
-          <span>Time: {{data.statistic_info.time_cost | submissionTime}}</span>
-          <span>Memory: {{data.statistic_info.memory_cost | submissionMemory}}</span>
-          <span>Lang: {{data.language}}</span>
+          <span>Time: {{submission.statistic_info.time_cost | submissionTime}}</span>
+          <span>Memory: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
+          <span>Lang: {{submission.language}}</span>
         </template>
       </div>
     </Alert>
-</Col>
+    </Col>
 
     <!-- OI模式后台会返info -->
-    <Col v-if="data.info && data.result != -2" :span="20">
-    <Table stripe :disabled-hover="true" :columns="columns" :data="data.info.data"></Table>
+    <Col v-if="submission.info && submission.result != -2" :span="20">
+    <Table stripe :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
     <Col :span="20">
-    <Highlight :code="data.code" :language="data.language" :border-color="color"></Highlight>
+    <Highlight :code="submission.code" :language="submission.language" :border-color="color"></Highlight>
+    </Col>
+    <Col v-if="submission.can_unshare" :span="20">
+    <div id="share-btn">
+      <Button v-if="submission.shared"
+              type="warning" size="large" @click="shareSubmission(false)">
+        UnShare
+      </Button>
+      <Button v-else
+              type="primary" size="large" @click="shareSubmission(true)">
+        Share
+      </Button>
+    </div>
     </Col>
   </Row>
 
@@ -30,7 +42,7 @@
 
 <script>
   import api from '@/api'
-  import {JUDGE_STATUS} from '@/utils/consts'
+  import { JUDGE_STATUS } from '@/utils/consts'
   import utils from '@/utils/utils'
   import Highlight from '@/components/Highlight'
 
@@ -73,7 +85,7 @@
             }
           }
         ],
-        data: {
+        submission: {
           result: '0',
           code: '',
           info: {
@@ -86,24 +98,33 @@
         }
       }
     },
-    beforeRouteEnter (to, from, next) {
-      api.getSubmission(to.params.id).then((res) => {
-        next(vm => {
-          vm.data = res.data.data
+    mounted () {
+      this.getSubmission()
+    },
+    methods: {
+      getSubmission () {
+        api.getSubmission(this.$route.params.id).then(res => {
+          this.submission = res.data.data
+        }, () => {
         })
-      }, _ => {
-        next()
-      })
+      },
+      shareSubmission (shared) {
+        let data = {id: this.submission.id, shared: shared}
+        api.updateSubmission(data).then(res => {
+          this.getSubmission()
+        }, () => {
+        })
+      }
     },
     computed: {
       type () {
-        return JUDGE_STATUS[this.data.result].type
+        return JUDGE_STATUS[this.submission.result].type
       },
       statusName () {
-        return JUDGE_STATUS[this.data.result].name
+        return JUDGE_STATUS[this.submission.result].name
       },
       color () {
-        return JUDGE_STATUS[this.data.result].color
+        return JUDGE_STATUS[this.submission.result].color
       }
     }
   }
@@ -121,5 +142,11 @@
         margin-right: 10px;
       }
     }
+  }
+
+  #share-btn {
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
   }
 </style>

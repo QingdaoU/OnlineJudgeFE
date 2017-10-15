@@ -78,14 +78,18 @@
       },
       getSolvedProblems () {
         let ACMProblems = this.profile.acm_problems_status.problems || {}
+        let OIProblems = this.profile.oi_problems_status.problems || {}
         // todo oi problems
-        let problems = []
-        Object.keys(ACMProblems).forEach(problemID => {
-          if (ACMProblems[problemID]['status'] === 0) {
-            problems.push(ACMProblems[problemID]['_id'])
-          }
-        })
-        this.problems = problems
+        let ACProblems = []
+        for (let problems of [ACMProblems, OIProblems]) {
+          Object.keys(problems).forEach(problemID => {
+            if (problems[problemID]['status'] === 0) {
+              ACProblems.push(problems[problemID]['_id'])
+            }
+          })
+        }
+        ACProblems.sort()
+        this.problems = ACProblems
       },
       goProblem (problemID) {
         this.$router.push({name: 'problem-details', params: {problemID: problemID}})

@@ -198,6 +198,11 @@ export default {
       }
     })
   },
+  updateSubmission (data) {
+    return ajax('submission', 'put', {
+      data
+    })
+  },
   getUserRank (offset, limit, rule = 'acm') {
     let params = {
       offset,

@@ -49,6 +49,10 @@
               <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
             </a>
           </div>
+          <div v-else-if="problem.my_status === 0">
+            <Alert type="success" show-icon>You have solved the problem</Alert>
+          </div>
+
           <div class="status" v-if="isSubmitDisabled">
             <Alert type="warning" show-icon>Contest have ended</Alert>
           </div>
@@ -173,6 +177,7 @@
           title: '',
           description: '',
           hint: '',
+          my_status: '',
           created_by: {
             username: ''
           }
