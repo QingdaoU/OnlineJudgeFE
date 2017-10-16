@@ -145,7 +145,6 @@
         let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getUserRank(offset, this.limit, 'oi').then(res => {
-          console.log(res.data.data)
           this.initData(res)
           bar.hideLoading()
         })

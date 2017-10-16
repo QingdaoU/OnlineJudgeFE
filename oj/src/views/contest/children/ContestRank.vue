@@ -3,35 +3,31 @@
     <component :is="currentView"></component>
   </div>
 </template>
+
 <script>
+  import { mapGetters } from 'vuex'
   import ACMContestRank from './ACMContestRank.vue'
+  import OIContestRank from './OIContestRank.vue'
+
+  const NullComponent = {
+    name: 'null-component',
+    template: '<div></div>'
+  }
 
   export default {
     name: 'contest-rank',
     components: {
-      ACMContestRank
-    },
-    data () {
-      return {
-        currentView: 'ACMContestRank'
-      }
-    },
-    methods: {
-      switchView () {
-        this.currentView = this.contest.rule_type === 'ACM' ? 'ACMContestRank' : 'ACMContestRank'
-      }
-    },
-    mounted () {
-      this.switchView()
+      ACMContestRank,
+      OIContestRank,
+      NullComponent
     },
     computed: {
-      contest () {
-        return this.$store.state.contest.contest
-      }
-    },
-    watch: {
-      '$route' () {
-        this.switchView()
+      ...mapGetters(['contestRuleType']),
+      currentView () {
+        if (this.contestRuleType === null) {
+          return 'NullComponent'
+        }
+        return this.contestRuleType === 'ACM' ? 'ACMContestRank' : 'OIContestRank'
       }
     }
   }
