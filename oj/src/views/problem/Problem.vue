@@ -40,7 +40,7 @@
       </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
-        <CodeMirror :value="code" @changeCode="onChangeCode" @changeLang="onChangeLang"></CodeMirror>
+        <CodeMirror :value.sync="code" @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
           <div class="status" v-if="statusVisible && contestRuleType !== 'OI'">
@@ -240,9 +240,6 @@
       },
       handleRoute (route) {
         this.$router.push(route)
-      },
-      onChangeCode (newCode) {
-        this.code = newCode
       },
       onChangeLang (newLang) {
         this.language = newLang

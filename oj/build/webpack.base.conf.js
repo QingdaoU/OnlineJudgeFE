@@ -1,5 +1,6 @@
 var path = require('path')
 var utils = require('./utils')
+var webpack = require('webpack')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
@@ -19,6 +20,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
+    modules: ['node_modules'],
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
@@ -45,7 +47,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: 'babel-loader?cacheDirectory',
+        exclude: /node_modules/,
         include: [resolve('src'), resolve('test')]
       },
       {
@@ -65,5 +68,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/)
+  ]
 }

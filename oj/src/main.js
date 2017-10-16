@@ -2,13 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import iView from 'iview'
 import locale from 'iview/src/locale/lang/en-US'
-import VueHighlightJS from 'vue-highlightjs'
 
+import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import 'highlight.js/styles/atom-one-light.css'
-import './styles/index.less'
 
 import Panel from '~/Panel.vue'
 import VerticalMenu from '~/verticalMenu/verticalMenu.vue'
@@ -27,6 +24,17 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/markPoint'
 
+import hljs from 'highlight.js/lib/highlight'
+import cpp from 'highlight.js/lib/languages/cpp'
+import python from 'highlight.js/lib/languages/python'
+import java from 'highlight.js/lib/languages/java'
+import 'highlight.js/styles/atom-one-light.css'
+import './styles/index.less'
+
+hljs.registerLanguage('cpp', cpp)
+hljs.registerLanguage('java', java)
+hljs.registerLanguage('python', python)
+
 // add global EventBus
 const EventBus = new Vue()
 Object.defineProperties(Vue.prototype, {
@@ -42,8 +50,34 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+// highlight.js
+Vue.directive('highlight', {
+  deep: true,
+  bind: function (el, binding) {
+    // on first bind, highlight all targets
+    let targets = el.querySelectorAll('code')
+    targets.forEach((target) => {
+      // if a value is directly assigned to the directive, use this
+      // instead of the element content.
+      if (binding.value) {
+        target.textContent = binding.value
+      }
+      hljs.highlightBlock(target)
+    })
+  },
+  componentUpdated: function (el, binding) {
+    // after an update, re-fill the content and then highlight
+    let targets = el.querySelectorAll('code')
+    targets.forEach((target) => {
+      if (binding.value) {
+        target.textContent = binding.value
+        hljs.highlightBlock(target)
+      }
+    })
+  }
+})
+
 Vue.use(iView, {locale})
-Vue.use(VueHighlightJS)
 
 Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)
