@@ -2,7 +2,7 @@
 import Test from '../views/test'
 import {
   AccountSetting,
-  ACMRank,
+  ACMRank, OIRank,
   ApplyResetPassword,
   ContestAnnouncement,
   ContestDetails,
@@ -95,6 +95,11 @@ export default [
     name: 'acm-rank',
     path: '/acm-rank',
     component: ACMRank
+  },
+  {
+    name: 'oi-rank',
+    path: '/oi-rank',
+    component: OIRank
   },
   {
     name: 'home',

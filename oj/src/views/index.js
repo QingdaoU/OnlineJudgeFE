@@ -1,5 +1,6 @@
 import ProblemList from './problem/ProblemList.vue'
 import ACMRank from './rank/ACMRank.vue'
+import OIRank from './rank/OIRank.vue'
 import Logout from './user/Logout.vue'
 import ApplyResetPassword from './user/ApplyResetPassword.vue'
 import ResetPassword from './user/ResetPassword.vue'
@@ -7,7 +8,7 @@ import Home from './user/Home.vue'
 
 export {
   Logout, ResetPassword, ApplyResetPassword, Home,
-  ProblemList, ACMRank
+  ProblemList, ACMRank, OIRank
 }
 export * from './contest'
 export * from './setting'
