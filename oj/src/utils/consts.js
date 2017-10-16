@@ -90,9 +90,13 @@ export const CONTEST_STATUS = {
   }
 }
 
+export const USER_TYPE = {
+  REGULAR_USER: 'Regular User',
+  ADMIN: 'Admin',
+  SUPER_ADMIN: 'Super Admin'
+}
+
 export const STORAGE_KEY = {
-  AUTHED: 'authed',
-  contest: 'contest_',
-  contestProblems: 'contest_problems_'
+  AUTHED: 'authed'
 }
 

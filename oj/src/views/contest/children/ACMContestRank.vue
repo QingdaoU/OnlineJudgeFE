@@ -4,7 +4,7 @@
     <div slot="extra">
       <Poptip trigger="hover" placement="left-start">
         <Icon type="android-settings" size="20"></Icon>
-        <div slot="content" id="switchs">
+        <div slot="content" id="switches">
           <p>
             <span>Menu</span>
             <i-switch v-model="showMenu"></i-switch>
@@ -12,7 +12,7 @@
             <i-switch v-model="showChart"></i-switch>
           </p>
           <p style="margin-top: 10px">
-            <span>Auto Refresh(30s)</span>
+            <span>Auto Refresh(10s)</span>
             <i-switch @on-change="handleAutoRefresh"></i-switch>
           </p>
         </div>
@@ -114,7 +114,7 @@
             feature: {
               saveAsImage: {show: true, title: 'save as image'}
             },
-            right: '10%'
+            right: '5%'
           },
           tooltip: {
             trigger: 'axis',
@@ -162,11 +162,15 @@
     },
     methods: {
       ...mapActions(['getContestProblems']),
-      getContestRankData (page = 1) {
+      getContestRankData (page = 1, refresh = false) {
         let offset = (page - 1) * this.limit
-        this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
+        if (this.showChart && !refresh) {
+          this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
+        }
         api.getContestRank(offset, this.limit, this.$route.params.contestID).then(res => {
-          this.$refs.chart.hideLoading()
+          if (this.showChart && !refresh) {
+            this.$refs.chart.hideLoading()
+          }
           this.total = res.data.data.total
           if (page === 1) {
             this.applyToChart(res.data.data.results.slice(0, 10))
@@ -283,7 +287,9 @@
       },
       handleAutoRefresh (status) {
         if (status === true) {
-          this.refreshFunc = setInterval(this.getContestRankData, 30000)
+          this.refreshFunc = setInterval(() => {
+            this.getContestRankData(1, true)
+          }, 10000)
         } else {
           clearInterval(this.refreshFunc)
         }
@@ -308,7 +314,7 @@
         }
       }
     },
-    beforeDestory () {
+    beforeDestroy () {
       clearInterval(this.refreshFunc)
     }
   }
@@ -320,11 +326,9 @@
     width: 95%;
   }
 
-  .pannel-extra {
-    #switchs {
-      span {
-        margin-left: 8px;
-      }
+  #switches {
+    span {
+      margin-left: 5px;
     }
   }
 </style>

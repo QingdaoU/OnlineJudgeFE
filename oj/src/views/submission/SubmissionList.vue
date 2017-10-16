@@ -197,8 +197,9 @@
           result: this.result,
           page: this.page
         }
+        let routeName = query.contestID ? 'contest-submission-list' : 'submission-list'
         this.$router.push({
-          name: 'submission-list',
+          name: routeName,
           query: utils.filterEmptyValue(query)
         })
       },

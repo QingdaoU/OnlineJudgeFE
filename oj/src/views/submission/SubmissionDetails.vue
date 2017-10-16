@@ -11,6 +11,7 @@
           <span>Time: {{submission.statistic_info.time_cost | submissionTime}}</span>
           <span>Memory: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
           <span>Lang: {{submission.language}}</span>
+          <span>Author: {{submission.username}}</span>
         </template>
       </div>
     </Alert>

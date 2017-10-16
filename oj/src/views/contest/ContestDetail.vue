@@ -38,14 +38,15 @@
           Announcements
         </VerticalMenu-item>
 
-        <VerticalMenu-item v-if="contestRuleType !== 'OI'"
+        <VerticalMenu-item v-if="OIContestRealTimePermission"
                            :disabled="contestMenuDisabled"
                            :route="{name: 'contest-submission-list'}">
           <Icon type="navicon-round"></Icon>
           Submissions
         </VerticalMenu-item>
 
-        <VerticalMenu-item :disabled="contestMenuDisabled"
+        <VerticalMenu-item v-if="OIContestRealTimePermission"
+                           :disabled="contestMenuDisabled"
                            :route="{name: 'contest-rank', params: {contestID: contestID}}">
           <Icon type="stats-bars"></Icon>
           Ranklist
@@ -128,7 +129,7 @@
         contest: state => state.contest.contest,
         contest_table: state => [state.contest.contest]
       }),
-      ...mapGetters(['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown']),
+      ...mapGetters(['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown', 'OIContestRealTimePermission']),
       countdownColor () {
         if (this.contestStatus) {
           return CONTEST_STATUS[this.contestStatus].color

@@ -53,12 +53,12 @@
             <Alert type="success" show-icon>You have solved the problem</Alert>
           </div>
 
-          <div class="status" v-if="isSubmitDisabled">
+          <div class="status" v-if="problemSubmitDisabled">
             <Alert type="warning" show-icon>Contest have ended</Alert>
           </div>
           </Col>
           <Col :span="10">
-          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="submitDisabled"
+          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="problemSubmitDisabled"
                   class="fl-right">
             <span v-if="!submitting">Submit</span>
             <span v-else>Submitting</span>
@@ -82,13 +82,14 @@
           </VerticalMenu-item>
         </template>
 
-        <VerticalMenu-item v-if="contestRuleType !=='OI'" :route="submissionRoute">
+        <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission" :route="submissionRoute">
           <Icon type="navicon-round"></Icon>
           Submissions
         </VerticalMenu-item>
 
         <template v-if="this.contestID">
-          <VerticalMenu-item :route="{name: 'contest-rank', params: {contestID: contestID}}">
+          <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"
+                             :route="{name: 'contest-rank', params: {contestID: contestID}}">
             <Icon type="stats-bars"></Icon>
             Ranklist
           </VerticalMenu-item>
@@ -122,7 +123,7 @@
         </ul>
       </Card>
 
-      <Card id="pieChart" :padding="0" v-if="contestRuleType !== 'OI'">
+      <Card id="pieChart" :padding="0" v-if="!this.contestID || OIContestRealTimePermission">
         <div slot="title">
           <Icon type="ios-analytics"></Icon>
           <span class="card-title">Statistic</span>
@@ -169,7 +170,6 @@
         code: '',
         language: 'C++',
         submissionId: '',
-        isSubmitDisabled: false,
         result: {
           result: 9
         },
@@ -220,7 +220,6 @@
         let data2 = JSON.parse(JSON.stringify(data))
         data2[1].selected = true
         this.largePie.series[1].data = data2
-
         // 根据结果设置legend,没有提交过的legend不显示
         let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
         if (legend.length === 0) {
@@ -295,10 +294,7 @@
       }
     },
     computed: {
-      ...mapGetters({
-        'submitDisabled': 'problemSubmitDisabled',
-        'contestRuleType': 'contestRuleType'
-      }),
+      ...mapGetters(['problemSubmitDisabled', 'contestRuleType', 'OIContestRealTimePermission']),
       contest () {
         return this.$store.state.contest.contest
       },

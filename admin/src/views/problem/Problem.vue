@@ -314,7 +314,7 @@
           spj_code: '',
           test_case_id: '',
           test_case_score: [],
-          rule_type: 'ACM',
+          rule_type: 'OI',
           hint: '',
           source: ''
         }

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import types from '../types'
 import api from '@/api'
-import { CONTEST_STATUS_REVERSE } from '@/utils/consts'
+import { CONTEST_STATUS_REVERSE, USER_TYPE } from '@/utils/consts'
 
 const state = {
   now: new Date(),
@@ -34,15 +34,25 @@ const getters = {
   contestRuleType: (state) => {
     return state.contest.rule_type || null
   },
+  isContestAdmin: (state, getters, _, rootGetters) => {
+    return rootGetters.isAuthenticated &&
+      (state.contest.created_by.id === rootGetters.user.id || rootGetters.user.admin_type === USER_TYPE.SUPER_ADMIN)
+  },
   contestMenuDisabled: (state, getters) => {
     return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START &&
-      state.contest.created_by.id !== getters.user.id
+      getters.isContestAdmin
+  },
+  OIContestRealTimePermission: (state, getters, _, rootGetters) => {
+    if (getters.contestRuleType === 'ACM' || getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
+      return true
+    }
+    return state.contest.real_time === true || getters.isContestAdmin
   },
   problemSubmitDisabled: (state, getters, _, rootGetters) => {
     if (getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
       return true
     } else if (getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START) {
-      return state.contest.created_by.id !== getters.user.id
+      return getters.isContestAdmin
     }
     return !rootGetters.isAuthenticated
   },
