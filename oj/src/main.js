@@ -10,6 +10,7 @@ import 'iview/dist/styles/iview.css'
 import Panel from '~/Panel.vue'
 import VerticalMenu from '~/verticalMenu/verticalMenu.vue'
 import VerticalMenuItem from '~/verticalMenu/verticalMenu-item.vue'
+import './styles/index.less'
 
 import filters from './utils/filters.js'
 
@@ -29,7 +30,6 @@ import cpp from 'highlight.js/lib/languages/cpp'
 import python from 'highlight.js/lib/languages/python'
 import java from 'highlight.js/lib/languages/java'
 import 'highlight.js/styles/atom-one-light.css'
-import './styles/index.less'
 
 hljs.registerLanguage('cpp', cpp)
 hljs.registerLanguage('java', java)
@@ -95,4 +95,3 @@ Vue.prototype.$info = Vue.prototype.$Message.info
 Vue.prototype.$success = Vue.prototype.$Message.success
 
 new Vue(Vue.util.extend({router, store}, App)).$mount('#app')
-

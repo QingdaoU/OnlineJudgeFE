@@ -44,4 +44,3 @@ router.afterEach((to, from, next) => {
 sync(store, router)
 
 export default router
-

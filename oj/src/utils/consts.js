@@ -90,6 +90,11 @@ export const CONTEST_STATUS = {
   }
 }
 
+export const CONTEST_TYPE = {
+  ACM: 'ACM',
+  OI: 'OI'
+}
+
 export const USER_TYPE = {
   REGULAR_USER: 'Regular User',
   ADMIN: 'Admin',
@@ -99,4 +104,3 @@ export const USER_TYPE = {
 export const STORAGE_KEY = {
   AUTHED: 'authed'
 }
-

@@ -266,4 +266,3 @@ function ajax (url, method, options) {
     })
   })
 }
-

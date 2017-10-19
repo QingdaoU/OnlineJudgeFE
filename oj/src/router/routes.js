@@ -1,22 +1,14 @@
 // all routes here.
-import Test from '../views/test'
 import {
-  AccountSetting,
+  Home, Logout,
+  ProblemList, Problem,
+  SubmissionList, SubmissionDetails,
   ACMRank, OIRank,
-  ApplyResetPassword,
-  ContestAnnouncement,
-  ContestDetails,
-  ContestList,
-  ContestProblemList,
-  ContestRank,
-  Home,
-  Logout,
-  ProblemList,
-  ProfileSetting,
-  ResetPassword,
-  SecuritySetting,
-  Settings
+  ApplyResetPassword, ResetPassword
 } from '../views'
+
+import * as Contest from '@/views/contest'
+import * as Setting from '@/views/setting'
 
 export default [
   {
@@ -42,52 +34,52 @@ export default [
   {
     name: 'problem-details',
     path: '/problem/:problemID',
-    component: () => import('@/views/problem/Problem.vue')
+    component: Problem
   },
   {
     name: 'submission-list',
     path: '/status',
-    component: () => import('@/views/submission/SubmissionList.vue')
+    component: SubmissionList
   },
   {
     name: 'submission-details',
     path: '/status/:id/',
-    component: () => import('@/views/submission/SubmissionDetails.vue')
+    component: SubmissionDetails
   },
   {
     name: 'contest-list',
     path: '/contests',
-    component: ContestList
+    component: Contest.ContestList
   },
   {
     name: 'contest-details',
     path: '/contest/:contestID/',
-    component: ContestDetails,
+    component: Contest.ContestDetails,
     children: [
       {
         name: 'contest-submission-list',
         path: 'submissions',
-        component: () => import('@/views/submission/SubmissionList.vue')
+        component: SubmissionList
       },
       {
         name: 'contest-problem-list',
         path: 'problems',
-        component: ContestProblemList
+        component: Contest.ContestProblemList
       },
       {
         name: 'contest-problem-details',
         path: 'problem/:problemID/',
-        component: () => import('@/views/problem/Problem.vue')
+        component: () => Problem
       },
       {
         name: 'contest-announcement-list',
         path: 'announcements',
-        component: ContestAnnouncement
+        component: Contest.ContestAnnouncement
       },
       {
         name: 'contest-rank',
         path: 'rank',
-        component: ContestRank
+        component: Contest.ContestRank
       }
     ]
   },
@@ -109,35 +101,30 @@ export default [
   },
   {
     path: '/setting',
-    component: Settings,
+    component: Setting.Settings,
     meta: {requiresAuth: true},
     children: [
       {
         name: 'default-setting',
         path: '',
-        component: ProfileSetting
+        component: Setting.ProfileSetting
       },
       {
         name: 'profile-setting',
         path: 'profile',
-        component: ProfileSetting
+        component: Setting.ProfileSetting
       },
       {
         name: 'account-setting',
         path: 'account',
-        component: AccountSetting
+        component: Setting.AccountSetting
       },
       {
         name: 'security-setting',
         path: 'security',
-        component: SecuritySetting
+        component: Setting.SecuritySetting
       }
     ]
-  },
-  {
-    name: 'test',
-    path: '/test',
-    component: Test
   }
   // {
   //   path: '*', redirect: '/problems'

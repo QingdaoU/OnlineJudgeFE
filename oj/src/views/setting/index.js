@@ -1,6 +1,6 @@
-import Settings from './Settings.vue'
-import ProfileSetting from './children/ProfileSetting.vue'
-import SecuritySetting from './children/SecuritySetting.vue'
-import AccountSetting from './children/AccountSetting.vue'
+const Settings = () => import(/* webpackChunkName: "setting" */ './Settings.vue')
+const ProfileSetting = () => import(/* webpackChunkName: "setting" */ './children/ProfileSetting.vue')
+const SecuritySetting = () => import(/* webpackChunkName: "setting" */ './children/SecuritySetting.vue')
+const AccountSetting = () => import(/* webpackChunkName: "setting" */ './children/AccountSetting.vue')
 
 export {Settings, ProfileSetting, SecuritySetting, AccountSetting}

@@ -69,7 +69,7 @@
           // codemirror options
           tabSize: 4,
           mode: 'text/x-c++src',
-          theme: 'monokai',
+          theme: 'solarized',
           lineNumbers: true,
           line: true,
           // 代码折叠
