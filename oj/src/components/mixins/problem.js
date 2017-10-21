@@ -10,7 +10,7 @@ export default {
     getACRate (ACCount, TotalCount) {
       return utils.getACRate(ACCount, TotalCount)
     },
-    addStatusColumn (dataProblems) {
+    addStatusColumn (tableColumns, dataProblems) {
       // 已添加过直接返回
       if (this.statusColumn) return
       // 只在有做题记录时才添加column
@@ -22,7 +22,7 @@ export default {
       if (!needAdd) {
         return
       }
-      this.problemTableColumns.splice(0, 0, {
+      tableColumns.splice(0, 0, {
         width: '60',
         title: ' ',
         render: (h, params) => {

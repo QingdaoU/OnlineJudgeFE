@@ -54,8 +54,7 @@
               class="tag-btn">{{tag.name}}
       </Button>
 
-      <Button long
-              id="pick-one">
+      <Button long id="pick-one" @click="pickone">
         <Icon type="shuffle"></Icon>
         Pick one
       </Button>
@@ -66,10 +65,10 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import { mapGetters } from 'vuex'
   import api from '@/api.js'
   import utils from '@/utils/utils'
-  import {ProblemMixin} from '~/mixins'
+  import { ProblemMixin } from '~/mixins'
   import Pagination from '../../components/Pagination'
 
   export default {
@@ -104,6 +103,17 @@
                   padding: '2px 0'
                 }
               }, params.row.title)
+            }
+          },
+          {
+            title: 'Tags',
+            align: 'center',
+            render: (h, params) => {
+              let tags = []
+              params.row.tags.forEach(tag => {
+                tags.push(h('Tag', {}, tag))
+              })
+              return tags
             }
           },
           {
@@ -178,7 +188,7 @@
           this.total = res.data.data.total
           this.problemList = res.data.data.results
           if (this.isAuthenticated) {
-            this.addStatusColumn(res.data.data.results)
+            this.addStatusColumn(this.problemTableColumns, res.data.data.results)
           }
         }, res => {
           self.$Loading.error()
@@ -202,6 +212,11 @@
       },
       onReset () {
         this.$router.push({name: 'problem-list'})
+      },
+      pickone () {
+        api.pickone().then(res => {
+          this.$router.push({name: 'problem-details', params: {problemID: res.data.data}})
+        })
       }
     },
     computed: {

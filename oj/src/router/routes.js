@@ -69,7 +69,7 @@ export default [
       {
         name: 'contest-problem-details',
         path: 'problem/:problemID/',
-        component: () => Problem
+        component: Problem
       },
       {
         name: 'contest-announcement-list',

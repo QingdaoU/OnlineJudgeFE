@@ -2,14 +2,22 @@
   <div>
     <Panel>
       <div slot="title">Problems List</div>
-      <Table :data="problems" :columns="problemTableColumns" @on-row-click="goContestProblem"
-             no-data-text="No Problems Here"></Table>
+      <Table v-if="contestRuleType == 'ACM'"
+             :columns="ACMTableColumns"
+             :data="problems"
+             @on-row-click="goContestProblem"
+             no-data-text="No Problems"></Table>
+      <Table v-else
+             :data="problems"
+             :columns="OITableColumns"
+             @on-row-click="goContestProblem"
+             no-data-text="No Problems"></Table>
     </Panel>
   </div>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   import {ProblemMixin} from '~/mixins'
 
   export default {
@@ -17,11 +25,11 @@
     mixins: [ProblemMixin],
     data () {
       return {
-        problemTableColumns: [
+        ACMTableColumns: [
           {
             title: '#',
             key: '_id',
-            width: 100
+            width: 150
           },
           {
             title: 'Title',
@@ -37,6 +45,17 @@
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
           }
+        ],
+        OITableColumns: [
+          {
+            title: '#',
+            key: '_id',
+            width: 150
+          },
+          {
+            title: 'Title',
+            key: 'title'
+          }
         ]
       }
     },
@@ -47,7 +66,11 @@
       getContestProblems () {
         this.$store.dispatch('getContestProblems').then(res => {
           if (this.isAuthenticated) {
-            this.addStatusColumn(res.data.data)
+            if (this.contestRuleType === 'ACM') {
+              this.addStatusColumn(this.ACMTableColumns, res.data.data)
+            } else {
+              this.addStatusColumn(this.OITableColumns, res.data.data)
+            }
           }
         })
       },
@@ -65,9 +88,7 @@
       ...mapState({
         problems: state => state.contest.contestProblems
       }),
-      isAuthenticated () {
-        return this.$store.getters.isAuthenticated
-      }
+      ...mapGetters(['isAuthenticated', 'contestRuleType'])
     }
   }
 </script>
