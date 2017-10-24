@@ -90,8 +90,8 @@ Vue.component(Panel.name, Panel)
 Vue.prototype.$Message.config({
   duration: 2
 })
-Vue.prototype.$error = Vue.prototype.$Message.error
-Vue.prototype.$info = Vue.prototype.$Message.info
-Vue.prototype.$success = Vue.prototype.$Message.success
+Vue.prototype.$error = (s) => Vue.prototype.$Message.error(s)
+Vue.prototype.$info = (s) => Vue.prototype.$Message.info(s)
+Vue.prototype.$success = (s) => Vue.prototype.$Message.success(s)
 
 new Vue(Vue.util.extend({router, store}, App)).$mount('#app')

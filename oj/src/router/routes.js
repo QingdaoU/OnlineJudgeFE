@@ -1,6 +1,6 @@
 // all routes here.
 import {
-  Home, Logout,
+  Home, Logout, About,
   ProblemList, Problem,
   SubmissionList, SubmissionDetails,
   ACMRank, OIRank,
@@ -125,6 +125,11 @@ export default [
         component: Setting.SecuritySetting
       }
     ]
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: About
   }
   // {
   //   path: '*', redirect: '/problems'

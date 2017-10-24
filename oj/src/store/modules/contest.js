@@ -93,6 +93,7 @@ const mutations = {
   },
   [types.CLEAR_CONTEST] (state) {
     state.contest = {created_by: {}}
+    state.contestProblems = []
   },
   [types.NOW] (state, payload) {
     state.now = payload.now

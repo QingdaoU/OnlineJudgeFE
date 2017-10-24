@@ -1,6 +1,12 @@
-var merge = require('webpack-merge')
-var prodEnv = require('./prod.env')
+const merge = require('webpack-merge')
 
-module.exports = merge(prodEnv, {
-  NODE_ENV: '"development"'
-})
+let date = require('moment')().format('YYYYMMDD')
+let commit = require('child_process').execSync('git rev-parse HEAD').toString().slice(0, 5)
+let version = `"${date}-${commit}"`
+
+console.log(`current version is ${version}`)
+
+module.exports = {
+  NODE_ENV: '"development"',
+  VERSION: version
+}

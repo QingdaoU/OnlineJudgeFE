@@ -40,7 +40,7 @@
       </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
-        <CodeMirror :value.sync="code" @changeLang="onChangeLang"></CodeMirror>
+        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
           <div class="status" v-if="statusVisible && contestRuleType !== 'OI'">
@@ -53,7 +53,7 @@
             <Alert type="success" show-icon>You have solved the problem</Alert>
           </div>
 
-          <div class="status" v-if="problemSubmitDisabled">
+          <div class="status" v-if="contestEnded">
             <Alert type="warning" show-icon>Contest have ended</Alert>
           </div>
           </Col>
@@ -151,7 +151,7 @@
   import { types } from '@/store'
   import CodeMirror from '@/components/CodeMirror'
   import api from '@/api'
-  import { JUDGE_STATUS } from '@/utils/consts'
+  import { JUDGE_STATUS, CONTEST_STATUS_REVERSE } from '@/utils/consts'
 
   import { pie, largePie } from './chartData'
 
@@ -178,6 +178,7 @@
           description: '',
           hint: '',
           my_status: '',
+          languages: [],
           created_by: {
             username: ''
           }
@@ -291,9 +292,12 @@
       }
     },
     computed: {
-      ...mapGetters(['problemSubmitDisabled', 'contestRuleType', 'OIContestRealTimePermission']),
+      ...mapGetters(['problemSubmitDisabled', 'contestRuleType', 'OIContestRealTimePermission', 'contestStatus']),
       contest () {
         return this.$store.state.contest.contest
+      },
+      contestEnded () {
+        return this.contestStatus === CONTEST_STATUS_REVERSE.ENDED
       },
       submissionStatus () {
         return {

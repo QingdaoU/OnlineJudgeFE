@@ -26,6 +26,7 @@
 </template>
 <script>
   import { codemirror } from 'vue-codemirror-lite'
+  import api from '@/api'
 
   // theme
   import 'codemirror/theme/monokai.css'
@@ -64,11 +65,11 @@
     },
     data () {
       return {
-        lang: 'C++',
+        lang: 'C',
         options: {
           // codemirror options
           tabSize: 4,
-          mode: 'text/x-c++src',
+          mode: 'text/x-csrc',
           theme: 'solarized',
           lineNumbers: true,
           line: true,
@@ -81,10 +82,7 @@
           highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true}
         },
         mode: {
-          'C': 'text/x-csrc',
-          'C++': 'text/x-c++src',
-          'Java': 'text/x-java',
-          'Python2': 'text/x-python'
+          'C': 'text/x-csrc'
         },
         themes: [
           {label: 'Monokai', value: 'monokai'},
@@ -94,9 +92,19 @@
       }
     },
     mounted () {
+      this.getLanguages()
       this.editor.focus()
     },
     methods: {
+      getLanguages () {
+        api.getLanguages().then(res => {
+          let mode = {}
+          res.data.data.languages.forEach(language => {
+            mode[language.name] = language.content_type
+          })
+          this.mode = mode
+        })
+      },
       onEditorCodeChange (newCode) {
         this.$emit('update:value', newCode)
       },
