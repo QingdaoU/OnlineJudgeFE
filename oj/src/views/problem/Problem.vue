@@ -57,7 +57,16 @@
             <Alert type="warning" show-icon>Contest have ended</Alert>
           </div>
           </Col>
-          <Col :span="10">
+          <Col :span="12">
+          <template v-if="captchaRequired">
+            <div class="captcha-container">
+              <Tooltip v-if="captchaRequired" content="Click to refresh" placement="top">
+                <img :src="captchaSrc" @click="getCaptchaSrc"/>
+              </Tooltip>
+              <Input v-model="captchaCode" class="captcha-code"/>
+            </div>
+          </template>
+
           <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="problemSubmitDisabled"
                   class="fl-right">
             <span v-if="!submitting">Submit</span>
@@ -148,10 +157,11 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { types } from '@/store'
   import CodeMirror from '@/components/CodeMirror'
-  import api from '@/api'
+  import { FormMixin } from '~/mixins'
+  import { types } from '@/store'
   import { JUDGE_STATUS, CONTEST_STATUS_REVERSE } from '@/utils/consts'
+  import api from '@/api'
 
   import { pie, largePie } from './chartData'
 
@@ -160,10 +170,14 @@
     components: {
       CodeMirror
     },
+    mixins: [FormMixin],
     data () {
       return {
         statusVisible: false,
+        captchaRequired: false,
         graphVisible: false,
+        captchaCode: '',
+        captchaSrc: '',
         contestID: '',
         problemID: '',
         submitting: false,
@@ -195,6 +209,7 @@
     mounted () {
       this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: false})
       this.init()
+      this.getCaptchaSrc()
     },
     methods: {
       init () {
@@ -276,6 +291,9 @@
           code: this.code,
           contest_id: this.contestID
         }
+        if (this.captchaRequired) {
+          data.captcha = this.captchaCode
+        }
         api.submitCode(data).then(res => {
           this.submissionId = res.data.data.submission_id
           // 定时检查状态
@@ -286,6 +304,10 @@
             this.checkSubmissionStatus()
           }
         }, res => {
+          this.getCaptchaSrc()
+          if (res.data.data.startsWith('Captcha is required')) {
+            this.captchaRequired = true
+          }
           this.submitting = false
           this.statusVisible = false
         })
@@ -358,6 +380,21 @@
   #submit-code {
     margin-top: 20px;
     margin-bottom: 20px;
+    .status {
+      float: left;
+      span {
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    }
+    .captcha-container {
+      display: inline-block;
+      .captcha-code {
+        width: auto;
+        margin-top: -20px;
+        margin-left: 20px;
+      }
+    }
   }
 
   #info {
@@ -378,14 +415,6 @@
           float: right;
         }
       }
-    }
-  }
-
-  .status {
-    float: left;
-    span {
-      margin-right: 10px;
-      margin-left: 10px;
     }
   }
 
