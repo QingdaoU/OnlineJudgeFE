@@ -17,19 +17,19 @@
         <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="username" label="Userame"></el-table-column>
         <el-table-column prop="create_time" label="Create Time">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{scope.row.create_time | localtime }}
           </template>
         </el-table-column>
         <el-table-column prop="last_login" label="Last Login">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{scope.row.last_login | localtime }}
           </template>
         </el-table-column>
         <el-table-column prop="real_name" label="Real Name"></el-table-column>
         <el-table-column prop="email" label="Email"></el-table-column>
         <el-table-column prop="admin_type" label="User Type">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.admin_type }}
           </template>
         </el-table-column>

@@ -15,7 +15,7 @@
         :data="contestList"
         style="width: 100%">
         <el-table-column type="expand">
-          <template scope="props">
+          <template slot-scope="props">
             <div>
               <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
               </el-tag>
@@ -23,8 +23,8 @@
                 {{ props.row.contest_type}}
               </el-tag>
               <el-tag
-                :type="props.row.status === 'Ended' ? 'gray' : props.row.status === 'Underway' ? 'success' : 'primary'">
-                {{ props.row.status }}
+                :type="props.row.status === '-1' ? 'gray' : props.row.status === '0' ? 'success' : 'primary'">
+                {{ props.row.status | contestStatus}}
               </el-tag>
             </div>
             <p>
@@ -43,14 +43,14 @@
         <el-table-column
           prop="start_time"
           label="Start Time">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{scope.row.start_time | localtime }}
           </template>
         </el-table-column>
         <el-table-column
           prop="end_time"
           label="End Time">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{scope.row.end_time | localtime }}
           </template>
         </el-table-column>
@@ -85,6 +85,7 @@
 
 <script>
   import api from '../../api.js'
+  import {CONTEST_STATUS_REVERSE} from '../../utils/constants'
 
   export default {
     name: 'ContestList',
@@ -100,6 +101,11 @@
     },
     mounted () {
       this.getContestList(this.currentPage)
+    },
+    filters: {
+      contestStatus (value) {
+        return CONTEST_STATUS_REVERSE[value]
+      }
     },
     methods: {
       // 切换页码回调

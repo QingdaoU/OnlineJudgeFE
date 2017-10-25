@@ -1,65 +1,50 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
+import router from './router'
+import axios from 'axios'
 
-Vue.use(VueResource)
-Vue.http.options.root = '/api'
-Vue.http.options.emulateJSON = false
-
-function getCookie (name) {
-  let allCookies = document.cookie.split('; ')
-  for (let i = 0; i < allCookies.length; i++) {
-    let cookie = allCookies[i].split('=')
-    if (cookie[0] === name) {
-      return cookie[1]
-    } else {
-      return ''
-    }
-  }
-}
-
-Vue.http.interceptors.push((request, next) => {
-  request.headers.set('X-CSRFToken', getCookie('csrftoken'))
-  next()
-})
+Vue.prototype.$http = axios
+axios.defaults.baseURL = '/api'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
   // 登录
   login (username, password) {
-    return ajax('login', 'get', {
-      options: {
-        params: {
-          username,
-          password
-        }
+    return ajax('login', 'post', {
+      data: {
+        username,
+        password
       }
     })
+  },
+  logout () {
+    return ajax('logout', 'get')
+  },
+  getProfile () {
+    return ajax('profile', 'get')
   },
   // 获取公告列表
   getAnnouncementList (offset, limit) {
     return ajax('admin/announcement', 'get', {
-      options: {
-        params: {
-          paging: true,
-          offset,
-          limit
-        }
+      params: {
+        paging: true,
+        offset,
+        limit
       }
     })
   },
   // 删除公告
   deleteAnnouncement (id) {
     return ajax('admin/announcement', 'delete', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   },
   // 修改公告
   modifyAnnouncement (id, title, content, visible) {
     return ajax('admin/announcement', 'put', {
-      body: {
+      data: {
         id,
         title,
         content,
@@ -70,7 +55,7 @@ export default {
   // 添加公告
   createAnnouncement (title, content, visible) {
     return ajax('admin/announcement', 'post', {
-      body: {
+      data: {
         title,
         content,
         visible
@@ -92,17 +77,15 @@ export default {
   // 获取单个用户信息
   getUser (id) {
     return ajax('admin/user', 'get', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   },
   // 编辑用户
-  editUser (body) {
+  editUser (data) {
     return ajax('admin/user', 'put', {
-      body
+      data
     })
   },
   getLanguages () {
@@ -111,22 +94,22 @@ export default {
   getSMTPConfig () {
     return ajax('admin/smtp', 'get')
   },
-  createSMTPConfig (body) {
+  createSMTPConfig (data) {
     return ajax('admin/smtp', 'post', {
-      body
+      data
     })
   },
-  editSMTPConfig (body) {
+  editSMTPConfig (data) {
     return ajax('admin/smtp', 'put', {
-      body
+      data
     })
   },
   getWebsiteConfig () {
     return ajax('admin/website', 'get')
   },
-  editWebsiteConfig (config) {
+  editWebsiteConfig (data) {
     return ajax('admin/website', 'post', {
-      body: config
+      data
     })
   },
   getJudgeServer () {
@@ -134,30 +117,26 @@ export default {
   },
   deleteJudgeServer (hostname) {
     return ajax('admin/judge_server', 'delete', {
-      options: {
-        params: {
-          hostname: hostname
-        }
+      params: {
+        hostname: hostname
       }
     })
   },
-  createContest (body) {
+  createContest (data) {
     return ajax('admin/contest', 'post', {
-      body: body
+      data
     })
   },
   getContest (id) {
     return ajax('admin/contest', 'get', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   },
-  editContest (body) {
+  editContest (data) {
     return ajax('admin/contest', 'put', {
-      body
+      data
     })
   },
   getContestList (offset, limit, keyword) {
@@ -166,53 +145,45 @@ export default {
       params.keyword = keyword
     }
     return ajax('admin/contest', 'get', {
-      options: {
-        params: params
-      }
+      params: params
     })
   },
   getContestAnnouncementList (contestId) {
     return ajax('admin/contest/announcement', 'get', {
-      options: {
-        params: {
-          contest_id: contestId
-        }
+      params: {
+        contest_id: contestId
       }
     })
   },
-  createContestAnnouncement (body) {
+  createContestAnnouncement (data) {
     return ajax('admin/contest/announcement', 'post', {
-      body
+      data
     })
   },
   deleteContestAnnouncement (id) {
     return ajax('admin/contest/announcement', 'delete', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   },
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
-  createProblem (body) {
+  createProblem (data) {
     return ajax('admin/problem', 'post', {
-      body
+      data
     })
   },
-  editProblem (body) {
+  editProblem (data) {
     return ajax('admin/problem', 'put', {
-      body
+      data
     })
   },
   getProblem (id) {
     return ajax('admin/problem', 'get', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   },
@@ -222,9 +193,7 @@ export default {
       params.keyword = keyword
     }
     return ajax('admin/problem', 'get', {
-      options: {
-        params: params
-      }
+      params
     })
   },
   getContestProblemList (offset, limit, keyword, contestId) {
@@ -233,76 +202,66 @@ export default {
       params.keyword = keyword
     }
     return ajax('admin/contest/problem', 'get', {
-      options: {
-        params: params
-      }
+      params
     })
   },
   getContestProblem (id) {
     return ajax('admin/contest/problem', 'get', {
-      options: {
-        params: {
-          id
-        }
+      params: {
+        id
       }
     })
   },
-  createContestProblem (body) {
+  createContestProblem (data) {
     return ajax('admin/contest/problem', 'post', {
-      body
+      data
     })
   },
-  editContestProblem (body) {
+  editContestProblem (data) {
     return ajax('admin/contest/problem', 'put', {
-      body
+      data
     })
   }
 }
-/**
- ajax 请求
- @param url
- @param type get|post|put|jsonp ....
- @param options options = {
-                      body: request body
-                      options: ..,
-                      succCallBack: Function
-                      errCallBack: Function
-                    }
- @return Promise
- */
 
-function ajax (url, type, options) {
-  return new Promise(function (resolve, reject) {
-    options = options || {}
-    if (options.body === undefined) {
-      options.body = options.options
-      options.options = undefined
-    }
-    Vue.http[type](url, options.body, options.options).then(res => {
-      // 出错了
+/**
+ * @param url
+ * @param method get|post|put|delete...
+ * @param params like queryString. if a url is index?a=1&b=2, params = {a: '1', b: '2'}
+ * @param data post data, use for method put|post
+ * @returns {Promise}
+ */
+function ajax (url, method, options) {
+  if (options !== undefined) {
+    var {params = {}, data = {}} = options
+  } else {
+    params = data = {}
+  }
+  return new Promise((resolve, reject) => {
+    axios({
+      url,
+      method,
+      params,
+      data
+    }).then(res => {
+      // API正常返回(status=20x), 是否错误通过有无error判断
       if (res.data.error !== null) {
         Vue.prototype.$error(res.data.data)
         reject(res)
-        if (options.errCallBack !== undefined) {
-          options.errCallBack(res)
+        // // 若后端返回为登录，则为session失效，应退出当前登录用户
+        if (res.data.data.startsWith('Please login')) {
+          router.push({name: 'login'})
         }
       } else {
-        // 请求成功
         resolve(res)
-        if (options.succCallBack !== undefined) {
-          options.succCallBack(res)
-        } else if (type !== 'get') {
-          Vue.prototype.$success()
+        if (method !== 'get') {
+          Vue.prototype.$success('Succeeded')
         }
       }
     }, res => {
-      // 请求失败
+      // API请求异常，一般为Server error 或 network error
       reject(res)
-      if (options.errCallBack !== undefined) {
-        options.errCallBack(res)
-      } else {
-        Vue.prototype.$error('Network Error')
-      }
+      Vue.prototype.$error(res.data.data)
     })
   })
 }

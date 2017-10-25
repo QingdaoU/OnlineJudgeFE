@@ -33,13 +33,13 @@
         <el-table-column
           prop="create_time"
           label="Create Time">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{scope.row.create_time | localtime }}
           </template>
         </el-table-column>
         <el-table-column
           label="Status">
-          <template scope="props">
+          <template slot-scope="props">
             <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
             </el-tag>
           </template>
@@ -52,7 +52,6 @@
           width="180">
           <div>
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
-            <icon-btn name="Submission" icon="code"></icon-btn>
           </div>
         </el-table-column>
       </el-table>

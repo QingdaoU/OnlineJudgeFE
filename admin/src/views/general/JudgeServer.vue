@@ -10,7 +10,7 @@
         border>
         <el-table-column
           type="expand">
-          <template scope="props">
+          <template slot-scope="props">
             <p>IP:
               <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
               Judger Version:
@@ -25,7 +25,7 @@
         <el-table-column
           prop="status"
           label="Status">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tag
               :type="scope.row.status === 'normal' ? 'success' : 'danger'">
               {{ scope.row.status === 'normal' ? 'Normal' : 'Abnormal' }}
@@ -47,17 +47,17 @@
         <el-table-column
           prop="cpu_usage"
           label="CPU Usage">
-          <template scope="scope">{{ scope.row.cpu_usage }}%</template>
+          <template slot-scope="scope">{{ scope.row.cpu_usage }}%</template>
         </el-table-column>
         <el-table-column
           prop="memory_usage"
           label="Memory Usage">
-          <template scope="scope">{{ scope.row.memory_usage }}%</template>
+          <template slot-scope="scope">{{ scope.row.memory_usage }}%</template>
         </el-table-column>
         <el-table-column
           fixed="right"
           label="option">
-          <template scope="scope">
+          <template slot-scope="scope">
             <icon-btn name="Delete" icon="trash" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
           </template>
         </el-table-column>

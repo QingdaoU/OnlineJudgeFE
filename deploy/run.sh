@@ -10,12 +10,12 @@ run_build() {
         exit 1
     fi
 
-    echo "Build success, dist files in $1/dist\n"
+    echo -e "Build success, dist files in $1/dist\n"
 }
 
-sleep 3
-
-run_build /OJ_FE/oj
+# run_build /OJ_FE/oj
 run_build /OJ_FE/admin
+echo -e "\n\n Congratulations, All have done without error."
+echo -e "you can check the onlinejudge with http://IP:80 \n"
 
 exec nginx -c /OJ_FE/deploy/nginx.conf

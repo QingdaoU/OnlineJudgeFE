@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
     if (!storage.get(STORAGE_KEY.AUTHED)) {
       Vue.prototype.$error('please login first')
       next({
-        name: 'test'
+        name: 'home'
       })
     } else {
       next()

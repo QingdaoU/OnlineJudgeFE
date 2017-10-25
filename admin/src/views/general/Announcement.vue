@@ -19,14 +19,14 @@
           <el-table-column
             prop="create_time"
             label="CreateTime">
-            <template scope="scope">
+            <template slot-scope="scope">
               {{ scope.row.create_time | localtime }}
             </template>
           </el-table-column>
           <el-table-column
             prop="last_update_time"
             label="LastUpdateTime">
-            <template scope="scope">
+            <template slot-scope="scope">
               {{scope.row.last_update_time | localtime }}
             </template>
           </el-table-column>

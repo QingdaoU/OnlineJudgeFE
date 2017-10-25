@@ -15,7 +15,8 @@
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item prop="_id" label="Display ID" :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contet-problem'">
+            <el-form-item prop="_id" label="Display ID"
+                          :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contet-problem'">
               <el-input placeholder="Display ID" v-model="problem._id"></el-input>
             </el-form-item>
           </el-col>
@@ -113,7 +114,8 @@
           <el-col :span="8">
             <el-form-item label="Languages" :error="error.languages" required>
               <el-checkbox-group v-model="problem.languages">
-                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" :key="'spj'+lang.name" effect="dark" :content="lang.description" placement="top-start">
+                <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" :key="'spj'+lang.name" effect="dark"
+                            :content="lang.description" placement="top-start">
                   <el-checkbox :label="lang.name"></el-checkbox>
                 </el-tooltip>
               </el-checkbox-group>
@@ -121,36 +123,38 @@
           </el-col>
         </el-row>
         <div>
-        <el-form-item v-for="(sample, index) in problem.samples" :key="'sample'+index">
-          <Accordion :title="'Sample' + (index + 1)">
-            <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete</el-button>
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <el-form-item label="Input Samples" required>
-                  <el-input
-                    :rows="5"
-                    type="textarea"
-                    placeholder="Input Samples"
-                    v-model="sample.input">
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="Output Samples" required>
-                  <el-input
-                    :rows="5"
-                    type="textarea"
-                    placeholder="Output Samples"
-                    v-model="sample.output">
-                  </el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </Accordion>
-        </el-form-item>
+          <el-form-item v-for="(sample, index) in problem.samples" :key="'sample'+index">
+            <Accordion :title="'Sample' + (index + 1)">
+              <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete
+              </el-button>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="Input Samples" required>
+                    <el-input
+                      :rows="5"
+                      type="textarea"
+                      placeholder="Input Samples"
+                      v-model="sample.input">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="Output Samples" required>
+                    <el-input
+                      :rows="5"
+                      type="textarea"
+                      placeholder="Output Samples"
+                      v-model="sample.output">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </Accordion>
+          </el-form-item>
         </div>
         <div class="add-sample-btn">
-          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples</button>
+          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples
+          </button>
         </div>
         <el-form-item label="Code Template">
           <el-row>
@@ -172,7 +176,8 @@
             <el-col v-if="problem.spj" :span="12">
               <el-form-item label="Special Judge Language">
                 <el-radio-group v-model="problem.spj_language">
-                  <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" :key="lang.name" effect="dark" :content="lang.description" placement="top-start">
+                  <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" :key="lang.name" effect="dark"
+                              :content="lang.description" placement="top-start">
                     <el-radio :label="lang.name">{{ lang.name }}</el-radio>
                   </el-tooltip>
                 </el-radio-group>
@@ -220,7 +225,7 @@
               <el-table-column
                 prop="score"
                 label="Score">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <el-input
                     size="small"
                     placeholder="Score"
@@ -249,7 +254,8 @@
   import Accordion from '../../components/Accordion'
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
-  export default{
+
+  export default {
     name: 'Problem',
     components: {
       Simditor,
@@ -259,9 +265,9 @@
     data () {
       return {
         rules: {
-          title: { required: true, message: 'Title is required', trigger: 'blur' },
-          input_description: { required: true, message: 'Input Description is required', trigger: 'blur' },
-          output_description: { required: true, message: 'Output Description is required', trigger: 'blur' }
+          title: {required: true, message: 'Title is required', trigger: 'blur'},
+          input_description: {required: true, message: 'Input Description is required', trigger: 'blur'},
+          output_description: {required: true, message: 'Output Description is required', trigger: 'blur'}
         },
         mode: '',
         problem: {
@@ -318,6 +324,14 @@
           hint: '',
           source: ''
         }
+        let contestID = this.$route.params.contestId
+        if (contestID) {
+          this.problem.contest_id = contestID
+          this.disableRuleType = true
+          api.getContest(contestID).then(res => {
+            this.problem.rule_type = this.reProblem.rule_type = res.data.data.rule_type
+          })
+        }
 
         this.problem.spj_language = 'C'
 
@@ -326,8 +340,8 @@
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
         if (this.mode === 'edit') {
-          let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           this.title = 'Edit Problem'
+          let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
             let data = problemRes.data.data
             if (!data.spj_code) {
@@ -336,20 +350,11 @@
             data.spj_language = data.spj_language || 'C'
             this.problem = data
             this.testCaseUploaded = true
-
-            if (this.routeName === 'edit-contest-problem') {
-              this.problem.contest_id = this.$route.params.contestId
-              this.disableRuleType = true
-            }
           })
         } else {
           this.title = 'Add Problem'
           for (let item of allLanguage.languages) {
             this.problem.languages.push(item.name)
-          }
-          if (this.routeName === 'create-contest-problem') {
-            this.problem.contest_id = this.$route.params.contestId
-            this.disableRuleType = true
           }
         }
       })
@@ -393,7 +398,8 @@
           }).then(() => {
             this.problem.spj = !this.problem.spj
             this.resetTestCase()
-          }).catch(() => {})
+          }).catch(() => {
+          })
         } else {
           this.problem.spj = !this.problem.spj
         }
@@ -405,7 +411,8 @@
             tagList.push({value: tag.name})
           }
           cb(tagList)
-        }).catch(() => {})
+        }).catch(() => {
+        })
       },
       resetTestCase () {
         this.testCaseUploaded = false
@@ -498,7 +505,8 @@
             this.problem.template[k] = this.template[k].code
           }
         }
-        let funcName = {'create-problem': 'createProblem',
+        let funcName = {
+          'create-problem': 'createProblem',
           'edit-problem': 'editProblem',
           'create-contest-problem': 'createContestProblem',
           'edit-contest-problem': 'editContestProblem'
@@ -509,56 +517,57 @@
           } else {
             this.$router.push({name: 'problem-list'})
           }
-        }).catch(() => {})
+        }).catch(() => {
+        })
       }
     }
   }
 </script>
 
 <style lang="less" scoped>
-.problem{
-  .difficulty-select{
-    width: 120px;
-  }
-  .spj-radio{
-    margin-right: 15px;
-  }
-  .input-new-tag{
-    width: 78px;
-  }
-  .button-new-tag{
-    height: 24px;
-    line-height: 22px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  .tags{
-    .el-tag{
-      margin-right: 10px;
+  .problem {
+    .difficulty-select {
+      width: 120px;
+    }
+    .spj-radio {
+      margin-right: 15px;
+    }
+    .input-new-tag {
+      width: 78px;
+    }
+    .button-new-tag {
+      height: 24px;
+      line-height: 22px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .tags {
+      .el-tag {
+        margin-right: 10px;
+      }
+    }
+    .accordion {
+      margin-bottom: 10px;
+    }
+    .add-samples {
+      width: 100%;
+      background-color: #fff;
+      border: 1px dashed #aaa;
+      outline: none;
+      cursor: pointer;
+      color: #666;
+      height: 35px;
+      font-size: 14px;
+      &:hover {
+        background-color: #f9fafc;
+      }
+      i {
+        margin-right: 10px;
+      }
+    }
+    .add-sample-btn {
+      margin-bottom: 10px;
     }
   }
-  .accordion{
-    margin-bottom: 10px;
-  }
-  .add-samples{
-    width: 100%;
-    background-color: #fff;
-    border: 1px dashed #aaa;
-    outline: none;
-    cursor: pointer;
-    color: #666;
-    height: 35px;
-    font-size: 14px;
-    &:hover {
-      background-color: #f9fafc;
-    }
-    i{
-      margin-right: 10px;
-    }
-  }
-  .add-sample-btn {
-    margin-bottom: 10px;
-  }
-}
 </style>
 
