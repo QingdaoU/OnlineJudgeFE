@@ -13,7 +13,7 @@ run_build() {
     echo -e "Build success, dist files in $1/dist\n"
 }
 
-# run_build /OJ_FE/oj
+run_build /OJ_FE/oj
 run_build /OJ_FE/admin
 echo -e "\n\n Congratulations, All have done without error."
 echo -e "you can check the onlinejudge with http://IP:80 \n"
