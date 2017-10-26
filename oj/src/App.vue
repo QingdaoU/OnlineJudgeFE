@@ -2,7 +2,9 @@
   <div>
     <NavBar></NavBar>
     <div class="content-app">
-      <router-view></router-view>
+      <transition name="fadeInUp">
+        <router-view></router-view>
+      </transition>
       <div class="footer">
         <p>{{website.website_footer}} </p>
         <p>Powered by <a href="https://github.com/QingdaoU/OnlineJudge">OnlineJudge</a>
@@ -75,4 +77,6 @@
     text-align: center;
     font-size: small;
   }
+
+
 </style>

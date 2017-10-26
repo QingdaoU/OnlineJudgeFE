@@ -50,3 +50,29 @@ pre {
   background: #f8f8f9;
   border: 1px dashed #e9eaec;
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(0, 50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeInUp-enter-active {
+  animation: fadeInUp .8s;
+}

@@ -24,7 +24,7 @@
           <p>All programs must begin in a static main method in a Main class. Do not use public classes: even Main must be non public to avoid compile error.Use buffered I/O to avoid time limit exceeded due to excesive flushing.</p>
         </li>
         <li>About presentation error ?
-          <p>There is no presentation error in this oj.The judger will trim the blacks and wraps in your ouput's <b>last</b>line.
+          <p>There is no presentation error in this oj.The judger will trim the blacks and wraps in your ouput's <b>last</b> line.
             if it's still different with the correct output, the result will be <code>Wrong Answer</code></p>
         </li>
         <li>How to report bugs about this oj?

@@ -2,7 +2,9 @@
   <div class="flex-container">
     <div id="contest-main">
       <!--children-->
-      <router-view></router-view>
+      <transition name="fadeInUp">
+        <router-view></router-view>
+      </transition>
       <!--children end-->
       <div class="flex-container">
         <template v-if="route_name === 'contest-details'">
@@ -153,6 +155,7 @@
   pre {
     display: inline-block;
   }
+
   #countdown {
     font-size: 16px;
   }

@@ -24,14 +24,16 @@
           </Menu>
         </div>
         <div class="panel">
-          <router-view></router-view>
+          <transition name="fadeInUp">
+            <router-view></router-view>
+          </transition>
         </div>
       </div>
     </Card>
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'profile',
@@ -60,7 +62,7 @@
       flex: 1 0 150px;
       max-width: 250px;
       .avatar-editor {
-        padding: 10% 20%;
+        padding: 10% 22%;
         margin-bottom: 10px;
         .avatar-container {
           &:hover {
