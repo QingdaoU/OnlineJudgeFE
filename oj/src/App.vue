@@ -2,7 +2,7 @@
   <div>
     <NavBar></NavBar>
     <div class="content-app">
-      <transition name="fadeInUp">
+      <transition name="fadeInUp" mode="out-in">
         <router-view></router-view>
       </transition>
       <div class="footer">
@@ -76,6 +76,10 @@
     margin: 20px;
     text-align: center;
     font-size: small;
+  }
+
+  .fadeInUp-enter-active {
+    animation: fadeInUp .8s;
   }
 
 

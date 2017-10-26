@@ -2,7 +2,7 @@
   <div>
     <Panel>
       <div slot="title">Problems List</div>
-      <Table v-if="contestRuleType == 'ACM'"
+      <Table v-if="contestRuleType == 'ACM' || OIContestRealTimePermission"
              :columns="ACMTableColumns"
              :data="problems"
              @on-row-click="goContestProblem"
@@ -66,7 +66,7 @@
       getContestProblems () {
         this.$store.dispatch('getContestProblems').then(res => {
           if (this.isAuthenticated) {
-            if (this.contestRuleType === 'ACM') {
+            if (this.contestRuleType === 'ACM' || this.OIContestRealTimePermission) {
               this.addStatusColumn(this.ACMTableColumns, res.data.data)
             } else {
               this.addStatusColumn(this.OITableColumns, res.data.data)
@@ -88,7 +88,7 @@
       ...mapState({
         problems: state => state.contest.contestProblems
       }),
-      ...mapGetters(['isAuthenticated', 'contestRuleType'])
+      ...mapGetters(['isAuthenticated', 'contestRuleType', 'OIContestRealTimePermission'])
     }
   }
 </script>

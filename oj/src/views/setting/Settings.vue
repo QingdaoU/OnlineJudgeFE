@@ -3,7 +3,7 @@
     <Card :padding="0">
       <div class="flex-container">
         <div class="menu">
-          <Menu accordion @on-select="goRoute" activeName="/setting/profile" style="text-align: center;" width="auto">
+          <Menu accordion @on-select="goRoute" activeName="" style="text-align: center;" width="auto">
             <div class="avatar-editor">
               <div class="avatar-container">
                 <img class="avatar" :src="profile.avatar"/>

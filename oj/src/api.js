@@ -84,6 +84,11 @@ export default {
       data
     })
   },
+  changeEmail (data) {
+    return ajax('change_email', 'post', {
+      data
+    })
+  },
   getLanguages () {
     return ajax('languages', 'get')
   },

@@ -9,6 +9,7 @@ const state = {
     created_by: {}
   },
   contestProblems: [],
+  tableColums: [],
   contestMenuVisible: true
 }
 
