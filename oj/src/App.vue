@@ -4,14 +4,17 @@
     <div class="content-app">
       <router-view></router-view>
       <div class="footer">
-        {{website.website_footer}} Build Version: {{ version }}
+        <p>{{website.website_footer}} </p>
+        <p>Powered by <a href="https://github.com/QingdaoU/OnlineJudge">OnlineJudge</a>
+          <span v-if="version"> Version: {{ version }}</span>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapActions, mapState} from 'vuex'
+  import { mapActions, mapState } from 'vuex'
   import NavBar from './components/NavBar.vue'
 
   export default {
@@ -68,7 +71,7 @@
   }
 
   .footer {
-    margin: 15px;
+    margin: 20px;
     text-align: center;
     font-size: small;
   }

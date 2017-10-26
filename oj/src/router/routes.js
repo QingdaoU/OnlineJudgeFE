@@ -1,6 +1,6 @@
 // all routes here.
 import {
-  Home, Logout, About,
+  Home, Logout, About, FAQ,
   ProblemList, Problem,
   SubmissionList, SubmissionDetails,
   ACMRank, OIRank,
@@ -130,6 +130,11 @@ export default [
     path: '/about',
     name: 'about',
     component: About
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: FAQ
   }
   // {
   //   path: '*', redirect: '/problems'

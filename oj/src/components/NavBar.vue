@@ -30,10 +30,18 @@
           OI Rank
         </Menu-item>
       </Submenu>
-      <Menu-item name="/about">
-        <Icon type="information-circled"></Icon>
-        About
-      </Menu-item>
+      <Submenu name="">
+        <template slot="title">
+          <Icon type="information-circled"></Icon>
+          About
+        </template>
+        <Menu-item name="/about">
+          Judger
+        </Menu-item>
+        <Menu-item name="/FAQ">
+          FAQ
+        </Menu-item>
+      </Submenu>
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"
