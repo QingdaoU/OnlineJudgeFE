@@ -75,14 +75,14 @@
             title: 'Time',
             align: 'center',
             render: (h, params) => {
-              return h('span', params.row.cpu_time + 'MS')
+              return h('span', utils.submissionTimeFormat(params.row.cpu_time))
             }
           },
           {
             title: 'Memory',
             align: 'center',
             render: (h, params) => {
-              return h('span', utils.submissionMemoryFormat(params.row.memory) + 'MB')
+              return h('span', utils.submissionMemoryFormat(params.row.memory))
             }
           }
         ],

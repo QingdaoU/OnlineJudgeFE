@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '@/store'
 import axios from 'axios'
 
 Vue.prototype.$http = axios
@@ -132,14 +133,14 @@ export default {
         }
       })
     }
-    return ajax('contest', 'get', {
+    return ajax('contests', 'get', {
       params
     })
   },
   getContest (id) {
     return ajax('contest', 'get', {
       params: {
-        id
+        contest_id: id
       }
     })
   },
@@ -257,10 +258,10 @@ function ajax (url, method, options) {
       if (res.data.error !== null) {
         Vue.prototype.$error(res.data.data)
         reject(res)
-        // // 若后端返回为登录，则为session失效，应退出当前登录用户
-        // if (res.data.data.startsWith('please login in first')) {
-        //   Vue.$router.push('/logout')
-        // }
+        // 若后端返回为登录，则为session失效，应退出当前登录用户
+        if (res.data.data.startsWith('Please login')) {
+          store.dispatch('changeModalStatus', {'mode': 'login', 'visible': true})
+        }
       } else {
         resolve(res)
         // if (method !== 'get') {

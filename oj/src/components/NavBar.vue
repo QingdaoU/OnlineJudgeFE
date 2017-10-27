@@ -2,7 +2,7 @@
   <div id="header">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
       <div class="logo"><span>{{website.website_name}}</span></div>
-      <Menu-item name="/test">
+      <Menu-item name="/">
         <Icon type="home"></Icon>
         Home
       </Menu-item>

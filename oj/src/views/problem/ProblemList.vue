@@ -180,18 +180,14 @@
         })
       },
       getProblemList () {
-        this.$Loading.start()
-        let self = this
         let offset = (this.query.page - 1) * this.limit
         api.getProblemList(offset, this.limit, this.query).then(res => {
-          self.$Loading.finish()
           this.total = res.data.data.total
           this.problemList = res.data.data.results
           if (this.isAuthenticated) {
             this.addStatusColumn(this.problemTableColumns, res.data.data.results)
           }
         }, res => {
-          self.$Loading.error()
         })
       },
       getTagList () {
@@ -215,6 +211,7 @@
       },
       pickone () {
         api.pickone().then(res => {
+          this.$success('Good Luck')
           this.$router.push({name: 'problem-details', params: {problemID: res.data.data}})
         })
       }

@@ -70,7 +70,7 @@
                   click: () => {
                     this.$router.push(
                       {
-                        name: 'home',
+                        name: 'user-home',
                         query: {username: params.row.user.username}
                       })
                   }
@@ -306,11 +306,9 @@
         },
         set (value) {
           this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
-          if (this.showChart) {
-            this.$nextTick(() => {
-              this.$refs.chart.resize()
-            })
-          }
+          this.$nextTick(() => {
+            this.$refs.tableRank.handleResize()
+          })
         }
       }
     },

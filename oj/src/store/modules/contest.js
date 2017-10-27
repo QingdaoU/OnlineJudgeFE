@@ -9,7 +9,6 @@ const state = {
     created_by: {}
   },
   contestProblems: [],
-  tableColums: [],
   contestMenuVisible: true
 }
 
@@ -95,6 +94,7 @@ const mutations = {
   [types.CLEAR_CONTEST] (state) {
     state.contest = {created_by: {}}
     state.contestProblems = []
+    state.contestMenuVisible = true
   },
   [types.NOW] (state, payload) {
     state.now = payload.now

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueClipboard from 'vue-clipboard2'
 import locale from 'iview/src/locale/lang/en-US'
 
 import iView from 'iview'
@@ -78,6 +79,7 @@ Vue.directive('highlight', {
 })
 
 Vue.use(iView, {locale})
+Vue.use(VueClipboard)
 
 Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)

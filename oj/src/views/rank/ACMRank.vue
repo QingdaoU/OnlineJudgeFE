@@ -53,7 +53,7 @@
                   click: () => {
                     this.$router.push(
                       {
-                        name: 'home',
+                        name: 'user-home',
                         query: {username: params.row.user.username}
                       })
                   }

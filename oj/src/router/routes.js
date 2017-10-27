@@ -1,6 +1,6 @@
 // all routes here.
 import {
-  Home, Logout, About, FAQ,
+  Home, Logout, About, FAQ, NotFound,
   ProblemList, Problem,
   SubmissionList, SubmissionDetails,
   ACMRank, OIRank,
@@ -11,6 +11,10 @@ import * as Contest from '@/views/contest'
 import * as Setting from '@/views/setting'
 
 export default [
+  {
+    name: 'home',
+    path: '/'
+  },
   {
     name: 'logout',
     path: '/logout',
@@ -94,8 +98,8 @@ export default [
     component: OIRank
   },
   {
-    name: 'home',
-    path: '/home',
+    name: 'user-home',
+    path: '/user-home',
     component: Home,
     meta: {requiresAuth: true}
   },
@@ -135,8 +139,9 @@ export default [
     path: '/faq',
     name: 'faq',
     component: FAQ
+  },
+  {
+    path: '*',
+    component: NotFound
   }
-  // {
-  //   path: '*', redirect: '/problems'
-  // }
 ]

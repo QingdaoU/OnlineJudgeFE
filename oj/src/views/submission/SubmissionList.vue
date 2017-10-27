@@ -171,7 +171,6 @@
         this.getSubmissions()
       },
       getSubmissions () {
-        this.$Loading.start()
         let params = {
           'result': this.result,
           'myself': this.myself === true ? '1' : '0',
@@ -181,11 +180,9 @@
         let offset = (this.page - 1) * this.limit
         let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
         api[func](offset, this.limit, params).then(res => {
-          this.$Loading.finish()
           this.submissions = res.data.data.results
           this.total = res.data.data.total
         }, _ => {
-          this.$Loading.error()
         })
       },
       // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态

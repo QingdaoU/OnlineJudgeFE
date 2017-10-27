@@ -6,6 +6,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { types } from '@/store'
   import ACMContestRank from './ACMContestRank.vue'
   import OIContestRank from './OIContestRank.vue'
 
@@ -29,6 +30,10 @@
         }
         return this.contestRuleType === 'ACM' ? 'ACMContestRank' : 'OIContestRank'
       }
+    },
+    beforeRouteLeave (to, from, next) {
+      this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: true})
+      next()
     }
   }
 </script>

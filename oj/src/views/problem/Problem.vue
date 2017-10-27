@@ -18,7 +18,14 @@
         <div v-for="sample, index in problem.samples">
           <Row type="flex" justify="space-between">
             <Col :span=11>
-            <p class="title">Sample Input {{index + 1}}</p>
+            <p class="title">Sample Input {{index + 1}}
+              <a class="copy"
+                 v-clipboard:copy="sample.input"
+                 v-clipboard:success="onCopy"
+                 v-clipboard:error="onCopyError">
+                <Icon type="clipboard"></Icon>
+              </a>
+            </p>
             <Card dis-hover :padding="8">
               <div>{{sample.input}}</div>
             </Card>
@@ -126,9 +133,16 @@
           <li>
             <p>Created By</p>
             <p>{{problem.created_by.username}}</p></li>
-          <li>
+          <li v-if="problem.source">
             <p>Source</p>
             <p>{{problem.source}}</p></li>
+          <li v-if="problem.difficulty">
+            <p>Level</p>
+            <p>{{problem.difficulty}}</p></li>
+          <li v-if="problem.total_score">
+            <p>Score</p>
+            <p>{{problem.total_score}}</p>
+          </li>
         </ul>
       </Card>
 
@@ -297,7 +311,7 @@
         api.submitCode(data).then(res => {
           this.submissionId = res.data.data.submission_id
           // 定时检查状态
-          if (this.contestRuleType === 'OI') {
+          if (this.contestRuleType === 'OI' && !this.OIContestRealTimePermission) {
             this.submitting = false
             this.$success('Submit code successfully')
           } else {
@@ -311,6 +325,12 @@
           this.submitting = false
           this.statusVisible = false
         })
+      },
+      onCopy (event) {
+        this.$success('Code copied')
+      },
+      onCopyError (e) {
+        this.$error('Failed to copy code')
       }
     },
     computed: {
@@ -370,6 +390,9 @@
       font-weight: 400;
       margin: 25px 0 8px 0;
       color: #3091f2;
+      .copy {
+        padding-left: 8px;
+      }
     }
     .content {
       text-indent: 1.3em;
