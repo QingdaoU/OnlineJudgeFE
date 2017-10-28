@@ -19,14 +19,19 @@
           <el-table-column
             prop="create_time"
             label="CreateTime">
+            <template slot-scope="scope">
+              {{ scope.row.create_time | localtime }}
+            </template>
           </el-table-column>
           <el-table-column
             inline-template
             fixed="right"
+            width="200"
             label="Option">
-            <span>
-              <el-button type="text" size="small" @click="deleteAnnouncement(row.id)">Delete</el-button>
-            </span>
+            <div>
+              <icon-btn name="Edit" icon="edit" @click.native="openAnnouncementDialog(row.id)"></icon-btn>
+              <icon-btn name="Delete" icon="trash" @click.native="deleteAnnouncement(row.id)"></icon-btn>
+            </div>
           </el-table-column>
         </el-table>
         <div class="option">
@@ -35,7 +40,7 @@
       </div>
     </Panel>
     <!--对话框-->
-    <el-dialog title="Create Contest Announcement" @open="openAnnouncementDialog" v-model="showEditAnnouncementDialog">
+    <el-dialog title="Create Contest Announcement" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
       <el-form label-position="top">
         <el-form-item label="Title" required>
           <el-input
@@ -68,8 +73,7 @@
       return {
         showEditAnnouncementDialog: false,
         // 公告列表
-        announcementList: [
-        ],
+        announcementList: [],
         announcement: {
           title: '',
           content: '',
@@ -83,13 +87,15 @@
       getContestAnnouncementList () {
         this.loading = true
         api.getContestAnnouncementList(this.$route.params.contestId).then(res => {
+          console.log(res.data.data)
           this.announcementList = res.data.data
           this.loading = false
         }).catch(() => {
           this.loading = false
         })
       },
-      openAnnouncementDialog () {
+      // 打开编辑对话框的回调
+      onOpenEditDialog () {
         // todo 优化
         // 暂时解决 文本编辑器显示异常bug
         setTimeout(() => {
@@ -101,7 +107,25 @@
             window.fireEvent('onresize')
           }
         }, 0)
+      },
+      openAnnouncementDialog (id) {
         this.showEditAnnouncementDialog = true
+        if (id !== null) {
+          this.currentAnnouncementId = id
+          this.announcementDialogTitle = 'Edit Announcement'
+          this.announcementList.find(item => {
+            if (item.id === this.currentAnnouncementId) {
+              this.announcement.title = item.title
+              this.announcement.visible = item.visible
+              this.announcement.content = item.content
+            }
+          })
+        } else {
+          this.announcementDialogTitle = 'Create Announcement'
+          this.announcement.title = ''
+          this.announcement.visible = true
+          this.announcement.content = ''
+        }
       },
       // 提交编辑
       saveAnnouncement () {
@@ -125,7 +149,8 @@
           api.deleteContestAnnouncement(announcementId).then(res => {
             this.getContestAnnouncementList()
           })
-        }).catch(() => {})
+        }).catch(() => {
+        })
       }
     },
     mounted () {
@@ -136,21 +161,23 @@
 
 <style lang="less" scoped>
   .announcement {
-  .option{
-    border: 1px solid #e0e6ed;
-    border-top: none;
-    padding: 10px;
-    background-color: #fff;
-    position: relative;
-  button{
-    margin-right: 10px;
+    .option {
+      border: 1px solid #e0e6ed;
+      border-top: none;
+      padding: 10px;
+      background-color: #fff;
+      position: relative;
+      button {
+        margin-right: 10px;
+      }
+    }
   }
-  }
-  }
+
   .title-input {
     margin-bottom: 20px;
   }
-  .visible-box{
+
+  .visible-box {
     margin-top: 10px;
     width: 205px;
     float: left;

@@ -26,7 +26,7 @@
                    icon="ios-search-strong"/>
           </li>
           <li>
-            <Button type="primary" @click="onReset">
+            <Button type="info" @click="onReset">
               <Icon type="refresh"></Icon>
               Reset
             </Button>

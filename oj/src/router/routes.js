@@ -1,6 +1,7 @@
 // all routes here.
 import {
-  Home, Logout, About, FAQ, NotFound,
+  Home, NotFound, Announcements,
+  UserHome, Logout, About, FAQ,
   ProblemList, Problem,
   SubmissionList, SubmissionDetails,
   ACMRank, OIRank,
@@ -13,7 +14,8 @@ import * as Setting from '@/views/setting'
 export default [
   {
     name: 'home',
-    path: '/'
+    path: '/',
+    component: Home
   },
   {
     name: 'logout',
@@ -78,7 +80,7 @@ export default [
       {
         name: 'contest-announcement-list',
         path: 'announcements',
-        component: Contest.ContestAnnouncement
+        component: Announcements
       },
       {
         name: 'contest-rank',
@@ -100,7 +102,7 @@ export default [
   {
     name: 'user-home',
     path: '/user-home',
-    component: Home,
+    component: UserHome,
     meta: {requiresAuth: true}
   },
   {

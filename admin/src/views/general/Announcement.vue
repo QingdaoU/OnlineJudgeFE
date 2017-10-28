@@ -130,7 +130,7 @@
       // 切换页码回调
       currentChange (page) {
         this.currentPage = page
-        this.getAnnouncementList((page - 1) * this.pageSize, this.pageSize)
+        this.getAnnouncementList(page)
       },
       getAnnouncementList (page) {
         this.loading = true

@@ -238,7 +238,7 @@
         .contest-main {
           .title {
             font-size: 18px;
-            .entry {
+            a.entry {
               color: #495060;
               &:hover {
                 color: #2d8cf0;

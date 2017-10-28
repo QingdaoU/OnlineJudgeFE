@@ -7,12 +7,14 @@
       <el-dropdown @command="handleCommand">
         <span>{{profile.user.username}}<i class="el-icon-caret-bottom el-icon--right"></i></span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="logout" >Logout</el-dropdown-item>
+          <el-dropdown-item command="logout">Logout</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <div class="content-app">
-      <router-view></router-view>
+      <transition name="fadeInUp" mode="out-in">
+        <router-view></router-view>
+      </transition>
       <div class="footer">
         Build Version: {{ version }}
       </div>
@@ -108,4 +110,20 @@
     text-align: center;
     font-size: small;
   }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate(0, 30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .fadeInUp-enter-active {
+    animation: fadeInUp .8s;
+  }
+
 </style>

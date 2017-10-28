@@ -8,8 +8,13 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
-  getWebsiteConf () {
-    return ajax('website', 'get')
+  getWebsiteConf (params) {
+    return ajax('website', 'get', {
+      params
+    })
+  },
+  getAnnouncementList () {
+    return ajax('announcement', 'get')
   },
   login (data) {
     return ajax('login', 'post', {
