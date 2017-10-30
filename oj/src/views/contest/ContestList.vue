@@ -40,23 +40,17 @@
       <ol id="contest-list">
         <li v-for="contest in contests">
           <Row type="flex" justify="space-between" align="middle">
-            <img class="left-media" src="../../assets/Cup.png"/>
+            <img class="trophy" src="../../assets/Cup.png"/>
             <Col :span="18" class="contest-main">
             <p class="title">
               <a class="entry" @click.stop="goContest(contest)">
                 {{contest.title}}
               </a>
-              <template v-if="contest.contest_type=='Public'">
-                <Tag color="green">{{contest.contest_type}}</Tag>
-              </template>
-              <template v-else>
-                <Icon type="ios-locked-outline"></Icon>
+              <template v-if="contest.contest_type != 'Public'">
+                <Icon type="ios-locked-outline" size="20"></Icon>
               </template>
             </p>
             <ul class="detail">
-              <li>
-                <Tag>{{contest.rule_type}}</Tag>
-              </li>
               <li>
                 <Icon type="calendar" color="#3091f2"></Icon>
                 {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
@@ -64,6 +58,10 @@
               <li>
                 <Icon type="android-time" color="#3091f2"></Icon>
                 {{getDuration(contest.start_time, contest.end_time)}}
+              </li>
+              <li>
+                <Button size="small" shape="circle" @click="onRuleChange(contest.rule_type)">
+                  {{contest.rule_type}}</Button>
               </li>
             </ul>
             </Col>
@@ -232,8 +230,10 @@
         padding: 20px;
         border-bottom: 1px solid rgba(187, 187, 187, 0.5);
 
-        .left-media {
+        .trophy {
           height: 40px;
+          margin-left: 10px;
+          margin-right: -20px;
         }
         .contest-main {
           .title {
@@ -248,7 +248,10 @@
           }
           li {
             display: inline-block;
-            padding: 10px 0px 0px 10px;
+            padding: 10px 0 0 10px;
+            &:first-child {
+              padding: 10px 0 0 0;
+            }
           }
         }
       }

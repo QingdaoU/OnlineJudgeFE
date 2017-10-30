@@ -8,7 +8,10 @@
       <Button v-else type="ghost" icon="ios-undo" @click="goBack">Back</Button>
     </div>
 
-    <transition-group name="announcement-animate" mode="out-in">
+    <transition-group name="announcement-animate" mode="in-out">
+      <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
+        <p>No announcements</p>
+      </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
           <li v-for="announcement, index in announcements">
@@ -73,7 +76,6 @@
         this.btnLoading = true
         api.getAnnouncementList(params).then(res => {
           this.btnLoading = false
-          console.log(res.data.data)
           this.announcements = res.data.data.results
           this.total = res.data.data.total
         }, () => {
@@ -85,7 +87,6 @@
         api.getContestAnnouncementList(this.$route.params.contestID).then(res => {
           this.btnLoading = false
           this.announcements = res.data.data
-          this.announcements[1] = res.data.data[0]
         }, () => {
           this.btnLoading = false
         })
@@ -168,20 +169,14 @@
     ol {
       list-style: decimal;
     }
-    hr {
-      border-top: 1px dashed #b3b3b3;
-      margin: 5px auto;
-    }
-    blockquote {
-      border-left: 3px solid #bbbec4;
-      padding-left: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      color: #7b7b7b;
-    }
+
+  }
+  .no-announcement {
+    text-align: center;
+    font-size: 16px;
   }
 
   .announcement-animate-enter-active {
-    animation: fadeInUp .8s;
+    animation: fadeIn 1s;
   }
 </style>

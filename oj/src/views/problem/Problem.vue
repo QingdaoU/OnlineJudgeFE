@@ -143,6 +143,17 @@
             <p>Score</p>
             <p>{{problem.total_score}}</p>
           </li>
+          <li>
+            <p>Tags</p>
+            <p>
+              <Poptip trigger="hover" placement="left-end">
+                <a>show</a>
+                <div slot="content">
+                  <Tag v-for="tag in problem.tags" :key="tag">tag</Tag>
+                </div>
+              </Poptip>
+            </p>
+          </li>
         </ul>
       </Card>
 
@@ -209,7 +220,8 @@
           languages: [],
           created_by: {
             username: ''
-          }
+          },
+          tags: []
         },
         pie: pie,
         largePie: largePie,
@@ -232,6 +244,7 @@
         this.problemID = this.$route.params.problemID
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
+          console.log(res.data.data)
           this.$Loading.finish()
           this.problem = res.data.data
           this.changePie(res.data.data)

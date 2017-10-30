@@ -1,16 +1,77 @@
 <template>
-  <Announcements></Announcements>
+  <div class="home-container">
+    <panel shadow class="contest" v-if="contests.length">
+      <div slot="title">
+        <span class="contest-title">New Contest --- </span> {{contests[index].title}}
+      </div>
+      <Carousel v-model="index" trigger="hover" autoplay :autoplay-speed="6000">
+        <CarouselItem v-for="contest, index in contests" :key="index">
+          <div class="contest-content">
+            <div class="contest-content-tags">
+              <Button type="warning" shape="circle" size="small" icon="trophy">{{contest.rule_type}}</Button>
+              <Button type="info" shape="circle" size="small" icon="calendar">
+                {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
+              </Button>
+              <Button type="success" shape="circle" size="small" icon="android-time">
+                {{getDuration(contest.start_time, contest.end_time)}}
+              </Button>
+            </div>
+            <div class="contest-content-description">
+              <blockquote v-html="contest.description"></blockquote>
+            </div>
+          </div>
+        </CarouselItem>
+      </Carousel>
+    </panel>
+    <Announcements></Announcements>
+  </div>
 </template>
 <script>
   import Announcements from './Announcements.vue'
+  import api from '@/api'
+  import time from '@/utils/time'
+  import { CONTEST_STATUS_REVERSE } from '@/utils/consts'
 
   export default {
     name: 'home',
     components: {
       Announcements
+    },
+    data () {
+      return {
+        contests: [],
+        index: 0
+      }
+    },
+    mounted () {
+      let params = {status: CONTEST_STATUS_REVERSE.NOT_START}
+      api.getContestList(0, 5, params).then(res => {
+        this.contests = res.data.data.results
+      })
+    },
+    methods: {
+      getDuration (startTime, endTime) {
+        return time.duration(startTime, endTime)
+      }
     }
   }
 </script>
 
 <style lang="less" scoped>
+  .home-container {
+    margin: 0 auto;
+    width: 90%;
+    .contest {
+      margin-bottom: 20px;
+      &-title {
+        font-style: italic;
+      }
+      .contest-content {
+        padding: 0 70px 40px 70px;
+        &-description {
+          margin-top: 25px;
+        }
+      }
+    }
+  }
 </style>
