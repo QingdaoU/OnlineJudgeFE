@@ -7,7 +7,7 @@ import ProblemList from './problem/ProblemList.vue'
 import ContestList from './contest/ContestList.vue'
 import Contest from './contest/Contest.vue'
 import ContestAnnouncement from './contest/Announcement.vue'
-import Login from './general/login.vue'
+import Login from './general/Login.vue'
 import Home from './Home.vue'
 
 export {

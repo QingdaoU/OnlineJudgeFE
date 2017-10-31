@@ -74,7 +74,8 @@
   }
 
   .footer {
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     text-align: center;
     font-size: small;
   }

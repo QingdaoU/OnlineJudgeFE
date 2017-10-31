@@ -180,14 +180,10 @@
         this.dataRank = dataRank
       },
       addTableColumns (problems) {
-        let i = 1
-        problems.forEach(ele => {
-          // 生成problem对应的字母 并以此为title作为一个column添加到table中
-          let problemChar = '#' + String(i)
-          i += 1
+        problems.forEach(problem => {
           this.columns.push({
             align: 'center',
-            key: ele.id,
+            key: problem.id,
             renderHeader: (h, params) => {
               return h('Button', {
                 props: {
@@ -200,15 +196,15 @@
                       name: 'contest-problem-details',
                       params: {
                         contestID: this.contestID,
-                        problemID: ele._id
+                        problemID: problem._id
                       }
                     })
                   }
                 }
-              }, problemChar)
+              }, problem._id)
             },
             render: (h, params) => {
-              return h('span', params.row[ele.id])
+              return h('span', params.row[problem.id])
             }
           })
         })

@@ -39,20 +39,20 @@ const getters = {
       (state.contest.created_by.id === rootGetters.user.id || rootGetters.user.admin_type === USER_TYPE.SUPER_ADMIN)
   },
   contestMenuDisabled: (state, getters) => {
-    return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START &&
-      getters.isContestAdmin
+    if (getters.isContestAdmin) return false
+    return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START
   },
   OIContestRealTimePermission: (state, getters, _, rootGetters) => {
     if (getters.contestRuleType === 'ACM' || getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
       return true
     }
-    return state.contest.real_time === true || getters.isContestAdmin
+    return state.contest.real_time_rank === true || getters.isContestAdmin
   },
   problemSubmitDisabled: (state, getters, _, rootGetters) => {
     if (getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
       return true
     } else if (getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START) {
-      return getters.isContestAdmin
+      return !getters.isContestAdmin
     }
     return !rootGetters.isAuthenticated
   },

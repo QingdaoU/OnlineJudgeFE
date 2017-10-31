@@ -125,8 +125,8 @@
           },
           legend: {
             orient: 'vertical',
-            x: 'right',
             y: 'center',
+            right: 30,
             data: []
           },
           xAxis: [{
@@ -242,14 +242,11 @@
         this.dataRank = dataRank
       },
       addTableColumns (problems) {
-        let alphaCode = 65
-        problems.forEach(ele => {
-          // 生成problem对应的字母 并以此为title作为一个column添加到table中
-          let problemChar = String.fromCharCode(alphaCode)
-          alphaCode += 1
+        // 根据题目添加table column
+        problems.forEach(problem => {
           this.columns.push({
             align: 'center',
-            key: ele.id,
+            key: problem.id,
             renderHeader: (h, params) => {
               return h('Button', {
                 props: {
@@ -262,16 +259,16 @@
                       name: 'contest-problem-details',
                       params: {
                         contestID: this.contestID,
-                        problemID: ele._id
+                        problemID: problem._id
                       }
                     })
                   }
                 }
-              }, problemChar)
+              }, problem._id)
             },
             render: (h, params) => {
-              if (params.row[ele.id]) {
-                let status = params.row[ele.id]
+              if (params.row[problem.id]) {
+                let status = params.row[problem.id]
                 let acTime, errorNumber
                 if (status.is_ac) {
                   acTime = h('span', status.ac_time)

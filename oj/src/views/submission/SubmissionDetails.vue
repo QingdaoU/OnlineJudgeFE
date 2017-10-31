@@ -84,6 +84,11 @@
             render: (h, params) => {
               return h('span', utils.submissionMemoryFormat(params.row.memory))
             }
+          },
+          {
+            title: 'Score',
+            align: 'center',
+            key: 'score'
           }
         ],
         submission: {

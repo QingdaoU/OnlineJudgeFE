@@ -42,22 +42,22 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="Base Url" required>
-              <el-input v-model="websiteConfig.base_url" placeholder="Website Base Url"></el-input>
+              <el-input v-model="websiteConfig.website_base_url" placeholder="Website Base Url"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Name" required>
-              <el-input v-model="websiteConfig.name" placeholder="Website Name"></el-input>
+              <el-input v-model="websiteConfig.website_name" placeholder="Website Name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Shortcut" required>
-              <el-input v-model="websiteConfig.name_shortcut" placeholder="Website Name Shortcut"></el-input>
+              <el-input v-model="websiteConfig.website_name_shortcut" placeholder="Website Name Shortcut"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="Footer" required>
-              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="websiteConfig.footer"
+              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="websiteConfig.website_footer"
                         placeholder="Website Footer HTML"></el-input>
             </el-form-item>
           </el-col>

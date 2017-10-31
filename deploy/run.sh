@@ -16,6 +16,6 @@ run_build() {
 run_build /OJ_FE/oj
 run_build /OJ_FE/admin
 echo -e "\n\n Congratulations, All have done without error."
-echo -e "you can check the onlinejudge with http://IP:80 \n"
+echo -e "You can check the onlinejudge with http://your-server-ip:80 \n"
 
 exec nginx -c /OJ_FE/deploy/nginx.conf

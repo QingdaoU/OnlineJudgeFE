@@ -23,8 +23,8 @@
       return {
         logining: false,
         ruleForm2: {
-          account: 'root',
-          password: 'rootroot'
+          account: '',
+          password: ''
         },
         rules2: {
           account: [

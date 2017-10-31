@@ -17,6 +17,7 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <div>
+              <el-tag>{{props.row.rule_type}}</el-tag>
               <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
               </el-tag>
               <el-tag :type="props.row.contest_status === 'Public' ? 'success' : 'primary'">

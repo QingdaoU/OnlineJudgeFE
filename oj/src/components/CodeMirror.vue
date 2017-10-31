@@ -65,7 +65,7 @@
     },
     data () {
       return {
-        lang: 'C',
+        lang: 'C++',
         options: {
           // codemirror options
           tabSize: 4,
@@ -82,7 +82,7 @@
           highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true}
         },
         mode: {
-          'C': 'text/x-csrc'
+          'C++': 'text/x-csrc'
         },
         themes: [
           {label: 'Monokai', value: 'monokai'},

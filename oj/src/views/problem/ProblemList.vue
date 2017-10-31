@@ -143,7 +143,7 @@
 
         ],
         problemList: [],
-        limit: 2,
+        limit: 15,
         total: 0,
         problemLoading: false,
         tagLoading: false,
@@ -152,7 +152,7 @@
           keyword: '',
           difficulty: '',
           tag: '',
-          page: 10
+          page: 1
         },
         spinShow: true
       }

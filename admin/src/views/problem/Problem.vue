@@ -320,7 +320,7 @@
           spj_code: '',
           test_case_id: '',
           test_case_score: [],
-          rule_type: 'OI',
+          rule_type: 'ACM',
           hint: '',
           source: ''
         }

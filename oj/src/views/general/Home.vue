@@ -1,19 +1,22 @@
 <template>
-  <div class="home-container">
-    <panel shadow class="contest" v-if="contests.length">
+  <Row type="flex" justify="space-around">
+    <Col :span="22">
+    <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
-        <span class="contest-title">New Contest --- </span> {{contests[index].title}}
+        {{contests[index].title}}
       </div>
-      <Carousel v-model="index" trigger="hover" autoplay :autoplay-speed="6000">
+      <Carousel v-model="index" trigger="hover" autoplay :autoplay-speed="6000" class="contest">
         <CarouselItem v-for="contest, index in contests" :key="index">
           <div class="contest-content">
             <div class="contest-content-tags">
-              <Button type="warning" shape="circle" size="small" icon="trophy">{{contest.rule_type}}</Button>
               <Button type="info" shape="circle" size="small" icon="calendar">
                 {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
               </Button>
               <Button type="success" shape="circle" size="small" icon="android-time">
                 {{getDuration(contest.start_time, contest.end_time)}}
+              </Button>
+              <Button type="warning" shape="circle" size="small" icon="trophy">
+                {{contest.rule_type}}
               </Button>
             </div>
             <div class="contest-content-description">
@@ -23,9 +26,12 @@
         </CarouselItem>
       </Carousel>
     </panel>
-    <Announcements></Announcements>
-  </div>
+
+    <Announcements class="announcement"></Announcements>
+    </Col>
+  </Row>
 </template>
+
 <script>
   import Announcements from './Announcements.vue'
   import api from '@/api'
@@ -58,20 +64,19 @@
 </script>
 
 <style lang="less" scoped>
-  .home-container {
-    margin: 0 auto;
-    width: 90%;
-    .contest {
-      margin-bottom: 20px;
-      &-title {
-        font-style: italic;
-      }
-      .contest-content {
-        padding: 0 70px 40px 70px;
-        &-description {
-          margin-top: 25px;
-        }
+  .contest {
+    &-title {
+      font-style: italic;
+    }
+    &-content {
+      padding: 0 70px 40px 70px;
+      &-description {
+        margin-top: 25px;
       }
     }
+  }
+
+  .announcement {
+    margin-top: 20px;
   }
 </style>

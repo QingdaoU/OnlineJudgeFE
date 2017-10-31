@@ -50,10 +50,13 @@
         <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
-          <div class="status" v-if="statusVisible && contestRuleType !== 'OI'">
+          <div class="status"
+               v-if="statusVisible && (!this.contestID || (this.contestID && OIContestRealTimePermission))">
             <span>Status:</span>
-            <a @click.prevent="handleRoute('/status/'+submissionId)">
-              <Tag type="dot" :color="submissionStatus.color">{{submissionStatus.text}}</Tag>
+            <a @click.native="handleRoute('/status/'+submissionId)">
+              <Tag type="dot" :color="submissionStatus.color">
+                {{submissionStatus.text}}
+              </Tag>
             </a>
           </div>
           <div v-else-if="problem.my_status === 0">
@@ -149,7 +152,7 @@
               <Poptip trigger="hover" placement="left-end">
                 <a>show</a>
                 <div slot="content">
-                  <Tag v-for="tag in problem.tags" :key="tag">tag</Tag>
+                  <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
                 </div>
               </Poptip>
             </p>
@@ -189,6 +192,8 @@
   import api from '@/api'
 
   import { pie, largePie } from './chartData'
+
+  const codeSaver = {}
 
   export default {
     name: 'Problem',
@@ -244,7 +249,6 @@
         this.problemID = this.$route.params.problemID
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
-          console.log(res.data.data)
           this.$Loading.finish()
           this.problem = res.data.data
           this.changePie(res.data.data)
@@ -285,6 +289,16 @@
         this.$router.push(route)
       },
       onChangeLang (newLang) {
+        if (this.code.trim() !== '') {
+          codeSaver[this.language] = this.code
+        }
+        if (codeSaver[newLang]) {
+          this.code = codeSaver[newLang]
+        } else if (this.problem.template[newLang]) {
+          this.code = this.problem.template[newLang]
+        } else {
+          this.code = ''
+        }
         this.language = newLang
       },
       checkSubmissionStatus () {
@@ -322,7 +336,7 @@
           data.captcha = this.captchaCode
         }
         api.submitCode(data).then(res => {
-          this.submissionId = res.data.data.submission_id
+          this.submissionId = res.data.data && res.data.data.submission_id
           // 定时检查状态
           if (this.contestRuleType === 'OI' && !this.OIContestRealTimePermission) {
             this.submitting = false
