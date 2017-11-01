@@ -62,11 +62,11 @@
           <div v-else-if="problem.my_status === 0">
             <Alert type="success" show-icon>You have solved the problem</Alert>
           </div>
-
           <div class="status" v-if="contestEnded">
             <Alert type="warning" show-icon>Contest have ended</Alert>
           </div>
           </Col>
+
           <Col :span="12">
           <template v-if="captchaRequired">
             <div class="captcha-container">
@@ -76,7 +76,6 @@
               <Input v-model="captchaCode" class="captcha-code"/>
             </div>
           </template>
-
           <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="problemSubmitDisabled"
                   class="fl-right">
             <span v-if="!submitting">Submit</span>
@@ -421,7 +420,7 @@
         padding-left: 8px;
       }
     }
-    .content {
+    p.content {
       text-indent: 1.3em;
       font-size: 15px
     }

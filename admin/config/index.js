@@ -31,6 +31,10 @@ module.exports = {
       "/api": {
         target: process.env.TARGET,
         changeOrigin: true
+      },
+      "/static/upload": {
+        target: process.env.TARGET,
+        changeOrigin: true
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

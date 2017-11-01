@@ -195,7 +195,7 @@
         this.$refs.cropper.getCropBlob(blob => {
           let form = new window.FormData()
           let file = new window.File([blob], 'avatar.' + this.avatarOption.outputType)
-          form.append('file', file)
+          form.append('image', file)
           this.$http({
             method: 'post',
             url: 'upload_avatar',
