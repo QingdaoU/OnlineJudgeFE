@@ -106,12 +106,10 @@
 </script>
 
 <style lang="less" scoped>
-  @top-margin: 80px;
-
   .container {
     position: relative;
     width: 75%;
-    margin: @top-margin auto;
+    margin: 170px auto;
     text-align: center;
     p {
       margin-top: 8px;
@@ -122,7 +120,7 @@
       left: 50%;
       transform: translate(-50%);
       z-index: 1;
-      top: -@top-margin;
+      top: -90px;
       .avatar {
         width: 140px;
         height: 140px;

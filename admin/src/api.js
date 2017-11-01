@@ -69,9 +69,7 @@ export default {
       params.keyword = keyword
     }
     return ajax('admin/user', 'get', {
-      options: {
-        params: params
-      }
+      params: params
     })
   },
   // 获取单个用户信息

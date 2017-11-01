@@ -58,8 +58,8 @@
         </div>
       </template>
       <template v-else>
-        <Dropdown class="drop-menu" @on-click="handleRoute" placement="bottom-end">
-          <Button class="btn-menu" type="text">{{ user.username }}
+        <Dropdown class="drop-menu" @on-click="handleRoute" placement="bottom" trigger="click">
+          <Button type="text" class="drop-menu-title">{{ user.username }}
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">
@@ -140,16 +140,16 @@
 
     .drop-menu {
       float: right;
-      margin-top: 10px;
-      padding-right: 10px;
+      margin-right: 40px;
+      &-title {
+        font-size: 18px;
+      }
     }
-
     .btn-menu {
       font-size: 16px;
       float: right;
       margin-right: 10px;
     }
-
   }
 
 

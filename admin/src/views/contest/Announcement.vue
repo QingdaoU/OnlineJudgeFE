@@ -87,7 +87,6 @@
       getContestAnnouncementList () {
         this.loading = true
         api.getContestAnnouncementList(this.$route.params.contestId).then(res => {
-          console.log(res.data.data)
           this.announcementList = res.data.data
           this.loading = false
         }).catch(() => {

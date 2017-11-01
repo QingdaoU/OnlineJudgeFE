@@ -22,22 +22,32 @@
 
   export default {
     name: 'app',
-    mounted () {
-      this.getWebsiteConfig()
+    components: {
+      NavBar
     },
     data () {
       return {
         version: process.env.VERSION
       }
     },
-    components: {
-      NavBar
+    created () {
+      try {
+        document.body.removeChild(document.getElementById('app-loader'))
+      } catch (e) {}
+    },
+    mounted () {
+      this.getWebsiteConfig()
     },
     methods: {
       ...mapActions(['getWebsiteConfig'])
     },
     computed: {
       ...mapState(['website'])
+    },
+    watch: {
+      'website' (newVal) {
+        document.title = newVal.website_name
+      }
     }
   }
 </script>
@@ -70,7 +80,6 @@
   .content-app {
     margin-top: 80px;
     padding: 0 2%;
-    overflow-y: scroll;
   }
 
   .footer {

@@ -87,7 +87,7 @@
         <Form-item label="Blog">
           <Input v-model="formProfile.blog"/>
         </Form-item>
-        <Form-item label="Githb">
+        <Form-item label="Github">
           <Input v-model="formProfile.github"/>
         </Form-item>
         </Col>

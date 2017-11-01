@@ -17,9 +17,8 @@
               <el-tag type="success">{{ props.row.judger_version }}</el-tag>
             </p>
             <p>Service URL: <code>{{ props.row.service_url }}</code></p>
-            <p>
-              Last Heartbeat: {{ props.row.last_heartbeat | localtime}}&nbsp;&nbsp;Create Time: {{ props.row.create_time | localtime
-              }}</p>
+            <p>Last Heartbeat: {{ props.row.last_heartbeat | localtime}}</p>
+            <p>Create Time: {{ props.row.create_time | localtime }}</p>
           </template>
         </el-table-column>
         <el-table-column

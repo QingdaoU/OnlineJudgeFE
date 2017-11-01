@@ -92,7 +92,7 @@
     name: 'ContestList',
     data () {
       return {
-        pageSize: 5,
+        pageSize: 10,
         total: 0,
         contestList: [],
         keyword: '',
