@@ -47,7 +47,6 @@
       return {
         limit: 10,
         total: 0,
-        showChart: true,
         contestID: '',
         columns: [
           {
@@ -297,9 +296,17 @@
         'contest': state => state.contest.contest,
         'contestProblems': state => state.contest.contestProblems
       }),
+      showChart: {
+        get () {
+          return this.$store.state.contest.showChart
+        },
+        set (value) {
+          this.$store.commit(types.CHANGE_CONTEST_CHART_VISIBLE, {visible: value})
+        }
+      },
       showMenu: {
         get () {
-          return this.$store.state.contest.contestMenuVisible
+          return this.$store.state.contest.showMenu
         },
         set (value) {
           this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})

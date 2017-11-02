@@ -265,11 +265,13 @@
     data () {
       return {
         rules: {
+          _id: {required: true, message: 'Display ID is required', trigger: 'blur'},
           title: {required: true, message: 'Title is required', trigger: 'blur'},
           input_description: {required: true, message: 'Input Description is required', trigger: 'blur'},
           output_description: {required: true, message: 'Output Description is required', trigger: 'blur'}
         },
         mode: '',
+        contest: {},
         problem: {
           languages: []
         },
@@ -326,10 +328,11 @@
         }
         let contestID = this.$route.params.contestId
         if (contestID) {
-          this.problem.contest_id = contestID
+          this.problem.contest_id = this.reProblem.contest_id = contestID
           this.disableRuleType = true
           api.getContest(contestID).then(res => {
             this.problem.rule_type = this.reProblem.rule_type = res.data.data.rule_type
+            this.contest = res.data.data
           })
         }
 
@@ -511,6 +514,10 @@
           'create-contest-problem': 'createContestProblem',
           'edit-contest-problem': 'editContestProblem'
         }[this.routeName]
+        // edit contest problem 时, contest_id会被后来的请求覆盖掉
+        if (funcName === 'editContestProblem') {
+          this.problem.contest_id = this.contest.id
+        }
         api[funcName](this.problem).then(res => {
           if (this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem') {
             this.$router.push({name: 'contest-problem-list', params: {contestId: this.$route.params.contestId}})

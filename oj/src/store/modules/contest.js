@@ -9,7 +9,8 @@ const state = {
     created_by: {}
   },
   contestProblems: [],
-  contestMenuVisible: true
+  showMenu: true,
+  showChart: true
 }
 
 const getters = {
@@ -86,7 +87,10 @@ const mutations = {
     state.contest = payload.contest
   },
   [types.CHANGE_CONTEST_MENU_VISIBLE] (state, payload) {
-    state.contestMenuVisible = payload.visible
+    state.showMenu = payload.visible
+  },
+  [types.CHANGE_CONTEST_CHART_VISIBLE] (state, payload) {
+    state.showChart = payload.visible
   },
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
@@ -94,7 +98,8 @@ const mutations = {
   [types.CLEAR_CONTEST] (state) {
     state.contest = {created_by: {}}
     state.contestProblems = []
-    state.contestMenuVisible = true
+    state.showMenu = true
+    state.showChart = true
   },
   [types.NOW] (state, payload) {
     state.now = payload.now

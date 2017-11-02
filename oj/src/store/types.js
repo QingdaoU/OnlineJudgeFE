@@ -18,5 +18,6 @@ export default keyMirror({
   'CHANGE_CONTEST': null,
   'CHANGE_CONTEST_PROBLEMS': null,
   'CHANGE_CONTEST_MENU_VISIBLE': null,
+  'CHANGE_CONTEST_CHART_VISIBLE': null,
   'CLEAR_CONTEST': null
 })

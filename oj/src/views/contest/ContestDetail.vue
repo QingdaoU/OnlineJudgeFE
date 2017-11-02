@@ -127,7 +127,7 @@
     },
     computed: {
       ...mapState({
-        showMenu: state => state.contest.contestMenuVisible,
+        showMenu: state => state.contest.showMenu,
         contest: state => state.contest.contest,
         contest_table: state => [state.contest.contest]
       }),
