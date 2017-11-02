@@ -219,6 +219,13 @@ export default {
     return ajax('admin/contest/problem', 'put', {
       data
     })
+  },
+  makeContestProblemPublic (problemID) {
+    return ajax('admin/contest_problem/make_public', 'post', {
+      data: {
+        problem_id: problemID
+      }
+    })
   }
 }
 

@@ -52,6 +52,7 @@
           width="180">
           <div>
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
+            <icon-btn v-if="contestId" name="Make Public" icon="clone" @click.native="makeContestProblemPublic(row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -121,6 +122,13 @@
         }, res => {
           this.loading = false
         })
+      },
+      makeContestProblemPublic (problemID) {
+        this.$confirm('Sure to public this problem?', 'Warning', {
+          type: 'warning'
+        }).then(() => {
+          api.makeContestProblemPublic(problemID).catch(() => {})
+        }).catch(() => {})
       }
     },
     watch: {
