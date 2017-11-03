@@ -26,15 +26,11 @@
                 <Icon type="clipboard"></Icon>
               </a>
             </p>
-            <Card dis-hover :padding="8">
-              <div>{{sample.input}}</div>
-            </Card>
+            <pre>{{sample.input}}</pre>
             </Col>
             <Col :span=11>
             <p class="title">Sample Output {{index + 1}}</p>
-            <Card dis-hover :padding="8">
-              <div>{{sample.output}}</div>
-            </Card>
+            <pre>{{sample.output}}</pre>
             </Col>
           </Row>
         </div>
