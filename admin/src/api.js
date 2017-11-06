@@ -42,24 +42,15 @@ export default {
     })
   },
   // 修改公告
-  modifyAnnouncement (id, title, content, visible) {
+  updateAnnouncement (data) {
     return ajax('admin/announcement', 'put', {
-      data: {
-        id,
-        title,
-        content,
-        visible
-      }
+      data
     })
   },
   // 添加公告
-  createAnnouncement (title, content, visible) {
+  createAnnouncement (data) {
     return ajax('admin/announcement', 'post', {
-      data: {
-        title,
-        content,
-        visible
-      }
+      data
     })
   },
   // 获取用户列表
@@ -146,10 +137,10 @@ export default {
       params: params
     })
   },
-  getContestAnnouncementList (contestId) {
+  getContestAnnouncementList (contestID) {
     return ajax('admin/contest/announcement', 'get', {
       params: {
-        contest_id: contestId
+        contest_id: contestID
       }
     })
   },
@@ -163,6 +154,11 @@ export default {
       params: {
         id
       }
+    })
+  },
+  updateContestAnnouncement (data) {
+    return ajax('admin/contest/announcement', 'put', {
+      data
     })
   },
   getProblemTagList () {

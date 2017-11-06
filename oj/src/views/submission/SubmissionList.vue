@@ -5,6 +5,13 @@
         <div slot="title">{{title}}</div>
         <div slot="extra">
           <ul class="filter">
+
+            <li>
+              <i-switch size="large" v-model="formFilter.myself" @on-change="handleSwitchChange">
+                <span slot="open">Mine</span>
+                <span slot="close">All</span>
+              </i-switch>
+            </li>
             <li>
               <Dropdown @on-click="handleResultChange">
                 <span>{{status}}
@@ -20,14 +27,11 @@
             </li>
 
             <li>
-              <i-switch size="large" v-model="myself" @on-change="handleSwitchChange">
-                <span slot="open">Mine</span>
-                <span slot="close">All</span>
-              </i-switch>
+              <Input v-model="formFilter.username" placeholder="author" @on-enter="changeRoute"></Input>
             </li>
           </ul>
         </div>
-        <Table stripe :disabled-hover="true" :columns="columns" :data="submissions"></Table>
+        <Table stripe :disabled-hover="true" :columns="columns" :data="submissions" :loading="loadingTable"></Table>
         <Pagination :total="total" :page-size="limit" @on-change="changeRoute" :current.sync="page"></Pagination>
       </Panel>
     </div>
@@ -36,7 +40,7 @@
 
 <script>
   import api from '@/api'
-  import { JUDGE_STATUS } from '@/utils/consts'
+  import { JUDGE_STATUS } from '@/utils/constants'
   import utils from '@/utils/utils'
   import time from '@/utils/time'
   import Pagination from '@/components/Pagination'
@@ -48,8 +52,11 @@
     },
     data () {
       return {
-        myself: false,
-        result: '',
+        formFilter: {
+          myself: false,
+          result: '',
+          username: ''
+        },
         columns: [
           {
             title: 'When',
@@ -143,6 +150,7 @@
             key: 'username'
           }
         ],
+        loadingTable: false,
         submissions: [],
         total: 30,
         limit: 10,
@@ -170,30 +178,34 @@
         this.routeName = this.$route.name
         this.getSubmissions()
       },
-      getSubmissions () {
-        let params = {
-          'result': this.result,
-          'myself': this.myself === true ? '1' : '0',
-          'problem_id': this.problemID,
-          'contest_id': this.contestID
+      buildQuery () {
+        return {
+          myself: this.formFilter.myself === true ? '1' : '0',
+          result: this.formFilter.result,
+          username: this.formFilter.username,
+          page: this.page
         }
+      },
+      getSubmissions () {
+        let params = this.buildQuery()
+        params.contest_id = this.contestID
+        params.problem_id = this.problemID
         let offset = (this.page - 1) * this.limit
         let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
+        this.loadingTable = true
         api[func](offset, this.limit, params).then(res => {
+          this.loadingTable = false
           this.submissions = res.data.data.results
           this.total = res.data.data.total
-        }, _ => {
+        }).catch(() => {
+          this.loadingTable = false
         })
       },
       // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态
       changeRoute () {
-        let query = {
-          contestID: this.contestID,
-          problemID: this.problemID,
-          myself: this.myself === true ? '1' : '0',
-          result: this.result,
-          page: this.page
-        }
+        let query = this.buildQuery()
+        query.contestID = this.contestID
+        query.problemID = this.problemID
         let routeName = query.contestID ? 'contest-submission-list' : 'submission-list'
         this.$router.push({
           name: routeName,
@@ -204,7 +216,7 @@
         this.$router.push(route)
       },
       handleResultChange (status) {
-        this.result = status
+        this.formFilter.result = status
         this.changeRoute()
       },
       handleSwitchChange () {
@@ -223,7 +235,7 @@
         }
       },
       status () {
-        return this.result === '' ? 'Status' : JUDGE_STATUS[this.result].name
+        return this.formFilter.result === '' ? 'Status' : JUDGE_STATUS[this.formFilter.result].name
       }
     },
     watch: {

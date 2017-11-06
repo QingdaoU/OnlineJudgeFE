@@ -15,10 +15,12 @@
         :data="problemList"
         style="width: 100%">
         <el-table-column
+          width="100"
           prop="id"
           label="ID">
         </el-table-column>
         <el-table-column
+          width="150"
           prop="_id"
           label="Display ID">
         </el-table-column>
@@ -31,6 +33,7 @@
           label="Author">
         </el-table-column>
         <el-table-column
+          width="200"
           prop="create_time"
           label="Create Time">
           <template slot-scope="scope">

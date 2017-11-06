@@ -43,7 +43,7 @@
 
 <script>
   import api from '@/api'
-  import { JUDGE_STATUS } from '@/utils/consts'
+  import { JUDGE_STATUS } from '@/utils/constants'
   import utils from '@/utils/utils'
   import Highlight from '@/components/Highlight'
 

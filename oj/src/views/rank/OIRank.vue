@@ -17,7 +17,7 @@
   import api from '@/api'
   import Pagination from '~/Pagination'
   import utils from '@/utils/utils'
-  import {CONTEST_TYPE} from '@/utils/consts'
+  import {RULE_TYPE} from '@/utils/constants'
 
   const limit = 10
 
@@ -141,7 +141,7 @@
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
-        api.getUserRank(offset, this.limit, CONTEST_TYPE.OI).then(res => {
+        api.getUserRank(offset, this.limit, RULE_TYPE.OI).then(res => {
           this.initData(res)
           bar.hideLoading()
         })

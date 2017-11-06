@@ -9,6 +9,7 @@
           :data="announcementList"
           style="width: 100%">
           <el-table-column
+            width="100"
             prop="id"
             label="ID">
           </el-table-column>
@@ -53,6 +54,7 @@
         <div class="option">
           <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="plus">Create</el-button>
           <el-pagination
+            v-if="!contestID"
             class="page"
             layout="prev, pager, next"
             @current-change="currentChange"
@@ -85,7 +87,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
           <cancel @click.native="showEditAnnouncementDialog = false"></cancel>
-          <save type="primary" @click.native="saveAnnouncement()"></save>
+          <save type="primary" @click.native="submitAnnouncement"></save>
         </span>
     </el-dialog>
   </div>
@@ -102,6 +104,7 @@
     },
     data () {
       return {
+        contestID: '',
         // 显示编辑公告对话框
         showEditAnnouncementDialog: false,
         // 公告列表
@@ -112,6 +115,7 @@
         total: 0,
         // 当前公告id
         currentAnnouncementId: null,
+        mode: 'create',
         // 公告 (new | edit) model
         announcement: {
           title: '',
@@ -126,7 +130,18 @@
         currentPage: 0
       }
     },
+    mounted () {
+      this.init()
+    },
     methods: {
+      init () {
+        this.contestID = this.$route.params.contestId
+        if (this.contestID) {
+          this.getContestAnnouncementList()
+        } else {
+          this.getAnnouncementList(1)
+        }
+      },
       // 切换页码回调
       currentChange (page) {
         this.currentPage = page
@@ -139,6 +154,15 @@
           this.total = res.data.data.total
           this.announcementList = res.data.data.results
         }, res => {
+          this.loading = false
+        })
+      },
+      getContestAnnouncementList () {
+        this.loading = true
+        api.getContestAnnouncementList(this.contestID).then(res => {
+          this.loading = false
+          this.announcementList = res.data.data
+        }).catch(() => {
           this.loading = false
         })
       },
@@ -157,20 +181,24 @@
         }, 0)
       },
       // 提交编辑
-      saveAnnouncement () {
-        if (this.currentAnnouncementId) {
-          api.modifyAnnouncement(this.currentAnnouncementId, this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
-            this.showEditAnnouncementDialog = false
-            this.getAnnouncementList(this.currentPage - 1)
-          }).catch(() => {
-          })
-        } else {
-          api.createAnnouncement(this.announcement.title, this.announcement.content, this.announcement.visible).then(res => {
-            this.showEditAnnouncementDialog = false
-            this.getAnnouncementList(this.currentPage)
-          }).catch(() => {
-          })
+      submitAnnouncement () {
+        let funcName = ''
+        let data = {
+          id: this.currentAnnouncementId,
+          title: this.announcement.title,
+          content: this.announcement.content,
+          visible: this.announcement.visible
         }
+        if (this.contestID) {
+          data.contest_id = this.contestID
+          funcName = this.mode === 'edit' ? 'updateContestAnnouncement' : 'createContestAnnouncement'
+        } else {
+          funcName = this.mode === 'edit' ? 'updateAnnouncement' : 'createAnnouncement'
+        }
+        api[funcName](data).then(res => {
+          this.showEditAnnouncementDialog = false
+          this.init()
+        }).catch()
       },
       // 删除公告
       deleteAnnouncement (announcementId) {
@@ -180,10 +208,13 @@
           type: 'warning'
         }).then(() => {
           this.loading = true
-          api.deleteAnnouncement(announcementId).then(res => {
-            this.getAnnouncementList(this.currentPage)
+          let funcName = this.contestID ? 'deleteContestAnnouncement' : 'deleteAnnouncement'
+          api[funcName](announcementId).then(res => {
+            this.loading = true
+            this.init()
           })
         }).catch(() => {
+          this.loading = true
         })
       },
       openAnnouncementDialog (id) {
@@ -196,6 +227,7 @@
               this.announcement.title = item.title
               this.announcement.visible = item.visible
               this.announcement.content = item.content
+              this.mode = 'edit'
             }
           })
         } else {
@@ -203,11 +235,14 @@
           this.announcement.title = ''
           this.announcement.visible = true
           this.announcement.content = ''
+          this.mode = 'create'
         }
       }
     },
-    mounted () {
-      this.getAnnouncementList(1)
+    watch: {
+      $route () {
+        this.init()
+      }
     }
   }
 </script>

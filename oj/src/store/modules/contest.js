@@ -1,13 +1,14 @@
 import moment from 'moment'
 import types from '../types'
 import api from '@/api'
-import { CONTEST_STATUS_REVERSE, USER_TYPE } from '@/utils/consts'
+import { CONTEST_STATUS_REVERSE, USER_TYPE, CONTEST_TYPE } from '@/utils/constants'
 
 const state = {
   now: new Date(),
   access: false,
   contest: {
-    created_by: {}
+    created_by: {},
+    contest_type: CONTEST_TYPE.PUBLIC
   },
   contestProblems: [],
   showMenu: true,
@@ -42,10 +43,10 @@ const getters = {
   },
   contestMenuDisabled: (state, getters) => {
     if (getters.isContestAdmin) return false
-    if (state.access) {
+    if (state.contest.contest_type === CONTEST_TYPE.PUBLIC) {
       return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START
     }
-    return true
+    return !state.access
   },
   OIContestRealTimePermission: (state, getters, _, rootGetters) => {
     if (getters.contestRuleType === 'ACM' || getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
@@ -62,7 +63,7 @@ const getters = {
     return !rootGetters.isAuthenticated
   },
   passwordFormVisible: (state, getters) => {
-    return !state.access && !getters.isContestAdmin
+    return state.contest.contest_type !== CONTEST_TYPE.PUBLIC && !state.access && !getters.isContestAdmin
   },
   contestStartTime: (state) => {
     return moment(state.contest.start_time)
@@ -118,11 +119,15 @@ const mutations = {
 }
 
 const actions = {
-  getContest ({commit, rootState}) {
+  getContest ({commit, rootState, dispatch}) {
     return new Promise((resolve, reject) => {
       api.getContest(rootState.route.params.contestID).then((res) => {
-        commit(types.CHANGE_CONTEST, {contest: res.data.data})
         resolve(res)
+        let contest = res.data.data
+        commit(types.CHANGE_CONTEST, {contest: contest})
+        if (contest.contest_type === CONTEST_TYPE.PRIVATE) {
+          dispatch('getContestAccess')
+        }
       }, err => {
         reject(err)
       })

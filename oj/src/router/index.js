@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import storage from '@/utils/storage'
-import {STORAGE_KEY} from '@/utils/consts'
+import {STORAGE_KEY} from '@/utils/constants'
 import {sync} from 'vuex-router-sync'
 import store from '../store'
 

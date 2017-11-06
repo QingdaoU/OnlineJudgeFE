@@ -27,7 +27,7 @@
 <script>
   import { codemirror } from 'vue-codemirror-lite'
   import storage from '@/utils/storage'
-  import {STORAGE_KEY} from '@/utils/consts'
+  import {STORAGE_KEY} from '@/utils/constants'
   import api from '@/api'
 
   // theme

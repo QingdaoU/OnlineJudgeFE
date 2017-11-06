@@ -85,7 +85,7 @@
   import utils from '@/utils/utils'
   import Pagination from '@/components/Pagination'
   import time from '@/utils/time'
-  import { CONTEST_STATUS } from '@/utils/consts'
+  import { CONTEST_STATUS, CONTEST_TYPE } from '@/utils/constants'
 
   const limit = 4
 
@@ -155,7 +155,7 @@
       },
       goContest (contest) {
         this.cur_contest_id = contest.id
-        if (contest.contest_type !== 'Public' && !this.isAuthenticated) {
+        if (contest.contest_type !== CONTEST_TYPE.PUBLIC && !this.isAuthenticated) {
           this.$error('Please login first.')
           this.$store.dispatch('changeModalStatus', {visible: true})
         } else {

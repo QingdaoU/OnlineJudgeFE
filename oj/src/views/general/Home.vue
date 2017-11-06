@@ -36,7 +36,7 @@
   import Announcements from './Announcements.vue'
   import api from '@/api'
   import time from '@/utils/time'
-  import { CONTEST_STATUS_REVERSE } from '@/utils/consts'
+  import { CONTEST_STATUS_REVERSE } from '@/utils/constants'
 
   export default {
     name: 'home',

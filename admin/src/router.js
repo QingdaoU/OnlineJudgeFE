@@ -5,7 +5,6 @@ import {
   Announcement,
   Conf,
   Contest,
-  ContestAnnouncement,
   ContestList,
   Home,
   JudgeServer,
@@ -88,7 +87,7 @@ export default new VueRouter({
         {
           path: '/contest/:contestId/announcement',
           name: 'contest-announcement',
-          component: ContestAnnouncement
+          component: Announcement
         },
         {
           path: '/contest/:contestId/problems',

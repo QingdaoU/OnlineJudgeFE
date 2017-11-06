@@ -47,17 +47,16 @@
       </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
-        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages" :language="language"></CodeMirror>
+        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages"
+                    :language="language"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
           <div class="status"
                v-if="statusVisible && (!this.contestID || (this.contestID && OIContestRealTimePermission))">
             <span>Status:</span>
-            <a @click.native="handleRoute('/status/'+submissionId)">
-              <Tag type="dot" :color="submissionStatus.color">
-                {{submissionStatus.text}}
-              </Tag>
-            </a>
+            <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
+              {{submissionStatus.text}}
+            </Tag>
           </div>
           <div v-else-if="problem.my_status === 0">
             <Alert type="success" show-icon>You have solved the problem</Alert>
@@ -188,7 +187,7 @@
   import storage from '@/utils/storage'
   import { FormMixin } from '~/mixins'
   import { types } from '@/store'
-  import { JUDGE_STATUS, CONTEST_STATUS_REVERSE, STORAGE_KEY } from '@/utils/consts'
+  import { JUDGE_STATUS, CONTEST_STATUS_REVERSE, STORAGE_KEY } from '@/utils/constants'
   import api from '@/api'
 
   import { pie, largePie } from './chartData'

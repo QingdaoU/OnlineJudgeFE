@@ -25,7 +25,7 @@
                     <Input v-model="contestPassword" type="password" placeholder="contest password"/>
                   </FormItem>
                   <FormItem>
-                    <Button type="info" @click="checkPassword">Check</Button>
+                    <Button type="info" @click="checkPassword">Enter</Button>
                   </FormItem>
                 </Form>
               </div>
@@ -78,7 +78,7 @@
   import api from '@/api'
   import { mapState, mapGetters } from 'vuex'
   import { types } from '@/store'
-  import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/consts'
+  import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/constants'
   import time from '@/utils/time'
 
   export default {
@@ -122,7 +122,6 @@
       }
     },
     mounted () {
-      this.$store.dispatch('getContestAccess')
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest').then(res => {
@@ -139,6 +138,10 @@
         this.$router.push(route)
       },
       checkPassword () {
+        if (this.contestPassword === '') {
+          this.$error('Password can\'t be empty')
+          return
+        }
         this.btnLoading = true
         api.checkContestPassword(this.contestID, this.contestPassword).then((res) => {
           this.$success('Succeeded')

@@ -3,10 +3,10 @@
            class="demo-ruleForm login-container">
     <h3 class="title">Welcome to Login</h3>
     <el-form-item prop="account">
-      <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="username"></el-input>
+      <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="username" @keyup.enter.native="handleLogin"></el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="password"></el-input>
+      <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="password" @keyup.enter.native="handleLogin"></el-input>
     </el-form-item>
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="logining">GO

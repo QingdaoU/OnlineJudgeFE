@@ -90,9 +90,14 @@ export const CONTEST_STATUS = {
   }
 }
 
-export const CONTEST_TYPE = {
+export const RULE_TYPE = {
   ACM: 'ACM',
   OI: 'OI'
+}
+
+export const CONTEST_TYPE = {
+  PUBLIC: 'Public',
+  PRIVATE: 'Password Protected'
 }
 
 export const USER_TYPE = {
