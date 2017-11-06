@@ -41,21 +41,25 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="Status">
-          <template slot-scope="props">
-            <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
-            </el-tag>
+          width="100"
+          prop="visible"
+          label="Visible">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.visible"
+                       on-text=""
+                       off-text=""
+                       @change="handleVisibleSwitch(scope.row)">
+            </el-switch>
           </template>
         </el-table-column>
         <el-table-column
-          inline-template
-          :context="_self"
           fixed="right"
           label="Operation"
           width="180">
-          <div>
-            <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
-            <icon-btn v-if="contestId" name="Make Public" icon="clone" @click.native="makeContestProblemPublic(row.id)"></icon-btn>
+          <div slot-scope="scope">
+            <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn v-if="contestId" name="Make Public" icon="clone"
+                      @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -130,8 +134,23 @@
         this.$confirm('Sure to public this problem?', 'Warning', {
           type: 'warning'
         }).then(() => {
-          api.makeContestProblemPublic(problemID).catch(() => {})
-        }).catch(() => {})
+          api.makeContestProblemPublic(problemID).catch(() => {
+          })
+        }).catch(() => {
+        })
+      },
+      handleVisibleSwitch (row) {
+        let data = Object.assign({}, row)
+        let funcName = ''
+        if (this.contestId) {
+          data.contest_id = this.contestId
+          funcName = 'editContestProblem'
+        } else {
+          funcName = 'editProblem'
+        }
+        api[funcName](data).then(res => {
+          this.currentChange(this.currentPage)
+        }).catch()
       }
     },
     watch: {

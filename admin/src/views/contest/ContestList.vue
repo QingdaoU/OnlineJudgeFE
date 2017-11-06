@@ -16,25 +16,15 @@
         style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
-            <div>
-              <el-tag>{{props.row.rule_type}}</el-tag>
-              <el-tag :type="props.row.visible ? 'success' : 'danger'">{{props.row.visible ? 'Visible' : 'Invisible'}}
-              </el-tag>
-              <el-tag :type="props.row.contest_status === 'Public' ? 'success' : 'primary'">
-                {{ props.row.contest_type}}
-              </el-tag>
-              <el-tag
-                :type="props.row.status === '-1' ? 'gray' : props.row.status === '0' ? 'success' : 'primary'">
-                {{ props.row.status | contestStatus}}
-              </el-tag>
-            </div>
-            <p>
-              Create Time: {{ props.row.create_time | localtime }}
-            </p>
+            <p>Start Time: {{props.row.start_time | localtime }}</p>
+            <p>End Time: {{props.row.end_time | localtime }}</p>
+            <p>Create Time: {{props.row.create_time | localtime}}</p>
+            <p>Creator: {{props.row.created_by.username}}</p>
           </template>
         </el-table-column>
         <el-table-column
           prop="id"
+          width="80"
           label="ID">
         </el-table-column>
         <el-table-column
@@ -42,32 +32,51 @@
           label="Title">
         </el-table-column>
         <el-table-column
-          prop="start_time"
-          label="Start Time">
+          label="Rule Type"
+          width="130">
           <template slot-scope="scope">
-            {{scope.row.start_time | localtime }}
+            <el-tag type="gray">{{scope.row.rule_type}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column
-          prop="end_time"
-          label="End Time">
+          label="Contest Type"
+          width="180">
           <template slot-scope="scope">
-            {{scope.row.end_time | localtime }}
+            <el-tag :type="scope.row.contest_type === 'Public' ? 'success' : 'primary'">
+              {{ scope.row.contest_type}}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column
-          prop="created_by.username"
-          label="Author">
+          label="Status"
+          width="130">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.status === '-1' ? 'danger' : scope.row.status === '0' ? 'success' : 'primary'">
+              {{ scope.row.status | contestStatus}}
+            </el-tag>
+          </template>
         </el-table-column>
         <el-table-column
-          inline-template
-          :context="_self"
+          width="100"
+          label="Visible">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.visible"
+                       on-text=""
+                       off-text=""
+                       @change="handleVisibleSwitch(scope.row)">
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column
           fixed="right"
+          width="180"
           label="Operation">
-          <div>
-            <icon-btn name="Edit" icon="edit" @click.native="goEdit(row.id)"></icon-btn>
-            <icon-btn name="Problem" icon="list-ol" @click.native="goContestProblemList(row.id)"></icon-btn>
-            <icon-btn name="Announcement" icon="info-circle" @click.native="goContestAnnouncement(row.id)"></icon-btn>
+          <div slot-scope="scope">
+            <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn name="Problem" icon="list-ol" @click.native="goContestProblemList(scope.row.id)"></icon-btn>
+            <icon-btn name="Announcement" icon="info-circle"
+                      @click.native="goContestAnnouncement(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -86,7 +95,7 @@
 
 <script>
   import api from '../../api.js'
-  import {CONTEST_STATUS_REVERSE} from '../../utils/constants'
+  import { CONTEST_STATUS_REVERSE } from '../../utils/constants'
 
   export default {
     name: 'ContestList',
@@ -132,6 +141,9 @@
       },
       goContestProblemList (contestId) {
         this.$router.push({name: 'contest-problem-list', params: {contestId}})
+      },
+      handleVisibleSwitch (row) {
+        api.editContest(row)
       }
     },
     watch: {

@@ -36,18 +36,23 @@
             label="Author">
           </el-table-column>
           <el-table-column
+            width="100"
             prop="visible"
-            label="Status"
-            inline-template>
-            <el-tag :type="row.visible ? 'success' : 'danger'">{{row.visible ? 'Visible' : 'Invisible'}}</el-tag>
+            label="Visible">
+            <template slot-scope="scope">
+              <el-switch v-model="scope.row.visible"
+                         on-text=""
+                         off-text=""
+                         @change="handleVisibleSwitch(scope.row)">
+              </el-switch>
+            </template>
           </el-table-column>
           <el-table-column
-            inline-template
             fixed="right"
             label="Option">
-            <div>
-              <icon-btn name="Edit" icon="edit" @click.native="openAnnouncementDialog(row.id)"></icon-btn>
-              <icon-btn name="Delete" icon="trash" @click.native="deleteAnnouncement(row.id)"></icon-btn>
+            <div slot-scope="scope">
+              <icon-btn name="Edit" icon="edit" @click.native="openAnnouncementDialog(scope.row.id)"></icon-btn>
+              <icon-btn name="Delete" icon="trash" @click.native="deleteAnnouncement(scope.row.id)"></icon-btn>
             </div>
           </el-table-column>
         </el-table>
@@ -181,13 +186,15 @@
         }, 0)
       },
       // 提交编辑
-      submitAnnouncement () {
+      submitAnnouncement (data = undefined) {
         let funcName = ''
-        let data = {
-          id: this.currentAnnouncementId,
-          title: this.announcement.title,
-          content: this.announcement.content,
-          visible: this.announcement.visible
+        if (!data) {
+          data = {
+            id: this.currentAnnouncementId,
+            title: this.announcement.title,
+            content: this.announcement.content,
+            visible: this.announcement.visible
+          }
         }
         if (this.contestID) {
           data.contest_id = this.contestID
@@ -237,6 +244,15 @@
           this.announcement.content = ''
           this.mode = 'create'
         }
+      },
+      handleVisibleSwitch (row) {
+        this.mode = 'edit'
+        this.submitAnnouncement({
+          id: row.id,
+          title: row.title,
+          content: row.content,
+          visible: row.visible
+        })
       }
     },
     watch: {
