@@ -4,7 +4,7 @@
       <Col :span=10>
       <div>
         <span>Language:</span>
-        <Select v-model="lang" @on-change="onLangChange" class="adjust">
+        <Select :value="language" @on-change="onLangChange" class="adjust">
           <Option v-for="item in languages" :key="item" :value="item">{{item}}
           </Option>
         </Select>
@@ -26,6 +26,8 @@
 </template>
 <script>
   import { codemirror } from 'vue-codemirror-lite'
+  import storage from '@/utils/storage'
+  import {STORAGE_KEY} from '@/utils/consts'
   import api from '@/api'
 
   // theme
@@ -61,11 +63,14 @@
         default: () => {
           return ['C', 'C++', 'Java', 'Python2']
         }
+      },
+      language: {
+        type: String,
+        default: 'C++'
       }
     },
     data () {
       return {
-        lang: 'C++',
         options: {
           // codemirror options
           tabSize: 4,
@@ -97,12 +102,18 @@
     },
     methods: {
       getLanguages () {
+        let languages = storage.get(STORAGE_KEY.languages)
+        if (languages) {
+          this.mode = languages
+          return
+        }
         api.getLanguages().then(res => {
           let mode = {}
           res.data.data.languages.forEach(language => {
             mode[language.name] = language.content_type
           })
           this.mode = mode
+          storage.set(STORAGE_KEY.languages, mode)
         })
       },
       onEditorCodeChange (newCode) {

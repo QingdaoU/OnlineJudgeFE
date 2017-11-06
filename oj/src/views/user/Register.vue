@@ -1,8 +1,5 @@
 <template>
-  <Modal v-model="visible" :width="400">
-    <div slot="header">
-      <span class="title">Welcome to OJ</span>
-    </div>
+<div>
     <Form ref="formRegister" :model="formRegister" :rules="ruleRegister">
       <FormItem prop="username">
         <Input type="text" v-model="formRegister.username" placeholder="Username" size="large">
@@ -39,7 +36,7 @@
         </div>
       </FormItem>
     </Form>
-    <div slot="footer" class="footer">
+    <div class="footer">
       <Button
         type="primary"
         @click="handleRegister()"
@@ -54,7 +51,7 @@
         Already registed? Login now!
       </Button>
     </div>
-  </Modal>
+  </div>
 </template>
 
 <script>
@@ -158,28 +155,17 @@
       }
     },
     computed: {
-      ...mapGetters(['website', 'modalStatus']),
-      visible: {
-        get () {
-          return this.modalStatus.visible
-        },
-        set (value) {
-          this.changeModalStatus({visible: value})
-        }
-      }
+      ...mapGetters(['website', 'modalStatus'])
+
     }
   }
 </script>
 
 <style scoped lang="less">
-  .title {
-    font-size: 18px;
-    font-weight: 600;
-  }
-
   .footer {
     overflow: auto;
-    margin: 0;
+    margin-top: 20px;
+    margin-bottom: -15px;
     text-align: left;
     .btn {
       margin: 0 0 15px 0;

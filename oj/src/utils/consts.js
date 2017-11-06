@@ -102,5 +102,7 @@ export const USER_TYPE = {
 }
 
 export const STORAGE_KEY = {
-  AUTHED: 'authed'
+  AUTHED: 'authed',
+  PROBLEM_CODE: 'problem_code_',
+  languages: 'languages'
 }

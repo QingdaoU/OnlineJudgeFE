@@ -47,7 +47,7 @@
       </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
-        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages"></CodeMirror>
+        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages" :language="language"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
           <div class="status"
@@ -185,14 +185,13 @@
 <script>
   import { mapGetters } from 'vuex'
   import CodeMirror from '@/components/CodeMirror'
+  import storage from '@/utils/storage'
   import { FormMixin } from '~/mixins'
   import { types } from '@/store'
-  import { JUDGE_STATUS, CONTEST_STATUS_REVERSE } from '@/utils/consts'
+  import { JUDGE_STATUS, CONTEST_STATUS_REVERSE, STORAGE_KEY } from '@/utils/consts'
   import api from '@/api'
 
   import { pie, largePie } from './chartData'
-
-  const codeSaver = {}
 
   export default {
     name: 'Problem',
@@ -239,7 +238,6 @@
     mounted () {
       this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: false})
       this.init()
-      this.getCaptchaSrc()
     },
     methods: {
       init () {
@@ -251,6 +249,12 @@
           this.$Loading.finish()
           this.problem = res.data.data
           this.changePie(res.data.data)
+          let problemCode = storage.get(STORAGE_KEY.PROBLEM_CODE + this.problem.id)
+          if (problemCode) {
+            this.code = problemCode.code
+            this.language = problemCode.language
+            console.log(problemCode)
+          }
         }, () => {
           this.$Loading.error()
         })
@@ -288,15 +292,13 @@
         this.$router.push(route)
       },
       onChangeLang (newLang) {
-        if (this.code.trim() !== '') {
-          codeSaver[this.language] = this.code
-        }
-        if (codeSaver[newLang]) {
-          this.code = codeSaver[newLang]
-        } else if (this.problem.template[newLang]) {
-          this.code = this.problem.template[newLang]
-        } else {
-          this.code = ''
+        if (this.problem.template[newLang]) {
+          this.$Modal.confirm({
+            content: 'The problem has template for ' + newLang + 'Do you want to replace your code with template?',
+            onOk: () => {
+              this.code = this.problem.template[newLang]
+            }
+          })
         }
         this.language = newLang
       },
@@ -381,10 +383,14 @@
         }
       }
     },
-    // 防止切换组件后仍然不断请求
     beforeDestroy () {
+      // 防止切换组件后仍然不断请求
       clearInterval(this.refreshStatus)
       this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: true})
+      storage.set(STORAGE_KEY.PROBLEM_CODE + this.problem.id, {
+        code: this.code,
+        language: this.language
+      })
     },
     watch: {
       '$route' () {

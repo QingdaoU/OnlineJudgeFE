@@ -1,8 +1,5 @@
 <template>
-  <Modal v-model="visible" :width="400">
-    <div slot="header">
-      <span class="title">Welcome to OJ</span>
-    </div>
+  <div>
     <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
       <FormItem prop="username">
         <Input type="text" v-model="formLogin.username" placeholder="Username" size="large">
@@ -20,7 +17,7 @@
         </Input>
       </FormItem>
     </Form>
-    <div slot="footer" class="footer">
+    <div class="footer">
       <Button
         type="primary"
         @click="handleLogin()"
@@ -31,7 +28,7 @@
       <a v-if="website.allow_register" @click.stop="handleBtnClick('register')">No account? Register now!</a>
       <a @click.stop="goResetPassword" style="float: right">Forget Password</a>
     </div>
-  </Modal>
+  </div>
 </template>
 
 <script>
@@ -115,15 +112,10 @@
 </script>
 
 <style scoped lang="less">
-  .title {
-    font-size: 18px;
-    font-weight: 600;
-  }
-
   .footer {
     overflow: auto;
-    margin: 0;
-    margin-top: -10px;
+    margin-top: 20px;
+    margin-bottom: -15px;
     text-align: left;
     .btn {
       margin: 0 0 15px 0;

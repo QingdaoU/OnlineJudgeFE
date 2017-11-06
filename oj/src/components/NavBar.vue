@@ -71,10 +71,11 @@
         </Dropdown>
       </template>
     </Menu>
-    <keep-alive>
-      <component :is="modalStatus.mode"></component>
-    </keep-alive>
-
+    <Modal v-model="modalVisible" :width="400">
+      <div slot="header" class="modal-title">Welcome to {{website.website_name_shortcut}}</div>
+      <component :is="modalStatus.mode" v-if="modalVisible"></component>
+      <div slot="footer" style="display: none"></div>
+    </Modal>
   </div>
 </template>
 
@@ -110,6 +111,14 @@
       // 跟随路由变化
       activeMenu () {
         return '/' + this.$route.path.split('/')[1]
+      },
+      modalVisible: {
+        get () {
+          return this.modalStatus.visible
+        },
+        set (value) {
+          this.changeModalStatus({visible: value})
+        }
       }
     }
   }
@@ -152,5 +161,10 @@
     }
   }
 
-
+  .modal {
+    &-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 </style>
