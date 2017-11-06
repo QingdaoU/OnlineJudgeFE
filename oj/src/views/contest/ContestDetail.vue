@@ -6,8 +6,8 @@
         <router-view></router-view>
       </transition>
       <!--children end-->
-      <div class="flex-container">
-        <template v-if="route_name === 'contest-details'">
+      <div class="flex-container" v-if="route_name === 'contest-details'">
+        <template>
           <div id="contest-desc">
             <Panel :padding="20" shadow>
               <div slot="title">
@@ -19,8 +19,18 @@
                 </Tag>
               </div>
               <div v-html="contest.description"></div>
+              <div v-if="passwordFormVisible">
+                <Form inline class="contest-password">
+                  <FormItem>
+                    <Input v-model="contestPassword" type="password" placeholder="contest password"/>
+                  </FormItem>
+                  <FormItem>
+                    <Button type="info" @click="checkPassword">Check</Button>
+                  </FormItem>
+                </Form>
+              </div>
             </Panel>
-            <Table id="contest-info" :columns="columns" :data="contest_table" disabled-hover></Table>
+            <Table :columns="columns" :data="contest_table" disabled-hover></Table>
           </div>
         </template>
       </div>
@@ -65,6 +75,7 @@
 
 <script>
   import moment from 'moment'
+  import api from '@/api'
   import { mapState, mapGetters } from 'vuex'
   import { types } from '@/store'
   import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/consts'
@@ -77,7 +88,9 @@
       return {
         CONTEST_STATUS_REVERSE: CONTEST_STATUS_REVERSE,
         route_name: '',
+        btnLoading: false,
         contestID: '',
+        contestPassword: '',
         columns: [
           {
             title: 'StartAt',
@@ -109,6 +122,7 @@
       }
     },
     mounted () {
+      this.$store.dispatch('getContestAccess')
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest').then(res => {
@@ -123,6 +137,16 @@
     methods: {
       handleRoute (route) {
         this.$router.push(route)
+      },
+      checkPassword () {
+        this.btnLoading = true
+        api.checkContestPassword(this.contestID, this.contestPassword).then((res) => {
+          this.$success('Succeeded')
+          this.$store.commit(types.CONTEST_ACCESS, {access: true})
+          this.btnLoading = false
+        }, (res) => {
+          this.btnLoading = false
+        })
       }
     },
     computed: {
@@ -131,7 +155,10 @@
         contest: state => state.contest.contest,
         contest_table: state => [state.contest.contest]
       }),
-      ...mapGetters(['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown', 'OIContestRealTimePermission']),
+      ...mapGetters(
+        ['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown',
+          'OIContestRealTimePermission', 'passwordFormVisible']
+      ),
       countdownColor () {
         if (this.contestStatus) {
           return CONTEST_STATUS[this.contestStatus].color
@@ -171,6 +198,10 @@
       flex: none;
       width: 210px;
       margin-left: 20px;
+    }
+    .contest-password {
+      margin-top: 20px;
+      margin-bottom: -10px;
     }
   }
 </style>

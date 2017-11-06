@@ -145,7 +145,7 @@ export default {
   getContest (id) {
     return ajax('contest', 'get', {
       params: {
-        contest_id: id
+        id
       }
     })
   },

@@ -2,29 +2,29 @@
 <div>
     <Form ref="formRegister" :model="formRegister" :rules="ruleRegister">
       <FormItem prop="username">
-        <Input type="text" v-model="formRegister.username" placeholder="Username" size="large">
+        <Input type="text" v-model="formRegister.username" placeholder="Username" size="large" @on-enter="handleRegister">
         <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="email">
-        <Input v-model="formRegister.email" placeholder="Email Address" size="large">
+        <Input v-model="formRegister.email" placeholder="Email Address" size="large" @on-enter="handleRegister">
         <Icon type="ios-email-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formRegister.password" placeholder="Password" size="large">
+        <Input type="password" v-model="formRegister.password" placeholder="Password" size="large" @on-enter="handleRegister">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="passwordAgain">
-        <Input type="password" v-model="formRegister.passwordAgain" placeholder="Password Again" size="large">
+        <Input type="password" v-model="formRegister.passwordAgain" placeholder="Password Again" size="large" @on-enter="handleRegister">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="captcha" style="margin-bottom:10px">
         <div class="oj-captcha">
           <div class="oj-captcha-code">
-            <Input v-model="formRegister.captcha" placeholder="Captcha" size="large">
+            <Input v-model="formRegister.captcha" placeholder="Captcha" size="large" @on-enter="handleRegister">
             <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
             </Input>
           </div>
@@ -39,7 +39,7 @@
     <div class="footer">
       <Button
         type="primary"
-        @click="handleRegister()"
+        @click="handleRegister"
         class="btn" long
         :loading="btnRegisterLoading">
         Register

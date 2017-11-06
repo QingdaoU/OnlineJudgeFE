@@ -5,6 +5,7 @@ import { CONTEST_STATUS_REVERSE, USER_TYPE } from '@/utils/consts'
 
 const state = {
   now: new Date(),
+  access: false,
   contest: {
     created_by: {}
   },
@@ -41,7 +42,10 @@ const getters = {
   },
   contestMenuDisabled: (state, getters) => {
     if (getters.isContestAdmin) return false
-    return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START
+    if (state.access) {
+      return getters.contestStatus === CONTEST_STATUS_REVERSE.NOT_START
+    }
+    return true
   },
   OIContestRealTimePermission: (state, getters, _, rootGetters) => {
     if (getters.contestRuleType === 'ACM' || getters.contestStatus === CONTEST_STATUS_REVERSE.ENDED) {
@@ -56,6 +60,9 @@ const getters = {
       return !getters.isContestAdmin
     }
     return !rootGetters.isAuthenticated
+  },
+  passwordFormVisible: (state, getters) => {
+    return !state.access && !getters.isContestAdmin
   },
   contestStartTime: (state) => {
     return moment(state.contest.start_time)
@@ -95,11 +102,15 @@ const mutations = {
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
   },
+  [types.CONTEST_ACCESS] (state, payload) {
+    state.access = payload.access
+  },
   [types.CLEAR_CONTEST] (state) {
     state.contest = {created_by: {}}
     state.contestProblems = []
     state.showMenu = true
     state.showChart = true
+    state.access = false
   },
   [types.NOW] (state, payload) {
     state.now = payload.now
@@ -125,6 +136,14 @@ const actions = {
       }, () => {
         commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: []})
       })
+    })
+  },
+  getContestAccess ({commit, rootState}) {
+    return new Promise((resolve, reject) => {
+      api.getContestAccess(rootState.route.params.contestID).then(res => {
+        commit(types.CONTEST_ACCESS, {access: res.data.data.access})
+        resolve(res)
+      }).catch()
     })
   }
 }

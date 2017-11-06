@@ -2,12 +2,12 @@
   <div>
     <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
       <FormItem prop="username">
-        <Input type="text" v-model="formLogin.username" placeholder="Username" size="large">
+        <Input type="text" v-model="formLogin.username" placeholder="Username" size="large" @on-enter="handleLogin">
         <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formLogin.password" placeholder="Password" size="large">
+        <Input type="password" v-model="formLogin.password" placeholder="Password" size="large" @on-enter="handleLogin">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
@@ -20,7 +20,7 @@
     <div class="footer">
       <Button
         type="primary"
-        @click="handleLogin()"
+        @click="handleLogin"
         class="btn" long
         :loading="btnLoginLoading">
         Login

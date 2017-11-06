@@ -61,7 +61,8 @@
               </li>
               <li>
                 <Button size="small" shape="circle" @click="onRuleChange(contest.rule_type)">
-                  {{contest.rule_type}}</Button>
+                  {{contest.rule_type}}
+                </Button>
               </li>
             </ul>
             </Col>
@@ -74,24 +75,17 @@
     </Panel>
     <Pagination :total="total" :pageSize="limit" @on-change="getContestList" :current.sync="page"></Pagination>
     </Col>
-
-    <Modal title="Input Password" v-model="passwordModal">
-      <Input v-model="password" type="password"/>
-      <div slot="footer">
-        <Button type="primary" :loading="btnLoading" @click="checkPasswd">GO</Button>
-      </div>
-    </Modal>
   </Row>
 
 </template>
 
 <script>
   import api from '@/api'
-  import {mapGetters} from 'vuex'
+  import { mapGetters } from 'vuex'
   import utils from '@/utils/utils'
   import Pagination from '@/components/Pagination'
   import time from '@/utils/time'
-  import {CONTEST_STATUS} from '@/utils/consts'
+  import { CONTEST_STATUS } from '@/utils/consts'
 
   const limit = 4
 
@@ -108,9 +102,6 @@
           keyword: '',
           rule_type: ''
         },
-        passwordModal: false,
-        btnLoading: false,
-        password: '',
         limit: limit,
         total: 0,
         rows: '',
@@ -164,39 +155,14 @@
       },
       goContest (contest) {
         this.cur_contest_id = contest.id
-        let route = {name: 'contest-details', params: {contestID: this.cur_contest_id}}
-        if (contest.contest_type !== 'Public') {
-          if (!this.isAuthenticated) {
-            this.$error('Please login first.')
-            this.$store.dispatch('changeModalStatus', {visible: true})
-          } else if (contest.created_by.id === this.user.id) {
-            // contest.created_by is user self.
-            this.$router.push(route)
-          } else {
-            // check if contest have been authenticated
-            api.getContestAccess(contest.id).then((res) => {
-              let access = res.data.data.access
-              if (access === false) {
-                this.passwordModal = true
-              } else {
-                this.$router.push(route)
-              }
-            })
-          }
+        if (contest.contest_type !== 'Public' && !this.isAuthenticated) {
+          this.$error('Please login first.')
+          this.$store.dispatch('changeModalStatus', {visible: true})
         } else {
-          this.$router.push(route)
+          this.$router.push({name: 'contest-details', params: {contestID: contest.id}})
         }
       },
-      checkPasswd () {
-        this.btnLoading = true
-        api.checkContestPassword(this.cur_contest_id, this.password).then((res) => {
-          this.btnLoading = false
-          this.passwordModal = false
-          this.$router.push({name: 'contest-details', params: {contestID: this.cur_contest_id}})
-        }, (res) => {
-          this.btnLoading = false
-        })
-      },
+
       getDuration (startTime, endTime) {
         return time.duration(startTime, endTime)
       }

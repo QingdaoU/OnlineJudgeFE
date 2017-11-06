@@ -99,6 +99,7 @@
 <script>
   import api from '@/api.js'
   import vueCropper from 'vue-cropper'
+  import {types} from '@/store'
 
   export default {
     components: {
@@ -213,6 +214,7 @@
         this.btnLoading = true
         api.updateProfile(this.formProfile).then(res => {
           this.$success('Success')
+          this.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
           this.btnLoading = false
         }, _ => {
           this.btnLoading = false

@@ -3,7 +3,7 @@
     <Col :span="22">
     <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
-        {{contests[index].title}}
+        <Button type="text" @click="goContest">{{contests[index].title}}</Button>
       </div>
       <Carousel v-model="index" trigger="hover" autoplay :autoplay-speed="6000" class="contest">
         <CarouselItem v-for="contest, index in contests" :key="index">
@@ -58,6 +58,12 @@
     methods: {
       getDuration (startTime, endTime) {
         return time.duration(startTime, endTime)
+      },
+      goContest () {
+        this.$router.push({
+          name: 'contest-details',
+          params: {contestID: this.contests[this.index].id}
+        })
       }
     }
   }
