@@ -43,7 +43,6 @@
     },
     data () {
       return {
-        limit: 10,
         total: 0,
         contestID: '',
         columns: [
@@ -60,8 +59,8 @@
                 props: {
                   type: 'text'
                 },
-                style: {
-                  color: '#57a3f3'
+                'class': {
+                  'link-button': true
                 },
                 on: {
                   click: () => {
@@ -240,6 +239,14 @@
           this.$nextTick(() => {
             this.$refs.tableRank.handleResize()
           })
+        }
+      },
+      limit: {
+        get () {
+          return this.$store.state.contest.rankLimit
+        },
+        set (value) {
+          this.$store.commit(types.CHANGE_CONTEST_RANK_LIMIT, {rankLimit: value})
         }
       }
     },

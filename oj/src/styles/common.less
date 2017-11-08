@@ -52,7 +52,10 @@ body {
 .oj-relative {
   position: relative;
 }
-
+.link-button {
+  color: #57a3f3;
+  white-space: normal;
+}
 // for mathjax
 .MathJax {
   outline: 0;
@@ -63,11 +66,6 @@ body {
   overflow-y: hidden;
 }
 
-hr {
-  border-top: 1px dashed #b3b3b3;
-  margin: 5px auto;
-}
-
 blockquote {
   border-left: 3px solid #bbbec4;
   padding-left: 10px;
@@ -75,12 +73,32 @@ blockquote {
   margin-bottom: 10px;
   color: #7b7b7b;
 }
-
 pre {
-  margin: 15px 0px;
-  padding: 5px;
+  padding: 5px 10px;
+  white-space: pre-wrap;
+  margin-top: 15px;
+  margin-bottom: 15px;
   background: #f8f8f9;
   border: 1px dashed #e9eaec;
+}
+
+code {
+  font-size: 90%;
+  padding: 2px 5px;
+  margin: 0;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+  line-height: 1.5;
+}
+
+pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
 }
 
 @keyframes fadeInUp {

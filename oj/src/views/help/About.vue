@@ -64,7 +64,7 @@ java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Dja
       > ul {
         list-style: disc;
         li {
-          line-height: 1.8;
+          line-height: 2;
           .title {
             font-weight: 500;
           }

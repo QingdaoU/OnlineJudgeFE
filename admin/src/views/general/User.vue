@@ -48,7 +48,7 @@
       </div>
     </Panel>
     <!--对话框-->
-    <el-dialog title="User" v-model="showUserDialog">
+    <el-dialog title="User" v-model="showUserDialog" :close-on-click-modal="false">
       <el-form :model="user" label-width="120px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">

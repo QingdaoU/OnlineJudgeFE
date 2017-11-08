@@ -147,7 +147,25 @@
           {
             title: 'Author',
             align: 'center',
-            key: 'username'
+            render: (h, params) => {
+              return h('Button', {
+                props: {
+                  type: 'text'
+                },
+                'class': {
+                  'link-button': true
+                },
+                on: {
+                  click: () => {
+                    this.$router.push(
+                      {
+                        name: 'user-home',
+                        query: {username: params.row.username}
+                      })
+                  }
+                }
+              }, params.row.username)
+            }
           }
         ],
         loadingTable: false,

@@ -5,7 +5,7 @@
       <Panel :padding="20" shadow id="problem-content">
         <div slot="title">{{problem.title}}</div>
 
-        <p class="title" style="margin-top: 0">Description</p>
+        <p class="title" style="margin-top: -10px">Description</p>
         <p class="content" v-html=problem.description></p>
 
         <p class="title">Input</p>
@@ -13,7 +13,6 @@
 
         <p class="title">Output</p>
         <p class="content" v-html=problem.output_description></p>
-
 
         <div v-for="sample, index in problem.samples">
           <Row type="flex" justify="space-between">
@@ -34,6 +33,7 @@
             </Col>
           </Row>
         </div>
+
         <div v-if="problem.hint">
           <p class="title">Hint</p>
           <Card dis-hover>
@@ -245,9 +245,16 @@
           this.problem = res.data.data
           this.changePie(res.data.data)
           let problemCode = storage.get(STORAGE_KEY.PROBLEM_CODE + this.problem.id)
+          let template = this.problem.template
           if (problemCode) {
-            this.code = problemCode.code
             this.language = problemCode.language
+            if (problemCode.code === '' && template[this.language]) {
+              this.code = template[this.language]
+            } else {
+              this.code = problemCode.code
+            }
+          } else if (template[this.language]) {
+            this.code = template[this.language]
           }
           this.$nextTick(() => {
             window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
@@ -291,7 +298,7 @@
       onChangeLang (newLang) {
         if (this.problem.template[newLang]) {
           this.$Modal.confirm({
-            content: 'The problem has template for ' + newLang + 'Do you want to replace your code with template?',
+            content: 'The problem has template for ' + newLang + ', Do you want to replace your code with template?',
             onOk: () => {
               this.code = this.problem.template[newLang]
             }
@@ -424,8 +431,13 @@
       }
     }
     p.content {
-      text-indent: 1.3em;
+      margin-left: 25px;
+      margin-right: 20px;
       font-size: 15px
+    }
+    pre {
+      border-style: solid;
+      background: transparent;
     }
   }
 

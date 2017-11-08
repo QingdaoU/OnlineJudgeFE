@@ -6,6 +6,7 @@ import { CONTEST_STATUS_REVERSE, USER_TYPE, CONTEST_TYPE } from '@/utils/constan
 const state = {
   now: new Date(),
   access: false,
+  rankLimit: 30,
   contest: {
     created_by: {},
     contest_type: CONTEST_TYPE.PUBLIC
@@ -102,6 +103,9 @@ const mutations = {
   },
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
+  },
+  [types.CHANGE_CONTEST_RANK_LIMIT] (state, payload) {
+    state.rankLimit = payload.rankLimit
   },
   [types.CONTEST_ACCESS] (state, payload) {
     state.access = payload.access

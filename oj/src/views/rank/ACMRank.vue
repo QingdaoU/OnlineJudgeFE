@@ -46,8 +46,8 @@
                 props: {
                   type: 'text'
                 },
-                style: {
-                  color: '#57a3f3'
+                'class': {
+                  'link-button': true
                 },
                 on: {
                   click: () => {

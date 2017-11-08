@@ -17,7 +17,7 @@
   import api from '@/api'
   import Pagination from '~/Pagination'
   import utils from '@/utils/utils'
-  import {RULE_TYPE} from '@/utils/constants'
+  import { RULE_TYPE } from '@/utils/constants'
 
   const limit = 10
 
@@ -46,8 +46,8 @@
                 props: {
                   type: 'text'
                 },
-                style: {
-                  color: '#57a3f3'
+                'class': {
+                  'link-button': true
                 },
                 on: {
                   click: () => {

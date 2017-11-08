@@ -70,7 +70,8 @@
       </div>
     </Panel>
     <!--对话框-->
-    <el-dialog :title="announcementDialogTitle" @open="onOpenEditDialog" v-model="showEditAnnouncementDialog">
+    <el-dialog :title="announcementDialogTitle" v-model="showEditAnnouncementDialog"
+               @open="onOpenEditDialog" :close-on-click-modal="false">
       <el-form label-position="top">
         <el-form-item label="Title" required>
           <el-input
@@ -186,9 +187,10 @@
         }, 0)
       },
       // 提交编辑
+      // 默认传入MouseEvent
       submitAnnouncement (data = undefined) {
         let funcName = ''
-        if (!data) {
+        if (!data.title) {
           data = {
             id: this.currentAnnouncementId,
             title: this.announcement.title,
@@ -196,6 +198,7 @@
             visible: this.announcement.visible
           }
         }
+        console.log(data)
         if (this.contestID) {
           data.contest_id = this.contestID
           funcName = this.mode === 'edit' ? 'updateContestAnnouncement' : 'createContestAnnouncement'

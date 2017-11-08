@@ -4,7 +4,7 @@
     <div class="content">
       <ul>
         <li>Where is the input and the output?
-          <p>Your program shall read input from stdin('Standard Input') and write output to stdout('Standard Output').
+          <p>Your program shall read input from <code>stdin</code>('Standard Input') and write output to <code>stdout</code>('Standard Output').
             For example,you can use <code>scanf</code> in C or <code>cin</code> in C++ to read from stdin,and use <code>printf</code> in C or <code>cout</code> in C++ to write to stdout.
             User programs are not allowed to read or write files, or you will get a <code>Runtime Error</code>.
           </p>
@@ -19,7 +19,7 @@
           <p>You should declare as <code>long long</code> and use with <code>cin/cout</code> or <code>%lld</code>, using<code> __int64</code> will result in <code>Compile Error</code>.</p>
         </li>
         <li>Java specifications?
-          <p>All programs must begin in a static main method in a Main class. Do not use public classes: even Main must be non public to avoid compile error.Use buffered I/O to avoid time limit exceeded due to excesive flushing.</p>
+          <p>All programs must begin in a static main method in a <code>Main</code> class. Do not use public classes: even <code>Main</code> must be non public to avoid compile error.Use buffered I/O to avoid time limit exceeded due to excesive flushing.</p>
         </li>
         <li>About presentation error?
           <p>There is no presentation error in this oj.The judger will trim the blacks and wraps in your ouput's <b>last</b> line.
@@ -51,21 +51,12 @@
           margin-top: 0;
         }
         p {
-          border-left: 1px solid #bbbec4;
-          padding-left: 10px;
           font-size: 14px;
-          text-indent: 1em;
           margin-top: 5px;
         }
       }
     }
   }
-  code {
-    font-size: 90%;
-    padding: 0.2em;
-    margin: 0;
-    background-color: rgba(27,31,35,0.08);
-    border-radius: 3px;
-  }
+
 
 </style>

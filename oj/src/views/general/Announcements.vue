@@ -156,20 +156,8 @@
   }
 
   /deep/ .content-container {
+    @import "../../styles/markdown.less";
     padding: 0 20px 20px 20px;
-    p {
-      text-indent: 1em;
-    }
-    ul, ol {
-      margin-left: 20px;
-    }
-    ul {
-      list-style: disc;
-    }
-    ol {
-      list-style: decimal;
-    }
-
   }
   .no-announcement {
     text-align: center;

@@ -29,29 +29,19 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="description" label="Description" required>
-              <Simditor placeholder="" v-model="problem.description"></Simditor>
+              <Simditor v-model="problem.description"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item required prop="input_description" label="Input Description" required>
-              <el-input
-                type="textarea"
-                :autosize="{ minRows: 3, maxRows: 8}"
-                placeholder="Input Description"
-                v-model="problem.input_description">
-              </el-input>
+            <el-form-item prop="input_description" label="Input Description" required>
+              <Simditor v-model="problem.input_description"></Simditor>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item required prop="output_description" label="Output Description" required>
-              <el-input
-                type="textarea"
-                :autosize="{ minRows: 3, maxRows: 8}"
-                placeholder="Output Description"
-                v-model="problem.output_description">
-              </el-input>
+            <el-form-item prop="output_description" label="Output Description" required>
+              <Simditor v-model="problem.output_description"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -518,6 +508,7 @@
         if (funcName === 'editContestProblem') {
           this.problem.contest_id = this.contest.id
         }
+        console.log(this.problem)
         api[funcName](this.problem).then(res => {
           if (this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem') {
             this.$router.push({name: 'contest-problem-list', params: {contestId: this.$route.params.contestId}})
