@@ -1,104 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>OnlineJudge</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="renderer" content="webkit"/>
-  <title>OnlineJudge</title>
+
+  <link href="static/css/loader.css" rel="stylesheet">
+
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+    showProcessingMessages: false,
+    messageStyle: "none",
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+        inlineMath:  [ ["$", "$"] ],
+        displayMath: [ ["$$","$$"] ],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a']
+    },
+    "HTML-CSS": {
+        availableFonts: ["STIX","TeX"],
+        showMathMenu: false
+    }
+});
+  </script>
+  <script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
-<style>
-  #app-loader {
-    height: 20px;
-    width: 250px;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-  }
-
-  .loader--dot {
-    animation-name: loader;
-    animation-timing-function: ease-in-out;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    height: 20px;
-    width: 20px;
-    border-radius: 100%;
-    background-color: black;
-    position: absolute;
-    border: 2px solid white;
-  }
-
-  .loader--dot:first-child {
-    background-color: #8cc759;
-    animation-delay: 0.5s;
-  }
-
-  .loader--dot:nth-child(2) {
-    background-color: #8c6daf;
-    animation-delay: 0.4s;
-  }
-
-  .loader--dot:nth-child(3) {
-    background-color: #ef5d74;
-    animation-delay: 0.3s;
-  }
-
-  .loader--dot:nth-child(4) {
-    background-color: #f9a74b;
-    animation-delay: 0.2s;
-  }
-
-  .loader--dot:nth-child(5) {
-    background-color: #60beeb;
-    animation-delay: 0.1s;
-  }
-
-  .loader--dot:nth-child(6) {
-    background-color: #fbef5a;
-    animation-delay: 0s;
-  }
-
-  @keyframes loader {
-    15% {
-      transform: translateX(0);
-    }
-    45% {
-      transform: translateX(230px);
-    }
-    65% {
-      transform: translateX(230px);
-    }
-    95% {
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes loading-text {
-    0% {
-      content: "Loading";
-    }
-    25% {
-      content: "Loading.";
-    }
-    50% {
-      content: "Loading..";
-    }
-    75% {
-      content: "Loading...";
-    }
-  }
-</style>
-<body style="background: #eee">
-<div id='app-loader'>
-  <div class='loader--dot'></div>
-  <div class='loader--dot'></div>
-  <div class='loader--dot'></div>
-  <div class='loader--dot'></div>
-  <div class='loader--dot'></div>
-  <div class='loader--dot'></div>
+<body>
+<div id="app-loader">
+  <div class="square"></div>
+  <div class="square"></div>
+  <div class="square last"></div>
+  <div class="square clear"></div>
+  <div class="square"></div>
+  <div class="square last"></div>
+  <div class="square clear"></div>
+  <div class="square "></div>
+  <div class="square last"></div>
 </div>
+
 <div id="app"></div>
 <!-- built files will be auto injected -->
 </body>

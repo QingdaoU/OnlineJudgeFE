@@ -91,7 +91,10 @@
         loading: false,
         currentPage: 1,
         routeName: '',
-        contestId: ''
+        contestId: '',
+        // for make public use
+        currentProblemID: '',
+        makePublicDialogVisible: false
       }
     },
     mounted () {
@@ -131,12 +134,9 @@
         })
       },
       makeContestProblemPublic (problemID) {
-        this.$confirm('Sure to public this problem?', 'Warning', {
-          type: 'warning'
-        }).then(() => {
-          api.makeContestProblemPublic(problemID).catch(() => {
-          })
-        }).catch(() => {
+        this.$prompt('Please input display id for the public problem', 'confirm').then(({value}) => {
+          api.makeContestProblemPublic({id: problemID, display_id: value}).catch()
+        }, () => {
         })
       },
       handleVisibleSwitch (row) {

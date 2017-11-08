@@ -216,11 +216,9 @@ export default {
       data
     })
   },
-  makeContestProblemPublic (problemID) {
+  makeContestProblemPublic (data) {
     return ajax('admin/contest_problem/make_public', 'post', {
-      data: {
-        problem_id: problemID
-      }
+      data
     })
   }
 }

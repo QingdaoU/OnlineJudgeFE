@@ -248,8 +248,10 @@
           if (problemCode) {
             this.code = problemCode.code
             this.language = problemCode.language
-            console.log(problemCode)
           }
+          this.$nextTick(() => {
+            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+          })
         }, () => {
           this.$Loading.error()
         })
