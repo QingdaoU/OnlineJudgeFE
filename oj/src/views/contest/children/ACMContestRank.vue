@@ -96,12 +96,13 @@
         options: {
           title: {
             text: 'Top 10 Teams',
-            left: 'center',
-            top: '0'
+//            top: '0',
+            left: 'center'
           },
           dataZoom: [
             {
               type: 'inside',
+              filterMode: 'none',
               xAxisIndex: [0],
               start: 0,
               end: 100
@@ -124,8 +125,11 @@
           legend: {
             orient: 'vertical',
             y: 'center',
-            right: 30,
+            right: '5%',
             data: []
+          },
+          grid: {
+            right: '15%'
           },
           xAxis: [{
             type: 'time',
@@ -309,8 +313,13 @@
         },
         set (value) {
           this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
+          if (this.showChart) {
+          }
           this.$nextTick(() => {
             this.$refs.tableRank.handleResize()
+            if (this.showChart) {
+              this.$refs.chart.resize()
+            }
           })
         }
       },
@@ -330,9 +339,9 @@
 </script>
 <style scoped lang="less">
   .echarts {
-    margin: 30px auto 0 auto;
-    height: 350px;
-    width: 95%;
+    margin: 20px auto;
+    height: 400px;
+    width: 98%;
   }
 
   #switches {

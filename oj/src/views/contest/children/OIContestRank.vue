@@ -238,6 +238,9 @@
           this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
           this.$nextTick(() => {
             this.$refs.tableRank.handleResize()
+            if (this.showChart) {
+              this.$refs.chart.resize()
+            }
           })
         }
       },
@@ -257,9 +260,9 @@
 </script>
 <style scoped lang="less">
   .echarts {
-    margin: 30px auto 0 auto;
-    height: 350px;
-    width: 95%;
+    margin: 20px auto;
+    height: 400px;
+    width: 98%;
   }
 
   #switches {

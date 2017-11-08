@@ -192,7 +192,7 @@
 
   .flex-container {
     #contest-main {
-      flex: auto;
+      flex: 1 1;
       #contest-desc {
         flex: auto;
       }

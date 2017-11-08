@@ -29,7 +29,15 @@
           </div>
         </div>
         <div id="problems">
-          <p v-if="problems.length">List of solved problems</p>
+          <p v-if="problems.length">List of solved problems
+            <Poptip trigger="hover" placement="right-start">
+              <Icon type="ios-help-outline"></Icon>
+              <div slot="content">
+                <p>If you find the following problem id does not exist,<br> try to click the button.</p>
+                <Button type="info" @click="freshProblemDisplayID">regenerate</Button>
+              </div>
+            </Poptip>
+          </p>
           <p v-else>The guy is so lazy that has not solved any problem yet.</p>
           <div class="btns">
             <div class="problem-btn" v-for="problemID in problems">
@@ -93,6 +101,12 @@
       },
       goProblem (problemID) {
         this.$router.push({name: 'problem-details', params: {problemID: problemID}})
+      },
+      freshProblemDisplayID () {
+        api.freshDisplayID().then(res => {
+          this.$success('Update successfully')
+          this.init()
+        })
       }
     },
     watch: {
