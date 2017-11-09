@@ -58,7 +58,7 @@
         <img :src="uploadImgSrc"/>
       </div>
       <div slot="footer">
-        <Button @click="uploadAvatar">upload</Button>
+        <Button @click="uploadAvatar" :loading="loadingUploadBtn">upload</Button>
       </div>
     </Modal>
 
@@ -76,7 +76,7 @@
           <Input v-model="formProfile.major"/>
         </Form-item>
         <Form-item>
-          <Button type="primary" @click="updateProfile" :loading="btnLoading">Save All</Button>
+          <Button type="primary" @click="updateProfile" :loading="loadingSaveBtn">Save All</Button>
         </Form-item>
         </Col>
 
@@ -107,7 +107,8 @@
     },
     data () {
       return {
-        btnLoading: false,
+        loadingSaveBtn: false,
+        loadingUploadBtn: false,
         uploadModalVisible: false,
         preview: {},
         uploadImgSrc: '',
@@ -197,27 +198,31 @@
           let form = new window.FormData()
           let file = new window.File([blob], 'avatar.' + this.avatarOption.outputType)
           form.append('image', file)
+          this.loadingUploadBtn = true
           this.$http({
             method: 'post',
             url: 'upload_avatar',
             data: form,
             headers: {'content-type': 'multipart/form-data'}
           }).then(res => {
+            this.loadingUploadBtn = false
             this.$success('Successfully set new avatar')
             this.uploadModalVisible = false
             this.avatarOption.imgSrc = ''
             this.$store.dispatch('getProfile')
+          }, () => {
+            this.loadingUploadBtn = false
           })
         })
       },
       updateProfile () {
-        this.btnLoading = true
+        this.loadingSaveBtn = true
         api.updateProfile(this.formProfile).then(res => {
           this.$success('Success')
           this.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
-          this.btnLoading = false
+          this.loadingSaveBtn = false
         }, _ => {
-          this.btnLoading = false
+          this.loadingSaveBtn = false
         })
       }
     },

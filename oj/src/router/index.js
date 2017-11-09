@@ -4,7 +4,7 @@ import routes from './routes'
 import storage from '@/utils/storage'
 import {STORAGE_KEY} from '@/utils/constants'
 import {sync} from 'vuex-router-sync'
-import store from '../store'
+import {types, default as store} from '../store'
 
 Vue.use(VueRouter)
 
@@ -25,7 +25,8 @@ router.beforeEach((to, from, next) => {
   Vue.prototype.$Loading.start()
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!storage.get(STORAGE_KEY.AUTHED)) {
-      Vue.prototype.$error('please login first')
+      Vue.prototype.$error('Please login first')
+      store.commit(types.CHANGE_MODAL_STATUS, {mode: 'login', visible: true})
       next({
         name: 'home'
       })

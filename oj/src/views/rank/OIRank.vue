@@ -8,7 +8,9 @@
       </div>
     </Panel>
     <Table :data="dataRank" :columns="columns" size="large"></Table>
-    <Pagination :total="total" :page-size="limit" @on-change="getRankData"></Pagination>
+    <Pagination :total="total" :page-size.sync="limit"
+                @on-change="getRankData"
+                show-sizer @on-page-size-change="getRankData(1)"></Pagination>
     </Col>
   </Row>
 </template>
@@ -19,8 +21,6 @@
   import utils from '@/utils/utils'
   import { RULE_TYPE } from '@/utils/constants'
 
-  const limit = 10
-
   export default {
     name: 'acm-rank',
     components: {
@@ -29,7 +29,7 @@
     data () {
       return {
         page: 1,
-        limit: limit,
+        limit: 30,
         total: 0,
         dataRank: [],
         columns: [
@@ -95,6 +95,10 @@
           legend: {
             data: ['Score']
           },
+          grid: {
+            x: '3%',
+            x2: '3%'
+          },
           toolbox: {
             show: true,
             feature: {
@@ -108,7 +112,20 @@
           xAxis: [
             {
               type: 'category',
-              data: ['root']
+              data: ['root'],
+              boundaryGap: true,
+              axisLabel: {
+                interval: 0,
+                showMinLabel: true,
+                showMaxLabel: true,
+                align: 'center',
+                formatter: (value, index) => {
+                  return value.replace(/(.{8})/g, '$1\n')
+                }
+              },
+              axisTick: {
+                alignWithLabel: true
+              }
             }
           ],
           yAxis: [
@@ -121,6 +138,7 @@
               name: 'Score',
               type: 'bar',
               data: [0],
+              barMaxWidth: '80',
               markPoint: {
                 data: [
                   {type: 'max', name: 'max'}
@@ -131,18 +149,20 @@
         }
       }
     },
+    mounted () {
+      this.getRankData(1)
+    },
     methods: {
-      initData (res) {
-        this.changeCharts(res.data.data.results)
-        this.total = res.data.data.total
-        this.dataRank = res.data.data.results
-      },
       getRankData (page) {
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getUserRank(offset, this.limit, RULE_TYPE.OI).then(res => {
-          this.initData(res)
+          if (page === 1) {
+            this.changeCharts(res.data.data.results)
+          }
+          this.total = res.data.data.total
+          this.dataRank = res.data.data.results
           bar.hideLoading()
         })
       },
@@ -155,9 +175,6 @@
         this.options.xAxis[0].data = usernames
         this.options.series[0].data = scores
       }
-    },
-    mounted () {
-      this.getRankData(1)
     }
   }
 </script>

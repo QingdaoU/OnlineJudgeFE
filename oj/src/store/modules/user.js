@@ -1,7 +1,7 @@
 import types from '../types'
 import api from '@/api'
 import storage from '@/utils/storage'
-import {STORAGE_KEY} from '@/utils/constants'
+import { STORAGE_KEY } from '@/utils/constants'
 
 const state = {
   profile: {}
@@ -34,6 +34,7 @@ const actions = {
     commit(types.CHANGE_PROFILE, {
       profile: {}
     })
+    storage.clear()
   }
 }
 

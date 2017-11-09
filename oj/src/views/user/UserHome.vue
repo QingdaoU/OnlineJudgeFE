@@ -30,7 +30,7 @@
         </div>
         <div id="problems">
           <p v-if="problems.length">List of solved problems
-            <Poptip trigger="hover" placement="right-start">
+            <Poptip v-if="refreshVisible" trigger="hover" placement="right-start">
               <Icon type="ios-help-outline"></Icon>
               <div slot="content">
                 <p>If you find the following problem id does not exist,<br> try to click the button.</p>
@@ -67,6 +67,7 @@
   export default {
     data () {
       return {
+        username: '',
         profile: {},
         problems: []
       }
@@ -76,8 +77,8 @@
     },
     methods: {
       init () {
-        let username = this.$route.query.username
-        api.getUserInfo(username).then(res => {
+        this.username = this.$route.query.username
+        api.getUserInfo(this.username).then(res => {
           this.profile = res.data.data
           this.getSolvedProblems()
           let registerTime = time.utcToLocal(this.profile.user.create_time, 'YYYY-MM-D')
@@ -107,6 +108,13 @@
           this.$success('Update successfully')
           this.init()
         })
+      }
+    },
+    computed: {
+      refreshVisible () {
+        if (!this.username) return true
+        if (this.username && this.username === this.$store.getters.user.username) return true
+        return false
       }
     },
     watch: {

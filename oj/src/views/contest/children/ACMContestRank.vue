@@ -96,7 +96,6 @@
         options: {
           title: {
             text: 'Top 10 Teams',
-//            top: '0',
             left: 'center'
           },
           dataZoom: [
@@ -125,11 +124,12 @@
           legend: {
             orient: 'vertical',
             y: 'center',
-            right: '5%',
+            right: '20',
             data: []
           },
           grid: {
-            right: '15%'
+            x: 100,
+            x2: 200
           },
           xAxis: [{
             type: 'time',
@@ -313,8 +313,6 @@
         },
         set (value) {
           this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
-          if (this.showChart) {
-          }
           this.$nextTick(() => {
             this.$refs.tableRank.handleResize()
             if (this.showChart) {

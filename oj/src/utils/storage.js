@@ -27,5 +27,11 @@ export default {
    */
   remove (key) {
     localStorage.removeItem(key)
+  },
+  /**
+   * clear all
+   */
+  clear () {
+    localStorage.clear()
   }
 }

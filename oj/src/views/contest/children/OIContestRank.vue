@@ -103,7 +103,20 @@
           xAxis: [
             {
               type: 'category',
-              data: ['root']
+              data: ['root'],
+              boundaryGap: true,
+              axisLabel: {
+                interval: 0,
+                showMinLabel: true,
+                showMaxLabel: true,
+                align: 'center',
+                formatter: (value, index) => {
+                  return value.replace(/(.{8})/g, '$1\n')
+                }
+              },
+              axisTick: {
+                alignWithLabel: true
+              }
             }
           ],
           yAxis: [
@@ -115,6 +128,7 @@
             {
               name: 'Score',
               type: 'bar',
+              barMaxWidth: '80',
               data: [0],
               markPoint: {
                 data: [

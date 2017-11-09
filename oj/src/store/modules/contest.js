@@ -83,7 +83,7 @@ const getters = {
       return '-' + texts.join(':')
     } else if (getters.contestStatus === CONTEST_STATUS_REVERSE.UNDERWAY) {
       let duration = moment.duration(getters.contestEndTime.diff(state.now, 'seconds'), 'seconds')
-      let texts = [duration.hours(), duration.minutes(), duration.seconds()]
+      let texts = [duration.asHours().toFixed(0), duration.minutes(), duration.seconds()]
       return '-' + texts.join(':')
     } else {
       return 'Ended'
