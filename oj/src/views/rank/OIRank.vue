@@ -41,6 +41,7 @@
           {
             title: 'user',
             align: 'center',
+            width: 250,
             render: (h, params) => {
               return h('Button', {
                 props: {

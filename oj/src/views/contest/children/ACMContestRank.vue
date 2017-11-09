@@ -56,6 +56,7 @@
           {
             title: 'User',
             align: 'center',
+            width: 250,
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -124,12 +125,18 @@
           legend: {
             orient: 'vertical',
             y: 'center',
-            right: '20',
-            data: []
+            right: 0,
+            data: [],
+            formatter: (value) => {
+              return value.replace(/(.{16})/g, '$1\n')
+            },
+            textStyle: {
+              fontSize: 12
+            }
           },
           grid: {
-            x: 100,
-            x2: 200
+            x: 80,
+            x2: 250
           },
           xAxis: [{
             type: 'time',
