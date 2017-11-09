@@ -4,7 +4,8 @@ const pieColorMap = {
   'TLE': {color: '#495060'},
   'MLE': {color: '#80848f'},
   'RE': {color: '#ff6104'},
-  'CE': {color: '#ff9900'}
+  'CE': {color: '#ff9900'},
+  'PAC': {color: '#2d8cf0'}
 }
 
 function getItemColor (obj) {
@@ -55,7 +56,7 @@ const largePie = {
     itemGap:
       20,
     data:
-      ['AC', 'RE', 'WA', 'TLE', 'MLE']
+      ['AC', 'RE', 'WA', 'TLE', 'PAC', 'MLE']
   },
   series: [
     {
@@ -71,7 +72,8 @@ const largePie = {
         {value: 0, name: 'WA'},
         {value: 0, name: 'TLE'},
         {value: 0, name: 'AC'},
-        {value: 0, name: 'MLE'}
+        {value: 0, name: 'MLE'},
+        {value: 0, name: 'PAC'}
       ],
       label: {
         normal: {
@@ -104,4 +106,4 @@ const largePie = {
   ]
 }
 
-export {pie, largePie}
+export { pie, largePie }

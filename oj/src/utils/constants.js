@@ -59,6 +59,7 @@ export const JUDGE_STATUS = {
   },
   '8': {
     name: 'Partial Accepted',
+    short: 'PAC',
     color: 'blue',
     type: 'info'
   },
