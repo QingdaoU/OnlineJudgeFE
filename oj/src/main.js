@@ -79,6 +79,7 @@ Vue.directive('highlight', {
   }
 })
 
+Vue.config.productionTip = false
 Vue.use(iView, {locale})
 Vue.use(VueClipboard)
 

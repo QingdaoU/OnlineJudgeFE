@@ -9,7 +9,6 @@
     name: 'app',
     components: {}
   }
-
 </script>
 
 <style lang="less">

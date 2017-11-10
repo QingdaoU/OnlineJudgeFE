@@ -1,5 +1,9 @@
+
+'use strict'
+// Template version: 1.1.3
 // see http://vuejs-templates.github.io/webpack for documentation.
-var path = require('path')
+
+const path = require('path')
 
 module.exports = {
   build: {
