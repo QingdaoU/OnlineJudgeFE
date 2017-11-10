@@ -8,7 +8,7 @@
       </div>
     </Panel>
     <Table :data="dataRank" :columns="columns" size="large"></Table>
-    <Pagination :total="total" :page-size.sync="limit"
+    <Pagination :total="total" :page-size.sync="limit" :current.sync="page"
                 @on-change="getRankData"
                 show-sizer @on-page-size-change="getRankData(1)"></Pagination>
     </Col>
@@ -34,9 +34,11 @@
         dataRank: [],
         columns: [
           {
-            type: 'index',
             align: 'center',
-            width: 60
+            width: 60,
+            render: (h, params) => {
+              return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
+            }
           },
           {
             title: 'user',

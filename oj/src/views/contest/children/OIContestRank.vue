@@ -23,7 +23,8 @@
     </div>
     <Table ref="tableRank" :columns="columns" :data="dataRank" disabled-hover></Table>
     <Pagination :total="total"
-                :page-size.sync=limit
+                :page-size.sync="limit"
+                :current.sync="page"
                 @on-change="getContestRankData"
                 @on-page-size-change="getContestRankData(1)"
                 show-sizer></Pagination>
@@ -44,12 +45,15 @@
     data () {
       return {
         total: 0,
+        page: 1,
         contestID: '',
         columns: [
           {
-            title: '#',
-            type: 'index',
-            width: 60
+            align: 'center',
+            width: 60,
+            render: (h, params) => {
+              return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
+            }
           },
           {
             title: 'User',

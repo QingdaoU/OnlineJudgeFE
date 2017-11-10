@@ -7,7 +7,7 @@
           <ul class="filter">
 
             <li>
-              <i-switch size="large" v-model="formFilter.myself" @on-change="handleSwitchChange">
+              <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
                 <span slot="open">Mine</span>
                 <span slot="close">All</span>
               </i-switch>
@@ -27,7 +27,7 @@
             </li>
 
             <li>
-              <Input v-model="formFilter.username" placeholder="author" @on-enter="changeRoute"></Input>
+              <Input v-model="formFilter.username" placeholder="search author" @on-enter="handleQueryChange" />
             </li>
           </ul>
         </div>
@@ -222,7 +222,7 @@
       },
       // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态
       changeRoute () {
-        let query = this.buildQuery()
+        let query = utils.filterEmptyValue(this.buildQuery())
         query.contestID = this.contestID
         query.problemID = this.problemID
         let routeName = query.contestID ? 'contest-submission-list' : 'submission-list'
@@ -235,10 +235,11 @@
         this.$router.push(route)
       },
       handleResultChange (status) {
+        this.page = 1
         this.formFilter.result = status
         this.changeRoute()
       },
-      handleSwitchChange () {
+      handleQueryChange () {
         this.page = 1
         this.changeRoute()
       }

@@ -7,8 +7,8 @@
         <ECharts :options="options" ref="chart" auto-resize></ECharts>
       </div>
     </Panel>
-    <Table :data="dataRank" :columns="columns" size="large"></Table>
-    <Pagination :total="total" :page-size.sync="limit"
+    <Table :data="dataRank" :columns="columns" :loading="loadingTable" size="large"></Table>
+    <Pagination :total="total" :page-size.sync="limit" :current.sync="page"
                 @on-change="getRankData" show-sizer
                 @on-page-size-change="getRankData(1)"></Pagination>
     </Col>
@@ -31,12 +31,15 @@
         page: 1,
         limit: 30,
         total: 0,
+        loadingTable: false,
         dataRank: [],
         columns: [
           {
-            type: 'index',
             align: 'center',
-            width: 60
+            width: 60,
+            render: (h, params) => {
+              return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
+            }
           },
           {
             title: 'user',
@@ -158,12 +161,17 @@
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
+        this.loadingTable = true
         api.getUserRank(offset, this.limit, RULE_TYPE.ACM).then(res => {
+          this.loadingTable = false
           if (page === 1) {
             this.changeCharts(res.data.data.results)
           }
           this.total = res.data.data.total
           this.dataRank = res.data.data.results
+          bar.hideLoading()
+        }).catch(() => {
+          this.loadingTable = false
           bar.hideLoading()
         })
       },

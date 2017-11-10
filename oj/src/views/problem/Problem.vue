@@ -2,43 +2,44 @@
   <div class="flex-container">
     <div id="problem-main">
       <!--problem main-->
-      <Panel :padding="20" shadow id="problem-content">
+      <Panel :padding="40" shadow>
         <div slot="title">{{problem.title}}</div>
+        <div id="problem-content">
+          <p class="title">Description</p>
+          <p class="content" v-html=problem.description></p>
 
-        <p class="title" style="margin-top: -10px">Description</p>
-        <p class="content" v-html=problem.description></p>
+          <p class="title">Input</p>
+          <p class="content" v-html=problem.input_description></p>
 
-        <p class="title">Input</p>
-        <p class="content" v-html=problem.input_description></p>
+          <p class="title">Output</p>
+          <p class="content" v-html=problem.output_description></p>
 
-        <p class="title">Output</p>
-        <p class="content" v-html=problem.output_description></p>
+          <div v-for="sample, index in problem.samples">
+            <div class="flex-container sample">
+              <div class="sample-input">
+                <p class="title">Sample Input {{index + 1}}
+                  <a class="copy"
+                     v-clipboard:copy="sample.input"
+                     v-clipboard:success="onCopy"
+                     v-clipboard:error="onCopyError">
+                    <Icon type="clipboard"></Icon>
+                  </a>
+                </p>
+                <pre>{{sample.input}}</pre>
+              </div>
+              <div class="sample-output">
+                <p class="title">Sample Output {{index + 1}}</p>
+                <pre>{{sample.output}}</pre>
+              </div>
+            </div>
+          </div>
 
-        <div v-for="sample, index in problem.samples">
-          <Row type="flex" justify="space-between">
-            <Col :span=11>
-            <p class="title">Sample Input {{index + 1}}
-              <a class="copy"
-                 v-clipboard:copy="sample.input"
-                 v-clipboard:success="onCopy"
-                 v-clipboard:error="onCopyError">
-                <Icon type="clipboard"></Icon>
-              </a>
-            </p>
-            <pre>{{sample.input}}</pre>
-            </Col>
-            <Col :span=11>
-            <p class="title">Sample Output {{index + 1}}</p>
-            <pre>{{sample.output}}</pre>
-            </Col>
-          </Row>
-        </div>
-
-        <div v-if="problem.hint">
-          <p class="title">Hint</p>
-          <Card dis-hover>
-            <div class="content" v-html=problem.hint></div>
-          </Card>
+          <div v-if="problem.hint">
+            <p class="title">Hint</p>
+            <Card dis-hover>
+              <div class="content" v-html=problem.hint></div>
+            </Card>
+          </div>
         </div>
       </Panel>
       <!--problem main end-->
@@ -421,8 +422,9 @@
   }
 
   #problem-content {
+    margin-top: -50px;
     .title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 400;
       margin: 25px 0 8px 0;
       color: #3091f2;
@@ -435,9 +437,20 @@
       margin-right: 20px;
       font-size: 15px
     }
-    pre {
-      border-style: solid;
-      background: transparent;
+    .sample {
+      align-items: stretch;
+      &-input, &-output {
+        flex: 1 1;
+        display: flex;
+        flex-direction: column;
+        margin-right: 5%;
+      }
+      pre {
+        flex: 1 1;
+        align-self: stretch;
+        border-style: solid;
+        background: transparent;
+      }
     }
   }
 
