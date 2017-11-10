@@ -99,7 +99,7 @@
             }
           },
           {
-            title: 'Problem ID',
+            title: 'Problem',
             align: 'center',
             render: (h, params) => {
               return h('span',

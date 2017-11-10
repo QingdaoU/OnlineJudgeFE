@@ -60,6 +60,23 @@
               </el-switch>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="Allowed IP Ranges">
+              <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
+                <el-row :gutter="20" style="margin-bottom: 15px">
+                  <el-col :span="16">
+                    <el-input v-model="range.value" placeholder="CIDR Network"></el-input>
+                  </el-col>
+                  <el-col :span="8">
+                      <el-button :plain="true" type="primary" @click="addIPRange">
+                        <i class="fa fa-plus" aria-hidden="true"></i></el-button>
+                      <el-button :plain="true" type="primary" @click="removeIPRange(range)">
+                        <i class="fa fa-trash" aria-hidden="true"></i></el-button>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <save @click.native="saveContest"></save>
@@ -88,17 +105,38 @@
           rule_type: 'ACM',
           password: '',
           real_time_rank: true,
-          visible: true
+          visible: true,
+          allowed_ip_ranges: [{
+            value: ''
+          }]
         }
       }
     },
     methods: {
       saveContest () {
         let funcName = this.$route.name === 'edit-contest' ? 'editContest' : 'createContest'
-        api[funcName](this.contest).then(res => {
+        let data = Object.assign({}, this.contest)
+        let ranges = []
+        for (let v of data.allowed_ip_ranges) {
+          if (v.value !== '') {
+            ranges.push(v.value)
+          }
+        }
+        data.allowed_ip_ranges = ranges
+        console.log(data)
+        api[funcName](data).then(res => {
           this.$router.push({name: 'contest-list', query: {refresh: 'true'}})
         }).catch(() => {
         })
+      },
+      addIPRange () {
+        this.contest.allowed_ip_ranges.push({value: ''})
+      },
+      removeIPRange (range) {
+        let index = this.contest.allowed_ip_ranges.indexOf(range)
+        if (index !== -1) {
+          this.contest.allowed_ip_ranges.splice(index, 1)
+        }
       }
     },
     mounted () {
@@ -107,6 +145,14 @@
         this.disableRuleType = true
         api.getContest(this.$route.params.contestId).then(res => {
           let data = res.data.data
+          let ranges = []
+          for (let v of data.allowed_ip_ranges) {
+            ranges.push({value: v})
+          }
+          if (ranges.length === 0) {
+            ranges.push({value: ''})
+          }
+          data.allowed_ip_ranges = ranges
           this.contest = data
         }).catch(() => {
         })

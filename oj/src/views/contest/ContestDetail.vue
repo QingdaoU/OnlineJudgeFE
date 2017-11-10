@@ -30,13 +30,13 @@
                 </Form>
               </div>
             </Panel>
-            <Table :columns="columns" :data="contest_table" disabled-hover></Table>
+            <Table :columns="columns" :data="contest_table" disabled-hover style="margin-bottom: 40px;"></Table>
           </div>
         </template>
       </div>
 
     </div>
-    <div v-if="showMenu" id="contest-menu">
+    <div v-show="showMenu" id="contest-menu">
       <VerticalMenu @on-click="handleRoute">
         <VerticalMenu-item :disabled="contestMenuDisabled"
                            :route="{name: 'contest-problem-list', params: {contestID: contestID}}">

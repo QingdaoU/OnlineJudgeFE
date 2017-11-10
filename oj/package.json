@@ -13,8 +13,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "browser-detect": "^0.2.18",
-    "echarts": "3.7.2",
-    "zrender": "3.6.3",
+    "echarts": "^3.8.3",
     "highlight.js": "^9.12.0",
     "iview": "^2.6.0",
     "moment": "^2.19.1",

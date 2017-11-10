@@ -1,8 +1,8 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="20" id="status">
-    <Alert :type="type" showIcon>
-      <span class="title">{{statusName}}</span>
+    <Alert :type="status.type" showIcon>
+      <span class="title">{{status.statusName}}</span>
       <div slot="desc" class="content">
         <template v-if="submission.result == -2">
           <pre>{{submission.statistic_info.err_info}}</pre>
@@ -23,7 +23,7 @@
     </Col>
 
     <Col :span="20">
-    <Highlight :code="submission.code" :language="submission.language" :border-color="color"></Highlight>
+    <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
     <Col v-if="submission.can_unshare" :span="20">
     <div id="share-btn">
@@ -110,7 +110,11 @@
     methods: {
       getSubmission () {
         api.getSubmission(this.$route.params.id).then(res => {
-          this.submission = res.data.data
+          let data = res.data.data
+          if (data.info && !data.info.data[0].score) {
+            this.columns.splice(this.columns.length - 1, 1)
+          }
+          this.submission = data
         }, () => {
         })
       },
@@ -123,14 +127,12 @@
       }
     },
     computed: {
-      type () {
-        return JUDGE_STATUS[this.submission.result].type
-      },
-      statusName () {
-        return JUDGE_STATUS[this.submission.result].name
-      },
-      color () {
-        return JUDGE_STATUS[this.submission.result].color
+      status () {
+        return {
+          type: JUDGE_STATUS[this.submission.result].type,
+          statusName: JUDGE_STATUS[this.submission.result].name,
+          color: JUDGE_STATUS[this.submission.result].color
+        }
       }
     }
   }

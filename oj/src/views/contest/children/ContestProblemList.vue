@@ -69,7 +69,7 @@
             if (this.contestRuleType === 'ACM') {
               this.addStatusColumn(this.ACMTableColumns, res.data.data)
             } else if (this.OIContestRealTimePermission) {
-              this.addStatusColumn(this.OITableColumns, res.data.data)
+              this.addStatusColumn(this.ACMTableColumns, res.data.data)
             }
           }
         })
