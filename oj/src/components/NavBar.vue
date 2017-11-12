@@ -81,8 +81,8 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import login from '@/views/user/Login'
-  import register from '@/views/user/Register'
+  import login from '@oj/views/user/Login'
+  import register from '@oj/views/user/Register'
 
   export default {
     components: {

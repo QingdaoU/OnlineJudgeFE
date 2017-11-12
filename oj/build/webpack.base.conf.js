@@ -11,7 +11,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    'admin': './src/pages/oj/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -26,6 +26,8 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      '@oj': resolve('src/pages/oj'),
+      '@admin': resolve('src/pages/admin'),
       '~': resolve('src/components')
     }
   },

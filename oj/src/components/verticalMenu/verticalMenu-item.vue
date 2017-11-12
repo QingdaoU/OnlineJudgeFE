@@ -5,7 +5,6 @@
 </template>
 
 <script>
-  //  import api from '@/api'
   import {Emitter} from '~/mixins'
 
   export default {

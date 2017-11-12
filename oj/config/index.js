@@ -8,7 +8,10 @@ const path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
+    ojIndex: path.resolve(__dirname, '../dist/index.html'),
+    ojTemplate: path.resolve(__dirname, '../src/pages/oj/index.html'),
+    adminIndex: path.resolve(__dirname, '../dist/admin/index.html'),
+    adminTemplate: path.resolve(__dirname, '../src/pages/admin/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',

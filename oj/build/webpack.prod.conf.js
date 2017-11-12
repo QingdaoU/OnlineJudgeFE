@@ -48,12 +48,13 @@ const webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
+
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: config.build.index,
-      template: 'index.html',
+      filename: config.build.ojIndex,
+      template: config.build.ojTemplate,
       inject: true,
       minify: {
         removeComments: true,
@@ -65,6 +66,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // split vendor js into its own file
