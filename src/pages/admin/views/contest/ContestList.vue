@@ -114,7 +114,7 @@
     },
     filters: {
       contestStatus (value) {
-        return CONTEST_STATUS_REVERSE[value]
+        return CONTEST_STATUS_REVERSE[value].name
       }
     },
     methods: {

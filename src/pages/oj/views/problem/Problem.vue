@@ -395,15 +395,16 @@
         }
       }
     },
-    beforeDestroy () {
+    beforeRouteLeave (to, from, next) {
       // 防止切换组件后仍然不断请求
       clearInterval(this.refreshStatus)
 
       this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: true})
-      storage.set(buildProblemCodeKey(this.problem._id, this.$route.params.contestID), {
+      storage.set(buildProblemCodeKey(this.problem._id, from.params.contestID), {
         code: this.code,
         language: this.language
       })
+      next()
     },
     watch: {
       '$route' () {

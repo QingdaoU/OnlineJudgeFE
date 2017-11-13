@@ -17,8 +17,14 @@
     </Alert>
     </Col>
 
-    <!-- OI模式后台会返info -->
+    <!--后台返info就显示出来， 权限控制放后台 -->
     <Col v-if="submission.info && submission.result != -2" :span="20">
+    <Alert type="warning">
+      <div class="admin-info-content">
+        <Icon type="information-circled" color="#f90"></Icon>
+        <span class="admin-info-content">Only admin can check the test_case details in ACM problems.</span>
+      </div>
+    </Alert>
     <Table stripe :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
@@ -152,11 +158,20 @@
     }
   }
 
+  .admin-info {
+    margin: 5px 0;
+    &-content {
+      font-size: 16px;
+      padding: 10px;
+    }
+  }
+
   #share-btn {
     float: right;
     margin-top: 5px;
     margin-right: 10px;
   }
+
   pre {
     border: none;
     background: none;

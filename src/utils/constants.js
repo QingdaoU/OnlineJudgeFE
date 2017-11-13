@@ -109,7 +109,7 @@ export const USER_TYPE = {
 
 export const STORAGE_KEY = {
   AUTHED: 'authed',
-  PROBLEM_CODE: 'problem_code_',
+  PROBLEM_CODE: 'problem_code',
   languages: 'languages'
 }
 

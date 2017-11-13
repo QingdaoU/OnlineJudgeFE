@@ -2,7 +2,7 @@
   <codemirror v-model="currentValue" :options="options" ref="editor"></codemirror>
 </template>
 <script>
-  import {codemirror} from 'vue-codemirror'
+  import {codemirror} from 'vue-codemirror-lite'
   import 'codemirror/mode/clike/clike.js'
   import 'codemirror/mode/python/python.js'
   export default{

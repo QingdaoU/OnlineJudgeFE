@@ -1,6 +1,6 @@
 #!/bin/sh
 
-base=$(pwd)/../
+base=/OJ_FE
 
 build_vendor_dll()
 {
