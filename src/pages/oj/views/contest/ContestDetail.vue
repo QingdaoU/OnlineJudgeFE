@@ -19,15 +19,11 @@
                 </Tag>
               </div>
               <div v-html="contest.description"></div>
-              <div v-if="passwordFormVisible">
-                <Form inline class="contest-password">
-                  <FormItem>
-                    <Input v-model="contestPassword" type="password" placeholder="contest password"/>
-                  </FormItem>
-                  <FormItem>
-                    <Button type="info" @click="checkPassword">Enter</Button>
-                  </FormItem>
-                </Form>
+              <div v-if="passwordFormVisible" class="contest-password">
+                <Input v-model="contestPassword" type="password"
+                       placeholder="contest password" class="contest-password-input"
+                       @on-enter="checkPassword" />
+                <Button type="info" @click="checkPassword">Enter</Button>
               </div>
             </Panel>
             <Table :columns="columns" :data="contest_table" disabled-hover style="margin-bottom: 40px;"></Table>
@@ -61,7 +57,7 @@
                            :disabled="contestMenuDisabled"
                            :route="{name: 'contest-rank', params: {contestID: contestID}}">
           <Icon type="stats-bars"></Icon>
-          Ranklist
+          Rankings
         </VerticalMenu-item>
 
         <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
@@ -205,6 +201,10 @@
     .contest-password {
       margin-top: 20px;
       margin-bottom: -10px;
+      &-input {
+        width: 200px;
+        margin-right: 10px;
+      }
     }
   }
 </style>

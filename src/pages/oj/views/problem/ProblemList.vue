@@ -36,6 +36,7 @@
       <Table style="width: 100%; font-size: 16px;"
              :columns="problemTableColumns"
              :data="problemList"
+             :loading="loadings.table"
              disabled-hover></Table>
     </Panel>
     <Pagination :total="total" :page-size="limit" @on-change="pushRouter" :current.sync="query.page"></Pagination>
@@ -59,7 +60,7 @@
         Pick one
       </Button>
     </Panel>
-    <Spin v-if="spinShow" fix size="large"></Spin>
+    <Spin v-if="loadings.tag" fix size="large"></Spin>
     </Col>
   </Row>
 </template>
@@ -145,16 +146,17 @@
         problemList: [],
         limit: 15,
         total: 0,
-        problemLoading: false,
-        tagLoading: false,
+        loadings: {
+          table: true,
+          tag: true
+        },
         routeName: '',
         query: {
           keyword: '',
           difficulty: '',
           tag: '',
           page: 1
-        },
-        spinShow: true
+        }
       }
     },
     mounted () {
@@ -181,21 +183,24 @@
       },
       getProblemList () {
         let offset = (this.query.page - 1) * this.limit
+        this.loadings.table = true
         api.getProblemList(offset, this.limit, this.query).then(res => {
+          this.loadings.table = false
           this.total = res.data.data.total
           this.problemList = res.data.data.results
           if (this.isAuthenticated) {
             this.addStatusColumn(this.problemTableColumns, res.data.data.results)
           }
         }, res => {
+          this.loadings.table = false
         })
       },
       getTagList () {
         api.getProblemTagList().then(res => {
           this.tagList = res.data.data
-          this.spinShow = false
+          this.loadings.tag = false
         }, res => {
-          this.spinShow = false
+          this.loadings.tag = false
         })
       },
       filterByTag (tagName) {

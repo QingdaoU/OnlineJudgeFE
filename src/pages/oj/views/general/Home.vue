@@ -26,6 +26,7 @@
         </CarouselItem>
       </Carousel>
     </panel>
+
     <Announcements class="announcement"></Announcements>
     </Col>
   </Row>

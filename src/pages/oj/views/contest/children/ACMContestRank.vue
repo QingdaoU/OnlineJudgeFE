@@ -13,7 +13,7 @@
           </p>
           <p style="margin-top: 10px">
             <span>Auto Refresh(10s)</span>
-            <i-switch @on-change="handleAutoRefresh"></i-switch>
+            <i-switch :disabled="refreshDisabled" @on-change="handleAutoRefresh"></i-switch>
           </p>
         </div>
       </Poptip>
@@ -32,18 +32,20 @@
 </template>
 <script>
   import moment from 'moment'
-  import Pagination from '@oj/components/Pagination'
+  import { mapActions } from 'vuex'
 
-  import { mapActions, mapState } from 'vuex'
-  import { types } from '@oj/store'
+  import Pagination from '@oj/components/Pagination'
+  import ContestRankMixin from './contestRankMixin'
   import api from '@oj/api'
   import time from '@/utils/time'
+  import utils from '@/utils/utils'
 
   export default {
     name: 'acm-contest-rank',
     components: {
       Pagination
     },
+    mixins: [ContestRankMixin],
     data () {
       return {
         total: 0,
@@ -60,7 +62,6 @@
           {
             title: 'User',
             align: 'center',
-            width: 250,
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -68,6 +69,9 @@
                 },
                 'class': {
                   'link-button': true
+                },
+                style: {
+                  'max-width': '150px'
                 },
                 on: {
                   click: () => {
@@ -132,7 +136,7 @@
             right: 0,
             data: [],
             formatter: (value) => {
-              return value.replace(/(.{16})/g, '$1\n')
+              return utils.breakLongWords(value, 16)
             },
             textStyle: {
               fontSize: 12
@@ -140,7 +144,7 @@
           },
           grid: {
             x: 80,
-            x2: 250
+            x2: 200
           },
           xAxis: [{
             type: 'time',
@@ -266,6 +270,9 @@
                   type: 'text',
                   size: 'large'
                 },
+                style: {
+                  padding: 0
+                },
                 on: {
                   click: () => {
                     this.$router.push({
@@ -294,55 +301,7 @@
             }
           })
         })
-      },
-      handleAutoRefresh (status) {
-        if (status === true) {
-          this.refreshFunc = setInterval(() => {
-            this.getContestRankData(1, true)
-          }, 10000)
-        } else {
-          clearInterval(this.refreshFunc)
-        }
       }
-    },
-    computed: {
-      ...mapState({
-        'contest': state => state.contest.contest,
-        'contestProblems': state => state.contest.contestProblems
-      }),
-      showChart: {
-        get () {
-          return this.$store.state.contest.showChart
-        },
-        set (value) {
-          this.$store.commit(types.CHANGE_CONTEST_CHART_VISIBLE, {visible: value})
-        }
-      },
-      showMenu: {
-        get () {
-          return this.$store.state.contest.showMenu
-        },
-        set (value) {
-          this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
-          this.$nextTick(() => {
-            this.$refs.tableRank.handleResize()
-            if (this.showChart) {
-              this.$refs.chart.resize()
-            }
-          })
-        }
-      },
-      limit: {
-        get () {
-          return this.$store.state.contest.rankLimit
-        },
-        set (value) {
-          this.$store.commit(types.CHANGE_CONTEST_RANK_LIMIT, {rankLimit: value})
-        }
-      }
-    },
-    beforeDestroy () {
-      clearInterval(this.refreshFunc)
     }
   }
 </script>

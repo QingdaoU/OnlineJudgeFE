@@ -44,14 +44,16 @@
           {
             title: 'user',
             align: 'center',
-            width: 250,
             render: (h, params) => {
               return h('Button', {
                 props: {
                   type: 'text'
                 },
-                class: {
+                'class': {
                   'link-button': true
+                },
+                style: {
+                  'max-width': '200px'
                 },
                 on: {
                   click: () => {
@@ -82,6 +84,7 @@
           },
           {
             title: 'Rating',
+            align: 'center',
             render: (h, params) => {
               return h('span', utils.getACRate(params.row.accepted_number, params.row.submission_number))
             }
@@ -118,7 +121,7 @@
                 showMaxLabel: true,
                 align: 'center',
                 formatter: (value, index) => {
-                  return value.replace(/(.{8})/g, '$1\n')
+                  return utils.breakLongWords(value, 10)
                 }
               }
             }
@@ -165,7 +168,7 @@
         api.getUserRank(offset, this.limit, RULE_TYPE.ACM).then(res => {
           this.loadingTable = false
           if (page === 1) {
-            this.changeCharts(res.data.data.results)
+            this.changeCharts(res.data.data.results.slice(0, 10))
           }
           this.total = res.data.data.total
           this.dataRank = res.data.data.results

@@ -105,7 +105,7 @@
           <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"
                              :route="{name: 'contest-rank', params: {contestID: contestID}}">
             <Icon type="stats-bars"></Icon>
-            Ranklist
+            Rankings
           </VerticalMenu-item>
           <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
             <Icon type="home"></Icon>
@@ -184,7 +184,7 @@
   import storage from '@/utils/storage'
   import { FormMixin } from '@oj/components/mixins'
   import { types } from '@oj/store'
-  import { JUDGE_STATUS, CONTEST_STATUS, STORAGE_KEY } from '@/utils/constants'
+  import { JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey } from '@/utils/constants'
   import api from '@oj/api'
 
   import { pie, largePie } from './chartData'
@@ -231,6 +231,16 @@
         }
       }
     },
+    beforeRouteEnter (to, from, next) {
+      let problemCode = storage.get(buildProblemCodeKey(to.params.problemID, to.params.contestID))
+      if (problemCode) {
+        next(vm => {
+          vm.language = problemCode.language
+          vm.code = problemCode.code
+        })
+      }
+      next()
+    },
     mounted () {
       this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: false})
       this.init()
@@ -245,16 +255,13 @@
           this.$Loading.finish()
           this.problem = res.data.data
           this.changePie(res.data.data)
-          let problemCode = storage.get(STORAGE_KEY.PROBLEM_CODE + this.problem.id)
+
+          // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
+          if (this.language !== 'C++' || this.code !== '') {
+            return
+          }
           let template = this.problem.template
-          if (problemCode) {
-            this.language = problemCode.language
-            if (problemCode.code === '' && template[this.language]) {
-              this.code = template[this.language]
-            } else {
-              this.code = problemCode.code
-            }
-          } else if (template[this.language]) {
+          if (template && template[this.language]) {
             this.code = template[this.language]
           }
           this.$nextTick(() => {
@@ -391,8 +398,9 @@
     beforeDestroy () {
       // 防止切换组件后仍然不断请求
       clearInterval(this.refreshStatus)
+
       this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: true})
-      storage.set(STORAGE_KEY.PROBLEM_CODE + this.problem.id, {
+      storage.set(buildProblemCodeKey(this.problem._id, this.$route.params.contestID), {
         code: this.code,
         language: this.language
       })

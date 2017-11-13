@@ -112,3 +112,10 @@ export const STORAGE_KEY = {
   PROBLEM_CODE: 'problem_code_',
   languages: 'languages'
 }
+
+export function buildProblemCodeKey (problemID, contestID = null) {
+  if (contestID) {
+    return `${STORAGE_KEY.PROBLEM_CODE}_${contestID}_${problemID}`
+  }
+  return `${STORAGE_KEY.PROBLEM_CODE}_NaN_${problemID}`
+}
