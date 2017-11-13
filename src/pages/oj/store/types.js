@@ -15,6 +15,7 @@ export default keyMirror({
   'UPDATE_WEBSITE_CONF': null,
 
   'NOW': null,
+  'NOW_ADD_1S': null,
   'CHANGE_CONTEST': null,
   'CHANGE_CONTEST_PROBLEMS': null,
   'CHANGE_CONTEST_MENU_VISIBLE': null,

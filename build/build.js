@@ -32,7 +32,7 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       process.exit(1)
     }
 
-    console.log(chalk.cyan('  Congratulations, the project build complete without error\n'))
+    console.log(chalk.cyan('  Congratulations, the project built complete without error\n'))
     console.log(chalk.yellow(
       ' You can now check the onlinejudge in http://YouIP/'
     ))

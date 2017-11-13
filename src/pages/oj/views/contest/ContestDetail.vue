@@ -22,7 +22,7 @@
               <div v-if="passwordFormVisible" class="contest-password">
                 <Input v-model="contestPassword" type="password"
                        placeholder="contest password" class="contest-password-input"
-                       @on-enter="checkPassword" />
+                       @on-enter="checkPassword"/>
                 <Button type="info" @click="checkPassword">Enter</Button>
               </div>
             </Panel>
@@ -121,10 +121,11 @@
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest').then(res => {
-        let endTime = moment(res.data.data.end_time)
-        if (endTime.isAfter(moment())) {
+        let data = res.data.data
+        let endTime = moment(data.end_time)
+        if (endTime.isAfter(moment(data.now))) {
           this.timer = setInterval(() => {
-            this.$store.commit(types.NOW, {now: moment()})
+            this.$store.commit(types.NOW_ADD_1S)
           }, 1000)
         }
       })
@@ -152,7 +153,8 @@
       ...mapState({
         showMenu: state => state.contest.showMenu,
         contest: state => state.contest.contest,
-        contest_table: state => [state.contest.contest]
+        contest_table: state => [state.contest.contest],
+        now: state => state.contest.now
       }),
       ...mapGetters(
         ['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown',

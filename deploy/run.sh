@@ -1,21 +1,22 @@
 #!/bin/sh
 
-run_build() {
-    cd $1
-    npm install --registry=https://registry.npm.taobao.org && \
-    npm run build
+base=$(pwd)/../
 
-    if [ $? -ne 0 ]; then
-        echo "Build error, please check node version and package.json"
-        exit 1
-    fi
-
-    echo -e "Build success, dist files in $1/dist\n"
+build_vendor_dll()
+{
+  if [ ! -e "${base}/build/vendor-manifest.json" ]
+  then
+      npm run build:dll
+  fi
 }
+cd $base
+npm install --registry=https://registry.npm.taobao.org && \
+build_vendor_dll && \
+npm run build
 
-run_build /OJ_FE/oj
-run_build /OJ_FE/admin
-echo -e "\n\n Congratulations, All have done without error."
-echo -e "You can check the onlinejudge with http://your-server-ip:80 \n"
+if [ $? -ne 0 ]; then
+    echo "Build error, please check node version and package.json"
+    exit 1
+fi
 
 exec nginx -c /OJ_FE/deploy/nginx.conf

@@ -3,7 +3,7 @@
     <Col :span="22">
     <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
-        <Button type="text" @click="goContest">{{contests[index].title}}</Button>
+        <Button type="text"  class="contest-title" @click="goContest">{{contests[index].title}}</Button>
       </div>
       <Carousel v-model="index" trigger="hover" autoplay :autoplay-speed="6000" class="contest">
         <CarouselItem v-for="contest, index in contests" :key="index">
@@ -50,7 +50,7 @@
       }
     },
     mounted () {
-      let params = {status: CONTEST_STATUS.NOT_START}
+      let params = {status: CONTEST_STATUS.UNDERWAY}
       api.getContestList(0, 5, params).then(res => {
         this.contests = res.data.data.results
       })
@@ -73,6 +73,7 @@
   .contest {
     &-title {
       font-style: italic;
+      font-size: 21px;
     }
     &-content {
       padding: 0 70px 40px 70px;

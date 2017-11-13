@@ -4,7 +4,7 @@ import api from '@oj/api'
 import { CONTEST_STATUS, USER_TYPE, CONTEST_TYPE } from '@/utils/constants'
 
 const state = {
-  now: new Date(),
+  now: moment(),
   access: false,
   rankLimit: 30,
   contest: {
@@ -23,8 +23,8 @@ const getters = {
   },
   contestStatus: (state, getters) => {
     if (!getters.contestLoaded) return null
-    let startTime = Date.parse(state.contest.start_time)
-    let endTime = Date.parse(state.contest.end_time)
+    let startTime = moment(state.contest.start_time)
+    let endTime = moment(state.contest.end_time)
     let now = state.now
 
     if (startTime > now) {
@@ -119,6 +119,9 @@ const mutations = {
   },
   [types.NOW] (state, payload) {
     state.now = payload.now
+  },
+  [types.NOW_ADD_1S] (state) {
+    state.now = moment(state.now.add(1, 's'))
   }
 }
 
@@ -129,6 +132,7 @@ const actions = {
         resolve(res)
         let contest = res.data.data
         commit(types.CHANGE_CONTEST, {contest: contest})
+        commit(types.NOW, {now: moment(contest.now)})
         if (contest.contest_type === CONTEST_TYPE.PRIVATE) {
           dispatch('getContestAccess')
         }
