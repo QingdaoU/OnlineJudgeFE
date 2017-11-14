@@ -10,7 +10,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const env = config.build.env
 
@@ -33,20 +33,11 @@ const webpackConfig = merge(baseWebpackConfig, {
       'process.env': env
     }),
     // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
-    new UglifyJsParallelPlugin({
-      workers: os.cpus().length,
-      mangle: true,
-      exclude: /\.min\.js$/,
-      output: {comments: false},
-      compressor: {
-        warnings: false,
-        drop_console: true,
-        drop_debugger: true
-      }
-    }),
+
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css')
+      filename: utils.assetsPath('css/[name].[contenthash].css'),
+      allChunks: true
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
@@ -55,66 +46,35 @@ const webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
-
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
-    // see https://github.com/ampedandwired/html-webpack-plugin
-    // oj
-    new HtmlWebpackPlugin({
-      filename: config.build.ojIndex,
-      template: config.build.ojTemplate,
-      chunks: ['manifest', 'common', 'oj'],
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
-    // admin
-    new HtmlWebpackPlugin({
-      filename: config.build.adminIndex,
-      template: config.build.adminTemplate,
-      chunks: ['manifest', 'common', 'admin'],
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+    new UglifyJSPlugin({
+      exclude: /\.min\.js$/,
+      cache: true,
+      parallel: true
     }),
 
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
+      name: 'vendor',
       chunks: ['oj', 'admin'],
       minChunks: 2
       // minChunks: function (module) {
-      //   // any required modules inside node_modules are extracted to vendor
-      //   return (
-      //     module.resource &&
-      //     /\.js$/.test(module.resource) &&
-      //     module.resource.indexOf(
-      //       path.join(__dirname, '../node_modules')
-      //     ) === 0
-      //   )
+      // any required modules inside node_modules are extracted to vendor
+      // return (
+      //   module.resource &&
+      //   /\.js$/.test(module.resource) &&
+      //   module.resource.indexOf(
+      //     path.join(__dirname, '../node_modules')
+      //   ) === 0
+      // )
       // }
     }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-      chunks: ['common']
+      chunks: ['vendor']
     }),
     // copy custom static assets
     new CopyWebpackPlugin([
@@ -123,7 +83,40 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    // generate dist index.html with correct asset hash for caching.
+    // you can customize output by editing /index.html
+    // see https://github.com/ampedandwired/html-webpack-plugin
+    // oj
+    new HtmlWebpackPlugin({
+      filename: config.build.ojIndex,
+      template: config.build.ojTemplate,
+      chunks: ['manifest', 'vendor', 'oj'],
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      }
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    }),
+    // admin
+    new HtmlWebpackPlugin({
+      filename: config.build.adminIndex,
+      template: config.build.adminTemplate,
+      chunks: ['manifest', 'vendor', 'admin'],
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      }
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    })
   ]
 })
 

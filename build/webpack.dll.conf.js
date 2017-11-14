@@ -1,14 +1,16 @@
 const webpack = require('webpack');
 const path = require('path');
-const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
-const os = require('os');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 const vendors = [
   'vue/dist/vue.esm.js',
   'vue-router',
   'vuex',
   'axios',
-  'moment'
+  'moment',
+  'codemirror/lib/codemirror.js',
+  'codemirror/mode/clike/clike.js',
+  'codemirror/mode/python/python.js'
 ];
 
 module.exports = {
@@ -23,16 +25,10 @@ module.exports = {
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
-    new UglifyJsParallelPlugin({
-      workers: os.cpus().length,
-      mangle: true,
+    new UglifyJSPlugin({
       exclude: /\.min\.js$/,
-      output: {comments: false},
-      compressor: {
-        warnings: false,
-        drop_console: true,
-        drop_debugger: true
-      }
+      cache: true,
+      parallel: true
     }),
     new webpack.DllPlugin({
       context: __dirname,

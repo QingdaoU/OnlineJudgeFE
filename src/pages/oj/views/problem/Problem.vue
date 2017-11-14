@@ -1,10 +1,10 @@
 <template>
   <div class="flex-container">
-    <div id="problem-main" class="markdown-body">
+    <div id="problem-main">
       <!--problem main-->
       <Panel :padding="40" shadow>
         <div slot="title">{{problem.title}}</div>
-        <div id="problem-content">
+        <div id="problem-content" class="markdown-body">
           <p class="title">Description</p>
           <p class="content" v-html=problem.description></p>
 
@@ -186,7 +186,6 @@
   import { types } from '@oj/store'
   import { JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey } from '@/utils/constants'
   import api from '@oj/api'
-
   import { pie, largePie } from './chartData'
 
   export default {

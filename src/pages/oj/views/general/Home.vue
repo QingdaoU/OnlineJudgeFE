@@ -26,7 +26,6 @@
         </CarouselItem>
       </Carousel>
     </panel>
-
     <Announcements class="announcement"></Announcements>
     </Col>
   </Row>
@@ -50,7 +49,7 @@
       }
     },
     mounted () {
-      let params = {status: CONTEST_STATUS.UNDERWAY}
+      let params = {status: CONTEST_STATUS.NOT_START}
       api.getContestList(0, 5, params).then(res => {
         this.contests = res.data.data.results
       })
