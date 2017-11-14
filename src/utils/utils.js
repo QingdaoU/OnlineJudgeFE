@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 function submissionMemoryFormat (memory) {
   if (memory === undefined) return '--'
   // 1048576 = 1024 * 1024
@@ -39,10 +41,41 @@ function breakLongWords (value, length = 16) {
   return value.replace(re, '$1\n')
 }
 
+function downloadFile (url) {
+  Vue.prototype.$http.get(url, {responseType: 'blob'}).then(resp => {
+    let headers = resp.headers
+    if (headers['content-type'].indexOf('json') !== -1) {
+      let fr = new window.FileReader()
+      if (resp.data.error) {
+        Vue.prototype.$error(resp.data.error)
+      } else {
+        Vue.prototype.$error('Invalid file format')
+      }
+      fr.onload = (event) => {
+        let data = JSON.parse(event.target.result)
+        if (data.error) {
+          Vue.prototype.$error(data.data)
+        } else {
+          Vue.prototype.$error('Invalid file format')
+        }
+      }
+      let b = new window.Blob([resp.data], {type: 'application/json'})
+      fr.readAsText(b)
+      return
+    }
+    let link = document.createElement('a')
+    link.href = window.URL.createObjectURL(new window.Blob([resp.data], {type: headers['content-type']}))
+    link.download = (headers['content-disposition'] || '').split('filename=')[1]
+    // document.body.appendChild(link)
+    link.click()
+  })
+}
+
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
   submissionTimeFormat: submissionTimeFormat,
   getACRate: getACRate,
   filterEmptyValue: filterEmptyValue,
-  breakLongWords: breakLongWords
+  breakLongWords: breakLongWords,
+  downloadFile: downloadFile
 }

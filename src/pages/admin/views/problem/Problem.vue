@@ -2,7 +2,7 @@
   <div class="problem">
     <Panel title="Import Problem" v-if="mode == 'add'">
       <el-upload
-        action="/api/admin/test_case/upload"
+        action="/api/admin/test_case"
         name="file"
         :data="{spj: problem.spj}"
         :show-file-list="false"
@@ -182,7 +182,7 @@
           <el-col :span="4">
             <el-form-item label="TestCase" :error="error.testcase">
               <el-upload
-                action="/api/admin/test_case/upload"
+                action="/api/admin/test_case"
                 name="file"
                 :data="{spj: problem.spj}"
                 :show-file-list="false"
@@ -508,7 +508,6 @@
         if (funcName === 'editContestProblem') {
           this.problem.contest_id = this.contest.id
         }
-        console.log(this.problem)
         api[funcName](this.problem).then(res => {
           if (this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem') {
             this.$router.push({name: 'contest-problem-list', params: {contestId: this.$route.params.contestId}})

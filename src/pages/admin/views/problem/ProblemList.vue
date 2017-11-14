@@ -60,6 +60,8 @@
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
             <icon-btn v-if="contestId" name="Make Public" icon="clone"
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
+            <icon-btn icon="download" name="Download TestCase"
+                      @click.native="downloadTestCase(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -79,6 +81,7 @@
 
 <script>
   import api from '../../api.js'
+  import utils from '@/utils/utils'
 
   export default {
     name: 'ProblemList',
@@ -151,6 +154,10 @@
         api[funcName](data).then(res => {
           this.currentChange(this.currentPage)
         }).catch()
+      },
+      downloadTestCase (problemID) {
+        let url = '/admin/test_case?problem_id=' + problemID
+        utils.downloadFile(url)
       }
     },
     watch: {
