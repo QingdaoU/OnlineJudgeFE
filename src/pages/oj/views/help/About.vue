@@ -2,7 +2,7 @@
   <div>
     <panel :padding="15" class="container">
       <div slot="title">Compiler & Judger</div>
-      <div class="content">
+      <div class="content markdown-body">
         <ul>
           <li>C (GCC 4.8)
             <pre>gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}</pre>

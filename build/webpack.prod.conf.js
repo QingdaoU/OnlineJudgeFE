@@ -63,6 +63,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: config.build.ojIndex,
       template: config.build.ojTemplate,
+      chunks: ['manifest', 'common', 'oj'],
       inject: true,
       minify: {
         removeComments: true,
@@ -78,6 +79,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: config.build.adminIndex,
       template: config.build.adminTemplate,
+      chunks: ['manifest', 'common', 'admin'],
       inject: true,
       minify: {
         removeComments: true,

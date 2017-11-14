@@ -18,7 +18,7 @@
                   <span id="countdown">{{countdown}}</span>
                 </Tag>
               </div>
-              <div v-html="contest.description"></div>
+              <div v-html="contest.description" class="markdown-body"></div>
               <div v-if="passwordFormVisible" class="contest-password">
                 <Input v-model="contestPassword" type="password"
                        placeholder="contest password" class="contest-password-input"

@@ -1,6 +1,6 @@
 <template>
   <div class="flex-container">
-    <div id="problem-main">
+    <div id="problem-main" class="markdown-body">
       <!--problem main-->
       <Panel :padding="40" shadow>
         <div slot="title">{{problem.title}}</div>

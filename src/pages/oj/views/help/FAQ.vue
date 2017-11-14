@@ -1,7 +1,7 @@
 <template>
   <panel :padding="20">
     <div slot="title">Frequently Asked Questions</div>
-    <div class="content">
+    <div class="content markdown-body">
       <ul>
         <li>Where is the input and the output?
           <p>Your program shall read input from <code>stdin</code>('Standard Input') and write output to <code>stdout</code>('Standard Output').

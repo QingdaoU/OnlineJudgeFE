@@ -32,7 +32,7 @@
       </template>
 
       <template v-else>
-        <div v-html="announcement.content" key="content" class="content-container"></div>
+        <div v-html="announcement.content" key="content" class="content-container markdown-body"></div>
       </template>
     </transition-group>
   </Panel>
@@ -155,8 +155,7 @@
     }
   }
 
-  /deep/ .content-container {
-    @import "../../../../styles/markdown.less";
+  .content-container {
     padding: 0 20px 20px 20px;
   }
   .no-announcement {
