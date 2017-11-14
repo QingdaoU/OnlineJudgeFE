@@ -33,7 +33,8 @@
     created () {
       try {
         document.body.removeChild(document.getElementById('app-loader'))
-      } catch (e) {}
+      } catch (e) {
+      }
     },
     mounted () {
       this.getWebsiteConfig()
@@ -67,7 +68,6 @@
       outline-width: 0;
     }
   }
-
 
 
   .content-app {

@@ -2,6 +2,7 @@
   <Panel shadow>
     <div slot="title">{{ contest.title }}</div>
     <div slot="extra">
+      <screen-full :height="18" :width="18" class="screen-full"></screen-full>
       <Poptip trigger="hover" placement="left-start">
         <Icon type="android-settings" size="20"></Icon>
         <div slot="content" id="switches">
@@ -241,6 +242,10 @@
     margin: 20px auto;
     height: 400px;
     width: 98%;
+  }
+
+  .screen-full {
+    margin-right: 8px;
   }
 
   #switches {

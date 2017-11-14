@@ -20,6 +20,7 @@
     "highlight.js": "^9.12.0",
     "iview": "^2.6.0",
     "moment": "^2.19.1",
+    "screenfull": "^3.3.2",
     "simditor": "^2.3.6",
     "simditor-markdown": "^1.1.2",
     "vue": "^2.5.3",

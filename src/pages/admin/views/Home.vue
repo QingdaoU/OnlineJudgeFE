@@ -4,6 +4,7 @@
       <SideMenu></SideMenu>
     </div>
     <div id="header">
+      <screen-full :width="16" :height="16" class="screen-full"></screen-full>
       <el-dropdown @command="handleCommand">
         <span>{{profile.user.username}}<i class="el-icon-caret-bottom el-icon--right"></i></span>
         <el-dropdown-menu slot="dropdown">
@@ -25,6 +26,7 @@
 <script>
   import 'font-awesome/css/font-awesome.min.css'
   import SideMenu from '../components/SideMenu.vue'
+  import ScreenFull from '@admin/components/ScreenFull.vue'
   import api from '../api'
 
   export default {
@@ -38,7 +40,8 @@
       }
     },
     components: {
-      SideMenu
+      SideMenu,
+      ScreenFull
     },
     beforeRouteEnter (to, from, next) {
       api.getProfile().then(res => {
@@ -97,6 +100,9 @@
     line-height: 50px;
     height: 50px;
     background: #F9FAFC;
+    .screen-full {
+      margin-right: 8px;
+    }
   }
 
   .content-app {

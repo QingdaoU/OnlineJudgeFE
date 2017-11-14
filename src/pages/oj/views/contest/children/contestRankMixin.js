@@ -1,8 +1,12 @@
+import ScreenFull from '@admin/components/ScreenFull.vue'
 import { mapState } from 'vuex'
 import { types } from '@oj/store/index'
 import { CONTEST_STATUS } from '@/utils/constants'
 
 export default {
+  components: {
+    ScreenFull
+  },
   methods: {
     handleAutoRefresh (status) {
       if (status === true) {
