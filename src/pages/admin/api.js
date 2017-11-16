@@ -164,6 +164,11 @@ export default {
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
+  compileSPJ (data) {
+    return ajax('admin/compile_spj', 'post', {
+      data
+    })
+  },
   createProblem (data) {
     return ajax('admin/problem', 'post', {
       data

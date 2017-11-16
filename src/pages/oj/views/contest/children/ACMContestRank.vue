@@ -312,9 +312,11 @@
     height: 400px;
     width: 98%;
   }
+
   .screen-full {
     margin-right: 8px;
   }
+
   #switches {
     span {
       margin-left: 5px;

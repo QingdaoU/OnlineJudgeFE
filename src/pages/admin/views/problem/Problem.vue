@@ -159,24 +159,26 @@
           </el-row>
         </el-form-item>
         <el-form-item label="Special Judge" :error="error.spj">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-checkbox v-model="problem.spj" @click.native.prevent="switchSpj()">Use Special Judge</el-checkbox>
-            </el-col>
-            <el-col v-if="problem.spj" :span="12">
-              <el-form-item label="Special Judge Language">
-                <el-radio-group v-model="problem.spj_language">
-                  <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" :key="lang.name" effect="dark"
-                              :content="lang.description" placement="top-start">
-                    <el-radio :label="lang.name">{{ lang.name }}</el-radio>
-                  </el-tooltip>
-                </el-radio-group>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item v-if="problem.spj" label="Special Judge Code">
+          <el-col :span="24">
+            <el-checkbox v-model="problem.spj" @click.native.prevent="switchSpj()">Use Special Judge</el-checkbox>
+          </el-col>
+        </el-form-item>
+        <el-form-item v-if="problem.spj">
+          <Accordion title="Special Judge Code">
+            <template slot="header">
+              <span>SPJ language</span>
+              <el-radio-group v-model="problem.spj_language">
+                <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" :key="lang.name" effect="dark"
+                            :content="lang.description" placement="top-start">
+                  <el-radio :label="lang.name">{{ lang.name }}</el-radio>
+                </el-tooltip>
+              </el-radio-group>
+              <el-button type="primary" size="small" icon="fa-random" @click="compileSPJ" :loading="loadingCompile">
+                Compile
+              </el-button>
+            </template>
             <code-mirror v-model="problem.spj_code" :mode="spjMode"></code-mirror>
-          </el-form-item>
+          </Accordion>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="4">
@@ -260,6 +262,7 @@
           input_description: {required: true, message: 'Input Description is required', trigger: 'blur'},
           output_description: {required: true, message: 'Output Description is required', trigger: 'blur'}
         },
+        loadingCompile: false,
         mode: '',
         contest: {},
         problem: {
@@ -310,6 +313,7 @@
           spj: false,
           spj_language: '',
           spj_code: '',
+          spj_compile_ok: false,
           test_case_id: '',
           test_case_score: [],
           rule_type: 'ACM',
@@ -448,6 +452,29 @@
       uploadFailed () {
         this.$error('Upload failed')
       },
+      compileSPJ () {
+        let data = {
+          id: this.problem.id,
+          spj_code: this.problem.spj_code,
+          spj_language: this.problem.spj_language
+        }
+        this.loadingCompile = true
+        api.compileSPJ(data).then(res => {
+          this.loadingCompile = false
+          this.problem.spj_compile_ok = true
+        }, err => {
+          this.loadingCompile = false
+          const h = this.$createElement
+          this.$msgbox({
+            title: 'Compile Error',
+            type: 'error',
+            message: h('pre', err.data.data),
+            showCancelButton: false,
+            closeOnClickModal: false,
+            customClass: 'dialog-compile-error'
+          })
+        })
+      },
       submit () {
         if (!this.problem.samples.length) {
           this.$error('Sample is required')
@@ -464,10 +491,17 @@
           this.$error(this.error.tags)
           return
         }
-        if (this.problem.spj && !this.problem.spj_code) {
-          this.error.spj = 'Spj code is required'
-          this.$error(this.error.spj)
-          return
+        if (this.problem.spj) {
+          if (!this.problem.spj_code) {
+            this.error.spj = 'Spj code is required'
+            this.$error(this.error.spj)
+          } else if (!this.problem.spj_compile_ok) {
+            this.error.spj = 'SPJ code has not been successfully compiled'
+          }
+          if (this.error.spj) {
+            this.$error(this.error.spj)
+            return
+          }
         }
         if (!this.problem.languages.length) {
           this.error.languages = 'Please choose at least one language for problem'
@@ -527,7 +561,10 @@
       width: 120px;
     }
     .spj-radio {
-      margin-right: 15px;
+      margin-left: 10px;
+      &:last-child {
+        margin-right: 20px;
+      }
     }
     .input-new-tag {
       width: 78px;
@@ -565,6 +602,15 @@
     .add-sample-btn {
       margin-bottom: 10px;
     }
+
+  }
+</style>
+
+<style>
+  .dialog-compile-error {
+    width: auto;
+    max-width: 80%;
+    overflow-x: scroll;
   }
 </style>
 

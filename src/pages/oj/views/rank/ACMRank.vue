@@ -105,7 +105,7 @@
             show: true,
             feature: {
               dataView: {show: true, readOnly: true},
-              magicType: {show: true, type: ['line', 'bar']},
+              magicType: {show: true, type: ['line', 'bar', 'stack']},
               saveAsImage: {show: true}
             },
             right: '10%'

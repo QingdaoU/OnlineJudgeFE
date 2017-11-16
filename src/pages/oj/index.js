@@ -37,16 +37,6 @@ hljs.registerLanguage('cpp', cpp)
 hljs.registerLanguage('java', java)
 hljs.registerLanguage('python', python)
 
-// add global EventBus
-const EventBus = new Vue()
-Object.defineProperties(Vue.prototype, {
-  $bus: {
-    get () {
-      return EventBus
-    }
-  }
-})
-
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

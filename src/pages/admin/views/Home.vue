@@ -24,7 +24,6 @@
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.min.css'
   import SideMenu from '../components/SideMenu.vue'
   import ScreenFull from '@admin/components/ScreenFull.vue'
   import api from '../api'
