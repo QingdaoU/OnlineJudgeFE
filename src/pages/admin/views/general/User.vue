@@ -2,18 +2,29 @@
   <div class="view">
     <Panel title="User ">
       <div slot="header">
-        <el-input
-          v-model="keyword"
-          icon="search"
-          placeholder="Keywords">
-        </el-input>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-button v-show="selectedUsers.length"
+                       type="warning" icon="fa-trash"
+                       @click="deleteUsers(selectedUserIDs)">Delete
+            </el-button>
+          </el-col>
+          <el-col :span="selectedUsers.length ? 16: 24">
+            <el-input v-model="keyword" icon="search" placeholder="Keywords"></el-input>
+          </el-col>
+        </el-row>
       </div>
       <el-table
-        v-loading="loading"
+        v-loading="loadingTable"
         element-loading-text="loading"
+        @selection-change="handleSelectionChange"
         ref="table"
         :data="userList"
         style="width: 100%">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="username" label="Userame"></el-table-column>
         <el-table-column prop="create_time" label="Create Time">
@@ -33,8 +44,11 @@
             {{ scope.row.admin_type }}
           </template>
         </el-table-column>
-        <el-table-column inline-template fixed="right" label="Option">
-          <icon-btn name="Edit" icon="edit" @click.native="openUserDialog(row.id)"></icon-btn>
+        <el-table-column fixed="right" label="Option">
+          <template slot-scope="{row}">
+            <icon-btn name="Edit" icon="edit" @click.native="openUserDialog(row.id)"></icon-btn>
+            <icon-btn name="Delete" icon="trash" @click.native="deleteUsers([row.id])"></icon-btn>
+          </template>
         </el-table-column>
       </el-table>
       <div class="option">
@@ -46,6 +60,43 @@
           :total="total">
         </el-pagination>
       </div>
+    </Panel>
+
+    <Panel title="Generate User">
+      <el-form :model="formGenerateUser" ref="formGenerateUser">
+        <el-row :gutter="20">
+          <el-col :span="10">
+            <el-form-item label="Prefix" prop="prefix">
+              <el-input v-model="formGenerateUser.prefix" placeholder="Prefix"></el-input>
+            </el-form-item>
+            <el-form-item label="Start Number" prop="number_from" required>
+              <el-input v-model="formGenerateUser.number_from" placeholder="Start Number"></el-input>
+            </el-form-item>
+            <el-form-item label="Default Email" prop="default_email" required>
+              <el-input v-model="formGenerateUser.default_email"
+                        placeholder="Default Email"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10" :offset="1">
+            <el-form-item label="Suffix" prop="suffix">
+              <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
+            </el-form-item>
+            <el-form-item label="End Number" prop="number_to" required>
+              <el-input v-model="formGenerateUser.number_to" placeholder="End Number"></el-input>
+            </el-form-item>
+            <el-form-item label="Password Length" prop="password_length" required>
+              <el-input v-model="formGenerateUser.password_length"
+                        placeholder="Password Length"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item>
+          <el-button type="primary" @click="generateUser" icon="fa-users" :loading="loadingGenerate">Generate
+          </el-button>
+          <el-button v-if="file_id" @click="downloadUserExcel" icon="fa-download">Download The Excel</el-button>
+        </el-form-item>
+      </el-form>
     </Panel>
     <!--对话框-->
     <el-dialog title="User" v-model="showUserDialog" :close-on-click-modal="false">
@@ -128,6 +179,7 @@
 
 <script>
   import api from '../../api.js'
+  import utils from '@/utils/utils'
 
   export default {
     name: 'User',
@@ -145,10 +197,20 @@
         showUserDialog: false,
         // 当前用户model
         user: {},
-        // 是否显示loading
-        loading: false,
+        loadingTable: false,
+        loadingGenerate: false,
         // 当前页码
-        currentPage: 0
+        currentPage: 0,
+        selectedUsers: [],
+        file_id: '',
+        formGenerateUser: {
+          prefix: '',
+          suffix: '',
+          number_from: '',
+          number_to: '',
+          default_email: '',
+          password_length: 8
+        }
       }
     },
     mounted () {
@@ -180,14 +242,66 @@
       },
       // 获取用户列表
       getUserList (page) {
-        this.loading = true
+        this.loadingTable = true
         api.getUserList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
-          this.loading = false
+          this.loadingTable = false
           this.total = res.data.data.total
           this.userList = res.data.data.results
         }, res => {
-          this.loading = false
+          this.loadingTable = false
         })
+      },
+      deleteUsers (ids) {
+        this.$confirm('Sure to delete the user?', 'confirm', {
+          type: 'warning'
+        }).then(() => {
+          api.deleteUsers(ids.join(',')).then(res => {
+            this.getUserList(this.currentPage)
+          }).catch(() => {
+            this.getUserList(this.currentPage)
+          })
+        }, () => {
+        })
+      },
+      handleSelectionChange (val) {
+        this.selectedUsers = val
+      },
+      generateUser () {
+        this.$refs['formGenerateUser'].validate((valid) => {
+          if (!valid) {
+            this.$error('Please validate the error fields')
+            return
+          }
+          this.loadingGenerate = true
+          let data = Object.assign({}, this.formGenerateUser)
+          api.generateUser(data).then(res => {
+            this.loadingGenerate = false
+            this.file_id = res.data.data
+            this.getUserList(1)
+          }).catch(() => {
+            this.loadingGenerate = false
+          })
+        })
+      },
+      downloadUserExcel () {
+        this.$msgbox({
+          title: 'Download The File',
+          message: 'The users excel can only be downloaded once, please save it carefully.',
+          type: 'warning'
+        }).then(() => {
+          let url = '/admin/generate_user?file_id=' + this.file_id
+          utils.downloadFile(url)
+          this.file_id = ''
+        })
+      }
+    },
+    computed: {
+      selectedUserIDs () {
+        let ids = []
+        for (let user of this.selectedUsers) {
+          ids.push(user.id)
+        }
+        return ids
       }
     },
     watch: {

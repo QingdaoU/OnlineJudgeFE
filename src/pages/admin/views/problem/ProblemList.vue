@@ -13,7 +13,7 @@
         element-loading-text="loading"
         ref="table"
         :data="problemList"
-        @cell-dblclick="handleDblclick"
+        @row-dblclick="handleDblclick"
         style="width: 100%">
         <el-table-column
           width="100"
@@ -25,7 +25,10 @@
           label="Display ID">
           <template slot-scope="{row}">
             <span v-show="!row.isEditing">{{row._id}}</span>
-            <el-input v-show="row.isEditing" v-model="row._id" @keyup.enter.native="handleInlineEdit(row)"></el-input>
+            <el-input v-show="row.isEditing" v-model="row._id"
+                      @keyup.enter.native="handleInlineEdit(row)">
+
+            </el-input>
           </template>
         </el-table-column>
         <el-table-column
@@ -33,7 +36,9 @@
           label="Title">
           <template slot-scope="{row}">
             <span v-show="!row.isEditing">{{row.title}}</span>
-            <el-input v-show="row.isEditing" v-model="row.title" @keyup.enter.native="handleInlineEdit(row)"></el-input>
+            <el-input v-show="row.isEditing" v-model="row.title"
+                      @keyup.enter.native="handleInlineEdit(row)">
+            </el-input>
           </template>
         </el-table-column>
         <el-table-column
@@ -56,7 +61,7 @@
             <el-switch v-model="scope.row.visible"
                        on-text=""
                        off-text=""
-                       @change="handleInlineEdit(scope.row)">
+                       @change="updateProblem(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -70,6 +75,8 @@
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
             <icon-btn icon="download" name="Download TestCase"
                       @click.native="downloadTestCase(scope.row.id)"></icon-btn>
+            <icon-btn icon="trash" name="Delete Problem"
+                      @click.native="deleteProblem(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -84,6 +91,19 @@
         </el-pagination>
       </div>
     </Panel>
+    <el-dialog title="Sure to update the problem? "
+               size="tiny"
+               :visible.sync="InlineEditDialogVisible"
+               @close-on-click-modal="false">
+      <div>
+        <p>DisplayID: {{currentRow._id}}</p>
+        <p>Title: {{currentRow.title}}</p>
+      </div>
+      <span slot="footer">
+        <cancel @click.native="InlineEditDialogVisible = false; getProblemList(currentPage)"></cancel>
+        <save @click.native="updateProblem(currentRow)"></save>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -105,6 +125,8 @@
         contestId: '',
         // for make public use
         currentProblemID: '',
+        currentRow: {},
+        InlineEditDialogVisible: false,
         makePublicDialogVisible: false
       }
     },
@@ -150,30 +172,42 @@
           this.loading = false
         })
       },
+      deleteProblem (id) {
+        this.$confirm('You can only delete the problem that doesn\'t have submissions, continue?', 'Delete Problem', {
+          type: 'warning'
+        }).then(() => {
+          let funcName = this.routeName === 'problem-list' ? 'deleteProblem' : 'deleteContestProblem'
+          api[funcName](id).then(() => [
+            this.getProblemList(this.currentPage - 1)
+          ]).catch(() => {
+          })
+        }, () => {})
+      },
       makeContestProblemPublic (problemID) {
         this.$prompt('Please input display id for the public problem', 'confirm').then(({value}) => {
           api.makeContestProblemPublic({id: problemID, display_id: value}).catch()
         }, () => {
         })
       },
-      handleInlineEdit (row) {
-        this.$confirm('Sure to update the problem?', '', {
-          type: 'warning'
-        }).then(() => {
-          let data = Object.assign({}, row)
-          let funcName = ''
-          if (this.contestId) {
-            data.contest_id = this.contestId
-            funcName = 'editContestProblem'
-          } else {
-            funcName = 'editProblem'
-          }
-          api[funcName](data).then(res => {
-            this.getProblemList(this.currentPage)
-          }).catch()
-        }).catch(() => {
+      updateProblem (row) {
+        let data = Object.assign({}, row)
+        let funcName = ''
+        if (this.contestId) {
+          data.contest_id = this.contestId
+          funcName = 'editContestProblem'
+        } else {
+          funcName = 'editProblem'
+        }
+        api[funcName](data).then(res => {
+          this.InlineEditDialogVisible = false
           this.getProblemList(this.currentPage)
+        }).catch(() => {
+          this.InlineEditDialogVisible = false
         })
+      },
+      handleInlineEdit (row) {
+        this.currentRow = row
+        this.InlineEditDialogVisible = true
       },
       downloadTestCase (problemID) {
         let url = '/admin/test_case?problem_id=' + problemID

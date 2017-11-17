@@ -143,7 +143,7 @@
           </el-form-item>
         </div>
         <div class="add-sample-btn">
-          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Samples
+          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Sample
           </button>
         </div>
         <el-form-item label="Code Template">
@@ -462,8 +462,10 @@
         api.compileSPJ(data).then(res => {
           this.loadingCompile = false
           this.problem.spj_compile_ok = true
+          this.error.spj = ''
         }, err => {
           this.loadingCompile = false
+          this.problem.spj_compile_ok = false
           const h = this.$createElement
           this.$msgbox({
             title: 'Compile Error',
@@ -492,6 +494,7 @@
           return
         }
         if (this.problem.spj) {
+          console.log(this.problem)
           if (!this.problem.spj_code) {
             this.error.spj = 'Spj code is required'
             this.$error(this.error.spj)

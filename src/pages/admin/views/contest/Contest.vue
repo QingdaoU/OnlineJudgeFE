@@ -68,10 +68,8 @@
                     <el-input v-model="range.value" placeholder="CIDR Network"></el-input>
                   </el-col>
                   <el-col :span="8">
-                      <el-button :plain="true" type="primary" @click="addIPRange">
-                        <i class="fa fa-plus" aria-hidden="true"></i></el-button>
-                      <el-button :plain="true" type="primary" @click="removeIPRange(range)">
-                        <i class="fa fa-trash" aria-hidden="true"></i></el-button>
+                    <el-button :plain="true" type="primary" icon="fa-plus" @click="addIPRange"></el-button>
+                    <el-button :plain="true" type="primary" icon="fa-trash" @click="removeIPRange(range)"></el-button>
                   </el-col>
                 </el-row>
               </div>

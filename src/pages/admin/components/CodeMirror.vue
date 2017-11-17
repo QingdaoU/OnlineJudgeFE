@@ -13,6 +13,8 @@
         options: {
           mode: 'text/x-csrc',
           lineNumbers: true,
+          lineWrapping: false,
+          tabSize: 4,
           line: true,
           foldGutter: true,
           gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],

@@ -77,6 +77,18 @@ export default {
       data
     })
   },
+  deleteUsers (id) {
+    return ajax('admin/user', 'delete', {
+      params: {
+        id
+      }
+    })
+  },
+  generateUser (data) {
+    return ajax('admin/generate_user', 'post', {
+      data
+    })
+  },
   getLanguages () {
     return ajax('languages', 'get')
   },
@@ -179,6 +191,13 @@ export default {
       data
     })
   },
+  deleteProblem (id) {
+    return ajax('admin/problem', 'delete', {
+      params: {
+        id
+      }
+    })
+  },
   getProblem (id) {
     return ajax('admin/problem', 'get', {
       params: {
@@ -219,6 +238,13 @@ export default {
   editContestProblem (data) {
     return ajax('admin/contest/problem', 'put', {
       data
+    })
+  },
+  deleteContestProblem (id) {
+    return ajax('admin/contest/problem', 'delete', {
+      params: {
+        id
+      }
     })
   },
   makeContestProblemPublic (data) {
