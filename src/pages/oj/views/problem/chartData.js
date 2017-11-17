@@ -1,10 +1,10 @@
 const pieColorMap = {
   'AC': {color: '#19be6b'},
   'WA': {color: '#ed3f14'},
-  'TLE': {color: '#495060'},
-  'MLE': {color: '#80848f'},
+  'TLE': {color: '#ff9300'},
+  'MLE': {color: '#f7de00'},
   'RE': {color: '#ff6104'},
-  'CE': {color: '#ff9900'},
+  'CE': {color: '#80848f'},
   'PAC': {color: '#2d8cf0'}
 }
 

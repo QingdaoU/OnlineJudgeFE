@@ -193,8 +193,9 @@
         this.contestID = this.$route.params.contestID
         let query = this.$route.query
         this.problemID = query.problemID
-        this.myself = query.myself === '1'
-        this.result = query.result || ''
+        this.formFilter.myself = query.myself === '1'
+        this.formFilter.result = query.result || ''
+        this.formFilter.username = query.username || ''
         this.page = parseInt(query.page) || 1
         this.routeName = this.$route.name
         this.getSubmissions()

@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const config = require('../config')
 
 const vendors = [
   'vue/dist/vue.esm.js',
@@ -23,6 +24,9 @@ module.exports = {
     library: '[name]_dll',
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': config.build.env
+    }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
     new UglifyJSPlugin({

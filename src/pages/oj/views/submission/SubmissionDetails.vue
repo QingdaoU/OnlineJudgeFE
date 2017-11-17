@@ -4,7 +4,7 @@
     <Alert :type="status.type" showIcon>
       <span class="title">{{status.statusName}}</span>
       <div slot="desc" class="content">
-        <template v-if="submission.result == -2">
+        <template v-if="isCE">
           <pre>{{submission.statistic_info.err_info}}</pre>
         </template>
         <template v-else>
@@ -18,7 +18,7 @@
     </Col>
 
     <!--后台返info就显示出来， 权限控制放后台 -->
-    <Col v-if="submission.info && submission.result != -2" :span="20">
+    <Col v-if="submission.info && !isCE" :span="20">
     <Alert type="warning">
       <div class="admin-info-content">
         <Icon type="information-circled" color="#f90"></Icon>
@@ -117,7 +117,7 @@
       getSubmission () {
         api.getSubmission(this.$route.params.id).then(res => {
           let data = res.data.data
-          if (data.info && !data.info.data[0].score) {
+          if (data.info && data.info.data && !data.info.data[0].score) {
             this.columns.splice(this.columns.length - 1, 1)
           }
           this.submission = data
@@ -139,6 +139,9 @@
           statusName: JUDGE_STATUS[this.submission.result].name,
           color: JUDGE_STATUS[this.submission.result].color
         }
+      },
+      isCE () {
+        return this.submission.result === -2
       }
     }
   }

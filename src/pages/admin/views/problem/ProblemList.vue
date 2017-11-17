@@ -13,6 +13,7 @@
         element-loading-text="loading"
         ref="table"
         :data="problemList"
+        @cell-dblclick="handleDblclick"
         style="width: 100%">
         <el-table-column
           width="100"
@@ -21,12 +22,19 @@
         </el-table-column>
         <el-table-column
           width="150"
-          prop="_id"
           label="Display ID">
+          <template slot-scope="{row}">
+            <span v-show="!row.isEditing">{{row._id}}</span>
+            <el-input v-show="row.isEditing" v-model="row._id" @keyup.enter.native="handleInlineEdit(row)"></el-input>
+          </template>
         </el-table-column>
         <el-table-column
           prop="title"
           label="Title">
+          <template slot-scope="{row}">
+            <span v-show="!row.isEditing">{{row.title}}</span>
+            <el-input v-show="row.isEditing" v-model="row.title" @keyup.enter.native="handleInlineEdit(row)"></el-input>
+          </template>
         </el-table-column>
         <el-table-column
           prop="created_by.username"
@@ -48,7 +56,7 @@
             <el-switch v-model="scope.row.visible"
                        on-text=""
                        off-text=""
-                       @change="handleVisibleSwitch(scope.row)">
+                       @change="handleInlineEdit(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -106,6 +114,9 @@
       this.getProblemList(this.currentPage)
     },
     methods: {
+      handleDblclick (row) {
+        row.isEditing = true
+      },
       goEdit (problemId) {
         if (this.routeName === 'problem-list') {
           this.$router.push({name: 'edit-problem', params: {problemId}})
@@ -131,6 +142,9 @@
         api[funcName]((page - 1) * this.pageSize, this.pageSize, this.keyword, this.contestId).then(res => {
           this.loading = false
           this.total = res.data.data.total
+          for (let problem of res.data.data.results) {
+            problem.isEditing = false
+          }
           this.problemList = res.data.data.results
         }, res => {
           this.loading = false
@@ -142,18 +156,24 @@
         }, () => {
         })
       },
-      handleVisibleSwitch (row) {
-        let data = Object.assign({}, row)
-        let funcName = ''
-        if (this.contestId) {
-          data.contest_id = this.contestId
-          funcName = 'editContestProblem'
-        } else {
-          funcName = 'editProblem'
-        }
-        api[funcName](data).then(res => {
-          this.currentChange(this.currentPage)
-        }).catch()
+      handleInlineEdit (row) {
+        this.$confirm('Sure to update the problem?', '', {
+          type: 'warning'
+        }).then(() => {
+          let data = Object.assign({}, row)
+          let funcName = ''
+          if (this.contestId) {
+            data.contest_id = this.contestId
+            funcName = 'editContestProblem'
+          } else {
+            funcName = 'editProblem'
+          }
+          api[funcName](data).then(res => {
+            this.getProblemList(this.currentPage)
+          }).catch()
+        }).catch(() => {
+          this.getProblemList(this.currentPage)
+        })
       },
       downloadTestCase (problemID) {
         let url = '/admin/test_case?problem_id=' + problemID
