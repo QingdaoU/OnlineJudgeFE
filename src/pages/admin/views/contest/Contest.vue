@@ -60,14 +60,14 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="Allowed IP Ranges">
               <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
                 <el-row :gutter="20" style="margin-bottom: 15px">
-                  <el-col :span="16">
+                  <el-col :span="8">
                     <el-input v-model="range.value" placeholder="CIDR Network"></el-input>
                   </el-col>
-                  <el-col :span="8">
+                  <el-col :span="10">
                     <el-button :plain="true" type="primary" icon="fa-plus" @click="addIPRange"></el-button>
                     <el-button :plain="true" type="primary" icon="fa-trash" @click="removeIPRange(range)"></el-button>
                   </el-col>

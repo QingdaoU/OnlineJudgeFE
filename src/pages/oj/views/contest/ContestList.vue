@@ -87,7 +87,7 @@
   import time from '@/utils/time'
   import { CONTEST_STATUS_REVERSE, CONTEST_TYPE } from '@/utils/constants'
 
-  const limit = 4
+  const limit = 8
 
   export default {
     name: 'contest-list',

@@ -94,6 +94,9 @@
       goAnnouncement (announcement) {
         this.announcement = announcement
         this.listVisible = false
+        this.$nextTick(() => {
+          window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+        })
       },
       goBack () {
         this.listVisible = true
@@ -158,6 +161,7 @@
   .content-container {
     padding: 0 20px 20px 20px;
   }
+
   .no-announcement {
     text-align: center;
     font-size: 16px;
