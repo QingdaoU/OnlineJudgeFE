@@ -51,7 +51,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="option">
+      <div class="panel-options">
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -62,6 +62,56 @@
       </div>
     </Panel>
 
+    <Panel>
+      <span slot="title">Import User
+        <el-popover placement="right" trigger="hover">
+          <p>Only support csv file without headers, check the <a href="https://github.com">link</a> for details</p>
+          <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
+        </el-popover>
+      </span>
+      <el-upload v-if="!uploadUsers.length"
+                 action=""
+                 :show-file-list="false"
+                 accept=".csv"
+                 :before-upload="handleUsersCSV">
+        <el-button size="small" icon="fa-upload" type="primary">Choose File</el-button>
+      </el-upload>
+      <template v-else>
+        <el-table :data="uploadUsersPage">
+          <el-table-column label="Username">
+            <template slot-scope="{row}">
+              {{row[0]}}
+            </template>
+          </el-table-column>
+          <el-table-column label="Password">
+            <template slot-scope="{row}">
+              {{row[1]}}
+            </template>
+          </el-table-column>
+          <el-table-column label="email">
+            <template slot-scope="{row}">
+              {{row[2]}}
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="panel-options">
+          <el-button type="primary" size="small"
+                     icon="fa-upload"
+                     @click="handleUsersUpload">Import All</el-button>
+          <el-button type="warning" size="small"
+                     icon="fa-undo"
+                     @click="handleResetData">Reset Data</el-button>
+          <el-pagination
+            class="page"
+            layout="prev, pager, next"
+            :page-size="uploadUsersPageSize"
+            :current-page.sync="uploadUsersCurrentPage"
+            :total="uploadUsers.length">
+          </el-pagination>
+        </div>
+      </template>
+    </Panel>
+
     <Panel title="Generate User">
       <el-form :model="formGenerateUser" ref="formGenerateUser">
         <el-row :gutter="20">
@@ -70,7 +120,7 @@
               <el-input v-model="formGenerateUser.prefix" placeholder="Prefix"></el-input>
             </el-form-item>
             <el-form-item label="Start Number" prop="number_from" required>
-              <el-input v-model="formGenerateUser.number_from" placeholder="Start Number"></el-input>
+              <el-input-number v-model="formGenerateUser.number_from" style="width: 100%"></el-input-number>
             </el-form-item>
             <el-form-item label="Default Email" prop="default_email" required>
               <el-input v-model="formGenerateUser.default_email"
@@ -83,7 +133,7 @@
               <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
             </el-form-item>
             <el-form-item label="End Number" prop="number_to" required>
-              <el-input v-model="formGenerateUser.number_to" placeholder="End Number"></el-input>
+              <el-input-number v-model="formGenerateUser.number_to" style="width: 100%"></el-input-number>
             </el-form-item>
             <el-form-item label="Password Length" prop="password_length" required>
               <el-input v-model="formGenerateUser.password_length"
@@ -91,10 +141,23 @@
             </el-form-item>
           </el-col>
         </el-row>
+
         <el-form-item>
           <el-button type="primary" @click="generateUser" icon="fa-users" :loading="loadingGenerate">Generate
           </el-button>
           <el-button v-if="file_id" @click="downloadUserExcel" icon="fa-download">Download The Excel</el-button>
+          <span class="userPreview" v-if="!file_id &&
+                      formGenerateUser.number_from &&
+                      formGenerateUser.number_to &&
+                      formGenerateUser.number_from <= formGenerateUser.number_to">
+            The usernames will be {{formGenerateUser.prefix + formGenerateUser.number_from + formGenerateUser.suffix}},
+            <span v-if="formGenerateUser.number_from + 1 < formGenerateUser.number_to">
+              {{formGenerateUser.prefix + (formGenerateUser.number_from + 1) + formGenerateUser.suffix + '...'}}
+            </span>
+            <span v-if="formGenerateUser.number_from + 1 <= formGenerateUser.number_to">
+              {{formGenerateUser.prefix + formGenerateUser.number_to + formGenerateUser.suffix}}
+            </span>
+          </span>
         </el-form-item>
       </el-form>
     </Panel>
@@ -178,6 +241,7 @@
 </template>
 
 <script>
+  import papa from 'papaparse'
   import api from '../../api.js'
   import utils from '@/utils/utils'
 
@@ -186,11 +250,15 @@
     data () {
       return {
         // 一页显示的用户数
-        pageSize: 10,
+        pageSize: 15,
         // 用户总数
         total: 0,
         // 用户列表
         userList: [],
+        uploadUsers: [],
+        uploadUsersPage: [],
+        uploadUsersCurrentPage: 1,
+        uploadUsersPageSize: 15,
         // 搜索关键字
         keyword: '',
         // 是否显示用户对话框
@@ -206,8 +274,8 @@
         formGenerateUser: {
           prefix: '',
           suffix: '',
-          number_from: '',
-          number_to: '',
+          number_from: 0,
+          number_to: 0,
           default_email: '',
           password_length: 8
         }
@@ -276,7 +344,17 @@
           let data = Object.assign({}, this.formGenerateUser)
           api.generateUser(data).then(res => {
             this.loadingGenerate = false
-            this.file_id = res.data.data
+            let data = res.data.data
+            this.file_id = data.file_id
+            this.$alert(data.created_count + ' users have been created')
+            if (data.get_count > 0) {
+              this.$notify({
+                title: 'Warning',
+                type: 'warning',
+                message: data.get_count + ' users were previously created whose password has been set to random string',
+                duration: 0
+              })
+            }
             this.getUserList(1)
           }).catch(() => {
             this.loadingGenerate = false
@@ -286,13 +364,60 @@
       downloadUserExcel () {
         this.$msgbox({
           title: 'Download The File',
-          message: 'The users excel can only be downloaded once, please save it carefully.',
+          message: 'The users sheets can only be downloaded once, please save it carefully.',
           type: 'warning'
         }).then(() => {
           let url = '/admin/generate_user?file_id=' + this.file_id
           utils.downloadFile(url)
           this.file_id = ''
         })
+      },
+      handleUsersCSV (file) {
+        if (file.type !== 'text/csv') {
+          this.$error('Only support csv file!')
+          return
+        }
+        papa.parse(file, {
+          complete: (results) => {
+            let data = results.data.filter(user => {
+              return user[0] && user[1] && user[2]
+            })
+            let delta = results.data.length - data.length
+            if (delta > 0) {
+              this.$alert(delta + ' users have been filtered due to empty value')
+            }
+            this.uploadUsersCurrentPage = 1
+            this.uploadUsers = data
+            this.uploadUsersPage = data.slice(0, this.uploadUsersPageSize)
+          },
+          error: (error) => {
+            this.$error(error)
+          }
+        })
+      },
+      handleUsersUpload () {
+        api.importUsers(this.uploadUsers).then(res => {
+          let data = res.data.data
+          this.getUserList(1)
+          let h = this.$createElement
+          let message = [h('p', {}, data.created_count + ' users created successfully,\n\n')]
+          if (data.get_count > 0) {
+            message.push(h('p', {}, data.get_count + ' users were previously created whose password has been updated'))
+          }
+          if (data.omitted_count > 0) {
+            message.push(h('p', {}, data.omitted_count + ' users were omitted'))
+          }
+          this.$notify({
+            type: 'info',
+            title: 'Import Result',
+            duration: 0,
+            customClass: 'notification',
+            message: h('div', {}, message)
+          })
+        })
+      },
+      handleResetData () {
+        this.uploadUsers = []
       }
     },
     computed: {
@@ -314,26 +439,26 @@
         } else if (this.user.admin_type === 'Regular User') {
           this.user.problem_permission = 'None'
         }
+      },
+      'uploadUsersCurrentPage' (page) {
+        this.uploadUsersPage = this.uploadUsers.slice((page - 1) * this.uploadUsersPageSize, page * this.uploadUsersPageSize)
       }
     }
   }
 </script>
 
 <style scoped lang="less">
-  .option {
-    border: 1px solid #e0e6ed;
-    border-top: none;
-    padding: 8px;
-    background-color: #fff;
-    position: relative;
-    height: 50px;
-    button {
-      margin-right: 10px;
-    }
-    > .page {
-      position: absolute;
-      right: 20px;
-      top: 10px;
+  .import-user-icon {
+    color: #555555;
+    margin-left: 4px;
+  }
+  .userPreview {
+    padding-left: 10px;
+  }
+  .notification {
+    p {
+      margin: 0;
+      text-align: left;
     }
   }
 </style>

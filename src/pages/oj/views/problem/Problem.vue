@@ -48,12 +48,16 @@
                     :language="language"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
-          <div class="status"
-               v-if="statusVisible && (!this.contestID || (this.contestID && OIContestRealTimePermission))">
-            <span>Status:</span>
-            <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
-              {{submissionStatus.text}}
-            </Tag>
+          <div class="status" v-if="statusVisible">
+            <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
+              <span>Status:</span>
+              <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
+                {{submissionStatus.text}}
+              </Tag>
+            </template>
+            <template v-else-if="this.contestID && !OIContestRealTimePermission">
+              <Alert type="success" show-icon>Successfully submitted</Alert>
+            </template>
           </div>
           <div v-else-if="problem.my_status === 0">
             <Alert type="success" show-icon>You have solved the problem</Alert>
@@ -145,7 +149,7 @@
             <p>Tags</p>
             <p>
               <Poptip trigger="hover" placement="left-end">
-                <a>show</a>
+                <a>Show</a>
                 <div slot="content">
                   <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
                 </div>

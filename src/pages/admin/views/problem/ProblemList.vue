@@ -80,7 +80,7 @@
           </div>
         </el-table-column>
       </el-table>
-      <div class="option">
+      <div class="panel-options">
         <el-button type="primary" size="small" @click.native="goCreateProblem" icon="plus">Create</el-button>
         <el-pagination
           class="page"
@@ -228,20 +228,4 @@
 </script>
 
 <style scoped lang="less">
-  .option {
-    border: 1px solid #e0e6ed;
-    border-top: none;
-    padding: 8px;
-    background-color: #fff;
-    position: relative;
-    height: 50px;
-    button {
-      margin-right: 10px;
-    }
-    > .page {
-      position: absolute;
-      right: 20px;
-      top: 10px;
-    }
-  }
 </style>

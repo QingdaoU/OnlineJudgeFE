@@ -84,6 +84,13 @@ export default {
       }
     })
   },
+  importUsers (users) {
+    return ajax('admin/user', 'post', {
+      data: {
+        users
+      }
+    })
+  },
   generateUser (data) {
     return ajax('admin/generate_user', 'post', {
       data

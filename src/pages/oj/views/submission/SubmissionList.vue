@@ -27,7 +27,7 @@
             </li>
 
             <li>
-              <Input v-model="formFilter.username" placeholder="search author" @on-enter="handleQueryChange" />
+              <Input v-model="formFilter.username" placeholder="Search Author" @on-enter="handleQueryChange" />
             </li>
           </ul>
         </div>
@@ -61,6 +61,7 @@
           {
             title: 'When',
             align: 'center',
+            width: 180,
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.create_time))
             }
@@ -68,6 +69,7 @@
           {
             title: 'ID',
             align: 'center',
+            width: 150,
             render: (h, params) => {
               if (params.row.show_link) {
                 return h('span', {

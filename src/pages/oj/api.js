@@ -53,8 +53,12 @@ export default {
       data: profile
     })
   },
-  freshDisplayID () {
-    return ajax('profile/fresh_display_id', 'get')
+  freshDisplayID (userID) {
+    return ajax('profile/fresh_display_id', 'get', {
+      params: {
+        user_id: userID
+      }
+    })
   },
   twoFactorAuth (method, data) {
     return ajax('two_factor_auth', method, {

@@ -87,8 +87,18 @@
           {
             title: 'Total Score',
             align: 'center',
-            width: 150,
-            key: 'total_score'
+            render: (h, params) => {
+              return h('a', {
+                on: {
+                  click: () => {
+                    this.$router.push({
+                      name: 'contest-submission-list',
+                      query: {username: params.row.user.username}
+                    })
+                  }
+                }
+              }, params.row.total_score)
+            }
           }
         ],
         dataRank: [],

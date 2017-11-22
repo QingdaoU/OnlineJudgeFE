@@ -56,7 +56,7 @@
             </div>
           </el-table-column>
         </el-table>
-        <div class="option">
+        <div class="panel-options">
           <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="plus">Create</el-button>
           <el-pagination
             v-if="!contestID"
@@ -267,24 +267,6 @@
 </script>
 
 <style lang="less" scoped>
-  .announcement {
-    .option {
-      border: 1px solid #e0e6ed;
-      border-top: none;
-      padding: 10px;
-      background-color: #fff;
-      position: relative;
-      button {
-        margin-right: 10px;
-      }
-      > .page {
-        position: absolute;
-        right: 20px;
-        top: 10px;
-      }
-    }
-  }
-
   .title-input {
     margin-bottom: 20px;
   }

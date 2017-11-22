@@ -91,7 +91,19 @@
             align: 'center',
             width: 100,
             render: (h, params) => {
-              return h('span', params.row.accepted_number + ' / ' + params.row.submission_number)
+              return h('span', {}, [
+                h('span', {}, params.row.accepted_number + ' / '),
+                h('a', {
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: 'contest-submission-list',
+                        query: {username: params.row.user.username}
+                      })
+                    }
+                  }
+                }, params.row.submission_number)
+              ])
             }
           },
           {

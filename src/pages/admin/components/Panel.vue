@@ -1,11 +1,16 @@
 <template>
   <div class="panel" :class="{'small': small}">
     <header>
-      <h2>{{title}}</h2>
+      <h2 v-if="$slots.title">
+        <slot name="title"></slot>
+      </h2>
+      <h2 v-else>{{title}}</h2>
+
       <div class="header_right">
         <slot name="header"></slot>
       </div>
     </header>
+
     <div class="body">
       <slot></slot>
     </div>
@@ -13,37 +18,37 @@
 </template>
 
 <script>
-export default{
-  name: 'Panel',
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    small: {
-      type: Boolean,
-      default: false
+  export default {
+    name: 'Panel',
+    props: {
+      title: {
+        type: String,
+        required: false
+      },
+      small: {
+        type: Boolean,
+        default: false
+      }
     }
   }
-}
 </script>
 <style scoped lang="less">
-  .panel{
+  .panel {
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid transparent;
     border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    &.small{
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    &.small {
       max-width: 830px;
       min-width: 700px;
       margin-left: 20px;
       margin-top: 10px;
     }
-    header{
+    header {
       position: relative;
       z-index: 10;
-      >h2{
+      > h2 {
         margin: 0;
         color: #333;
         border-color: #ddd;
@@ -57,15 +62,34 @@ export default{
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
       }
-      >.header_right{
+      > .header_right {
         position: absolute;
         top: 50%;
         right: 20px;
-        transform: translate(0,-50%);
+        transform: translate(0, -50%);
       }
     }
-    .body{
+    .body {
       padding: 15px;
+    }
+  }
+</style>
+<style lang="less">
+  .panel-options {
+    border: 1px solid #e0e6ed;
+    border-top: none;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    height: 50px;
+    button {
+      margin-top: 3px;
+      margin-right: 10px;
+    }
+    > .page {
+      position: absolute;
+      right: 20px;
+      top: 10px;
     }
   }
 </style>
