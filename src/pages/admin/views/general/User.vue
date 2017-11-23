@@ -88,7 +88,7 @@
               {{row[1]}}
             </template>
           </el-table-column>
-          <el-table-column label="email">
+          <el-table-column label="Email">
             <template slot-scope="{row}">
               {{row[2]}}
             </template>

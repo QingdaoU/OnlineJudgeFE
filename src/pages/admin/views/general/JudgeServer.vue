@@ -55,7 +55,7 @@
         </el-table-column>
         <el-table-column
           fixed="right"
-          label="option">
+          label="Options">
           <template slot-scope="scope">
             <icon-btn name="Delete" icon="trash" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
           </template>

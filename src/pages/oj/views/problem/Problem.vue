@@ -62,7 +62,7 @@
           <div v-else-if="problem.my_status === 0">
             <Alert type="success" show-icon>You have solved the problem</Alert>
           </div>
-          <div v-else-if="this.contestID && !OIContestRealTimePermission">
+          <div v-else-if="this.contestID && !OIContestRealTimePermission && submissionExists">
             <Alert type="success" show-icon>You have submitted a solution.</Alert>
           </div>
           <div class="status" v-if="contestEnded">
@@ -262,7 +262,6 @@
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
           api.submissionExists(res.data.data.id).then(res => {
-            console.log(res.data.data)
             this.submissionExists = res.data.data
           })
           this.problem = res.data.data
@@ -365,6 +364,7 @@
             this.submissionId = res.data.data && res.data.data.submission_id
             // 定时检查状态
             this.submitting = false
+            this.submissionExists = true
             if (!detailsVisible) {
               this.$Modal.success({
                 title: 'Success',
