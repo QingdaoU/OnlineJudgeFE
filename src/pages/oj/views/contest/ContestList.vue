@@ -32,7 +32,7 @@
           </li>
           <li>
             <Input id="keyword" @on-enter="changeRoute" @on-click="changeRoute" v-model="query.keyword"
-                   icon="ios-search-strong"/>
+                   icon="ios-search-strong" placeholder="Keyword"/>
           </li>
         </ul>
       </div>
@@ -147,10 +147,12 @@
       },
       onRuleChange (rule) {
         this.query.rule_type = rule
+        this.page = 1
         this.changeRoute()
       },
       onStatusChange (status) {
         this.query.status = status
+        this.page = 1
         this.changeRoute()
       },
       goContest (contest) {
