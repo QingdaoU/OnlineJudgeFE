@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <SideMenu></SideMenu>
+      <SideMenu :user="profile.user"></SideMenu>
     </div>
     <div id="header">
       <screen-full :width="16" :height="16" class="screen-full"></screen-full>

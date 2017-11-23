@@ -29,6 +29,7 @@
           {
             title: '#',
             key: '_id',
+            sortType: 'asc',
             width: 150
           },
           {

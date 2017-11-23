@@ -1,9 +1,10 @@
 <template>
-  <el-menu default-active="1" class="vertical_menu" theme="dark" :router="true" :default-active="currentPath" style="overflow: auto">
+  <el-menu default-active="1" class="vertical_menu" theme="dark" :router="true" :default-active="currentPath"
+           style="overflow: auto">
     <div class="logo">
-      <img src="../../../assets/logo.svg" alt="oj admin" />
+      <img src="../../../assets/logo.svg" alt="oj admin"/>
     </div>
-    <el-submenu index="general">
+    <el-submenu v-if="isSuperUser" index="general">
       <template slot="title"><i class="el-icon-menu"></i>General</template>
       <el-menu-item index="/user">User</el-menu-item>
       <el-menu-item index="/announcement">Announcement</el-menu-item>
@@ -12,8 +13,8 @@
     </el-submenu>
     <el-submenu index="problem">
       <template slot="title"><i class="el-icon-document"></i>Problem</template>
-      <el-menu-item index="/problem/create">Create Problem</el-menu-item>
       <el-menu-item index="/problems">Problem List</el-menu-item>
+      <el-menu-item index="/problem/create">Create Problem</el-menu-item>
     </el-submenu>
     <el-submenu index="contest">
       <template slot="title"><i class="el-icon-document"></i>Contest</template>
@@ -24,38 +25,51 @@
 </template>
 
 <script>
-export default{
-  name: 'SideMenu',
-  data () {
-    return {
-      currentPath: ''
+  import { USER_TYPE } from '@/utils/constants'
+
+  export default {
+    name: 'SideMenu',
+    props: {
+      user: {
+        type: Object,
+        required: true
+      }
+    },
+    data () {
+      return {
+        currentPath: ''
+      }
+    },
+    mounted () {
+      this.currentPath = this.$route.path
+    },
+    computed: {
+      isSuperUser () {
+        return this.user.admin_type === USER_TYPE.SUPER_ADMIN
+      }
     }
-  },
-  mounted () {
-    this.currentPath = this.$route.path
   }
-}
 </script>
 
 <style scoped lang="less">
-.vertical_menu{
-  width: 200px;
-  height: 100%;
-  position: fixed!important;
-  z-index: 100;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  .logo{
-    margin: 20px 0;
-    text-align: center;
-    img{
-      background-color: #fff;
-      border-radius: 50%;
-      border: 3px solid #fff;
-      width: 75px;
-      height: 75px;
+  .vertical_menu {
+    width: 200px;
+    height: 100%;
+    position: fixed !important;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    .logo {
+      margin: 20px 0;
+      text-align: center;
+      img {
+        background-color: #fff;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        width: 75px;
+        height: 75px;
+      }
     }
   }
-}
 </style>

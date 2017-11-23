@@ -56,11 +56,14 @@
               </Tag>
             </template>
             <template v-else-if="this.contestID && !OIContestRealTimePermission">
-              <Alert type="success" show-icon>Successfully submitted</Alert>
+              <Alert type="success" show-icon>Submitted successfully</Alert>
             </template>
           </div>
           <div v-else-if="problem.my_status === 0">
             <Alert type="success" show-icon>You have solved the problem</Alert>
+          </div>
+          <div v-else-if="this.contestID && !OIContestRealTimePermission">
+            <Alert type="success" show-icon>You have submitted a solution.</Alert>
           </div>
           <div class="status" v-if="contestEnded">
             <Alert type="warning" show-icon>Contest have ended</Alert>
@@ -203,6 +206,7 @@
         statusVisible: false,
         captchaRequired: false,
         graphVisible: false,
+        submissionExists: false,
         captchaCode: '',
         captchaSrc: '',
         contestID: '',
@@ -219,6 +223,7 @@
           description: '',
           hint: '',
           my_status: '',
+          template: {},
           languages: [],
           created_by: {
             username: ''
@@ -256,6 +261,10 @@
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
+          api.submissionExists(res.data.data.id).then(res => {
+            console.log(res.data.data)
+            this.submissionExists = res.data.data
+          })
           this.problem = res.data.data
           this.changePie(res.data.data)
 
@@ -341,7 +350,6 @@
         this.submissionId = ''
         this.result = {result: 9}
         this.submitting = true
-        this.statusVisible = true
         let data = {
           problem_id: this.problem.id,
           language: this.language,
@@ -351,23 +359,51 @@
         if (this.captchaRequired) {
           data.captcha = this.captchaCode
         }
-        api.submitCode(data).then(res => {
-          this.submissionId = res.data.data && res.data.data.submission_id
-          // 定时检查状态
-          if (this.contestRuleType === 'OI' && !this.OIContestRealTimePermission) {
+        const submitFunc = (data, detailsVisible) => {
+          this.statusVisible = true
+          api.submitCode(data).then(res => {
+            this.submissionId = res.data.data && res.data.data.submission_id
+            // 定时检查状态
             this.submitting = false
-            this.$success('Submit code successfully')
-          } else {
+            if (!detailsVisible) {
+              this.$Modal.success({
+                title: 'Success',
+                content: 'Submit code successfully'
+              })
+              return
+            }
             this.checkSubmissionStatus()
+          }, res => {
+            this.getCaptchaSrc()
+            if (res.data.data.startsWith('Captcha is required')) {
+              this.captchaRequired = true
+            }
+            this.submitting = false
+            this.statusVisible = false
+          })
+        }
+
+        if (this.contestRuleType === 'OI' && !this.OIContestRealTimePermission) {
+          if (this.submissionExists) {
+            this.$Modal.confirm({
+              title: '',
+              content: '<h3>You have submission in this problem, sure to cover it?<h3>',
+              onOk: () => {
+                // 暂时解决对话框与后面提示对话框冲突的问题(否则一闪而过）
+                setTimeout(() => {
+                  submitFunc(data, false)
+                }, 1000)
+              },
+              onCancel: () => {
+                this.submitting = false
+              }
+            })
+          } else {
+            submitFunc(data, false)
           }
-        }, res => {
-          this.getCaptchaSrc()
-          if (res.data.data.startsWith('Captcha is required')) {
-            this.captchaRequired = true
-          }
-          this.submitting = false
-          this.statusVisible = false
-        })
+        } else {
+          submitFunc(data, true)
+        }
       },
       onCopy (event) {
         this.$success('Code copied')

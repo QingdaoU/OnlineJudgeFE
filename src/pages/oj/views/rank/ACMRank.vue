@@ -45,14 +45,9 @@
             title: 'user',
             align: 'center',
             render: (h, params) => {
-              return h('Button', {
-                props: {
-                  type: 'text'
-                },
-                'class': {
-                  'link-button': true
-                },
+              return h('a', {
                 style: {
+                  'display': 'inline-block',
                   'max-width': '200px'
                 },
                 on: {

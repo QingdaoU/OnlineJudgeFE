@@ -219,6 +219,13 @@ export default {
       }
     })
   },
+  submissionExists (problemID) {
+    return ajax('submission_exists', 'get', {
+      params: {
+        problem_id: problemID
+      }
+    })
+  },
   updateSubmission (data) {
     return ajax('submission', 'put', {
       data

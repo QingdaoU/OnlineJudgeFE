@@ -20,8 +20,8 @@
           </li>
           <li>
             <Input v-model="query.keyword"
-                   @on-enter="pushRouter"
-                   @on-click="pushRouter"
+                   @on-enter="filterByKeyword"
+                   @on-click="filterByKeyword"
                    placeholder="keyword"
                    icon="ios-search-strong"/>
           </li>
@@ -170,6 +170,9 @@
         this.query.keyword = query.keyword || ''
         this.query.tag = query.tag || ''
         this.query.page = parseInt(query.page) || 1
+        if (this.query.page < 1) {
+          this.query.page = 1
+        }
         if (!simulate) {
           this.getTagList()
         }
@@ -205,10 +208,16 @@
       },
       filterByTag (tagName) {
         this.query.tag = tagName
+        this.query.page = 1
         this.pushRouter()
       },
       filterByDifficulty (difficulty) {
         this.query.difficulty = difficulty
+        this.query.page = 1
+        this.pushRouter()
+      },
+      filterByKeyword () {
+        this.query.page = 1
         this.pushRouter()
       },
       onReset () {

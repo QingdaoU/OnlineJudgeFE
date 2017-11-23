@@ -64,14 +64,9 @@
             title: 'User',
             align: 'center',
             render: (h, params) => {
-              return h('Button', {
-                props: {
-                  type: 'text'
-                },
-                'class': {
-                  'link-button': true
-                },
+              return h('a', {
                 style: {
+                  display: 'inline-block',
                   'max-width': '150px'
                 },
                 on: {
@@ -278,13 +273,9 @@
             align: 'center',
             key: problem.id,
             renderHeader: (h, params) => {
-              return h('Button', {
-                props: {
-                  type: 'text',
-                  size: 'large'
-                },
-                style: {
-                  padding: 0
+              return h('a', {
+                'class': {
+                  'emphasis': true
                 },
                 on: {
                   click: () => {

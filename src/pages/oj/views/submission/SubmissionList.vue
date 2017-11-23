@@ -150,15 +150,10 @@
             title: 'Author',
             align: 'center',
             render: (h, params) => {
-              return h('Button', {
-                props: {
-                  type: 'text'
-                },
-                'class': {
-                  'link-button': true
-                },
+              return h('a', {
                 style: {
-                  'max-width': '200px'
+                  'display': 'inline-block',
+                  'max-width': '150px'
                 },
                 on: {
                   click: () => {
@@ -199,6 +194,9 @@
         this.formFilter.result = query.result || ''
         this.formFilter.username = query.username || ''
         this.page = parseInt(query.page) || 1
+        if (this.page < 1) {
+          this.page = 1
+        }
         this.routeName = this.$route.name
         this.getSubmissions()
       },

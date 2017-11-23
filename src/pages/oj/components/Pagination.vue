@@ -34,6 +34,9 @@
     },
     methods: {
       onChange (page) {
+        if (page < 1) {
+          page = 1
+        }
         this.$emit('update:current', page)
         this.$emit('on-change', page)
       },
