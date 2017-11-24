@@ -1,15 +1,27 @@
 language: node_js
 node_js:
-  - "6.11.2"
+- 6.11.2
 env:
-  - CXX=g++-4.8
+- CXX=g++-4.8
 script:
-  - npm install
-  - npm run build:dll
-  - npm run build
+- npm install
+- npm run build:dll
+- npm run build
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+    - g++-4.8
+before_deploy:
+- zip -r dist.zip dist
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: I+BjkiPd+7XnMo1qWFhyz2xqElBLlGuCx1ZamvEa61zk4HPAnfWDPvpxXWihLdE4WDIkrOTRQ6Nh6GlVz+2uFugtdAlrxEWjU3bhadf5hAPNL2faNd52CN2qRNOuaWZmIkY4KUDmKoxvcFVQCKqMCxpghlNT7IJLwaC5wjogMeQKERXSa4rXl/ZGHdZzpkPo8SIEIy7hwQcHDl0ckm3t8wlXe6/xCRR2YoI3enZE15oJ15PChEcYbI6kUHNg3iIAddAAykqU0PnBtGSaPkl2JU90f4Rs62wW626wXyBs39ZU2rSbooyKF7OgFtS7KeTbYxyINBta8JH45plE/HVB3U3wy/8dBneZYr6ySGtSZSV10ortW59Al6Pifyo1na6tgkXSrckUOh1HFSiOsN6k46RXo6T1L1w1P8cUCJ2WYJksHJqBXnQmKbol9x3Gz6fQHR6yA5ToczKmg2ow549Q3g3oRb6RjRzXNkYu9sAZ2mhQ1fIjm7GkYPQvHzze+qwBxeX/ysFwIUNjUnK6u6EZunShz6fF9NEsDxzfUXPDOfB28MmxGkIi6TuT21F8tKfCG0C0CqLWBBve2agU9gutvIA1aY9i5K0YnlXPah1NYYzDPlk1RepWzJrq9VzGz3HxwY++cm6vR/7o9V+3WVpMIWHjnYwDTpK7pfm3VYbiLlg=
+  file: dist.zip
+  on:
+    repo: QingdaoU/OnlineJudgeFE
+    all_branches: true
+    tags: true
