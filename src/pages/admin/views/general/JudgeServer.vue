@@ -1,7 +1,7 @@
 <template>
   <div class="view">
     <Panel title="Judge Server Token">
-      <el-input v-model="token" style="width: 200px"></el-input>
+      <code>{{ token }}</code>
     </Panel>
     <Panel title="Judge Server">
       <el-table
