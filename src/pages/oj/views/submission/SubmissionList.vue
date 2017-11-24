@@ -5,13 +5,6 @@
         <div slot="title">{{title}}</div>
         <div slot="extra">
           <ul class="filter">
-
-            <li>
-              <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
-                <span slot="open">Mine</span>
-                <span slot="close">All</span>
-              </i-switch>
-            </li>
             <li>
               <Dropdown @on-click="handleResultChange">
                 <span>{{status}}
@@ -26,8 +19,19 @@
               </Dropdown>
             </li>
 
+
             <li>
-              <Input v-model="formFilter.username" placeholder="Search Author" @on-enter="handleQueryChange" />
+              <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
+                <span slot="open">Mine</span>
+                <span slot="close">All</span>
+              </i-switch>
+            </li>
+            <li>
+              <Input v-model="formFilter.username" placeholder="Search Author" @on-enter="handleQueryChange"/>
+            </li>
+
+            <li>
+              <Button type="info" icon="refresh" @click="getSubmissions">Refresh</Button>
             </li>
           </ul>
         </div>
@@ -39,8 +43,9 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import api from '@oj/api'
-  import { JUDGE_STATUS } from '@/utils/constants'
+  import { JUDGE_STATUS, USER_TYPE } from '@/utils/constants'
   import utils from '@/utils/utils'
   import time from '@/utils/time'
   import Pagination from '@/pages/oj/components/Pagination'
@@ -176,7 +181,8 @@
         contestID: '',
         problemID: '',
         routeName: '',
-        JUDGE_STATUS: ''
+        JUDGE_STATUS: '',
+        rejudge_column: false
       }
     },
     mounted () {
@@ -216,9 +222,14 @@
         let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
         this.loadingTable = true
         api[func](offset, this.limit, params).then(res => {
+          let data = res.data.data
+          for (let v of data.results) {
+            v.loading = false
+          }
+          this.adjustRejudgeColumn()
           this.loadingTable = false
-          this.submissions = res.data.data.results
-          this.total = res.data.data.total
+          this.submissions = data.results
+          this.total = data.total
         }).catch(() => {
           this.loadingTable = false
         })
@@ -237,6 +248,33 @@
       goRoute (route) {
         this.$router.push(route)
       },
+      adjustRejudgeColumn () {
+        if (!this.rejudgeColumnVisible || this.rejudge_column) {
+          return
+        }
+        const judgeColumn = {
+          title: 'Option',
+          fixed: 'right',
+          align: 'center',
+          width: 80,
+          render: (h, params) => {
+            return h('Button', {
+              props: {
+                type: 'primary',
+                size: 'small',
+                loading: params.row.loading
+              },
+              on: {
+                click: () => {
+                  this.handleRejudge(params.row.id, params.index)
+                }
+              }
+            }, 'Rejudge')
+          }
+        }
+        this.columns.push(judgeColumn)
+        this.rejudge_column = true
+      },
       handleResultChange (status) {
         this.page = 1
         this.formFilter.result = status
@@ -245,9 +283,20 @@
       handleQueryChange () {
         this.page = 1
         this.changeRoute()
+      },
+      handleRejudge (id, index) {
+        this.submissions[index].loading = true
+        api.submissionRejudge(id).then(res => {
+          this.submissions[index].loading = false
+          this.$success('Succeeded')
+          this.getSubmissions()
+        }, () => {
+          this.submissions[index].loading = false
+        })
       }
     },
     computed: {
+      ...mapGetters(['isAuthenticated', 'user']),
       title () {
         if (!this.contestID) {
           return 'Status'
@@ -259,6 +308,9 @@
       },
       status () {
         return this.formFilter.result === '' ? 'Status' : JUDGE_STATUS[this.formFilter.result].name
+      },
+      rejudgeColumnVisible () {
+        return !this.contestID && this.user.admin_type === USER_TYPE.SUPER_ADMIN
       }
     },
     watch: {
@@ -266,6 +318,9 @@
         if (newVal !== oldVal) {
           this.init()
         }
+      },
+      'rejudgeColumnVisible' () {
+        this.adjustRejudgeColumn()
       }
     }
   }
@@ -280,6 +335,9 @@
     #main {
       flex: auto;
       margin-right: 18px;
+      .filter {
+        margin-right: -32px;
+      }
     }
     #contest-menu {
       flex: none;

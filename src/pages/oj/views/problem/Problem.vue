@@ -66,7 +66,7 @@
             <Alert type="success" show-icon>You have submitted a solution.</Alert>
           </div>
           <div class="status" v-if="contestEnded">
-            <Alert type="warning" show-icon>Contest have ended</Alert>
+            <Alert type="warning" show-icon>Contest has ended</Alert>
           </div>
           </Col>
 

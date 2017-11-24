@@ -39,10 +39,10 @@ export default {
       set (value) {
         this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: value})
         this.$nextTick(() => {
-          this.$refs.tableRank.handleResize()
           if (this.showChart) {
             this.$refs.chart.resize()
           }
+          this.$refs.tableRank.handleResize()
         })
       }
     },
