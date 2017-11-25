@@ -4,7 +4,7 @@
       <div slot="header">
         <el-input
           v-model="keyword"
-          icon="search"
+          prefix-icon="el-icon-search"
           placeholder="Keywords">
         </el-input>
       </div>
@@ -62,15 +62,15 @@
           label="Visible">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.visible"
-                       on-text=""
-                       off-text=""
+                       active-text=""
+                       inactive-text=""
                        @change="handleVisibleSwitch(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column
           fixed="right"
-          width="180"
+          width="200"
           label="Operation">
           <div slot-scope="scope">
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>

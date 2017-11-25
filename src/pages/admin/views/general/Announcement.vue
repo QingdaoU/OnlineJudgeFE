@@ -41,15 +41,16 @@
             label="Visible">
             <template slot-scope="scope">
               <el-switch v-model="scope.row.visible"
-                         on-text=""
-                         off-text=""
+                         active-text=""
+                         inactive-text=""
                          @change="handleVisibleSwitch(scope.row)">
               </el-switch>
             </template>
           </el-table-column>
           <el-table-column
             fixed="right"
-            label="Option">
+            label="Option"
+            width="200">
             <div slot-scope="scope">
               <icon-btn name="Edit" icon="edit" @click.native="openAnnouncementDialog(scope.row.id)"></icon-btn>
               <icon-btn name="Delete" icon="trash" @click.native="deleteAnnouncement(scope.row.id)"></icon-btn>
@@ -57,7 +58,7 @@
           </el-table-column>
         </el-table>
         <div class="panel-options">
-          <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="plus">Create</el-button>
+          <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="el-icon-plus">Create</el-button>
           <el-pagination
             v-if="!contestID"
             class="page"
@@ -70,7 +71,7 @@
       </div>
     </Panel>
     <!--对话框-->
-    <el-dialog :title="announcementDialogTitle" v-model="showEditAnnouncementDialog"
+    <el-dialog :title="announcementDialogTitle" :visible.sync="showEditAnnouncementDialog"
                @open="onOpenEditDialog" :close-on-click-modal="false">
       <el-form label-position="top">
         <el-form-item label="Title" required>
@@ -86,8 +87,8 @@
           <span>Status</span>
           <el-switch
             v-model="announcement.visible"
-            on-text=""
-            off-text="">
+            active-text=""
+            inactive-text="">
           </el-switch>
         </div>
       </el-form>

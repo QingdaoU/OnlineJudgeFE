@@ -15,7 +15,7 @@
     "axios": "^0.17.0",
     "browser-detect": "^0.2.18",
     "echarts": "^3.8.3",
-    "element-ui": "^1.4.9",
+    "element-ui": "^2.0.5",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.12.0",
     "iview": "^2.6.0",

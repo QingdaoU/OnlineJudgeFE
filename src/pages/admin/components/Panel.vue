@@ -1,10 +1,14 @@
 <template>
   <div class="panel" :class="{'small': small}">
     <header>
-      <h2 v-if="$slots.title">
-        <slot name="title"></slot>
-      </h2>
-      <h2 v-else>{{title}}</h2>
+      <div class="title">
+        <template v-if="$slots.title">
+          <slot name="title"></slot>
+        </template>
+        <template v-else>
+          {{title}}
+        </template>
+      </div>
 
       <div class="header_right">
         <slot name="header"></slot>
@@ -48,11 +52,11 @@
     header {
       position: relative;
       z-index: 10;
-      > h2 {
+      > .title {
         margin: 0;
         color: #333;
         border-color: #ddd;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 300;
         letter-spacing: 0.025em;
         height: 66px;
@@ -76,20 +80,17 @@
 </style>
 <style lang="less">
   .panel-options {
-    border: 1px solid #e0e6ed;
-    border-top: none;
-    padding: 8px;
-    background-color: #fff;
+    background-color: transparent;
     position: relative;
     height: 50px;
     button {
-      margin-top: 3px;
+      margin-top: 18px;
       margin-right: 10px;
     }
     > .page {
       position: absolute;
-      right: 20px;
-      top: 10px;
+      right:20px;
+      top: 20px;
     }
   }
 </style>

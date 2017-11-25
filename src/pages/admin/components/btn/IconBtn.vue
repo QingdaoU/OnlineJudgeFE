@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <el-tooltip class="item" effect="dark" :content="name" placement="top">
-      <el-button type="primary" :plain="true" :icon="'fa-' + icon" size="small">
+      <el-button plain :icon="'el-icon-fa-' + icon" size="small">
       </el-button>
     </el-tooltip>
   </div>

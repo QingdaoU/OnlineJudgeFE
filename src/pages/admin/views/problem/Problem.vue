@@ -8,7 +8,7 @@
         :show-file-list="false"
         :on-success="uploadSucceeded"
         :on-error="uploadFailed">
-        <el-button size="small" type="primary">Choose File</el-button>
+        <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
       </el-upload>
     </Panel>
     <Panel :title="title">
@@ -71,8 +71,8 @@
             <el-form-item label="Visible">
               <el-switch
                 v-model="problem.visible"
-                on-text=""
-                off-text="">
+                active-text=""
+                inactive-text="">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -115,7 +115,7 @@
         <div>
           <el-form-item v-for="(sample, index) in problem.samples" :key="'sample'+index">
             <Accordion :title="'Sample' + (index + 1)">
-              <el-button type="warning" size="small" icon="delete" slot="header" @click="deleteSample(index)">Delete
+              <el-button type="warning" size="small" icon="el-icon-delete" slot="header" @click="deleteSample(index)">Delete
               </el-button>
               <el-row :gutter="20">
                 <el-col :span="12">
@@ -173,7 +173,7 @@
                   <el-radio :label="lang.name">{{ lang.name }}</el-radio>
                 </el-tooltip>
               </el-radio-group>
-              <el-button type="primary" size="small" icon="fa-random" @click="compileSPJ" :loading="loadingCompile">
+              <el-button type="primary" size="small" icon="el-icon-fa-random" @click="compileSPJ" :loading="loadingCompile">
                 Compile
               </el-button>
             </template>
@@ -190,7 +190,7 @@
                 :show-file-list="false"
                 :on-success="uploadSucceeded"
                 :on-error="uploadFailed">
-                <el-button size="small" type="primary">Choose File</el-button>
+                <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
               </el-upload>
             </el-form-item>
           </el-col>

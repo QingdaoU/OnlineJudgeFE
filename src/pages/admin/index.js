@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Element from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 
 import filters from '@/utils/filters'
@@ -30,7 +30,7 @@ Vue.prototype.$error = (msg) => {
 }
 
 Vue.prototype.$alert = (msg) => {
-  Vue.prototype.$message({'message': msg, 'type': 'info'})
+  Vue.prototype.$message({'message': msg, 'type': 'warning'})
 }
 
 Vue.prototype.$success = (msg) => {

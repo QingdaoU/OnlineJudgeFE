@@ -4,7 +4,7 @@
       <div slot="header">
         <el-input
           v-model="keyword"
-          icon="search"
+          suffix-icon="search"
           placeholder="Keywords">
         </el-input>
       </div>
@@ -59,8 +59,8 @@
           label="Visible">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.visible"
-                       on-text=""
-                       off-text=""
+                       active-text=""
+                       inactive-text=""
                        @change="updateProblem(scope.row)">
             </el-switch>
           </template>
@@ -68,7 +68,7 @@
         <el-table-column
           fixed="right"
           label="Operation"
-          width="180">
+          width="250">
           <div slot-scope="scope">
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
             <icon-btn v-if="contestId" name="Make Public" icon="clone"
@@ -81,7 +81,7 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
-        <el-button type="primary" size="small" @click.native="goCreateProblem" icon="plus">Create</el-button>
+        <el-button type="primary" size="small" @click.native="goCreateProblem" icon="el-icon-plus">Create</el-button>
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -92,7 +92,7 @@
       </div>
     </Panel>
     <el-dialog title="Sure to update the problem? "
-               size="tiny"
+               width="20%"
                :visible.sync="InlineEditDialogVisible"
                @close-on-click-modal="false">
       <div>

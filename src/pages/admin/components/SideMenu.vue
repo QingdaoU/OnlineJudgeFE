@@ -1,6 +1,6 @@
 <template>
-  <el-menu default-active="1" class="vertical_menu" theme="dark" :router="true" :default-active="currentPath"
-           style="overflow: auto">
+  <el-menu class="vertical_menu"
+           :router="true" :default-active="currentPath">
     <div class="logo">
       <img src="../../../assets/logo.svg" alt="oj admin"/>
     </div>
@@ -12,12 +12,12 @@
       <el-menu-item index="/judge-server">Judge Server</el-menu-item>
     </el-submenu>
     <el-submenu index="problem">
-      <template slot="title"><i class="el-icon-document"></i>Problem</template>
+      <template slot="title"><i class="el-icon-fa-bars"></i>Problem</template>
       <el-menu-item index="/problems">Problem List</el-menu-item>
       <el-menu-item index="/problem/create">Create Problem</el-menu-item>
     </el-submenu>
     <el-submenu index="contest">
-      <template slot="title"><i class="el-icon-document"></i>Contest</template>
+      <template slot="title"><i class="el-icon-fa-trophy"></i>Contest</template>
       <el-menu-item index="/contest">Contest List</el-menu-item>
       <el-menu-item index="/contest/create">Create Contest</el-menu-item>
     </el-submenu>
@@ -33,6 +33,10 @@
       user: {
         type: Object,
         required: true
+      },
+      collapse: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -53,6 +57,7 @@
 
 <style scoped lang="less">
   .vertical_menu {
+    overflow: auto;
     width: 200px;
     height: 100%;
     position: fixed !important;

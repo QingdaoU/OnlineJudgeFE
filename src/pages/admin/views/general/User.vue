@@ -5,12 +5,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-button v-show="selectedUsers.length"
-                       type="warning" icon="fa-trash"
+                       type="warning" icon="el-icon-fa-trash"
                        @click="deleteUsers(selectedUserIDs)">Delete
             </el-button>
           </el-col>
           <el-col :span="selectedUsers.length ? 16: 24">
-            <el-input v-model="keyword" icon="search" placeholder="Keywords"></el-input>
+            <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="Keywords"></el-input>
           </el-col>
         </el-row>
       </div>
@@ -44,7 +44,7 @@
             {{ scope.row.admin_type }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="Option">
+        <el-table-column fixed="right" label="Option" width="200">
           <template slot-scope="{row}">
             <icon-btn name="Edit" icon="edit" @click.native="openUserDialog(row.id)"></icon-btn>
             <icon-btn name="Delete" icon="trash" @click.native="deleteUsers([row.id])"></icon-btn>
@@ -74,7 +74,7 @@
                  :show-file-list="false"
                  accept=".csv"
                  :before-upload="handleUsersCSV">
-        <el-button size="small" icon="fa-upload" type="primary">Choose File</el-button>
+        <el-button size="small" icon="el-icon-fa-upload" type="primary">Choose File</el-button>
       </el-upload>
       <template v-else>
         <el-table :data="uploadUsersPage">
@@ -96,10 +96,10 @@
         </el-table>
         <div class="panel-options">
           <el-button type="primary" size="small"
-                     icon="fa-upload"
+                     icon="el-icon-fa-upload"
                      @click="handleUsersUpload">Import All</el-button>
           <el-button type="warning" size="small"
-                     icon="fa-undo"
+                     icon="el-icon-fa-undo"
                      @click="handleResetData">Reset Data</el-button>
           <el-pagination
             class="page"
@@ -143,9 +143,9 @@
         </el-row>
 
         <el-form-item>
-          <el-button type="primary" @click="generateUser" icon="fa-users" :loading="loadingGenerate">Generate
+          <el-button type="primary" @click="generateUser" icon="el-icon-fa-users" :loading="loadingGenerate">Generate
           </el-button>
-          <el-button v-if="file_id" @click="downloadUserExcel" icon="fa-download">Download The Excel</el-button>
+          <el-button v-if="file_id" @click="downloadUserExcel" icon="el-icon-fa-download">Download The Excel</el-button>
           <span class="userPreview" v-if="!file_id &&
                       formGenerateUser.number_from &&
                       formGenerateUser.number_to &&
@@ -162,7 +162,7 @@
       </el-form>
     </Panel>
     <!--对话框-->
-    <el-dialog title="User" v-model="showUserDialog" :close-on-click-modal="false">
+    <el-dialog title="User" :visible.sync="showUserDialog" :close-on-click-modal="false">
       <el-form :model="user" label-width="120px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">
@@ -207,8 +207,8 @@
             <el-form-item label="Two Factor Auth">
               <el-switch
                 v-model="user.two_factor_auth"
-                on-color="#13ce66"
-                off-color="#ff4949">
+                active-color="#13ce66"
+                inactive-color="#ff4949">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -216,8 +216,8 @@
             <el-form-item label="Open Api">
               <el-switch
                 v-model="user.open_api"
-                on-color="#13ce66"
-                off-color="#ff4949">
+                active-color="#13ce66"
+                inactive-color="#ff4949">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -225,8 +225,8 @@
             <el-form-item label="Is Disabled">
               <el-switch
                 v-model="user.is_disabled"
-                on-text=""
-                off-text="">
+                active-text=""
+                inactive-text="">
               </el-switch>
             </el-form-item>
           </el-col>

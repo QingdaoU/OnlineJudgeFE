@@ -27,8 +27,8 @@
             <el-form-item label="TLS">
               <el-switch
                 v-model="smtp.tls"
-                on-color="#13ce66"
-                off-color="#ff4949">
+                active-color="#13ce66"
+                inactive-color="#ff4949">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -66,8 +66,8 @@
               <el-form-item label="Allow Register" label-width="200px">
                 <el-switch
                   v-model="websiteConfig.allow_register"
-                  on-color="#13ce66"
-                  off-color="#ff4949">
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
                 </el-switch>
               </el-form-item>
             </el-col>
@@ -75,8 +75,8 @@
               <el-form-item label="Submission List Show All" label-width="200px">
                 <el-switch
                   v-model="websiteConfig.submission_list_show_all"
-                  on-color="#13ce66"
-                  off-color="#ff4949">
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
                 </el-switch>
               </el-form-item>
             </el-col>

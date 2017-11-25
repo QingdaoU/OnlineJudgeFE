@@ -46,8 +46,8 @@
             <el-form-item label="Real Time Rank">
               <el-switch
                 v-model="contest.real_time_rank"
-                on-color="#13ce66"
-                off-color="#ff4949">
+                active-color="#13ce66"
+                inactive-color="#ff4949">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -55,8 +55,8 @@
             <el-form-item label="Status">
               <el-switch
                 v-model="contest.visible"
-                on-text=""
-                off-text="">
+                active-text=""
+                inactive-text="">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -68,8 +68,8 @@
                     <el-input v-model="range.value" placeholder="CIDR Network"></el-input>
                   </el-col>
                   <el-col :span="10">
-                    <el-button :plain="true" type="primary" icon="fa-plus" @click="addIPRange"></el-button>
-                    <el-button :plain="true" type="primary" icon="fa-trash" @click="removeIPRange(range)"></el-button>
+                    <el-button plain icon="el-icon-fa-plus" @click="addIPRange"></el-button>
+                    <el-button plain icon="el-icon-fa-trash" @click="removeIPRange(range)"></el-button>
                   </el-col>
                 </el-row>
               </div>
