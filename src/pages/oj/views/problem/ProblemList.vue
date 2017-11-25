@@ -84,7 +84,23 @@
         problemTableColumns: [
           {
             title: '#',
-            key: '_id'
+            key: '_id',
+            render: (h, params) => {
+              return h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'problem-details', params: {problemID: params.row._id}})
+                  }
+                },
+                style: {
+                  padding: '2px 0'
+                }
+              }, params.row.title)
+            }
           },
           {
             title: 'Title',
@@ -104,17 +120,6 @@
                   padding: '2px 0'
                 }
               }, params.row.title)
-            }
-          },
-          {
-            title: 'Tags',
-            align: 'center',
-            render: (h, params) => {
-              let tags = []
-              params.row.tags.forEach(tag => {
-                tags.push(h('Tag', {}, tag))
-              })
-              return tags
             }
           },
           {
@@ -139,6 +144,17 @@
             title: 'AC Rate',
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
+            }
+          },
+          {
+            title: 'Tags',
+            align: 'center',
+            render: (h, params) => {
+              let tags = []
+              params.row.tags.forEach(tag => {
+                tags.push(h('Tag', {}, tag))
+              })
+              return tags
             }
           }
 
