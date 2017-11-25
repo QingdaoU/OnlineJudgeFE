@@ -39,11 +39,7 @@ module.exports = {
         target: process.env.TARGET,
         changeOrigin: true
       },
-      "/static/avatar": {
-        target: process.env.TARGET,
-        changeOrigin: true
-      },
-      "/static/upload": {
+      "/public": {
         target: process.env.TARGET,
         changeOrigin: true
       }
