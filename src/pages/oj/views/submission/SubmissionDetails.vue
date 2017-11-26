@@ -107,7 +107,8 @@
             time_cost: '',
             memory_cost: ''
           }
-        }
+        },
+        isSplice: false
       }
     },
     mounted () {
@@ -117,8 +118,9 @@
       getSubmission () {
         api.getSubmission(this.$route.params.id).then(res => {
           let data = res.data.data
-          if (data.info && data.info.data && !data.info.data[0].score) {
+          if (data.info && data.info.data && !data.info.data[0].score && !this.isSplice) {
             this.columns.splice(this.columns.length - 1, 1)
+            this.isSplice = true
           }
           this.submission = data
         }, () => {
@@ -128,6 +130,7 @@
         let data = {id: this.submission.id, shared: shared}
         api.updateSubmission(data).then(res => {
           this.getSubmission()
+          this.$success('Succeeded')
         }, () => {
         })
       }

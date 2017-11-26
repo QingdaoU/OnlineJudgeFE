@@ -5,6 +5,7 @@
   import { codemirror } from 'vue-codemirror-lite'
   import 'codemirror/mode/clike/clike.js'
   import 'codemirror/mode/python/python.js'
+  import 'codemirror/theme/solarized.css'
 
   export default {
     name: 'CodeMirror',
@@ -15,6 +16,7 @@
           mode: 'text/x-csrc',
           lineNumbers: true,
           lineWrapping: false,
+          theme: 'solarized',
           tabSize: 4,
           line: true,
           foldGutter: true,

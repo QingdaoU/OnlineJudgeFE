@@ -102,6 +102,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            {{problem.languages}}
             <el-form-item label="Languages" :error="error.languages" required>
               <el-checkbox-group v-model="problem.languages">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" :key="'spj'+lang.name" effect="dark"
@@ -363,7 +364,9 @@
       },
       'problem.languages' (newVal) {
         let data = {}
-        for (let item of newVal) {
+        // use deep copy to avoid infinite loop
+        let languages = JSON.parse(JSON.stringify(newVal)).sort()
+        for (let item of languages) {
           if (this.template[item] === undefined) {
             let langConfig = this.allLanguage.languages.find(lang => {
               return lang.name === item
@@ -528,6 +531,7 @@
             }
           }
         }
+        this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
         for (let k in this.template) {
           if (this.template[k].checked) {
