@@ -199,7 +199,6 @@
             visible: this.announcement.visible
           }
         }
-        console.log(data)
         if (this.contestID) {
           data.contest_id = this.contestID
           funcName = this.mode === 'edit' ? 'updateContestAnnouncement' : 'createContestAnnouncement'

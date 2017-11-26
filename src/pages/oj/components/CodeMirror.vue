@@ -25,10 +25,8 @@
   </div>
 </template>
 <script>
+  import utils from '@/utils/utils'
   import { codemirror } from 'vue-codemirror-lite'
-  import storage from '@/utils/storage'
-  import {STORAGE_KEY} from '@/utils/constants'
-  import api from '@oj/api'
 
   // theme
   import 'codemirror/theme/monokai.css'
@@ -97,25 +95,16 @@
       }
     },
     mounted () {
-      this.getLanguages()
+      utils.getLanguages().then(languages => {
+        let mode = {}
+        languages.forEach(lang => {
+          mode[lang.name] = lang.content_type
+        })
+        this.mode = mode
+      })
       this.editor.focus()
     },
     methods: {
-      getLanguages () {
-        let languages = storage.get(STORAGE_KEY.languages)
-        if (languages) {
-          this.mode = languages
-          return
-        }
-        api.getLanguages().then(res => {
-          let mode = {}
-          res.data.data.languages.forEach(language => {
-            mode[language.name] = language.content_type
-          })
-          this.mode = mode
-          storage.set(STORAGE_KEY.languages, mode)
-        })
-      },
       onEditorCodeChange (newCode) {
         this.$emit('update:value', newCode)
       },

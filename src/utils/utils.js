@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import storage from '@/utils/storage'
+import { STORAGE_KEY } from '@/utils/constants'
+import ojAPI from '@oj/api'
 
 function submissionMemoryFormat (memory) {
   if (memory === undefined) return '--'
@@ -28,7 +31,7 @@ function filterEmptyValue (object) {
   return query
 }
 
-// 按指定字符数截断添加换行，非英文字符按指定字符的半数添加
+// 按指定字符数截断添加换行，非英文字符按指定字符的半数截断
 function breakLongWords (value, length = 16) {
   let re
   if (escape(value).indexOf('%u') === -1) {
@@ -76,11 +79,28 @@ function downloadFile (url) {
   })
 }
 
+function getLanguages () {
+  return new Promise((resolve, reject) => {
+    let languages = storage.get(STORAGE_KEY.languages)
+    if (languages) {
+      resolve(languages)
+    }
+    ojAPI.getLanguages().then(res => {
+      let languages = res.data.data.languages
+      storage.set(STORAGE_KEY.languages, languages)
+      resolve(languages)
+    }, err => {
+      reject(err)
+    })
+  })
+}
+
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
   submissionTimeFormat: submissionTimeFormat,
   getACRate: getACRate,
   filterEmptyValue: filterEmptyValue,
   breakLongWords: breakLongWords,
-  downloadFile: downloadFile
+  downloadFile: downloadFile,
+  getLanguages: getLanguages
 }

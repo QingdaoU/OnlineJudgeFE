@@ -65,7 +65,7 @@
           <div v-else-if="this.contestID && !OIContestRealTimePermission && submissionExists">
             <Alert type="success" show-icon>You have submitted a solution.</Alert>
           </div>
-          <div class="status" v-if="contestEnded">
+          <div v-if="contestEnded">
             <Alert type="warning" show-icon>Contest has ended</Alert>
           </div>
           </Col>
@@ -213,7 +213,7 @@
         problemID: '',
         submitting: false,
         code: '',
-        language: 'C++',
+        language: undefined,
         submissionId: '',
         result: {
           result: 9
@@ -268,9 +268,10 @@
           this.changePie(res.data.data)
 
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
-          if (this.language !== 'C++' || this.code !== '') {
+          if (this.language || this.code !== '') {
             return
           }
+          this.language = this.problem.languages[0]
           let template = this.problem.template
           if (template && template[this.language]) {
             this.code = template[this.language]
@@ -316,12 +317,16 @@
       },
       onChangeLang (newLang) {
         if (this.problem.template[newLang]) {
-          this.$Modal.confirm({
-            content: 'The problem has template for ' + newLang + ', Do you want to replace your code with template?',
-            onOk: () => {
-              this.code = this.problem.template[newLang]
-            }
-          })
+          if (this.code.trim() === '') {
+            this.code = this.problem.template[newLang]
+          } else {
+            this.$Modal.confirm({
+              content: 'The problem has template for ' + newLang + ', Do you want to replace your code with template?',
+              onOk: () => {
+                this.code = this.problem.template[newLang]
+              }
+            })
+          }
         }
         this.language = newLang
       },

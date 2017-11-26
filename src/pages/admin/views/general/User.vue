@@ -116,26 +116,31 @@
 
     <Panel title="Generate User">
       <el-form :model="formGenerateUser" ref="formGenerateUser">
-        <el-row :gutter="20">
-          <el-col :span="10">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="4">
             <el-form-item label="Prefix" prop="prefix">
               <el-input v-model="formGenerateUser.prefix" placeholder="Prefix"></el-input>
             </el-form-item>
+          </el-col>
+          <el-col :span="4">
+          <el-form-item label="Suffix" prop="suffix">
+            <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col :span="4">
             <el-form-item label="Start Number" prop="number_from" required>
               <el-input-number v-model="formGenerateUser.number_from" style="width: 100%"></el-input-number>
             </el-form-item>
+          </el-col>
+          <el-col :span="4">
+          <el-form-item label="End Number" prop="number_to" required>
+            <el-input-number v-model="formGenerateUser.number_to" style="width: 100%"></el-input-number>
+          </el-form-item>
+          </el-col>
+          <el-col :span="4">
             <el-form-item label="Password Length" prop="password_length" required>
               <el-input v-model="formGenerateUser.password_length"
                         placeholder="Password Length"></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="10" :offset="1">
-            <el-form-item label="Suffix" prop="suffix">
-              <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
-            </el-form-item>
-            <el-form-item label="End Number" prop="number_to" required>
-              <el-input-number v-model="formGenerateUser.number_to" style="width: 100%"></el-input-number>
             </el-form-item>
           </el-col>
         </el-row>

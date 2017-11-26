@@ -494,7 +494,6 @@
           return
         }
         if (this.problem.spj) {
-          console.log(this.problem)
           if (!this.problem.spj_code) {
             this.error.spj = 'Spj code is required'
             this.$error(this.error.spj)

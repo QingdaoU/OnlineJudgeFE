@@ -3,7 +3,7 @@
     <Card :padding="0">
       <div class="flex-container">
         <div class="menu">
-          <Menu accordion @on-select="goRoute" activeName="" style="text-align: center;" width="auto">
+          <Menu accordion @on-select="goRoute" :activeName="activeName" style="text-align: center;" width="auto">
             <div class="avatar-editor">
               <div class="avatar-container">
                 <img class="avatar" :src="profile.avatar"/>
@@ -43,7 +43,10 @@
       }
     },
     computed: {
-      ...mapGetters(['profile'])
+      ...mapGetters(['profile']),
+      activeName () {
+        return this.$route.path
+      }
     }
   }
 </script>
