@@ -19,6 +19,12 @@
             </Dropdown>
           </li>
           <li>
+            <i-switch size="large" @on-change="handleTagsVisible">
+              <span slot="open">Tags</span>
+              <span slot="close">Tags</span>
+            </i-switch>
+          </li>
+          <li>
             <Input v-model="query.keyword"
                    @on-enter="filterByKeyword"
                    @on-click="filterByKeyword"
@@ -104,7 +110,7 @@
           },
           {
             title: 'Title',
-            width: '40%',
+            width: '35%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -145,19 +151,7 @@
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
-          },
-          {
-            title: 'Tags',
-            align: 'center',
-            render: (h, params) => {
-              let tags = []
-              params.row.tags.forEach(tag => {
-                tags.push(h('Tag', {}, tag))
-              })
-              return tags
-            }
           }
-
         ],
         problemList: [],
         limit: 15,
@@ -235,6 +229,29 @@
       filterByKeyword () {
         this.query.page = 1
         this.pushRouter()
+      },
+      handleTagsVisible (value) {
+        if (value) {
+          this.problemTableColumns.push(
+            {
+              title: 'Tags',
+              align: 'center',
+              width: '200px',
+              render: (h, params) => {
+                let tags = []
+                params.row.tags.forEach(tag => {
+                  tags.push(h('Tag', {}, tag))
+                })
+                return h('div', {
+                  style: {
+                    margin: '8px 0'
+                  }
+                }, tags)
+              }
+            })
+        } else {
+          this.problemTableColumns.splice(this.problemTableColumns.length - 1, 1)
+        }
       },
       onReset () {
         this.$router.push({name: 'problem-list'})
