@@ -6,7 +6,9 @@
     <div slot="extra" class="panel-extra">
       <slot name="extra"></slot>
     </div>
-    <slot></slot>
+    <div class="panel-body">
+      <slot></slot>
+    </div>
   </Card>
 </template>
 
@@ -58,5 +60,9 @@
         padding: 0 10px;
       }
     }
+  }
+  .panel-body {
+    word-break: break-all;
+    word-wrap: break-word;
   }
 </style>

@@ -70,3 +70,8 @@ exports.styleLoaders = function (options) {
   }
   return output
 }
+
+exports.getNodeEnv = function () {
+  const NODE_ENV = process.env.NODE_ENV
+  return NODE_ENV ? NODE_ENV: 'production'
+}

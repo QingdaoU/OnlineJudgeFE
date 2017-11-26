@@ -126,14 +126,6 @@
 </script>
 
 <style lang="less" scoped>
-  .CodeMirror {
-    height: auto !important;
-  }
-
-  .CodeMirror-scroll {
-    min-height: 300px;
-  }
-
   .header {
     margin: 5px 5px 15px 5px;
     .adjust {
@@ -143,5 +135,15 @@
     .fl-right {
       float: right;
     }
+  }
+</style>
+
+<style>
+  .CodeMirror {
+    height: auto !important;
+  }
+  .CodeMirror-scroll {
+    min-height: 300px;
+    max-height: 1000px;
   }
 </style>
