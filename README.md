@@ -11,7 +11,7 @@
 ## Features
 
 + Webpack3 multiple pages with bundle size optimization
-+ Easy use simditor & Nice codemirror editor,
++ Easy use simditor & Nice codemirror editor
 + Amazing charting and visualization(echarts)
 + User-friendly operation
 + Quite beautiful：)
@@ -60,7 +60,7 @@ Modern browsers and Internet Explorer 10+.
 ## Development
 
 ```bash
-# we use webpack DllReference to decrease the build time, 
+# we use webpack DllReference to decrease the build time,
 # this command only needs execute once unless you upgrade the package in build/webpack.dll.conf.js
 npm run build:dll
 

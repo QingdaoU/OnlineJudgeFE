@@ -2,10 +2,11 @@
   <codemirror v-model="currentValue" :options="options" ref="editor"></codemirror>
 </template>
 <script>
-  import {codemirror} from 'vue-codemirror-lite'
+  import { codemirror } from 'vue-codemirror-lite'
   import 'codemirror/mode/clike/clike.js'
   import 'codemirror/mode/python/python.js'
-  export default{
+
+  export default {
     name: 'CodeMirror',
     data () {
       return {
@@ -62,7 +63,9 @@
   .CodeMirror {
     height: auto !important;
   }
+
   .CodeMirror-scroll {
-    min-height:300px;
+    min-height: 300px;
+    max-height: 1000px;
   }
 </style>
