@@ -158,6 +158,11 @@
       span {
         margin-right: 10px;
       }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        word-break: break-all;
+      }
     }
   }
 

@@ -99,7 +99,7 @@
                 style: {
                   padding: '2px 0'
                 }
-              }, params.row.title)
+              }, params.row._id)
             }
           },
           {
