@@ -29,7 +29,7 @@ Vue.prototype.$error = (msg) => {
   Vue.prototype.$message({'message': msg, 'type': 'error'})
 }
 
-Vue.prototype.$alert = (msg) => {
+Vue.prototype.$warning = (msg) => {
   Vue.prototype.$message({'message': msg, 'type': 'warning'})
 }
 
