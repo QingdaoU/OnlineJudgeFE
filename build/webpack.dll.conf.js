@@ -25,7 +25,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env
+      'process.env': config.build.env
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),

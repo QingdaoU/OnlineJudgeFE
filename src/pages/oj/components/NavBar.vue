@@ -65,7 +65,7 @@
           <Dropdown-menu slot="list">
             <Dropdown-item name="/user-home">Home</Dropdown-item>
             <Dropdown-item name="/status?myself=1">Submissions</Dropdown-item>
-            <Dropdown-item name="/setting">Settings</Dropdown-item>
+            <Dropdown-item name="/setting/profile">Settings</Dropdown-item>
             <Dropdown-item v-if="isAdmin" name="/admin">Management</Dropdown-item>
             <Dropdown-item divided name="/logout">Logout</Dropdown-item>
           </Dropdown-menu>

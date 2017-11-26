@@ -18,7 +18,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.use(Element, {locale})
+Vue.use(Element, {locale, size: 'small'})
 // Vue.use(VueI18n)
 Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
@@ -29,7 +29,7 @@ Vue.prototype.$error = (msg) => {
   Vue.prototype.$message({'message': msg, 'type': 'error'})
 }
 
-Vue.prototype.$alert = (msg) => {
+Vue.prototype.$warning = (msg) => {
   Vue.prototype.$message({'message': msg, 'type': 'warning'})
 }
 

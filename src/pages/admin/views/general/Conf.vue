@@ -112,7 +112,7 @@
           this.smtp = res.data.data
         } else {
           this.init = true
-          this.$alert('Please setup SMTP config at first')
+          this.$warning('Please setup SMTP config at first')
         }
       })
       api.getWebsiteConfig().then(res => {

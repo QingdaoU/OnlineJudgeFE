@@ -4,22 +4,8 @@
       <div slot="title">Compiler & Judger</div>
       <div class="content markdown-body">
         <ul>
-          <li>C (GCC 4.8)
-            <pre>gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}</pre>
-          </li>
-
-          <li>C++ (G++ 4.8)
-            <pre>g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++11 {src_path} -lm -o {exe_path}</pre>
-          </li>
-
-          <li>JAVA (OpenJDK 1.7)
-            <pre>
-javac {src_path} -d {exe_dir} -encoding UTF8
-java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Djava.security.policy=={policy} -Djava.awt.headless=true Main</pre>
-          </li>
-
-          <li>Python (Python2.7)
-            <pre>python -m py_compile {src_path}</pre>
+          <li v-for="lang in languages">{{lang.name}} ( {{lang.description}} )
+            <pre>{{lang.config.compile.compile_command}}</pre>
           </li>
         </ul>
       </div>
@@ -31,7 +17,7 @@ java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Dja
         <ul>
           <li><b>Pending & Juding</b> : You solution will be judged soon, please wait for result</li>
           <li><b>Compile Error</b> :	Failed to compile your source code. Click on the link to see compiler's output.
-          </li>
+      </li>
           <li><b>Accepted</b> :	Congratulations. Your solution is correct.</li>
           <li><b>Wrong Answer</b> :	Your program's output doesn't match judger's answer.</li>
           <li>
@@ -52,7 +38,22 @@ java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Dja
 </template>
 
 <script>
+  import utils from '@/utils/utils'
 
+  export default {
+    data () {
+      return {
+        languages: []
+      }
+    },
+    beforeRouteEnter (to, from, next) {
+      utils.getLanguages().then(languages => {
+        next(vm => {
+          vm.languages = languages
+        })
+      })
+    }
+  }
 </script>
 
 <style scoped lang="less">
