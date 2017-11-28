@@ -53,6 +53,58 @@
   import utils from '@/utils/utils'
   import Highlight from '@/pages/oj/components/Highlight'
 
+  const baseColumn = [
+    {
+      title: 'ID',
+      align: 'center',
+      type: 'index'
+    },
+    {
+      title: 'Status',
+      align: 'center',
+      render: (h, params) => {
+        return h('Tag', {
+          props: {
+            color: JUDGE_STATUS[params.row.result].color
+          }
+        }, JUDGE_STATUS[params.row.result].name)
+      }
+    },
+    {
+      title: 'Memory',
+      align: 'center',
+      render: (h, params) => {
+        return h('span', utils.submissionMemoryFormat(params.row.memory))
+      }
+    },
+    {
+      title: 'Time',
+      align: 'center',
+      render: (h, params) => {
+        return h('span', utils.submissionTimeFormat(params.row.cpu_time))
+      }
+    }
+  ]
+  const scoreColumn = [{
+    title: 'Score',
+    align: 'center',
+    key: 'score'
+  }]
+  const adminColumn = [
+    {
+      title: 'Real Time',
+      align: 'center',
+      render: (h, params) => {
+        return h('span', utils.submissionTimeFormat(params.row.real_time))
+      }
+    },
+    {
+      title: 'Singal',
+      align: 'center',
+      key: 'signal'
+    }
+  ]
+
   export default {
     name: 'submissionDetails',
     components: {
@@ -60,43 +112,7 @@
     },
     data () {
       return {
-        columns: [
-          {
-            title: 'ID',
-            align: 'center',
-            type: 'index'
-          },
-          {
-            title: 'Status',
-            align: 'center',
-            render: (h, params) => {
-              return h('Tag', {
-                props: {
-                  color: JUDGE_STATUS[params.row.result].color
-                }
-              }, JUDGE_STATUS[params.row.result].name)
-            }
-          },
-          {
-            title: 'Time',
-            align: 'center',
-            render: (h, params) => {
-              return h('span', utils.submissionTimeFormat(params.row.cpu_time))
-            }
-          },
-          {
-            title: 'Memory',
-            align: 'center',
-            render: (h, params) => {
-              return h('span', utils.submissionMemoryFormat(params.row.memory))
-            }
-          },
-          {
-            title: 'Score',
-            align: 'center',
-            key: 'score'
-          }
-        ],
+        columns: [],
         submission: {
           result: '0',
           code: '',
@@ -108,7 +124,7 @@
             memory_cost: ''
           }
         },
-        isSplice: false
+        isConcat: false
       }
     },
     mounted () {
@@ -118,9 +134,18 @@
       getSubmission () {
         api.getSubmission(this.$route.params.id).then(res => {
           let data = res.data.data
-          if (data.info && data.info.data && !data.info.data[0].score && !this.isSplice) {
-            this.columns.splice(this.columns.length - 1, 1)
-            this.isSplice = true
+          let columns = baseColumn
+          if (data.info && data.info.data && !this.isConcat) {
+            // score exist means the submission is OI problem submission
+            if (data.info.data[0].score) {
+              this.isConcat = true
+              columns = columns.concat(scoreColumn)
+            }
+            if (this.isAdmin) {
+              this.isConcat = true
+              columns = columns.concat(adminColumn)
+            }
+            this.columns = columns
           }
           this.submission = data
         }, () => {
@@ -145,6 +170,9 @@
       },
       isCE () {
         return this.submission.result === -2
+      },
+      isAdmin () {
+        return this.$store.getters.isAdmin
       }
     }
   }
