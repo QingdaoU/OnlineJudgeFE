@@ -30,13 +30,13 @@ module.exports = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: config.build.ojIndex,
       template: config.build.ojTemplate,
-      chunks: ['manifest', 'vendor', 'oj'],
+      chunks: ['oj'],
       inject: true
     }),
     new HtmlWebpackPlugin({
       filename: config.build.adminIndex,
       template: config.build.adminTemplate,
-      chunks: ['manifest', 'vendor', 'admin'],
+      chunks: ['admin'],
       inject: true
     }),
     new FriendlyErrorsPlugin()

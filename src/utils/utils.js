@@ -12,7 +12,7 @@ function submissionMemoryFormat (memory) {
 
 function submissionTimeFormat (time) {
   if (time === undefined) return '--'
-  return time + 'MS'
+  return time + 'ms'
 }
 
 function getACRate (acCount, totalCount) {
