@@ -56,10 +56,10 @@
         margin: 0;
         color: #333;
         border-color: #ddd;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 300;
         letter-spacing: 0.025em;
-        height: 66px;
+        height: 60px;
         line-height: 45px;
         padding: 10px 15px;
         border-bottom: 1px solid #eee;

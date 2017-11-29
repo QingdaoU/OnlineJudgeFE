@@ -176,7 +176,7 @@
         loadingTable: false,
         submissions: [],
         total: 30,
-        limit: 10,
+        limit: 12,
         page: 1,
         contestID: '',
         problemID: '',
@@ -188,8 +188,9 @@
     mounted () {
       this.init()
       this.JUDGE_STATUS = Object.assign({}, JUDGE_STATUS)
-      // 去除submitting的状态
+      // 去除submitting的状态 和 两个
       delete this.JUDGE_STATUS['9']
+      delete this.JUDGE_STATUS['2']
     },
     methods: {
       init () {
@@ -256,7 +257,7 @@
           title: 'Option',
           fixed: 'right',
           align: 'center',
-          width: 80,
+          width: 90,
           render: (h, params) => {
             return h('Button', {
               props: {

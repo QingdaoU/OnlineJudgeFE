@@ -1,5 +1,5 @@
 <template>
-  <panel :padding="20">
+  <panel>
     <div slot="title">Frequently Asked Questions</div>
     <div class="content markdown-body">
       <ul>
@@ -41,6 +41,7 @@
 
 <style lang="less" scoped>
   .content {
+    font-size: 16px;
     margin: 0 50px 20px 50px;
     > ul {
       list-style: disc;

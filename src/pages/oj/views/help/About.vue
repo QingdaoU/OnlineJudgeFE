@@ -1,6 +1,6 @@
 <template>
   <div>
-    <panel :padding="15" class="container">
+    <panel class="container">
       <div slot="title">Compiler & Judger</div>
       <div class="content markdown-body">
         <ul>
@@ -61,6 +61,7 @@
     margin-bottom: 20px;
 
     .content {
+      font-size: 16px;
       margin: 0 50px 20px 50px;
       > ul {
         list-style: disc;
