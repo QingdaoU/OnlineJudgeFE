@@ -102,7 +102,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            {{problem.languages}}
             <el-form-item label="Languages" :error="error.languages" required>
               <el-checkbox-group v-model="problem.languages">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" :key="'spj'+lang.name" effect="dark"

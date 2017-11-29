@@ -66,7 +66,6 @@
           {
             title: 'When',
             align: 'center',
-            width: 180,
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.create_time))
             }
@@ -74,7 +73,6 @@
           {
             title: 'ID',
             align: 'center',
-            width: 150,
             render: (h, params) => {
               if (params.row.show_link) {
                 return h('span', {
@@ -96,7 +94,6 @@
           {
             title: 'Status',
             align: 'center',
-            width: 180,
             render: (h, params) => {
               return h('Tag', {
                 props: {
