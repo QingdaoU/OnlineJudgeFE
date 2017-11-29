@@ -12,8 +12,11 @@ const state = {
     contest_type: CONTEST_TYPE.PUBLIC
   },
   contestProblems: [],
-  showMenu: true,
-  showChart: true
+  itemVisible: {
+    menu: true,
+    chart: true,
+    realName: false
+  }
 }
 
 const getters = {
@@ -95,11 +98,8 @@ const mutations = {
   [types.CHANGE_CONTEST] (state, payload) {
     state.contest = payload.contest
   },
-  [types.CHANGE_CONTEST_MENU_VISIBLE] (state, payload) {
-    state.showMenu = payload.visible
-  },
-  [types.CHANGE_CONTEST_CHART_VISIBLE] (state, payload) {
-    state.showChart = payload.visible
+  [types.CHANGE_CONTEST_ITEM_VISIBLE] (state, payload) {
+    state.itemVisible = {...state.itemVisible, ...payload}
   },
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
@@ -113,9 +113,12 @@ const mutations = {
   [types.CLEAR_CONTEST] (state) {
     state.contest = {created_by: {}}
     state.contestProblems = []
-    state.showMenu = true
-    state.showChart = true
     state.access = false
+    state.itemVisible = {
+      menu: true,
+      chart: true,
+      realName: false
+    }
   },
   [types.NOW] (state, payload) {
     state.now = payload.now

@@ -151,7 +151,7 @@
     },
     computed: {
       ...mapState({
-        showMenu: state => state.contest.showMenu,
+        showMenu: state => state.contest.itemVisible.menu,
         contest: state => state.contest.contest,
         contest_table: state => [state.contest.contest],
         now: state => state.contest.now

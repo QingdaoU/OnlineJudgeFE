@@ -12,14 +12,18 @@
             <span>Chart</span>
             <i-switch v-model="showChart"></i-switch>
           </p>
-          <p style="margin-top: 10px">
+          <p v-if="isAdmin">
+            <span>RealName</span>
+            <i-switch v-model="showRealName"></i-switch>
+          </p>
+          <p>
             <span>Auto Refresh(10s)</span>
             <i-switch :disabled="refreshDisabled" @on-change="handleAutoRefresh"></i-switch>
           </p>
         </div>
       </Poptip>
     </div>
-    <div v-if="showChart" class="echarts">
+    <div v-show="showChart" class="echarts">
       <ECharts :options="options" ref="chart" auto-resize></ECharts>
     </div>
     <Table ref="tableRank" class="auto-resize" :columns="columns" :data="dataRank" disabled-hover></Table>
@@ -37,7 +41,6 @@
 
   import Pagination from '@oj/components/Pagination'
   import ContestRankMixin from './contestRankMixin'
-  import api from '@oj/api'
   import time from '@/utils/time'
   import utils from '@/utils/utils'
 
@@ -187,22 +190,6 @@
     },
     methods: {
       ...mapActions(['getContestProblems']),
-      getContestRankData (page = 1, refresh = false) {
-        let offset = (page - 1) * this.limit
-        if (this.showChart && !refresh) {
-          this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
-        }
-        api.getContestRank(offset, this.limit, this.$route.params.contestID).then(res => {
-          if (this.showChart && !refresh) {
-            this.$refs.chart.hideLoading()
-          }
-          this.total = res.data.data.total
-          if (page === 1) {
-            this.applyToChart(res.data.data.results.slice(0, 10))
-          }
-          this.applyToTable(res.data.data.results)
-        })
-      },
       addChartCategory (contestProblems) {
         let category = []
         for (let i = 0; i <= contestProblems.length; ++i) {
@@ -321,8 +308,14 @@
   }
 
   #switches {
-    span {
-      margin-left: 5px;
+    p {
+      margin-top: 5px;
+      &:first-child {
+        margin-top: 0;
+      }
+      span {
+        margin-left: 8px;
+      }
     }
   }
 </style>

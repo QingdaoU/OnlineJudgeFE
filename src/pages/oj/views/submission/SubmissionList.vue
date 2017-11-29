@@ -321,6 +321,9 @@
       },
       'rejudgeColumnVisible' () {
         this.adjustRejudgeColumn()
+      },
+      'isAuthenticated' () {
+        this.init()
       }
     }
   }

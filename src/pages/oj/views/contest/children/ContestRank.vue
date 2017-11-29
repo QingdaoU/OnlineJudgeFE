@@ -32,7 +32,7 @@
       }
     },
     beforeRouteLeave (to, from, next) {
-      this.$store.commit(types.CHANGE_CONTEST_MENU_VISIBLE, {visible: true})
+      this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: true})
       next()
     }
   }
