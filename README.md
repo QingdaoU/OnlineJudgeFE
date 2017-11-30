@@ -70,3 +70,7 @@ export TARGET=http://Your-backend
 # serve with hot reload at localhost:8080
 npm run dev
 ```
+
+## LICENSE
+
+The [MIT](http://opensource.org/licenses/MIT) License
