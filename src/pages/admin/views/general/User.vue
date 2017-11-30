@@ -21,29 +21,34 @@
         ref="table"
         :data="userList"
         style="width: 100%">
-        <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
+        <el-table-column type="selection" width="55"></el-table-column>
+
         <el-table-column prop="id" label="ID"></el-table-column>
+
         <el-table-column prop="username" label="Userame"></el-table-column>
+
         <el-table-column prop="create_time" label="Create Time">
           <template slot-scope="scope">
             {{scope.row.create_time | localtime }}
           </template>
         </el-table-column>
+
         <el-table-column prop="last_login" label="Last Login">
           <template slot-scope="scope">
             {{scope.row.last_login | localtime }}
           </template>
         </el-table-column>
+
         <el-table-column prop="real_name" label="Real Name"></el-table-column>
+
         <el-table-column prop="email" label="Email"></el-table-column>
+
         <el-table-column prop="admin_type" label="User Type">
           <template slot-scope="scope">
             {{ scope.row.admin_type }}
           </template>
         </el-table-column>
+
         <el-table-column fixed="right" label="Option" width="200">
           <template slot-scope="{row}">
             <icon-btn name="Edit" icon="edit" @click.native="openUserDialog(row.id)"></icon-btn>
