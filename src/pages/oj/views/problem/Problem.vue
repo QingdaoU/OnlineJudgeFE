@@ -255,6 +255,9 @@
     },
     methods: {
       init () {
+        this.$nextTick(() => {
+          window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+        })
         this.$Loading.start()
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
@@ -276,9 +279,6 @@
           if (template && template[this.language]) {
             this.code = template[this.language]
           }
-          this.$nextTick(() => {
-            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
-          })
         }, () => {
           this.$Loading.error()
         })
