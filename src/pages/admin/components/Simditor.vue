@@ -30,7 +30,6 @@
       Simditor.locale = 'en-US'
       this.editor = new Simditor({
         textarea: this.$refs.editor,
-        placeholder: this.placeholder,
         toolbar: this.toolbar,
         pasteImage: true,
         markdown: true,
@@ -42,15 +41,13 @@
           leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
         }
       })
+      this.editor.on('valuechanged', (e, src) => {
+        this.currentValue = this.editor.getValue()
+      })
       this.editor.on('decorate', (e, src) => {
         this.currentValue = this.editor.getValue()
       })
-      let simditorBody = this.$el.parentNode.querySelector('.simditor-body')
-      if (simditorBody !== undefined) {
-        simditorBody.oninput = () => {
-          this.currentValue = this.editor.getValue()
-        }
-      }
+
       this.editor.setValue(this.value)
     },
     watch: {
