@@ -70,7 +70,7 @@
     <Panel>
       <span slot="title">Import User
         <el-popover placement="right" trigger="hover">
-          <p>Only support csv file without headers, check the <a href="https://github.com">link</a> for details</p>
+          <p>Only support csv file without headers, check the <a href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">link</a> for details</p>
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
         </el-popover>
       </span>
