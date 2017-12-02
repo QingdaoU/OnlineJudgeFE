@@ -255,15 +255,15 @@
     },
     methods: {
       init () {
-        this.$nextTick(() => {
-          window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
-        })
         this.$Loading.start()
         this.contestID = this.$route.params.contestID
         this.problemID = this.$route.params.problemID
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
+          this.$nextTick(() => {
+            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+          })
           api.submissionExists(res.data.data.id).then(res => {
             this.submissionExists = res.data.data
           })
