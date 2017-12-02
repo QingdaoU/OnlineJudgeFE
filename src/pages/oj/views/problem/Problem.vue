@@ -213,7 +213,7 @@
         problemID: '',
         submitting: false,
         code: '',
-        language: undefined,
+        language: 'C++',
         submissionId: '',
         result: {
           result: 9
@@ -264,14 +264,16 @@
           this.$nextTick(() => {
             window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
           })
-          api.submissionExists(res.data.data.id).then(res => {
+          let problem = res.data.data
+          api.submissionExists(problem.id).then(res => {
             this.submissionExists = res.data.data
           })
-          this.problem = res.data.data
-          this.changePie(res.data.data)
+          problem.languages = problem.languages.sort()
+          this.problem = problem
+          this.changePie(problem)
 
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
-          if (this.language || this.code !== '') {
+          if (this.language !== 'C++' || this.code !== '') {
             return
           }
           this.language = this.problem.languages[0]
