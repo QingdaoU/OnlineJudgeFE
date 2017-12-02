@@ -49,7 +49,6 @@ function downloadFile (url) {
     Vue.prototype.$http.get(url, {responseType: 'blob'}).then(resp => {
       let headers = resp.headers
       if (headers['content-type'].indexOf('json') !== -1) {
-        console.log('2')
         let fr = new window.FileReader()
         if (resp.data.error) {
           Vue.prototype.$error(resp.data.error)
@@ -75,7 +74,7 @@ function downloadFile (url) {
       link.click()
       link.remove()
       resolve()
-    })
+    }).catch(() => {})
   })
 }
 
