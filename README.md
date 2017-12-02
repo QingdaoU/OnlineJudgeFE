@@ -52,7 +52,7 @@ server {
 ```
 
 ## Screenshots
-[Check here.](https://github.com/QingdaoU/OnlineJudge)
+[Check here.](https://github.com/QingdaoU/OnlineJudge/tree/2.0)
 
 ## Browser Support
 Modern browsers and Internet Explorer 10+.
