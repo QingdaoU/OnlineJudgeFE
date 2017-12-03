@@ -24,7 +24,7 @@ function getACRate (acCount, totalCount) {
 function filterEmptyValue (object) {
   let query = {}
   Object.keys(object).forEach(key => {
-    if (object[key]) {
+    if (object[key] || object[key] === 0 || object[key] === false) {
       query[key] = object[key]
     }
   })

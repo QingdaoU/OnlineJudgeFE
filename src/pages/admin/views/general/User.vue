@@ -70,7 +70,8 @@
     <Panel>
       <span slot="title">Import User
         <el-popover placement="right" trigger="hover">
-          <p>Only support csv file without headers, check the <a href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">link</a> for details</p>
+          <p>Only support csv file without headers, check the <a
+            href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">link</a> for details</p>
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
         </el-popover>
       </span>
@@ -128,9 +129,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-          <el-form-item label="Suffix" prop="suffix">
-            <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
-          </el-form-item>
+            <el-form-item label="Suffix" prop="suffix">
+              <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
+            </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Start Number" prop="number_from" required>
@@ -138,9 +139,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-          <el-form-item label="End Number" prop="number_to" required>
-            <el-input-number v-model="formGenerateUser.number_to" style="width: 100%"></el-input-number>
-          </el-form-item>
+            <el-form-item label="End Number" prop="number_to" required>
+              <el-input-number v-model="formGenerateUser.number_to" style="width: 100%"></el-input-number>
+            </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Password Length" prop="password_length" required>

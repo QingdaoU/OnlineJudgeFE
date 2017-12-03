@@ -1,10 +1,10 @@
 <template>
   <div class="view">
-    <Panel title="Problem List">
+    <Panel :title="contestId ? 'Contest Problem List' : 'Problem List'">
       <div slot="header">
         <el-input
           v-model="keyword"
-          suffix-icon="search"
+          prefix-icon="el-icon-search"
           placeholder="Keywords">
         </el-input>
       </div>
@@ -81,7 +81,13 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
-        <el-button type="primary" size="small" @click.native="goCreateProblem" icon="el-icon-plus">Create</el-button>
+        <el-button type="primary" size="small"
+                   @click="goCreateProblem" icon="el-icon-plus">Create
+        </el-button>
+        <el-button v-if="contestId" type="primary"
+                   size="small" icon="el-icon-plus"
+                   @click="addProblemDialogVisible = true">Add From Public Problem
+        </el-button>
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -104,15 +110,26 @@
         <save @click.native="updateProblem(currentRow)"></save>
       </span>
     </el-dialog>
+    <el-dialog title="Add Contest Problem"
+               v-if="contestId"
+               width="80%"
+               :visible.sync="addProblemDialogVisible"
+               @close-on-click-modal="false">
+      <add-problem-component :contestID="contestId" @on-change="getProblemList"></add-problem-component>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import api from '../../api.js'
   import utils from '@/utils/utils'
+  import AddProblemComponent from './AddPublicProblem.vue'
 
   export default {
     name: 'ProblemList',
+    components: {
+      AddProblemComponent
+    },
     data () {
       return {
         pageSize: 10,
@@ -127,7 +144,8 @@
         currentProblemID: '',
         currentRow: {},
         InlineEditDialogVisible: false,
-        makePublicDialogVisible: false
+        makePublicDialogVisible: false,
+        addProblemDialogVisible: false
       }
     },
     mounted () {
@@ -161,7 +179,13 @@
       getProblemList (page = 1) {
         this.loading = true
         let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
-        api[funcName]((page - 1) * this.pageSize, this.pageSize, this.keyword, this.contestId).then(res => {
+        let params = {
+          limit: this.pageSize,
+          offset: (page - 1) * this.pageSize,
+          keyword: this.keyword,
+          contest_id: this.contestId
+        }
+        api[funcName](params).then(res => {
           this.loading = false
           this.total = res.data.data.total
           for (let problem of res.data.data.results) {
@@ -181,7 +205,8 @@
             this.getProblemList(this.currentPage - 1)
           ]).catch(() => {
           })
-        }, () => {})
+        }, () => {
+        })
       },
       makeContestProblemPublic (problemID) {
         this.$prompt('Please input display id for the public problem', 'confirm').then(({value}) => {
@@ -212,6 +237,9 @@
       downloadTestCase (problemID) {
         let url = '/admin/test_case?problem_id=' + problemID
         utils.downloadFile(url)
+      },
+      getPublicProblem () {
+        api.getProblemList()
       }
     },
     watch: {
