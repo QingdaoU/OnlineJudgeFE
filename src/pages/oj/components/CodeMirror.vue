@@ -101,6 +101,7 @@
           mode[lang.name] = lang.content_type
         })
         this.mode = mode
+        this.editor.setOption('mode', this.mode[this.language])
       })
       this.editor.focus()
     },
