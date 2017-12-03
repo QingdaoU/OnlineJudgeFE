@@ -50,7 +50,6 @@
 
   .panel-extra {
     line-height: 40px;
-    margin-right: 20px;
     .ivu-input-icon {
       line-height: 40px;
     }

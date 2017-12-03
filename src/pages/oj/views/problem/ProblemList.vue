@@ -4,7 +4,7 @@
     <Panel shadow>
       <div slot="title">Problem List</div>
       <div slot="extra">
-        <ul class="filter move-right">
+        <ul class="filter">
           <li>
             <Dropdown @on-click="filterByDifficulty">
               <span>{{query.difficulty === '' ? 'Difficulty' : query.difficulty}}
@@ -282,10 +282,6 @@
 </script>
 
 <style scoped lang="less">
-  .move-right {
-    margin-right: -20px;
-  }
-
   .taglist-title {
     margin-left: -10px;
     margin-bottom: -10px;
