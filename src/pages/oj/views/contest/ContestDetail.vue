@@ -64,6 +64,12 @@
           <Icon type="home"></Icon>
           Overview
         </VerticalMenu-item>
+
+        <VerticalMenu-item v-if="showAdminHelper"
+                           :route="{name: 'acm-helper', params: {contestID: contestID}}">
+          <Icon type="ios-paw"></Icon>
+          Admin Helper
+        </VerticalMenu-item>
       </VerticalMenu>
     </div>
   </div>
@@ -157,13 +163,16 @@
         now: state => state.contest.now
       }),
       ...mapGetters(
-        ['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown',
+        ['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown', 'isContestAdmin',
           'OIContestRealTimePermission', 'passwordFormVisible']
       ),
       countdownColor () {
         if (this.contestStatus) {
           return CONTEST_STATUS_REVERSE[this.contestStatus].color
         }
+      },
+      showAdminHelper () {
+        return this.isContestAdmin && this.contestRuleType === 'ACM'
       }
     },
     watch: {

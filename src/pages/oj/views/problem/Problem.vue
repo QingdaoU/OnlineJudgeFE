@@ -246,8 +246,9 @@
           vm.language = problemCode.language
           vm.code = problemCode.code
         })
+      } else {
+        next()
       }
-      next()
     },
     mounted () {
       this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: false})

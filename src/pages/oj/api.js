@@ -248,14 +248,19 @@ export default {
       params
     })
   },
-  getContestRank (offset, limit, contestID) {
-    let params = {
-      offset,
-      limit,
-      contest_id: contestID
-    }
+  getContestRank (params) {
     return ajax('contest_rank', 'get', {
       params
+    })
+  },
+  getACMACInfo (params) {
+    return ajax('admin/contest/acm_helper', 'get', {
+      params
+    })
+  },
+  updateACInfoCheckedStatus (data) {
+    return ajax('admin/contest/acm_helper', 'put', {
+      data
     })
   }
 }

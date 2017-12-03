@@ -86,6 +86,11 @@ export default [
         name: 'contest-rank',
         path: 'rank',
         component: Contest.ContestRank
+      },
+      {
+        name: 'acm-helper',
+        path: 'helper',
+        component: Contest.ACMContestHelper
       }
     ]
   },

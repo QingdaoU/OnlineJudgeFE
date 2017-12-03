@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import router from './router'
 import axios from 'axios'
+import utils from '@/utils/utils'
 
 Vue.prototype.$http = axios
 axios.defaults.baseURL = '/api'
@@ -212,20 +213,14 @@ export default {
       }
     })
   },
-  getProblemList (offset, limit, keyword) {
-    let params = {paging: true, offset, limit}
-    if (keyword) {
-      params.keyword = keyword
-    }
+  getProblemList (params) {
+    params = utils.filterEmptyValue(params)
     return ajax('admin/problem', 'get', {
       params
     })
   },
-  getContestProblemList (offset, limit, keyword, contestId) {
-    let params = {paging: true, offset, limit, contest_id: contestId}
-    if (keyword) {
-      params.keyword = keyword
-    }
+  getContestProblemList (params) {
+    params = utils.filterEmptyValue(params)
     return ajax('admin/contest/problem', 'get', {
       params
     })
@@ -256,6 +251,11 @@ export default {
   },
   makeContestProblemPublic (data) {
     return ajax('admin/contest_problem/make_public', 'post', {
+      data
+    })
+  },
+  addProblemFromPublic (data) {
+    return ajax('admin/contest/add_problem_from_public', 'post', {
       data
     })
   }

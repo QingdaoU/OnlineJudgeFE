@@ -98,6 +98,7 @@
 
 <script>
   import api from '@oj/api'
+  import utils from '@/utils/utils'
   import vueCropper from 'vue-cropper'
   import {types} from '@oj/store'
 
@@ -217,7 +218,8 @@
       },
       updateProfile () {
         this.loadingSaveBtn = true
-        api.updateProfile(this.formProfile).then(res => {
+        let updateData = utils.filterEmptyValue(Object.assign({}, this.formProfile))
+        api.updateProfile(updateData).then(res => {
           this.$success('Success')
           this.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
           this.loadingSaveBtn = false

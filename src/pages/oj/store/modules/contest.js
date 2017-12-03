@@ -7,6 +7,7 @@ const state = {
   now: moment(),
   access: false,
   rankLimit: 30,
+  forceUpdate: false,
   contest: {
     created_by: {},
     contest_type: CONTEST_TYPE.PUBLIC
@@ -101,6 +102,9 @@ const mutations = {
   [types.CHANGE_CONTEST_ITEM_VISIBLE] (state, payload) {
     state.itemVisible = {...state.itemVisible, ...payload}
   },
+  [types.CHANGE_RANK_FORCE_UPDATE] (state, payload) {
+    state.forceUpdate = payload.value
+  },
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
   },
@@ -119,6 +123,7 @@ const mutations = {
       chart: true,
       realName: false
     }
+    state.forceUpdate = false
   },
   [types.NOW] (state, payload) {
     state.now = payload.now

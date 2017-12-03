@@ -337,7 +337,7 @@
       flex: auto;
       margin-right: 18px;
       .filter {
-        margin-right: -32px;
+        margin-right: -10px;
       }
     }
     #contest-menu {
