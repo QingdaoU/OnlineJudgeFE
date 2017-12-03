@@ -347,9 +347,9 @@
           let data = Object.assign({}, this.formGenerateUser)
           api.generateUser(data).then(res => {
             this.loadingGenerate = false
-            let url = '/admin/generate_user?file_id=' + res.data.data.fileID
+            let url = '/admin/generate_user?file_id=' + res.data.data.file_id
             utils.downloadFile(url).then(() => {
-              this.$alert('All users created successfully, the users sheets have downloaded to your disk', 'Notice')
+              this.$alert('All users created successfully, the users sheets have downloaded to your disk.', 'Notice')
             })
             this.getUserList(1)
           }).catch(() => {
