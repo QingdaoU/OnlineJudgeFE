@@ -1,6 +1,6 @@
 import api from '@oj/api'
 import ScreenFull from '@admin/components/ScreenFull.vue'
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { types } from '@oj/store/index'
 import { CONTEST_STATUS } from '@/utils/constants'
 
@@ -14,7 +14,13 @@ export default {
       if (this.showChart && !refresh) {
         this.$refs.chart.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
       }
-      api.getContestRank(offset, this.limit, this.$route.params.contestID).then(res => {
+      let params = {
+        offset,
+        limit: this.limit,
+        contest_id: this.$route.params.contestID,
+        force_refresh: this.forceUpdate ? '1' : '0'
+      }
+      api.getContestRank(params).then(res => {
         if (this.showChart && !refresh) {
           this.$refs.chart.hideLoading()
         }
@@ -37,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAdmin']),
+    ...mapGetters(['isContestAdmin']),
     ...mapState({
       'contest': state => state.contest.contest,
       'contestProblems': state => state.contest.contestProblems
@@ -82,6 +88,14 @@ export default {
         } else {
           this.columns.splice(2, 1)
         }
+      }
+    },
+    forceUpdate: {
+      get () {
+        return this.$store.state.contest.forceUpdate
+      },
+      set (value) {
+        this.$store.commit(types.CHANGE_RANK_FORCE_UPDATE, {value: value})
       }
     },
     limit: {

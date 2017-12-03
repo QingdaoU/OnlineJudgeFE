@@ -12,14 +12,20 @@
             <span>Chart</span>
             <i-switch v-model="showChart"></i-switch>
           </p>
-          <p v-if="isAdmin">
-            <span>RealName</span>
-            <i-switch v-model="showRealName"></i-switch>
-          </p>
           <p>
             <span>Auto Refresh(10s)</span>
             <i-switch :disabled="refreshDisabled" @on-change="handleAutoRefresh"></i-switch>
           </p>
+          <template v-if="isContestAdmin">
+            <p>
+              <span>RealName</span>
+              <i-switch v-model="showRealName"></i-switch>
+            </p>
+            <p>
+              <span>Force Update</span>
+              <i-switch :disabled="refreshDisabled" v-model="forceUpdate"></i-switch>
+            </p>
+          </template>
         </div>
       </Poptip>
     </div>
