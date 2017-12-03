@@ -274,7 +274,7 @@
           this.changePie(problem)
 
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
-          if (this.language !== 'C++' || this.code !== '') {
+          if (this.language !== 'C++' || this.code !== '' || this.problem.languages.indexOf(this.language) !== -1) {
             return
           }
           this.language = this.problem.languages[0]
