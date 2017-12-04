@@ -40,6 +40,12 @@
               <div class="content" v-html=problem.hint></div>
             </Card>
           </div>
+
+          <div v-if="problem.source">
+            <p class="title">Source</p>
+            <p class="content">{{problem.source}}</p>
+          </div>
+
         </div>
       </Panel>
       <!--problem main end-->
@@ -138,9 +144,6 @@
           <li>
             <p>Created By</p>
             <p>{{problem.created_by.username}}</p></li>
-          <li v-if="problem.source">
-            <p>Source</p>
-            <p>{{problem.source}}</p></li>
           <li v-if="problem.difficulty">
             <p>Level</p>
             <p>{{problem.difficulty}}</p></li>

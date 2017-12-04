@@ -1,6 +1,6 @@
 <template>
   <div class="problem">
-    <Panel title="Import Problem" v-if="mode == 'add'">
+    <Panel title="Import Problem" v-if="mode == 'hide'">
       <el-upload
         action="/api/admin/test_case"
         name="file"
