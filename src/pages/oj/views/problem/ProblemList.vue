@@ -1,6 +1,6 @@
 <template>
   <Row type="flex" :gutter="18">
-    <Col :span=20>
+    <Col :span=19>
     <Panel shadow>
       <div slot="title">Problem List</div>
       <div slot="extra">
@@ -49,7 +49,7 @@
 
     </Col>
 
-    <Col :span="4">
+    <Col :span="5">
     <Panel :padding="10">
       <div slot="title" class="taglist-title">Tags</div>
       <Button v-for="tag in tagList"
@@ -154,7 +154,7 @@
           }
         ],
         problemList: [],
-        limit: 15,
+        limit: 20,
         total: 0,
         loadings: {
           table: true,

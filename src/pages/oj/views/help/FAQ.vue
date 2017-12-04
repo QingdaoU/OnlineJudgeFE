@@ -42,7 +42,7 @@
 <style lang="less" scoped>
   .content {
     font-size: 16px;
-    margin: 0 50px 20px 50px;
+    margin: 0 50px 40px 50px;
     > ul {
       list-style: disc;
       li {
@@ -58,6 +58,4 @@
       }
     }
   }
-
-
 </style>
