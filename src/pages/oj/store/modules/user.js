@@ -13,7 +13,7 @@ const getters = {
   isAuthenticated: (state, getters) => {
     return !!getters.user.id
   },
-  isAdmin: (state, getters) => {
+  isAdminRole: (state, getters) => {
     return getters.user.admin_type === USER_TYPE.ADMIN ||
       getters.user.admin_type === USER_TYPE.SUPER_ADMIN
   }
