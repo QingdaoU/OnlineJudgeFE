@@ -141,7 +141,7 @@
               this.isConcat = true
               columns = columns.concat(scoreColumn)
             }
-            if (this.isAdmin) {
+            if (this.isAdminRole) {
               this.isConcat = true
               columns = columns.concat(adminColumn)
             }
@@ -171,8 +171,8 @@
       isCE () {
         return this.submission.result === -2
       },
-      isAdmin () {
-        return this.$store.getters.isAdmin
+      isAdminRole () {
+        return this.$store.getters.isAdminRole
       }
     }
   }

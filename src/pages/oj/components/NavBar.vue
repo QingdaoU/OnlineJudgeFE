@@ -66,7 +66,7 @@
             <Dropdown-item name="/user-home">Home</Dropdown-item>
             <Dropdown-item name="/status?myself=1">Submissions</Dropdown-item>
             <Dropdown-item name="/setting/profile">Settings</Dropdown-item>
-            <Dropdown-item v-if="isAdmin" name="/admin">Management</Dropdown-item>
+            <Dropdown-item v-if="isAdminRole" name="/admin">Management</Dropdown-item>
             <Dropdown-item divided name="/logout">Logout</Dropdown-item>
           </Dropdown-menu>
         </Dropdown>
@@ -110,7 +110,7 @@
       }
     },
     computed: {
-      ...mapGetters(['website', 'modalStatus', 'user', 'isAuthenticated', 'isAdmin']),
+      ...mapGetters(['website', 'modalStatus', 'user', 'isAuthenticated', 'isAdminRole']),
       // 跟随路由变化
       activeMenu () {
         return '/' + this.$route.path.split('/')[1]

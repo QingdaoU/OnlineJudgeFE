@@ -115,7 +115,8 @@
         <div>
           <el-form-item v-for="(sample, index) in problem.samples" :key="'sample'+index">
             <Accordion :title="'Sample' + (index + 1)">
-              <el-button type="warning" size="small" icon="el-icon-delete" slot="header" @click="deleteSample(index)">Delete
+              <el-button type="warning" size="small" icon="el-icon-delete" slot="header" @click="deleteSample(index)">
+                Delete
               </el-button>
               <el-row :gutter="20">
                 <el-col :span="12">
@@ -173,7 +174,8 @@
                   <el-radio :label="lang.name">{{ lang.name }}</el-radio>
                 </el-tooltip>
               </el-radio-group>
-              <el-button type="primary" size="small" icon="el-icon-fa-random" @click="compileSPJ" :loading="loadingCompile">
+              <el-button type="primary" size="small" icon="el-icon-fa-random" @click="compileSPJ"
+                         :loading="loadingCompile">
                 Compile
               </el-button>
             </template>
@@ -442,7 +444,7 @@
         }
         let fileList = response.data.info
         for (let file of fileList) {
-          file.score = 0
+          file.score = (100 / fileList.length).toFixed(0)
           if (this.problem.spj) {
             file.output_name = '-'
           }
