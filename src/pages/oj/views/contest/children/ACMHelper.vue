@@ -165,7 +165,7 @@
           this.total = data.length
           for (let v of data) {
             v.problem_display_id = this.problemsMap[v.problem_id]
-            v.ac_time = moment(this.contest.start_time).add(v.ac_info.ac_time).local().format('YYYY-M-D  HH:mm:ss')
+            v.ac_time = moment(this.contest.start_time).add(v.ac_info.ac_time, 'seconds').local().format('YYYY-M-D  HH:mm:ss')
           }
           this.acInfo = data
           this.pagedAcInfo = data.slice(0, this.limit)
