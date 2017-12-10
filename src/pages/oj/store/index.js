@@ -49,6 +49,13 @@ const rootActions = {
   },
   changeModalStatus ({commit}, payload) {
     commit(types.CHANGE_MODAL_STATUS, payload)
+  },
+  changeDomTitle ({commit, state}, payload) {
+    if (payload && payload.title) {
+      window.document.title = state.website.website_name_shortcut + ' | ' + payload.title
+    } else {
+      window.document.title = state.website.website_name_shortcut + ' | ' + state.route.meta.title
+    }
   }
 }
 

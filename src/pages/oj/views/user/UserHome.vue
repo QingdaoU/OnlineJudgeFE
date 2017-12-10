@@ -29,7 +29,7 @@
           </div>
         </div>
         <div id="problems">
-          <p v-if="problems.length">List of solved problems
+          <div v-if="problems.length">List of solved problems
             <Poptip v-if="refreshVisible" trigger="hover" placement="right-start">
               <Icon type="ios-help-outline"></Icon>
               <div slot="content">
@@ -37,7 +37,7 @@
                 <Button type="info" @click="freshProblemDisplayID">regenerate</Button>
               </div>
             </Poptip>
-          </p>
+          </div>
           <p v-else>The guy is so lazy that has not solved any problem yet.</p>
           <div class="btns">
             <div class="problem-btn" v-for="problemID in problems">
@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+  import { mapActions } from 'vuex'
   import time from '@/utils/time'
   import api from '@oj/api'
 
@@ -76,9 +77,11 @@
       this.init()
     },
     methods: {
+      ...mapActions(['changeDomTitle']),
       init () {
         this.username = this.$route.query.username
         api.getUserInfo(this.username).then(res => {
+          this.changeDomTitle({title: res.data.data.user.username})
           this.profile = res.data.data
           this.getSolvedProblems()
           let registerTime = time.utcToLocal(this.profile.user.create_time, 'YYYY-MM-D')

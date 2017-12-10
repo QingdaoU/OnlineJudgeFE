@@ -189,11 +189,11 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
+  import { types } from '@oj/store'
   import CodeMirror from '@oj/components/CodeMirror.vue'
   import storage from '@/utils/storage'
   import { FormMixin } from '@oj/components/mixins'
-  import { types } from '@oj/store'
   import { JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey } from '@/utils/constants'
   import api from '@oj/api'
   import { pie, largePie } from './chartData'
@@ -258,6 +258,7 @@
       this.init()
     },
     methods: {
+      ...mapActions(['changeDomTitle']),
       init () {
         this.$Loading.start()
         this.contestID = this.$route.params.contestID
@@ -269,6 +270,7 @@
             window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
           })
           let problem = res.data.data
+          this.changeDomTitle({title: problem.title})
           api.submissionExists(problem.id).then(res => {
             this.submissionExists = res.data.data
           })

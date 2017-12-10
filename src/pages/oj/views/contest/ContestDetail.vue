@@ -78,7 +78,7 @@
 <script>
   import moment from 'moment'
   import api from '@oj/api'
-  import { mapState, mapGetters } from 'vuex'
+  import { mapState, mapGetters, mapActions } from 'vuex'
   import { types } from '@oj/store'
   import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/constants'
   import time from '@/utils/time'
@@ -127,6 +127,7 @@
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest').then(res => {
+        this.changeDomTitle({title: res.data.data.title})
         let data = res.data.data
         let endTime = moment(data.end_time)
         if (endTime.isAfter(moment(data.now))) {
@@ -137,6 +138,7 @@
       })
     },
     methods: {
+      ...mapActions(['changeDomTitle']),
       handleRoute (route) {
         this.$router.push(route)
       },
@@ -179,6 +181,7 @@
       '$route' (newVal) {
         this.route_name = newVal.name
         this.contestID = newVal.params.contestID
+        this.changeDomTitle({title: this.contest.title})
       }
     },
     beforeDestroy () {
