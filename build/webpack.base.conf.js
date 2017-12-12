@@ -12,8 +12,8 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    'oj': './src/pages/oj/index.js',
-    'admin': './src/pages/admin/index.js'
+    'oj': ['babel-polyfill', './src/pages/oj/index.js'],
+    'admin': ['babel-polyfill', './src/pages/admin/index.js']
   },
   output: {
     path: config.build.assetsRoot,
