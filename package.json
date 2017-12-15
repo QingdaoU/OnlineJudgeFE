@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
+    "babel-polyfill": "^6.26.0",
     "browser-detect": "^0.2.18",
     "echarts": "^3.8.3",
     "element-ui": "^2.0.5",
