@@ -511,13 +511,13 @@
     .sample {
       align-items: stretch;
       &-input, &-output {
-        flex: 1 1;
+        flex: 1 1 auto;
         display: flex;
         flex-direction: column;
         margin-right: 5%;
       }
       pre {
-        flex: 1 1;
+        flex: 1 1 auto;
         align-self: stretch;
         border-style: solid;
         background: transparent;
