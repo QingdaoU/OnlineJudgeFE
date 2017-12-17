@@ -198,6 +198,9 @@
   import api from '@oj/api'
   import { pie, largePie } from './chartData'
 
+  // 只显示这些状态的图形占用
+  const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
+
   export default {
     name: 'Problem',
     components: {
@@ -292,16 +295,23 @@
         })
       },
       changePie (problemData) {
+        // 只显示特定的一些状态
+        for (let k in problemData.statistic_info) {
+          if (filtedStatus.indexOf(k) === -1) {
+            delete problemData.statistic_info[k]
+          }
+        }
         let acNum = problemData.accepted_number
         let data = [
           {name: 'WA', value: problemData.submission_number - acNum},
           {name: 'AC', value: acNum}
         ]
         this.pie.series[0].data = data
-        // 只selected大图，这里需要做一下deepcopy
+        // 只把大图的AC selected下，这里需要做一下deepcopy
         let data2 = JSON.parse(JSON.stringify(data))
         data2[1].selected = true
         this.largePie.series[1].data = data2
+
         // 根据结果设置legend,没有提交过的legend不显示
         let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
         if (legend.length === 0) {
