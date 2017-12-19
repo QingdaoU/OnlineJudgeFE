@@ -22,6 +22,7 @@
     "iview": "^2.6.0",
     "moment": "^2.19.1",
     "papaparse": "^4.3.6",
+    "raven-js": "^3.21.0",
     "screenfull": "^3.3.2",
     "simditor": "^2.3.6",
     "simditor-markdown": "^1.1.2",
