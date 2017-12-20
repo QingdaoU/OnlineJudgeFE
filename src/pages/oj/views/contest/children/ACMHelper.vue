@@ -163,12 +163,8 @@
           this.loadingTable = false
           let data = res.data.data
           this.total = data.length
-          for (let v of data) {
-            v.problem_display_id = this.problemsMap[v.problem_id]
-            v.ac_time = moment(this.contest.start_time).add(v.ac_info.ac_time, 'seconds').local().format('YYYY-M-D  HH:mm:ss')
-          }
           this.acInfo = data
-          this.pagedAcInfo = data.slice(0, this.limit)
+          this.handlePage()
         }).catch(() => {
           this.loadingTable = false
         })
@@ -197,7 +193,21 @@
         }
       },
       handlePage (page = 1) {
-        this.pagedAcInfo = this.acInfo.slice((this.page - 1) * this.limit, this.page * this.limit)
+        if (page !== 1) {
+          this.loadingTable = true
+        }
+        let pageInfo = this.acInfo.slice((this.page - 1) * this.limit, this.page * this.limit)
+        for (let v of pageInfo) {
+          if (v.init) {
+            continue
+          } else {
+            v.init = true
+            v.problem_display_id = this.problemsMap[v.problem_id]
+            v.ac_time = moment(this.contest.start_time).add(v.ac_info.ac_time, 'seconds').local().format('YYYY-M-D  HH:mm:ss')
+          }
+        }
+        this.pagedAcInfo = pageInfo
+        this.loadingTable = false
       }
     },
     computed: {
