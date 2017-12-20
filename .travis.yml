@@ -5,8 +5,11 @@ sudo: required
 services:
   - docker
 env:
-  - CXX=g++-4.8
-  - USE_SENTRY=1
+  global:
+    - CXX=g++-4.8
+  matrix:
+    - USE_SENTRY=1
+    - USE_SENTRY=0
 addons:
   apt:
     sources:
@@ -37,4 +40,4 @@ deploy:
     tags: true
 
 after_deploy:
-  - sh deploy/sentry_release.sh
+  - bash deploy/sentry_release.sh
