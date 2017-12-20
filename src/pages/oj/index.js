@@ -15,6 +15,7 @@ import VerticalMenuItem from '@oj/components/verticalMenu/verticalMenu-item.vue'
 import '@/styles/index.less'
 
 import filters from '@/utils/filters.js'
+import '@/utils/sentry.js'
 
 import ECharts from 'vue-echarts/components/ECharts.vue'
 import 'echarts/lib/chart/bar'
