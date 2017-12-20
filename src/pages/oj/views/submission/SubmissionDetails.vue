@@ -25,7 +25,7 @@
         <span class="admin-info-content">Only admin can check the test_case details in ACM problems.</span>
       </div>
     </Alert>
-    <Table stripe :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
+    <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
     <Col :span="20">
@@ -124,7 +124,8 @@
             memory_cost: ''
           }
         },
-        isConcat: false
+        isConcat: false,
+        loading: false
       }
     },
     mounted () {
@@ -132,7 +133,9 @@
     },
     methods: {
       getSubmission () {
+        this.loading = true
         api.getSubmission(this.$route.params.id).then(res => {
+          this.loading = false
           let data = res.data.data
           let columns = baseColumn
           if (data.info && data.info.data && !this.isConcat) {
@@ -149,6 +152,7 @@
           }
           this.submission = data
         }, () => {
+          this.loading = false
         })
       },
       shareSubmission (shared) {

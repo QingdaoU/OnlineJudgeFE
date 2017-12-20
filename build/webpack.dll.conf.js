@@ -14,7 +14,7 @@ const vendors = [
   'moment',
   'codemirror/lib/codemirror.js',
   'codemirror/mode/clike/clike.js',
-  'codemirror/mode/python/python.js'
+  'codemirror/mode/python/python.js',
 ];
 
 module.exports = {
