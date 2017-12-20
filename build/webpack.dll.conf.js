@@ -15,8 +15,6 @@ const vendors = [
   'codemirror/lib/codemirror.js',
   'codemirror/mode/clike/clike.js',
   'codemirror/mode/python/python.js',
-  'raven-js',
-  'raven-js/plugins/vue'
 ];
 
 module.exports = {

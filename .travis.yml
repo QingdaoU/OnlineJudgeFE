@@ -1,20 +1,35 @@
 language: node_js
 node_js:
-- 6.11.2
+  - 6.11.2
+sudo: required
+services:
+  - docker
 env:
-- CXX=g++-4.8
-script:
-- npm install
-- npm run build:dll
-- npm run build
+  global:
+    - CXX=g++-4.8
+  matrix:
+    - USE_SENTRY=1
+    - USE_SENTRY=0
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
+      - g++-4.8
+before_install:
+  - docker pull getsentry/sentry-cli
+
+script:
+  - npm install
+  - npm run build:dll
+  - npm run build
+
 before_deploy:
-- zip -r dist.zip dist
+  - bash deploy/sentry_release.sh
+  - find dist/ -type f -name "*.map" -delete
+  - tree dist
+  - zip -r dist.zip dist
+
 deploy:
   provider: releases
   skip_cleanup: true
