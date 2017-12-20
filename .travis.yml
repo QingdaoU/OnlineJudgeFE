@@ -9,7 +9,7 @@ env:
     - CXX=g++-4.8
   matrix:
     - USE_SENTRY=1
-    - USE_SENTRY=0
+#    - USE_SENTRY=0
 addons:
   apt:
     sources:
@@ -27,7 +27,6 @@ script:
 before_deploy:
   - bash deploy/sentry_release.sh
   - find dist/ -type f -name "*.map" -delete
-  - tree dist
   - zip -r dist.zip dist
 
 deploy:
