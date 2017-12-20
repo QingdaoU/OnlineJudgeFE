@@ -10,11 +10,31 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
-  entry: {
+function getEntries() {
+  const base = {
     'oj': ['./src/pages/oj/index.js'],
     'admin': ['./src/pages/admin/index.js']
-  },
+  }
+  if (process.env.USE_SENTRY === '1') {
+    Object.keys(base).forEach(entry => {
+      base[entry].push('./src/utils/sentry.js')
+    })
+  }
+  return base
+}
+const entries = getEntries()
+console.log("All entries: ")
+Object.keys(entries).forEach(entry => {
+  console.log(entry)
+  entries[entry].forEach(ele => {
+    console.log("- %s", ele)
+  })
+  console.log()
+})
+
+
+module.exports = {
+  entry: entries,
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
