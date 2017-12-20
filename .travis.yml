@@ -1,20 +1,30 @@
 language: node_js
 node_js:
-- 6.11.2
+  - 6.11.2
+sudo: required
+services:
+  - docker
 env:
-- CXX=g++-4.8
-script:
-- npm install
-- npm run build:dll
-- npm run build
+  - CXX=g++-4.8
+  - USE_SENTRY=1
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
+      - g++-4.8
+before_install:
+  - docker pull getsentry/sentry-cli
+
+script:
+  - npm install
+  - npm run build:dll
+  - npm run build
+
 before_deploy:
-- zip -r dist.zip dist
+  - find dist/ -type f -name "*.map" -delete
+  - zip -r dist.zip dist
+
 deploy:
   provider: releases
   skip_cleanup: true
@@ -25,3 +35,6 @@ deploy:
     repo: QingdaoU/OnlineJudgeFE
     all_branches: true
     tags: true
+
+after_deploy:
+  - sh deploy/sentry_release.sh
