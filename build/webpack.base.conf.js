@@ -1,5 +1,6 @@
 'use strict'
 const path = require('path')
+const glob = require('glob')
 const webpack = require('webpack')
 const utils = require('./utils')
 const config = require('../config')
@@ -10,7 +11,7 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function getEntries() {
+function getEntries () {
   const base = {
     'oj': ['./src/pages/oj/index.js'],
     'admin': ['./src/pages/admin/index.js']
@@ -22,6 +23,8 @@ function getEntries() {
   }
   return base
 }
+
+// get all entries
 const entries = getEntries()
 console.log("All entries: ")
 Object.keys(entries).forEach(entry => {
@@ -31,6 +34,11 @@ Object.keys(entries).forEach(entry => {
   })
   console.log()
 })
+
+// prepare vendor asserts
+const globOptions = {cwd: resolve('static/js')};
+let vendorAssets = glob.sync('vendor.dll.*.js', globOptions);
+vendorAssets = vendorAssets.map(file => 'static/js/' + file)
 
 
 module.exports = {
@@ -107,10 +115,9 @@ module.exports = {
       manifest: require('./vendor-manifest.json')
     }),
     new HtmlWebpackIncludeAssetsPlugin({
-      assets: ['static/js/vendor.dll.js'],
+      assets: [vendorAssets[0]],
       files: ['index.html', 'admin/index.html'],
-      append: false,
-      hash: true
+      append: false
     }),
   ]
 }
