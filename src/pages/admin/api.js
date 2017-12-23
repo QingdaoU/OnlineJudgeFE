@@ -131,6 +131,16 @@ export default {
       }
     })
   },
+  getInvalidTestCaseList () {
+    return ajax('admin/prune_test_case', 'get')
+  },
+  pruneTestCase (id) {
+    return ajax('admin/prune_test_case', 'delete', {
+      params: {
+        id
+      }
+    })
+  },
   createContest (data) {
     return ajax('admin/contest', 'post', {
       data
