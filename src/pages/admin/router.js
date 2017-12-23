@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 引入 view 组件
-import { Announcement, Conf, Contest, ContestList, Home, JudgeServer, Login, Problem, ProblemList, User } from './views'
-
+import { Announcement, Conf, Contest, ContestList, Home, JudgeServer, Login,
+  Problem, ProblemList, User, PruneTestCase } from './views'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -42,6 +42,11 @@ export default new VueRouter({
           path: '/judge-server',
           name: 'judge-server',
           component: JudgeServer
+        },
+        {
+          path: '/prune-test-case',
+          name: 'prune-test-case',
+          component: PruneTestCase
         },
         {
           path: '/problems',
@@ -93,7 +98,6 @@ export default new VueRouter({
           name: 'edit-contest-problem',
           component: Problem
         }
-
       ]
     },
     {
