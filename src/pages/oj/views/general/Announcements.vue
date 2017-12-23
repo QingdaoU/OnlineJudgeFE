@@ -95,7 +95,9 @@
         this.announcement = announcement
         this.listVisible = false
         this.$nextTick(() => {
-          window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+          if (window.MathJax) {
+            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+          }
         })
       },
       goBack () {

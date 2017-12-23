@@ -270,7 +270,9 @@
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
           this.$nextTick(() => {
-            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+            if (window.MathJax) {
+              window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
+            }
           })
           let problem = res.data.data
           this.changeDomTitle({title: problem.title})
