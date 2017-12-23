@@ -114,7 +114,7 @@
             title: 'TotalTime',
             align: 'center',
             render: (h, params) => {
-              return h('span', params.row.total_time)
+              return h('span', this.parseTotalTime(params.row.total_time))
             }
           }
         ],
@@ -298,6 +298,10 @@
             }
           })
         })
+      },
+      parseTotalTime (totalTime) {
+        let m = moment.duration(totalTime, 's')
+        return [Math.floor(m.asHours()), m.minutes(), m.seconds()].join(':')
       }
     }
   }
