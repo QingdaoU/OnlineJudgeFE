@@ -1,12 +1,12 @@
 # OnlineJudge Front End
-[![vue](https://img.shields.io/badge/vue-2.5.3-blue.svg?style=flat-square)](https://github.com/vuejs/vue)
+[![vue](https://img.shields.io/badge/vue-2.5.13-blue.svg?style=flat-square)](https://github.com/vuejs/vue)
 [![vuex](https://img.shields.io/badge/vuex-3.0.1-blue.svg?style=flat-square)](https://vuex.vuejs.org/)
 [![echarts](https://img.shields.io/badge/echarts-3.8.3-blue.svg?style=flat-square)](https://github.com/ecomfe/echarts)
-[![iview](https://img.shields.io/badge/iview-2.6.0-blue.svg?style=flat-square)](https://github.com/iview/iview)
-[![element-ui](https://img.shields.io/badge/element-2.0.5-blue.svg?style=flat-square)](https://github.com/ElemeFE/element)
+[![iview](https://img.shields.io/badge/iview-2.8.0-blue.svg?style=flat-square)](https://github.com/iview/iview)
+[![element-ui](https://img.shields.io/badge/element-2.0.9-blue.svg?style=flat-square)](https://github.com/ElemeFE/element)
 [![Build Status](https://travis-ci.org/QingdaoU/OnlineJudgeFE.svg?branch=master)](https://travis-ci.org/QingdaoU/OnlineJudgeFE)
 
->### A multiple pages app built for OnlineJudge. [Demo](http://v2.qduoj.com)
+>### A multiple pages app built for OnlineJudge. [Demo](https://qduoj.com)
 
 ## Features
 
@@ -17,44 +17,54 @@
 + Quite beautiful：)
 
 ## Get Started
-Install nodejs v6.11 first.
 
-```bash
-npm install
-npm run build:dll
-npm run build
-```
-The built files are stored in `./dist`, you may need to launch a server with nginx:
+1. Install nodejs **v6.11** first.
 
-```bash
-server {
-    listen 80 default_server;
-    server_name _;
+1. Build dist files
 
-    location /public {
-        root /app/data;
+    ```bash
+    npm install
+    npm run build:dll
+    npm run build
+    ```
+
+    The built files are stored in `./dist`.
+
+1. Launch a server
+
+    for example, use nginx:
+
+    ```bash
+    server {
+        listen 80 default_server;
+        server_name _;
+
+        location /public {
+            root /data;
+        }
+        location /api {
+            proxy_pass http://your-backend;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header Host $http_host;
+            client_max_body_size 200M;
+        }
+        location /admin {
+            root /app/dist/admin;
+            try_files $uri $uri/ /index.html =404;
+        }
+        location / {
+            root /app/dist;
+            try_files $uri $uri/ /index.html =404;
+        }
     }
-    location /api {
-        proxy_pass http://backend;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $http_host;
-        client_max_body_size 200M;
-    }
-    location /admin {
-        root /app/dist/admin;
-        try_files $uri $uri/ /index.html =404;
-    }
-    location / {
-        root /app/dist;
-        try_files $uri $uri/ /index.html =404;
-    }
-}
-```
+    ```
 
 ## Screenshots
+
 [Check here.](https://github.com/QingdaoU/OnlineJudge/tree/2.0)
 
 ## Browser Support
+
 Modern browsers and Internet Explorer 10+.
 
 ## Development
@@ -73,4 +83,4 @@ npm run dev
 
 ## LICENSE
 
-The [MIT](http://opensource.org/licenses/MIT) License
+[MIT](http://opensource.org/licenses/MIT)
