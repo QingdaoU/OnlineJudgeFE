@@ -9,7 +9,7 @@
       </span>
       <el-table :data="data">
         <el-table-column
-          label="Create Time">
+          label="Last Modified">
           <template slot-scope="{row}">
             {{row.create_time | timestampFormat }}
           </template>
