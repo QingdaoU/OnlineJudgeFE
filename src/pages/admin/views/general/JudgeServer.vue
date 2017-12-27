@@ -53,6 +53,11 @@
           label="Memory Usage">
           <template slot-scope="scope">{{ scope.row.memory_usage }}%</template>
         </el-table-column>
+        <el-table-column label="Disabled">
+          <template slot-scope="{row}">
+            <el-switch v-model="row.is_disabled" @change="handleDisabledSwitch(row.id, row.is_disabled)"></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column
           fixed="right"
           label="Options">
@@ -101,6 +106,13 @@
           )
         }).catch(() => {
         })
+      },
+      handleDisabledSwitch (id, value) {
+        let data = {
+          id,
+          is_disabled: value
+        }
+        api.updateJudgeServer(data).catch(() => {})
       }
     },
     beforeRouteLeave (to, from, next) {

@@ -138,6 +138,11 @@ export default {
       }
     })
   },
+  updateJudgeServer (data) {
+    return ajax('admin/judge_server', 'put', {
+      data
+    })
+  },
   getInvalidTestCaseList () {
     return ajax('admin/prune_test_case', 'get')
   },
