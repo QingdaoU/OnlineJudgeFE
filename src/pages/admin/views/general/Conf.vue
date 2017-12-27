@@ -34,7 +34,9 @@
           </el-col>
         </el-row>
       </el-form>
-      <save @click.native="saveSMTPConfig"></save>
+      <el-button type="primary" @click="saveSMTPConfig">Save</el-button>
+      <el-button type="warning" @click="testSMTPConfig"
+                 v-if="saved" :loading="loadingBtnTest">Send Test Email</el-button>
     </Panel>
 
     <Panel title="Website Config">
@@ -80,7 +82,7 @@
                 </el-switch>
               </el-form-item>
             </el-col>
-            </el-col>
+          </el-col>
         </el-row>
       </el-form>
       <save @click.native="saveWebsiteConfig"></save>
@@ -91,11 +93,13 @@
 <script>
   import api from '../../api.js'
 
-  export default{
+  export default {
     name: 'Conf',
     data () {
       return {
         init: false,
+        saved: false,
+        loadingBtnTest: false,
         smtp: {
           server: 'smtp.example.com',
           port: 25,
@@ -117,18 +121,41 @@
       })
       api.getWebsiteConfig().then(res => {
         this.websiteConfig = res.data.data
-      }).catch(() => {})
+      }).catch(() => {
+      })
     },
     methods: {
       saveSMTPConfig () {
         if (!this.init) {
-          api.editSMTPConfig(this.smtp)
+          api.editSMTPConfig(this.smtp).then(() => {
+            this.saved = true
+          }, () => {
+          })
         } else {
-          api.createSMTPConfig(this.smtp)
+          api.createSMTPConfig(this.smtp).then(() => {
+            this.saved = true
+          }, () => {
+          })
         }
       },
+      testSMTPConfig () {
+        this.$prompt('Please input your email', '', {
+          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: 'Error email format'
+        }).then(({value}) => {
+          this.loadingBtnTest = true
+          api.testSMTPConfig(value).then(() => {
+            this.loadingBtnTest = false
+          }, () => {
+            this.loadingBtnTest = false
+          })
+        }).catch(() => {
+        })
+      },
       saveWebsiteConfig () {
-        api.editWebsiteConfig(this.websiteConfig).then(() => {}).catch(() => {})
+        api.editWebsiteConfig(this.websiteConfig).then(() => {
+        }).catch(() => {
+        })
       }
     }
   }

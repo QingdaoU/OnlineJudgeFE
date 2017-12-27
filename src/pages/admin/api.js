@@ -113,6 +113,13 @@ export default {
       data
     })
   },
+  testSMTPConfig (email) {
+    return ajax('admin/smtp_test', 'post', {
+      data: {
+        email
+      }
+    })
+  },
   getWebsiteConfig () {
     return ajax('admin/website', 'get')
   },
