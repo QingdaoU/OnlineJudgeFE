@@ -3,6 +3,12 @@ const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const config = require('../config')
 const utils = require('./utils')
+const glob = require('glob')
+const fs = require('fs')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 const NODE_ENV = utils.getNodeEnv()
 
@@ -12,10 +18,17 @@ const vendors = [
   'vuex',
   'axios',
   'moment',
-  'codemirror/lib/codemirror.js',
-  'codemirror/mode/clike/clike.js',
-  'codemirror/mode/python/python.js',
+  'raven-js'
 ];
+
+// clear old dll
+const globOptions = {cwd: resolve('static/js'), absolute: true};
+let oldDlls = glob.sync('vendor.dll.*.js', globOptions);
+console.log("cleaning old dll..")
+oldDlls.forEach(f => {
+  fs.unlink(f)
+})
+console.log("building ..")
 
 module.exports = {
   entry: {
