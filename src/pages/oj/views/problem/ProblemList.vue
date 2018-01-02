@@ -53,7 +53,7 @@
     <Panel :padding="10">
       <div slot="title" class="taglist-title">Tags</div>
       <Button v-for="tag in tagList"
-              key="tag"
+              :key="tag.name"
               @click="filterByTag(tag.name)"
               type="ghost"
               :disabled="query.tag === tag.name"

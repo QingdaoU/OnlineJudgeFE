@@ -113,6 +113,13 @@ export default {
       data
     })
   },
+  testSMTPConfig (email) {
+    return ajax('admin/smtp_test', 'post', {
+      data: {
+        email
+      }
+    })
+  },
   getWebsiteConfig () {
     return ajax('admin/website', 'get')
   },
@@ -129,6 +136,11 @@ export default {
       params: {
         hostname: hostname
       }
+    })
+  },
+  updateJudgeServer (data) {
+    return ajax('admin/judge_server', 'put', {
+      data
     })
   },
   getInvalidTestCaseList () {
@@ -268,6 +280,9 @@ export default {
     return ajax('admin/contest/add_problem_from_public', 'post', {
       data
     })
+  },
+  getLatestVersion () {
+    return ajax('admin/new_version', 'get')
   }
 }
 
