@@ -280,6 +280,9 @@ export default {
     return ajax('admin/contest/add_problem_from_public', 'post', {
       data
     })
+  },
+  getLatestVersion () {
+    return ajax('admin/new_version', 'get')
   }
 }
 
