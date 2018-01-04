@@ -281,8 +281,14 @@ export default {
       data
     })
   },
-  getLatestVersion () {
-    return ajax('admin/new_version', 'get')
+  getReleaseNotes () {
+    return ajax('admin/versions', 'get')
+  },
+  getDashboardInfo () {
+    return ajax('admin/dashboard_info', 'get')
+  },
+  getSessions () {
+    return ajax('sessions', 'get')
   }
 }
 

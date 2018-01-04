@@ -1,3 +1,4 @@
+import Dashboard from './general/Dashboard.vue'
 import Announcement from './general/Announcement.vue'
 import User from './general/User.vue'
 import Conf from './general/Conf.vue'
@@ -12,5 +13,5 @@ import Home from './Home.vue'
 
 export {
   Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest,
-  ContestList, Login, Home, PruneTestCase
+  ContestList, Login, Home, PruneTestCase, Dashboard
 }

@@ -18,7 +18,8 @@ const vendors = [
   'vuex',
   'axios',
   'moment',
-  'raven-js'
+  'raven-js',
+  'browser-detect'
 ];
 
 // clear old dll

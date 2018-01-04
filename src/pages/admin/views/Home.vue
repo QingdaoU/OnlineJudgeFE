@@ -20,22 +20,6 @@
         Build Version: {{ version }}
       </div>
     </div>
-
-    <el-dialog :visible.sync="newVersionDialog" :title="'New Version Available! - ' + newVersion.title">
-      <div class="version-body">
-        <p>Level: {{newVersion.level}}</p>
-        <div>
-          <p>Details:</p>
-          <ul v-for="detail in newVersion.details" :key="detail">
-            <li v-html="detail"></li>
-          </ul>
-        </div>
-        <p>Please upgrade to the latest version to enjoy the new features. </p>
-        <p>Reference: <a href="http://docs.onlinejudge.me/#/onlinejudge/guide/upgrade" target="_blank">
-          http://docs.onlinejudge.me/#/onlinejudge/guide/upgrade</a>
-        </p>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -50,9 +34,7 @@
     name: 'app',
     data () {
       return {
-        version: process.env.VERSION,
-        newVersionDialog: false,
-        newVersion: {}
+        version: process.env.VERSION
       }
     },
     components: {
@@ -68,15 +50,6 @@
           next(vm => {
             vm.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
           })
-        }
-      })
-    },
-    mounted () {
-      api.getLatestVersion().then(resp => {
-        let latestVersion = resp.data.data
-        if (latestVersion && latestVersion.version) {
-          this.newVersionDialog = true
-          this.newVersion = latestVersion
         }
       })
     },
@@ -162,8 +135,6 @@
     animation: fadeInUp .8s;
   }
 
-  .version-body {
-    margin-top: -20px;
-  }
+
 
 </style>
