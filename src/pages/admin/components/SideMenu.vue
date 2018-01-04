@@ -4,7 +4,8 @@
     <div class="logo">
       <img src="../../../assets/logo.svg" alt="oj admin"/>
     </div>
-    <el-submenu v-if="isSuperUser" index="general">
+    <el-menu-item index="/"><i class="el-icon-fa-dashboard"></i>Dashboard</el-menu-item>
+    <el-submenu v-if="isSuperAdmin" index="general">
       <template slot="title"><i class="el-icon-menu"></i>General</template>
       <el-menu-item index="/user">User</el-menu-item>
       <el-menu-item index="/announcement">Announcement</el-menu-item>
@@ -26,20 +27,10 @@
 </template>
 
 <script>
-  import { USER_TYPE } from '@/utils/constants'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'SideMenu',
-    props: {
-      user: {
-        type: Object,
-        required: true
-      },
-      collapse: {
-        type: Boolean,
-        default: false
-      }
-    },
     data () {
       return {
         currentPath: ''
@@ -49,9 +40,7 @@
       this.currentPath = this.$route.path
     },
     computed: {
-      isSuperUser () {
-        return this.user.admin_type === USER_TYPE.SUPER_ADMIN
-      }
+      ...mapGetters(['user', 'isSuperAdmin'])
     }
   }
 </script>

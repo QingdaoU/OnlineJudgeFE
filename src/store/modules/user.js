@@ -16,6 +16,9 @@ const getters = {
   isAdminRole: (state, getters) => {
     return getters.user.admin_type === USER_TYPE.ADMIN ||
       getters.user.admin_type === USER_TYPE.SUPER_ADMIN
+  },
+  isSuperAdmin: (state, getters) => {
+    return getters.user.admin_type === USER_TYPE.SUPER_ADMIN
   }
 }
 
