@@ -1,7 +1,7 @@
 import types from '../types'
 import api from '@oj/api'
 import storage from '@/utils/storage'
-import { STORAGE_KEY, USER_TYPE } from '@/utils/constants'
+import { STORAGE_KEY, USER_TYPE, PROBLEM_PERMISSION } from '@/utils/constants'
 
 const state = {
   profile: {}
@@ -19,6 +19,9 @@ const getters = {
   },
   isSuperAdmin: (state, getters) => {
     return getters.user.admin_type === USER_TYPE.SUPER_ADMIN
+  },
+  hasProblemPermission: (state, getters) => {
+    return getters.user.problem_permission !== PROBLEM_PERMISSION.NONE
   }
 }
 

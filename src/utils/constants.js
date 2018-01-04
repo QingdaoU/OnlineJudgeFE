@@ -107,6 +107,12 @@ export const USER_TYPE = {
   SUPER_ADMIN: 'Super Admin'
 }
 
+export const PROBLEM_PERMISSION = {
+  NONE: 'None',
+  OWN: 'Own',
+  ALL: 'All'
+}
+
 export const STORAGE_KEY = {
   AUTHED: 'authed',
   PROBLEM_CODE: 'problemCode',

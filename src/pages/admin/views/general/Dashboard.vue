@@ -30,7 +30,7 @@
           </el-form>
         </div>
       </el-card>
-      <panel title="System Overview">
+      <panel title="System Overview" v-if="isSuperAdmin">
         <p>Judge Server:  {{infoData.judge_server_count}}</p>
         <p>HTTPS Status:
           <el-tag :type="https ? 'success' : 'danger'" size="small">
@@ -50,7 +50,7 @@
       </panel>
     </el-col>
 
-    <el-col :md="14" :lg="16">
+    <el-col :md="14" :lg="16" v-if="isSuperAdmin">
       <div class="info-container">
         <info-card color="#909399" icon="el-icon-fa-users" message="Total Users" iconSize="30px" class="info-item"
                    :value="infoData.user_count"></info-card>
@@ -157,7 +157,7 @@
       }
     },
     computed: {
-      ...mapGetters(['profile', 'user']),
+      ...mapGetters(['profile', 'user', 'isSuperAdmin']),
       cdn () {
         return this.infoData.env.STATIC_CDN_HOST
       },
