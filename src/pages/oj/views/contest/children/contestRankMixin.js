@@ -1,7 +1,7 @@
 import api from '@oj/api'
 import ScreenFull from '@admin/components/ScreenFull.vue'
 import { mapGetters, mapState } from 'vuex'
-import { types } from '@oj/store/index'
+import { types } from '@/store'
 import { CONTEST_STATUS } from '@/utils/constants'
 
 export default {

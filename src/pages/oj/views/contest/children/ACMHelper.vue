@@ -23,7 +23,7 @@
 </template>
 <script>
   import { mapState, mapActions } from 'vuex'
-  import { types } from '@oj/store'
+  import { types } from '../../../../../store'
   import moment from 'moment'
   import Pagination from '@oj/components/Pagination.vue'
   import api from '@oj/api'

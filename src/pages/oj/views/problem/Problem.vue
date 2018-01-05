@@ -190,7 +190,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import { types } from '@oj/store'
+  import { types } from '../../../../store'
   import CodeMirror from '@oj/components/CodeMirror.vue'
   import storage from '@/utils/storage'
   import { FormMixin } from '@oj/components/mixins'

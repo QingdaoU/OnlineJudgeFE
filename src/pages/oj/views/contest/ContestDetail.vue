@@ -79,7 +79,7 @@
   import moment from 'moment'
   import api from '@oj/api'
   import { mapState, mapGetters, mapActions } from 'vuex'
-  import { types } from '@oj/store'
+  import { types } from '@/store'
   import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/constants'
   import time from '@/utils/time'
 

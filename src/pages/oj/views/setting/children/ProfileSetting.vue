@@ -100,7 +100,7 @@
   import api from '@oj/api'
   import utils from '@/utils/utils'
   import vueCropper from 'vue-cropper'
-  import {types} from '@oj/store'
+  import {types} from '../../../../../store'
 
   export default {
     components: {
