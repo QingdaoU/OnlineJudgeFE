@@ -162,7 +162,7 @@
         return this.infoData.env.STATIC_CDN_HOST
       },
       https () {
-        return document.URL.slice(0, 4) === 'https'
+        return document.URL.slice(0, 5) === 'https'
       },
       forceHttps () {
         return this.infoData.env.FORCE_HTTPS
