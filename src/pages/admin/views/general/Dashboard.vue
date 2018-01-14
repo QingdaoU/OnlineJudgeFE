@@ -4,7 +4,7 @@
       <el-card class="admin-info">
         <el-row :gutter="20">
           <el-col :span="10">
-            <img class="avatar" src="/public/avatar/default.png"/>
+            <img class="avatar" :src="profile.avatar"/>
           </el-col>
           <el-col :span="14">
             <p class="admin-info-name">{{user.username}}</p>
@@ -59,7 +59,7 @@
         <info-card color="#409EFF" icon="el-icon-fa-trophy" message="Recent Contests" class="info-item"
                    :value="infoData.recent_contest_count"></info-card>
       </div>
-      <panel>
+      <panel style="margin-top: 5px">
         <span slot="title" v-loading="loadingReleases">Release Notes
         <el-popover placement="right" trigger="hover">
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
