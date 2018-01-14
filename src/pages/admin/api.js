@@ -289,6 +289,11 @@ export default {
   },
   getSessions () {
     return ajax('sessions', 'get')
+  },
+  exportProblems (data) {
+    return ajax('export_problem', 'post', {
+      data
+    })
   }
 }
 
