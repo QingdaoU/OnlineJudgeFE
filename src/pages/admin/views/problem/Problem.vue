@@ -1,16 +1,6 @@
 <template>
   <div class="problem">
-    <Panel title="Import Problem" v-if="mode == 'hide'">
-      <el-upload
-        action="/api/admin/test_case"
-        name="file"
-        :data="{spj: problem.spj}"
-        :show-file-list="false"
-        :on-success="uploadSucceeded"
-        :on-error="uploadFailed">
-        <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
-      </el-upload>
-    </Panel>
+
     <Panel :title="title">
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
