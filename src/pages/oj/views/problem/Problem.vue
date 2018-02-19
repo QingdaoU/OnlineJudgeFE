@@ -351,20 +351,28 @@
         this.language = newLang
       },
       checkSubmissionStatus () {
-        this.refreshStatus = setInterval(() => {
+        // 使用setTimeout避免一些问题
+        if (this.refreshStatus) {
+          // 如果之前的提交状态检查还没有停止,则停止,否则将会失去timeout的引用造成无限请求
+          clearTimeout(this.refreshStatus)
+        }
+        const checkStatus = () => {
           let id = this.submissionId
           api.getSubmission(id).then(res => {
             this.result = res.data.data
             if (Object.keys(res.data.data.statistic_info).length !== 0) {
               this.submitting = false
-              clearInterval(this.refreshStatus)
+              clearTimeout(this.refreshStatus)
               this.init()
+            } else {
+              this.refreshStatus = setTimeout(checkStatus, 2000)
             }
           }, res => {
             this.submitting = false
-            clearInterval(this.refreshStatus)
+            clearTimeout(this.refreshStatus)
           })
-        }, 2000)
+        }
+        this.refreshStatus = setTimeout(checkStatus, 2000)
       },
       submitCode () {
         if (this.code.trim() === '') {
