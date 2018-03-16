@@ -18,58 +18,10 @@
 
 ## Get Started
 
-1. Install nodejs **v6.11** first.
-
-1. Build dist files
-
-    ```bash
-    npm install
-    npm run build:dll
-    npm run build
-    ```
-
-    The built files are stored in `./dist`.
-
-1. Launch a server
-
-    for example, use nginx:
-
-    ```bash
-    server {
-        listen 80 default_server;
-        server_name _;
-
-        location /public {
-            root /data;
-        }
-        location /api {
-            proxy_pass http://your-backend;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Host $http_host;
-            client_max_body_size 200M;
-        }
-        location /admin {
-            root /app/dist/admin;
-            try_files $uri $uri/ /index.html =404;
-        }
-        location / {
-            root /app/dist;
-            try_files $uri $uri/ /index.html =404;
-        }
-    }
-    ```
-
-## Screenshots
-
-[Check here.](https://github.com/QingdaoU/OnlineJudge/tree/2.0)
-
-## Browser Support
-
-Modern browsers and Internet Explorer 10+.
-
-## Development
+Install nodejs **v6.11** first.
 
 ```bash
+npm install
 # we use webpack DllReference to decrease the build time,
 # this command only needs execute once unless you upgrade the package in build/webpack.dll.conf.js
 NODE_ENV=development npm run build:dll
@@ -80,6 +32,14 @@ export TARGET=http://Your-backend
 # serve with hot reload at localhost:8080
 npm run dev
 ```
+
+## Screenshots
+
+[Check here.](https://github.com/QingdaoU/OnlineJudge/tree/2.0)
+
+## Browser Support
+
+Modern browsers and Internet Explorer 10+.
 
 ## LICENSE
 
