@@ -27,6 +27,7 @@
     "simditor": "^2.3.6",
     "simditor-markdown": "^1.1.2",
     "vue": "^2.5.13",
+    "vue-analytics": "^5.9.1",
     "vue-clipboard2": "0.0.7",
     "vue-codemirror-lite": "^1.0.3",
     "vue-cropper": "^0.2.8",

@@ -8,6 +8,8 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import filters from '@/utils/filters'
 import router from './router'
+import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
+import VueAnalytics from 'vue-analytics'
 
 import Panel from './components/Panel.vue'
 import IconBtn from './components/btn/IconBtn.vue'
@@ -20,8 +22,11 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.use(VueAnalytics, {
+  id: GOOGLE_ANALYTICS_ID,
+  router
+})
 Vue.use(Element, {locale})
-// Vue.use(VueI18n)
 Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
 Vue.component(Save.name, Save)

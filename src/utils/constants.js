@@ -125,3 +125,5 @@ export function buildProblemCodeKey (problemID, contestID = null) {
   }
   return `${STORAGE_KEY.PROBLEM_CODE}_NaN_${problemID}`
 }
+
+export const GOOGLE_ANALYTICS_ID = 'UA-111499601-1'
