@@ -3,8 +3,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from '@/store'
+import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 import VueClipboard from 'vue-clipboard2'
 import locale from 'iview/src/locale/lang/en-US'
+import VueAnalytics from 'vue-analytics'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
@@ -71,13 +73,15 @@ Vue.directive('highlight', {
 Vue.config.productionTip = false
 Vue.use(iView, {locale})
 Vue.use(VueClipboard)
+Vue.use(VueAnalytics, {
+  id: GOOGLE_ANALYTICS_ID,
+  router
+})
 
 Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
 Vue.component(Panel.name, Panel)
-
-// Vue.use(VueI18n)
 
 // 注册全局消息提示
 Vue.prototype.$Message.config({
