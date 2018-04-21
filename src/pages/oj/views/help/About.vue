@@ -15,20 +15,20 @@
       <div slot="title">Result Explanation</div>
       <div class="content">
         <ul>
-          <li><b>Pending & Juding</b> : You solution will be judged soon, please wait for result</li>
-          <li><b>Compile Error</b> :	Failed to compile your source code. Click on the link to see compiler's output.
+          <li><b>Pending & Juding</b> : {{$t('m.Pending_Juding')}}</li>
+          <li><b>Compile Error</b> :	{{$t('m.Compile_Error')}}
       </li>
-          <li><b>Accepted</b> :	Congratulations. Your solution is correct.</li>
-          <li><b>Wrong Answer</b> :	Your program's output doesn't match judger's answer.</li>
+          <li><b>Accepted</b> :	{{$t('m.Accepted')}}</li>
+          <li><b>Wrong Answer</b> :	{{$t('m.Wrong_Answer')}}</li>
           <li>
             <b>Runtime Error</b>
-            :	Your program terminated abnormally. Possible reasons are: segment fault, divided by zero or exited with code other than 0.
+            :	{{$t('m.Runtime_Error')}}
           </li>
           <li><b>Time Limit Exceeded</b>
-            :	The CPU time your program used has exceeded limit. Java has a triple time limit.
+            :	{{$t('m.Time_Limit_Exceeded')}}
           </li>
-          <li><b>Memory Limit Exceeded</b> :	The memory your program actually used has exceeded limit.</li>
-          <li><b>System Error</b> :	Oops, something has gone wrong with the judger. Please report this to administrator.
+          <li><b>Memory Limit Exceeded</b> :	{{$t('m.Memory_Limit_Exceeded')}}</li>
+          <li><b>System Error</b> :	{{$t('m.System_Error')}}
           </li>
         </ul>
       </div>

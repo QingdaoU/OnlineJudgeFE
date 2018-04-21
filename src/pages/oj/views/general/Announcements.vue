@@ -14,7 +14,7 @@
       </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
-          <li v-for="announcement, index in announcements">
+          <li v-for="(announcement, index) of announcements" :key="index">
             <div class="flex-container">
               <div class="title"><a class="entry" @click="goAnnouncement(announcement)">
                 {{announcement.title}}</a></div>
