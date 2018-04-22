@@ -129,8 +129,8 @@
 
 <style lang="less" scoped>
   #header {
+    min-width: 1100px;
     position: fixed;
-    overflow: hidden;
     top: 0;
     left: 0;
     height: 60px;
@@ -151,10 +151,10 @@
     }
 
     .drop-menu {
-      float: right;
-      margin-right: 40px;
+      position: absolute;
+      right: 10px;
       &-title {
-        font-size: 18px;
+        font-size: 16px;
       }
     }
     .btn-menu {

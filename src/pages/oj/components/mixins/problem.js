@@ -23,7 +23,7 @@ export default {
         return
       }
       tableColumns.splice(0, 0, {
-        width: '60',
+        width: 60,
         title: ' ',
         render: (h, params) => {
           let status = params.row.my_status

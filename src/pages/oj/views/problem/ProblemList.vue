@@ -91,6 +91,7 @@
           {
             title: '#',
             key: '_id',
+            width: 80,
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -110,7 +111,6 @@
           },
           {
             title: 'Title',
-            width: '35%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -236,7 +236,7 @@
             {
               title: 'Tags',
               align: 'center',
-              width: '200px',
+              width: 200,
               render: (h, params) => {
                 let tags = []
                 params.row.tags.forEach(tag => {

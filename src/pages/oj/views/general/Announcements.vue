@@ -14,7 +14,7 @@
       </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
-          <li v-for="announcement, index in announcements">
+          <li v-for="announcement in announcements" :key="announcement.title">
             <div class="flex-container">
               <div class="title"><a class="entry" @click="goAnnouncement(announcement)">
                 {{announcement.title}}</a></div>
@@ -126,6 +126,7 @@
     margin-bottom: 10px;
     li {
       padding-top: 15px;
+      list-style: none;
       padding-bottom: 15px;
       margin-left: 20px;
       font-size: 16px;
