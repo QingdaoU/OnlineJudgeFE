@@ -9,8 +9,8 @@ export const m = {
   Source: 'Source',
   Status: 'Status',
   Information: 'Information',
-  Time_Limit: 'Time_Limit',
-  Memory_Limit: 'Memory_Limit',
+  Time_Limit: 'Time Limit',
+  Memory_Limit: 'Memory Limit',
   Created: 'Created By',
   Level: 'Level',
   Score: 'Score',
@@ -28,12 +28,6 @@ export const m = {
   System_Error: 'Oops, something has gone wrong with the judger. Please report this to administrator.',
   // FAQ.vue
   Frequently_Asked_Questions: 'Frequently Asked Questions',
-  // Register.vue
-  Username: 'Username',
-  Email_Address: 'Email Address',
-  Password: 'Password',
-  Password_Again: 'Password Again',
-  Captcha: 'Captcha',
   // ContestDetail.vue
   Problems: 'Problems',
   Announcements: 'Announcements',
@@ -61,5 +55,51 @@ export const m = {
   MySubmissions: 'Submissions',
   Settings: 'Settings',
   Management: 'Management',
-  Logout: '退出'
+  Logout: 'Logout',
+  // announcements.vue
+  Refresh: 'Refresh',
+  Back: 'Back',
+  No_Announcements: 'No Announcements',
+  // Setting.vue
+  Profile: 'Profile',
+  Account: 'Account',
+  Security: 'Security',
+  // AccoutSetting.vue
+  ChangePassword: 'Change Password',
+  ChangeEmail: 'Change Email',
+  Update_Password: 'Update Password',
+  // ProfileSetting.vue
+  Avatar_Setting: 'Avatar Setting',
+  Profile_Setting: 'Profile Setting',
+  // SecuritySettig
+  Sessions: 'Sessions',
+  Two_Factor_Authentication: 'Two Factor Authentication',
+  // Login.vue
+  LoginUsername: 'Username',
+  LoginPassword: 'Password',
+  TFA_Code: 'Code from your TFA app',
+  No_Account: 'No account? Register now!',
+  Forget_Password: 'Forget Password',
+  UserLogin: 'Login',
+  // Register.vue
+  RegisterUsername: 'Username',
+  Email_Address: 'Email Address',
+  RegisterPassword: 'Password',
+  Password_Again: 'Password Again',
+  Captcha: 'Captcha',
+  UserRegister: 'Register',
+  Already_Registed: 'Already registed? Login now!',
+  // ResetPassword.vue and ApplyResetPassword.vue
+  Reset_Password: 'Lost Password',
+  RPassword: 'Password',
+  RPassword_Again: 'Password Again',
+  RCaptcha: 'Captcha',
+  ApplyEmail: 'Your Email Address',
+  Send_Password_Reset_Email: 'Send Password Reset Email',
+  // UserHome.vue
+  UserHomeSolved: 'Solved',
+  UserHomeserSubmissions: 'Submissions',
+  UserHomeScore: 'Score',
+  List_Solved_Problems: 'List of solved problems',
+  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.'
 }

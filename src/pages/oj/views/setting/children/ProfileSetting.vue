@@ -1,6 +1,6 @@
 <template>
   <div class="setting-main">
-    <div class="section-title">Avatar Setting</div>
+    <div class="section-title">{{$t('m.Avatar_Setting')}}</div>
     <template v-if="!avatarOption.imgSrc">
       <Upload type="drag"
               class="mini-container"
@@ -62,7 +62,7 @@
       </div>
     </Modal>
 
-    <div class="section-title">Profile Setting</div>
+    <div class="section-title">{{$t('m.Profile_Setting')}}</div>
     <Form ref="formProfile" :model="formProfile">
       <Row type="flex" :gutter="30" justify="space-around">
         <Col :span="11">

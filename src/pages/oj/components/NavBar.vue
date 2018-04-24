@@ -130,7 +130,7 @@
 <style lang="less" scoped>
   #header {
     position: fixed;
-    overflow: hidden;
+    // overflow: hidden;
     top: 0;
     left: 0;
     height: 60px;

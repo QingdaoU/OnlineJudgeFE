@@ -25,15 +25,9 @@ export const m = {
   Runtime_Error: '您的程序异常终止，可能的原因是：段错误，被零除或用非0的代码退出程序。',
   Time_Limit_Exceeded: '您的程序使用的CPU时间已超出限制，Java有三倍的时间限制。',
   Memory_Limit_Exceeded: '程序实际使用的内存已超出限制。',
-  System_Error: '糟糕，判题程序出了问题。请报告给管理员',
+  System_Error: '糟糕，判题程序出了问题。请报告给管理员。',
   // FAQ.vue
   Frequently_Asked_Questions: '常见问题',
-  // Register.vue
-  Username: '用户名',
-  Email_Address: '电子邮箱',
-  Password: '密码',
-  Password_Again: '确认密码',
-  Captcha: '验证码',
   // ContestDetail.vue
   Problems: '题目',
   Announcements: '公告',
@@ -61,5 +55,51 @@ export const m = {
   MySubmissions: '我的提交',
   Settings: '我的设置',
   Management: '后台管理',
-  Logout: '退出'
+  Logout: '退出',
+  // announcements.vue
+  Refresh: '刷新',
+  Back: '返回',
+  No_Announcements: '暂无公告',
+  // Setting.vue
+  Profile: '个人信息设置',
+  Account: '账号设置',
+  Security: '安全设置',
+  // AccoutSetting.vue
+  ChangePassword: '更改密码',
+  ChangeEmail: '更改邮箱',
+  Update_Password: '更新密码',
+  // ProfileSetting.vue
+  Avatar_Setting: '头像设置',
+  Profile_Setting: '个人信息设置',
+  // SecuritySettig
+  Sessions: '登录记录',
+  Two_Factor_Authentication: '双因素认证',
+  // Login.vue
+  LoginUsername: '用户名',
+  LoginPassword: '密码',
+  TFA_Code: '双因素认证号码',
+  No_Account: '还没账号，立即注册!',
+  Forget_Password: '忘记密码',
+  UserLogin: '登录',
+  // Register.vue
+  RegisterUsername: '用户名',
+  Email_Address: '电子邮箱',
+  RegisterPassword: '密码',
+  Password_Again: '确认密码',
+  Captcha: '验证码',
+  UserRegister: '注册',
+  Already_Registed: '已经注册？现在登录!',
+  // ResetPassword.vue and ApplyResetPassword.vue
+  Reset_Password: '重置密码',
+  RPassword: '密码',
+  RPassword_Again: '确认密码',
+  RCaptcha: '验证码',
+  ApplyEmail: '电子邮箱',
+  Send_Password_Reset_Email: '发送重置密码到邮箱',
+  // UserHome.vue
+  UserHomeSolved: '已解决数量',
+  UserHomeserSubmissions: '提交次数',
+  UserHomeScore: '分数',
+  List_Solved_Problems: '已解决问题的列表',
+  UserHomeIntro: '这个家伙太懒了，还没有做题呢...'
 }
