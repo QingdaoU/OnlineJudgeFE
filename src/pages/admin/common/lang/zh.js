@@ -99,5 +99,5 @@ export const m = {
   DashBoardJudge_Server: '判题服务器',
   HTTPS_Status: 'HTTPS 状态',
   Force_HTTPS: '强制 HTTPS',
-  CDN_HOST: 'CDN 加速'
+  CDN_HOST: 'CDN HOST'
 }
