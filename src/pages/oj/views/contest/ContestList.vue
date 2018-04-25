@@ -38,7 +38,7 @@
       </div>
       <p id="no-contest" v-if="contests.length == 0">No contest</p>
       <ol id="contest-list">
-        <li v-for="contest in contests">
+        <li v-for="contest in contests" :key="contest.title">
           <Row type="flex" justify="space-between" align="middle">
             <img class="trophy" src="../../../../assets/Cup.png"/>
             <Col :span="18" class="contest-main">
@@ -197,6 +197,7 @@
       > li {
         padding: 20px;
         border-bottom: 1px solid rgba(187, 187, 187, 0.5);
+        list-style: none;
 
         .trophy {
           height: 40px;
