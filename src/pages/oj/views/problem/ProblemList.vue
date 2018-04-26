@@ -111,10 +111,6 @@
           },
           {
             title: 'Title',
-<<<<<<< HEAD
-            // width: '35%',
-=======
->>>>>>> upstream/master
             render: (h, params) => {
               return h('Button', {
                 props: {

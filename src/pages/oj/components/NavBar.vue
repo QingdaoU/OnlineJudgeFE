@@ -14,6 +14,10 @@
         <Icon type="trophy"></Icon>
         {{$t('m.Contests')}}
       </Menu-item>
+      <Menu-item name="/exam">
+        <Icon type="ribbon-b"></Icon>
+        Exam
+      </Menu-item>
       <Menu-item name="/status">
         <Icon type="ios-pulse-strong"></Icon>
         {{$t('m.NavStatus')}}
@@ -151,10 +155,12 @@
     }
 
     .drop-menu {
+      float: right;
+      margin-right: 30px;
       position: absolute;
       right: 10px;
       &-title {
-        font-size: 16px;
+        font-size: 18px;
       }
     }
     .btn-menu {

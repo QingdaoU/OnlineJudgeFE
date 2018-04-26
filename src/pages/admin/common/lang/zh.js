@@ -10,6 +10,7 @@ export const m = {
   Problem: '问题',
   Problem_List: '问题列表',
   Create_Problem: '增加题目',
+  Export_Import_Problem: '导入导出题目',
   Contest: '测试&练习',
   Contest_List: '测试列表',
   Create_Contest: '创建测试',

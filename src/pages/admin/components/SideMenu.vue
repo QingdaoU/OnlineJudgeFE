@@ -17,6 +17,7 @@
       <template slot="title"><i class="el-icon-fa-bars"></i>{{$t('m.Problem')}}</template>
       <el-menu-item index="/problems">{{$t('m.Problem_List')}}</el-menu-item>
       <el-menu-item index="/problem/create">{{$t('m.Create_Problem')}}</el-menu-item>
+      <el-menu-item index="/problem/batch_ops">{{$t('m.Export_Import_Problem')}}</el-menu-item>
     </el-submenu>
     <el-submenu index="contest">
       <template slot="title"><i class="el-icon-fa-trophy"></i>{{$t('m.Contest')}}</template>
@@ -48,7 +49,7 @@
 <style scoped lang="less">
   .vertical_menu {
     overflow: auto;
-    width: 200px;
+    width: 205px;
     height: 100%;
     position: fixed !important;
     z-index: 100;
