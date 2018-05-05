@@ -1,6 +1,6 @@
 <template>
   <div class="setting-main">
-    <p class="section-title">Sessions</p>
+    <p class="section-title">{{$t('m.Sessions')}}</p>
     <div class="flex-container setting-content">
       <template v-for="session in sessions">
         <Card :padding="20" class="flex-child">
@@ -28,7 +28,7 @@
       </template>
     </div>
 
-    <p class="section-title">Two Factor Authentication</p>
+    <p class="section-title">{{$t('m.Two_Factor_Authentication')}}</p>
     <div class="mini-container setting-content">
       <Form>
         <Alert v-if="TFAOpened"

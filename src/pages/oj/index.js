@@ -36,6 +36,8 @@ import python from 'highlight.js/lib/languages/python'
 import java from 'highlight.js/lib/languages/java'
 import 'highlight.js/styles/atom-one-light.css'
 
+import VueI18n from 'vue-i18n'
+
 hljs.registerLanguage('cpp', cpp)
 hljs.registerLanguage('java', java)
 hljs.registerLanguage('python', python)
@@ -78,6 +80,17 @@ Vue.use(VueAnalytics, {
   router
 })
 
+Vue.use(VueI18n)
+
+// load language packages
+const i18n = new VueI18n({
+  locale: 'zh-CN',
+  messages: {
+    'en-US': require('./common/lang/en'),
+    'zh-CN': require('./common/lang/zh')
+  }
+})
+
 Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
@@ -91,4 +104,4 @@ Vue.prototype.$error = (s) => Vue.prototype.$Message.error(s)
 Vue.prototype.$info = (s) => Vue.prototype.$Message.info(s)
 Vue.prototype.$success = (s) => Vue.prototype.$Message.success(s)
 
-new Vue(Vue.util.extend({router, store}, App)).$mount('#app')
+new Vue(Vue.util.extend({router, store, i18n}, App)).$mount('#app')

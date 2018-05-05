@@ -1,17 +1,17 @@
 <template>
   <Panel :padding="30" class="container">
-    <div slot="title" class="center">Lost Password</div>
+    <div slot="title" class="center">{{$t('m.Reset_Password')}}</div>
     <template v-if="!successApply">
       <Form :rules="ruleResetPassword" :model=formResetPassword ref="formResetPassword">
         <Form-item prop="email">
-          <Input v-model="formResetPassword.email" placeholder="Your Email Address" size="large">
+          <Input v-model="formResetPassword.email" :placeholder="$t('m.ApplyEmail')" size="large">
           <Icon type="ios-email-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
         <Form-item prop="captcha" style="margin-bottom:10px">
           <div class="oj-captcha">
             <div class="oj-captcha-code">
-              <Input v-model="formResetPassword.captcha" placeholder="Captcha" size="large">
+              <Input v-model="formResetPassword.captcha" :placeholder="$t('m.RCaptcha')" size="large">
               <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
               </Input>
             </div>
@@ -26,7 +26,7 @@
       <Button type="primary"
               @click="sendEmail"
               class="btn" long
-              :loading="btnLoading">Send Password Reset Email
+              :loading="btnLoading">{{$t('m.Send_Password_Reset_Email')}}
       </Button>
     </template>
     <template v-else>

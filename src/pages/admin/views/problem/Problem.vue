@@ -5,50 +5,50 @@
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item prop="_id" label="Display ID"
+            <el-form-item prop="_id" :label="$t('m.Display_ID')"
                           :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contet-problem'">
-              <el-input placeholder="Display ID" v-model="problem._id"></el-input>
+              <el-input :placeholder="$t('m.Display_ID')" v-model="problem._id"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="18">
-            <el-form-item prop="title" label="Title" required>
-              <el-input placeholder="Title" v-model="problem.title"></el-input>
+            <el-form-item prop="title" :label="$t('m.Title')" required>
+              <el-input :placeholder="$t('m.Title')" v-model="problem.title"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item prop="description" label="Description" required>
+            <el-form-item prop="description" :label="$t('m.Description')" required>
               <Simditor v-model="problem.description"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item prop="input_description" label="Input Description" required>
+            <el-form-item prop="input_description" :label="$t('m.Input_Description')" required>
               <Simditor v-model="problem.input_description"></Simditor>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item prop="output_description" label="Output Description" required>
+            <el-form-item prop="output_description" :label="$t('m.Output_Description')" required>
               <Simditor v-model="problem.output_description"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="Time Limit" required>
-              <el-input type="Number" placeholder="Time Limit" v-model="problem.time_limit"></el-input>
+            <el-form-item :label="$t('m.Time_Limit')" required>
+              <el-input type="Number" :placeholder="$t('m.Time_Limit')" v-model="problem.time_limit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Memory limit" required>
-              <el-input type="Number" placeholder="Memory Limit" v-model="problem.memory_limit"></el-input>
+            <el-form-item :label="$t('m.Memory_limit')" required>
+              <el-input type="Number" :placeholder="$t('m.Memory_limit')" v-model="problem.memory_limit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Difficulty">
-              <el-select class="difficulty-select" size="small" placeholder="Difficulty" v-model="problem.difficulty">
+            <el-form-item :label="$t('m.Difficulty')">
+              <el-select class="difficulty-select" size="small" :placeholder="$t('m.Difficulty')" v-model="problem.difficulty">
                 <el-option label="Low" value="Low"></el-option>
                 <el-option label="Mid" value="Mid"></el-option>
                 <el-option label="High" value="High"></el-option>
@@ -58,7 +58,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item label="Visible">
+            <el-form-item :label="$t('m.Visible')">
               <el-switch
                 v-model="problem.visible"
                 active-text=""
@@ -92,7 +92,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Languages" :error="error.languages" required>
+            <el-form-item :label="$t('m.Languages')" :error="error.languages" required>
               <el-checkbox-group v-model="problem.languages">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.languages" :key="'spj'+lang.name" effect="dark"
                             :content="lang.description" placement="top-start">
@@ -110,21 +110,21 @@
               </el-button>
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-form-item label="Input Samples" required>
+                  <el-form-item :label="$t('m.Input_Samples')" required>
                     <el-input
                       :rows="5"
                       type="textarea"
-                      placeholder="Input Samples"
+                      :placeholder="$t('m.Input_Samples')"
                       v-model="sample.input">
                     </el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="Output Samples" required>
+                  <el-form-item :label="$t('m.Output_Samples')" required>
                     <el-input
                       :rows="5"
                       type="textarea"
-                      placeholder="Output Samples"
+                      :placeholder="$t('m.Output_Samples')"
                       v-model="sample.output">
                     </el-input>
                   </el-form-item>
@@ -134,10 +134,10 @@
           </el-form-item>
         </div>
         <div class="add-sample-btn">
-          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>Add Sample
+          <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>{{$t('m.Add_Sample')}}
           </button>
         </div>
-        <el-form-item label="Code Template">
+        <el-form-item :label="$t('m.Code_Template')">
           <el-row>
             <el-col :span="24" v-for="(v, k) in template" :key="'template'+k">
               <el-form-item>
@@ -149,15 +149,15 @@
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="Special Judge" :error="error.spj">
+        <el-form-item :label="$t('m.Special_Judge')" :error="error.spj">
           <el-col :span="24">
-            <el-checkbox v-model="problem.spj" @click.native.prevent="switchSpj()">Use Special Judge</el-checkbox>
+            <el-checkbox v-model="problem.spj" @click.native.prevent="switchSpj()">{{$t('m.Use_Special_Judge')}}</el-checkbox>
           </el-col>
         </el-form-item>
         <el-form-item v-if="problem.spj">
-          <Accordion title="Special Judge Code">
+          <Accordion :title="$t('m.Special_Judge_Code')">
             <template slot="header">
-              <span>SPJ language</span>
+              <span>{{$t('m.SPJ_language')}}</span>
               <el-radio-group v-model="problem.spj_language">
                 <el-tooltip class="spj-radio" v-for="lang in allLanguage.spj_languages" :key="lang.name" effect="dark"
                             :content="lang.description" placement="top-start">
@@ -166,7 +166,7 @@
               </el-radio-group>
               <el-button type="primary" size="small" icon="el-icon-fa-random" @click="compileSPJ"
                          :loading="loadingCompile">
-                Compile
+                {{$t('m.Compile')}}
               </el-button>
             </template>
             <code-mirror v-model="problem.spj_code" :mode="spjMode"></code-mirror>
@@ -174,7 +174,7 @@
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-form-item label="TestCase" :error="error.testcase">
+            <el-form-item :label="$t('m.TestCase')" :error="error.testcase">
               <el-upload
                 action="/api/admin/test_case"
                 name="file"
@@ -187,7 +187,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Type">
+            <el-form-item :label="$t('m.Type')">
               <el-radio-group v-model="problem.rule_type" :disabled="disableRuleType">
                 <el-radio label="ACM">ACM</el-radio>
                 <el-radio label="OI">OI</el-radio>
@@ -200,19 +200,19 @@
               style="width: 100%">
               <el-table-column
                 prop="input_name"
-                label="Input">
+                :label="$t('m.Input')">
               </el-table-column>
               <el-table-column
                 prop="output_name"
-                label="Output">
+                :label="$t('m.Output')">
               </el-table-column>
               <el-table-column
                 prop="score"
-                label="Score">
+                :label="$t('m.Score')">
                 <template slot-scope="scope">
                   <el-input
                     size="small"
-                    placeholder="Score"
+                    :placeholder="$t('m.Score')"
                     v-model="scope.row.score"
                     :disabled="problem.rule_type !== 'OI'">
                   </el-input>
@@ -221,11 +221,11 @@
             </el-table>
           </el-col>
         </el-row>
-        <el-form-item style="margin-top: 20px" label="Hint">
+        <el-form-item style="margin-top: 20px" :label="$t('m.Hint')">
           <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
-        <el-form-item label="Source">
-          <el-input placeholder="Source" v-model="problem.source"></el-input>
+        <el-form-item :label="$t('m.Source')">
+          <el-input :placeholder="$t('m.Source')" v-model="problem.source"></el-input>
         </el-form-item>
         <save @click.native="submit()">Save</save>
       </el-form>

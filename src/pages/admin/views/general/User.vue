@@ -1,6 +1,6 @@
 <template>
   <div class="view">
-    <Panel title="User ">
+    <Panel :title="$t('m.User_User') ">
       <div slot="header">
         <el-row :gutter="20">
           <el-col :span="8">
@@ -68,7 +68,7 @@
     </Panel>
 
     <Panel>
-      <span slot="title">Import User
+      <span slot="title">{{$t('m.Import_User')}}
         <el-popover placement="right" trigger="hover">
           <p>Only support csv file without headers, check the <a
             href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">link</a> for details</p>
@@ -120,7 +120,7 @@
       </template>
     </Panel>
 
-    <Panel title="Generate User">
+    <Panel :title="$t('m.Generate_User')">
       <el-form :model="formGenerateUser" ref="formGenerateUser">
         <el-row type="flex" justify="space-between">
           <el-col :span="4">
@@ -152,7 +152,7 @@
         </el-row>
 
         <el-form-item>
-          <el-button type="primary" @click="generateUser" icon="el-icon-fa-users" :loading="loadingGenerate">Generate
+          <el-button type="primary" @click="generateUser" icon="el-icon-fa-users" :loading="loadingGenerate">Generate & Export
           </el-button>
           <span class="userPreview" v-if="formGenerateUser.number_from && formGenerateUser.number_to &&
                                           formGenerateUser.number_from <= formGenerateUser.number_to">
@@ -168,31 +168,31 @@
       </el-form>
     </Panel>
     <!--对话框-->
-    <el-dialog title="User" :visible.sync="showUserDialog" :close-on-click-modal="false">
+    <el-dialog :title="$t('m.User_Info')" :visible.sync="showUserDialog" :close-on-click-modal="false">
       <el-form :model="user" label-width="120px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Username" required>
+            <el-form-item :label="$t('m.User_Username')" required>
               <el-input v-model="user.username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Real Name" required>
+            <el-form-item :label="$t('m.User_Real_Name')" required>
               <el-input v-model="user.real_name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Email" required>
+            <el-form-item :label="$t('m.User_Email')" required>
               <el-input v-model="user.email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="New Password">
+            <el-form-item :label="$t('m.User_New_Password')">
               <el-input v-model="user.password"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="User Type">
+            <el-form-item :label="$t('m.User_Type')">
               <el-select v-model="user.admin_type">
                 <el-option label="Regular User" value="Regular User"></el-option>
                 <el-option label="Admin" value="Admin"></el-option>
@@ -201,7 +201,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Problem Permission">
+            <el-form-item :label="$t('m.Problem_Permission')">
               <el-select v-model="user.problem_permission" :disabled="user.admin_type!=='Admin'">
                 <el-option label="None" value="None"></el-option>
                 <el-option label="Own" value="Own"></el-option>
@@ -210,7 +210,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Two Factor Auth">
+            <el-form-item :label="$t('m.Two_Factor_Auth')">
               <el-switch
                 v-model="user.two_factor_auth"
                 :disabled="!user.real_tfa"
@@ -229,7 +229,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Is Disabled">
+            <el-form-item :label="$t('m.Is_Disabled')">
               <el-switch
                 v-model="user.is_disabled"
                 active-text=""
