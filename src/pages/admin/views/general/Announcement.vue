@@ -1,6 +1,6 @@
 <template>
   <div class="announcement view">
-    <Panel title="Announcement">
+    <Panel :title="$t('m.General_Announcement')">
       <div class="list">
         <el-table
           v-loading="loading"
@@ -74,17 +74,17 @@
     <el-dialog :title="announcementDialogTitle" :visible.sync="showEditAnnouncementDialog"
                @open="onOpenEditDialog" :close-on-click-modal="false">
       <el-form label-position="top">
-        <el-form-item label="Title" required>
+        <el-form-item :label="$t('m.Announcement_Title')" required>
           <el-input
             v-model="announcement.title"
-            placeholder="Title" class="title-input">
+            :placeholder="$t('m.Announcement_Title')" class="title-input">
           </el-input>
         </el-form-item>
-        <el-form-item label="Content" required>
+        <el-form-item :label="$t('m.Announcement_Content')" required>
           <Simditor v-model="announcement.content"></Simditor>
         </el-form-item>
         <div class="visible-box">
-          <span>Status</span>
+          <span>{{$t('m.Announcement_Status')}}</span>
           <el-switch
             v-model="announcement.visible"
             active-text=""

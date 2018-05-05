@@ -16,20 +16,20 @@
 
         <div class="flex-container">
           <div class="left">
-            <p>Solved</p>
+            <p>{{$t('m.UserHomeSolved')}}</p>
             <p class="emphasis">{{profile.accepted_number}}</p>
           </div>
           <div class="middle">
-            <p>Submissions</p>
+            <p>{{$t('m.UserHomeserSubmissions')}}</p>
             <p class="emphasis">{{profile.submission_number}}</p>
           </div>
           <div class="right">
-            <p>Score</p>
+            <p>{{$t('m.UserHomeScore')}}</p>
             <p class="emphasis">{{profile.total_score}}</p>
           </div>
         </div>
         <div id="problems">
-          <div v-if="problems.length">List of solved problems
+          <div v-if="problems.length">{{$t('m.List_Solved_Problems')}}
             <Poptip v-if="refreshVisible" trigger="hover" placement="right-start">
               <Icon type="ios-help-outline"></Icon>
               <div slot="content">
@@ -38,9 +38,9 @@
               </div>
             </Poptip>
           </div>
-          <p v-else>The guy is so lazy that has not solved any problem yet.</p>
+          <p v-else>{{$t('m.UserHomeIntro')}}</p>
           <div class="btns">
-            <div class="problem-btn" v-for="problemID in problems">
+            <div class="problem-btn" v-for="problemID of problems" :key="problemID">
               <Button type="ghost" @click="goProblem(problemID)">{{problemID}}</Button>
             </div>
           </div>

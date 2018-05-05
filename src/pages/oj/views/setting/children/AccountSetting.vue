@@ -2,7 +2,7 @@
   <div class="setting-main">
     <div class="flex-container">
       <div class="left">
-        <p class="section-title">Change Password</p>
+        <p class="section-title">{{$t('m.ChangePassword')}}</p>
         <Form class="setting-content" ref="formPassword" :model="formPassword" :rules="rulePassword">
           <FormItem label="Old Password" prop="old_password">
             <Input v-model="formPassword.old_password" type="password"/>
@@ -19,14 +19,14 @@
           <FormItem v-if="visible.passwordAlert">
             <Alert type="success">You will need to login again after 5 seconds..</Alert>
           </FormItem>
-          <Button type="primary" @click="changePassword">Update Password</Button>
+          <Button type="primary" @click="changePassword">{{$t('m.Update_Password')}}</Button>
         </Form>
       </div>
 
       <div class="middle separator"></div>
 
       <div class="right">
-        <p class="section-title">Change Email</p>
+        <p class="section-title">{{$t('m.ChangeEmail')}}</p>
         <Form class="setting-content" ref="formEmail" :model="formEmail" :rules="ruleEmail">
           <FormItem label="Current Password" prop="password">
             <Input v-model="formEmail.password" type="password"/>
@@ -40,7 +40,7 @@
           <FormItem v-if="visible.tfaRequired" label="Two Factor Auth" prop="tfa_code">
             <Input v-model="formEmail.tfa_code"/>
           </FormItem>
-          <Button type="primary" @click="changeEmail">Change Email</Button>
+          <Button type="primary" @click="changeEmail">{{$t('m.ChangeEmail')}}</Button>
         </Form>
       </div>
     </div>

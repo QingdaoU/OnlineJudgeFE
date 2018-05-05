@@ -1,22 +1,22 @@
 <template>
   <Panel :padding="30" class="container">
-    <div slot="title" class="center">Reset Password</div>
+    <div slot="title" class="center">{{$t('m.Reset_Password')}}</div>
     <template v-if="!resetSuccess">
     <Form :model=formResetPassword ref="formResetPassword" :rules="ruleResetPassword">
       <Form-item prop="password">
-        <Input type="password" v-model="formResetPassword.password" placeholder="Password" size="large">
+        <Input type="password" v-model="formResetPassword.password" :placeholder="$t('m.RPassword')" size="large">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </Form-item>
       <Form-item prop="passwordAgain">
-        <Input type="password" v-model="formResetPassword.passwordAgain" placeholder="Password Again" size="large">
+        <Input type="password" v-model="formResetPassword.passwordAgain" :placeholder="$t('m.RPassword_Again')" size="large">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </Form-item>
       <Form-item prop="captcha" style="margin-bottom:10px">
         <div id="captcha">
           <div id="captchaCode">
-            <Input v-model="formResetPassword.captcha" placeholder="Captcha" size="large">
+            <Input v-model="formResetPassword.captcha" :placeholder="$t('m.RCaptcha')" size="large">
             <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
             </Input>
           </div>
