@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 引入 view 组件
 import { Announcement, Conf, Contest, ContestList, Home, JudgeServer, Login,
-  Problem, ProblemList, User, PruneTestCase, Dashboard, ProblemImportOrExport } from './views'
+  Problem, ProblemList, User, PruneTestCase, Dashboard, ProblemImportOrExport,
+  GroupList, GroupManagement } from './views'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -102,6 +103,16 @@ export default new VueRouter({
           path: '/contest/:contestId/problem/:problemId/edit',
           name: 'edit-contest-problem',
           component: Problem
+        },
+        {
+          path: '/groups',
+          name: 'group-list',
+          component: GroupList
+        },
+        {
+          path: '/group/:groupId/management',
+          name: 'group-management',
+          component: GroupManagement
         }
       ]
     },

@@ -294,6 +294,22 @@ export default {
     return ajax('export_problem', 'post', {
       data
     })
+  },
+  getGroupList (offset, limit, keyword) {
+    let params = {paging: true, offset, limit}
+    if (keyword) {
+      params.keyword = keyword
+    }
+    return ajax('admin/group', 'get', {
+      params: params
+    })
+  },
+  getGroup (id) {
+    return ajax('admin/group', 'get', {
+      params: {
+        id
+      }
+    })
   }
 }
 

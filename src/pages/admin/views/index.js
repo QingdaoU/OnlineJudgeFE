@@ -11,8 +11,11 @@ import Contest from './contest/Contest.vue'
 import Login from './general/Login.vue'
 import Home from './Home.vue'
 import ProblemImportOrExport from './problem/ImportAndExport.vue'
+import GroupList from './group/GroupList'
+import GroupManagement from './group/GroupManagement'
 
 export {
   Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest,
-  ContestList, Login, Home, PruneTestCase, Dashboard, ProblemImportOrExport
+  ContestList, Login, Home, PruneTestCase, Dashboard, ProblemImportOrExport,
+  GroupList, GroupManagement
 }
