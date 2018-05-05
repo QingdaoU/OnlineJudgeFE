@@ -26,6 +26,9 @@
               <i-switch :disabled="refreshDisabled" v-model="forceUpdate"></i-switch>
             </p>
           </template>
+          <template>
+            <Button type="primary" size="small" @click="downloadRankCSV">download csv</Button>
+          </template>
         </div>
       </Poptip>
     </div>
@@ -302,6 +305,9 @@
       parseTotalTime (totalTime) {
         let m = moment.duration(totalTime, 's')
         return [Math.floor(m.asHours()), m.minutes(), m.seconds()].join(':')
+      },
+      downloadRankCSV () {
+        utils.downloadFile(`contest_rank?download_csv=1&contest_id=${this.$route.params.contestID}&force_refrash=${this.forceUpdate ? '1' : '0'}`)
       }
     }
   }
