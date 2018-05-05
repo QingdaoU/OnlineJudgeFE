@@ -30,6 +30,10 @@
           OI Rank
         </Menu-item>
       </Submenu>
+      <Menu-item name="/sso">
+        <Icon type="android-textsms"></Icon>
+        Forum
+      </Menu-item>
       <Submenu name="">
         <template slot="title">
           <Icon type="information-circled"></Icon>

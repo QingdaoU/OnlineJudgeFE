@@ -262,6 +262,9 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
+  },
+  getSSOLoginToken () {
+    return ajax('sso', 'get')
   }
 }
 
