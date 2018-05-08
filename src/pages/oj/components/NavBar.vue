@@ -30,9 +30,9 @@
           {{$t('m.OI_Rank')}}
         </Menu-item>
       </Submenu>
-      <Menu-item name="/sso">
+      <Menu-item name="/forum">
         <Icon type="android-textsms"></Icon>
-        Forum
+        讨论区
       </Menu-item>
       <Submenu name="">
         <template slot="title">
@@ -100,6 +100,10 @@
     methods: {
       ...mapActions(['getProfile', 'changeModalStatus']),
       handleRoute (route) {
+        if (route === '/forum') {
+          window.open('/forum')
+          return
+        }
         if (route && route.indexOf('admin') < 0) {
           this.$router.push(route)
         } else {
