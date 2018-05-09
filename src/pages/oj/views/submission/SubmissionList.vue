@@ -6,6 +6,11 @@
         <div slot="extra">
           <ul class="filter">
             <li>
+              <Select v-model="formFilter.selectedTags" multiple style="width:300px" placeholder="标签">
+                <Option v-for="item in tagList" :value="item.name" :key="item.id">{{ item.name }}</Option>
+              </Select>
+            </li>
+            <li>
               <Dropdown @on-click="handleResultChange">
                 <span>{{status}}
                   <Icon type="arrow-down-b"></Icon>
@@ -18,8 +23,6 @@
                 </Dropdown-menu>
               </Dropdown>
             </li>
-
-
             <li>
               <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
                 <span slot="open">Mine</span>
@@ -60,8 +63,10 @@
         formFilter: {
           myself: false,
           result: '',
-          username: ''
+          username: '',
+          selectedTags: []
         },
+        tagList: ['test', 'test111', 'test3333', 'test344'],
         columns: [
           {
             title: 'When',
@@ -197,19 +202,28 @@
         this.formFilter.myself = query.myself === '1'
         this.formFilter.result = query.result || ''
         this.formFilter.username = query.username || ''
+        let tags = query.tags
+        if (typeof tags === 'string') {
+          tags = [tags]
+        }
+        this.formFilter.selectedTags = tags || []
         this.page = parseInt(query.page) || 1
         if (this.page < 1) {
           this.page = 1
         }
         this.routeName = this.$route.name
         this.getSubmissions()
+        api.getProblemTagList().then(res => {
+          this.tagList = res.data.data
+        })
       },
       buildQuery () {
         return {
           myself: this.formFilter.myself === true ? '1' : '0',
           result: this.formFilter.result,
           username: this.formFilter.username,
-          page: this.page
+          page: this.page,
+          tags: this.formFilter.selectedTags
         }
       },
       getSubmissions () {
@@ -322,6 +336,10 @@
       },
       'isAuthenticated' () {
         this.init()
+      },
+      'formFilter.selectedTags' () {
+        this.page = 1
+        this.handleQueryChange()
       }
     }
   }
