@@ -41,13 +41,13 @@
           label="Operation"
           width="250">
           <div slot-scope="scope">
-            <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
       <div class="panel-options">
         <el-button type="primary" size="small"
-                   @click="goCreateProblem" icon="el-icon-plus">Create
+                   @click.native="showGroupDialog = true" icon="el-icon-plus">Create
         </el-button>
         <el-pagination
           class="page"
@@ -58,14 +58,52 @@
         </el-pagination>
       </div>
     </Panel>
+
+    <el-dialog :title="groupDialogTitle" :visible.sync="showGroupDialog"
+               @open="onOpenEditDialog" :close-on-click-modal="false">
+
+      <el-form label-position="top">
+        <el-form-item label="名称" required>
+          <el-input
+            v-model="group.name"
+            placeholder="名称" class="title-input">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="描述" required>
+          <Simditor v-model="group.description"></Simditor>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input
+            v-model="group.password"
+            placeholder="密码" class="title-input">
+          </el-input>
+        </el-form-item>
+        <div class="visible-box">
+          <span>可以加入</span>
+          <el-switch
+            v-model="group.allow_join"
+            active-text=""
+            inactive-text="">
+          </el-switch>
+        </div>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <cancel @click.native="showGroupDialog = false"></cancel>
+          <save type="primary" @click.native="submitGroup"></save>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import api from '../../api.js'
+  import Simditor from '../../components/Simditor.vue'
 
   export default {
     name: 'groupList',
+    components: {
+      Simditor
+    },
     data () {
       return {
         pageSize: 10,
@@ -74,7 +112,15 @@
         keyword: '',
         loading: false,
         currentPage: 1,
-        routeName: ''
+        routeName: '',
+        groupDialogTitle: '创建小组',
+        showGroupDialog: false,
+        group: {
+          name: '',
+          description: '',
+          password: '',
+          allow_join: true
+        }
       }
     },
     mounted () {
@@ -82,8 +128,9 @@
       this.getGroupList(this.currentPage)
     },
     methods: {
-      goEdit (groupId) {
-        this.$router.push({name: 'group-management', params: {groupId}})
+      goEdit (group) {
+        this.group = group
+        this.showGroupDialog = true
       },
       // 切换页码回调
       currentChange (page) {
@@ -99,6 +146,25 @@
         }, res => {
           this.loading = false
         })
+      },
+      submitGroup () {
+        if (this.group.id) {
+          api.editGroup(this.group).then(res => {
+            this.showGroupDialog = false
+            this.getGroupList(1)
+          })
+        } else {
+          api.createGroup(this.group).then(res => {
+            this.showGroupDialog = false
+            this.getGroupList(1)
+          })
+        }
+        this.group = {
+          name: '',
+          description: '',
+          password: '',
+          allow_join: true
+        }
       }
     },
     watch: {

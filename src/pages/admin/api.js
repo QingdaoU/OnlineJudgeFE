@@ -304,11 +304,14 @@ export default {
       params: params
     })
   },
-  getGroup (id) {
-    return ajax('admin/group', 'get', {
-      params: {
-        id
-      }
+  editGroup (data) {
+    return ajax('admin/group', 'put', {
+      data
+    })
+  },
+  createGroup (data) {
+    return ajax('admin/group', 'post', {
+      data
     })
   }
 }
