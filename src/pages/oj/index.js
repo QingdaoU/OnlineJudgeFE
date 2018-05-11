@@ -3,10 +3,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from '@/store'
-import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 import VueClipboard from 'vue-clipboard2'
 import locale from 'iview/src/locale/lang/en-US'
 import VueAnalytics from 'vue-analytics'
+import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
@@ -14,6 +14,7 @@ import 'iview/dist/styles/iview.css'
 import Panel from '@oj/components/Panel.vue'
 import VerticalMenu from '@oj/components/verticalMenu/verticalMenu.vue'
 import VerticalMenuItem from '@oj/components/verticalMenu/verticalMenu-item.vue'
+import highlight from '@/plugins/highlight'
 import '@/styles/index.less'
 
 import filters from '@/utils/filters.js'
@@ -30,49 +31,15 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/markPoint'
 
-import hljs from 'highlight.js/lib/highlight'
-import cpp from 'highlight.js/lib/languages/cpp'
-import python from 'highlight.js/lib/languages/python'
-import java from 'highlight.js/lib/languages/java'
-import 'highlight.js/styles/atom-one-light.css'
-
-hljs.registerLanguage('cpp', cpp)
-hljs.registerLanguage('java', java)
-hljs.registerLanguage('python', python)
-
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-// highlight.js
-Vue.directive('highlight', {
-  deep: true,
-  bind: function (el, binding) {
-    // on first bind, highlight all targets
-    Array.from(el.querySelectorAll('code')).forEach((target) => {
-      // if a value is directly assigned to the directive, use this
-      // instead of the element content.
-      if (binding.value) {
-        target.textContent = binding.value
-      }
-      hljs.highlightBlock(target)
-    })
-  },
-  componentUpdated: function (el, binding) {
-    // after an update, re-fill the content and then highlight
-    Array.from(el.querySelectorAll('code')).forEach((target) => {
-      if (binding.value) {
-        target.textContent = binding.value
-      }
-      hljs.highlightBlock(target)
-    })
-  }
-})
-
 Vue.config.productionTip = false
 Vue.use(iView, {locale})
 Vue.use(VueClipboard)
+Vue.use(highlight)
 Vue.use(VueAnalytics, {
   id: GOOGLE_ANALYTICS_ID,
   router
