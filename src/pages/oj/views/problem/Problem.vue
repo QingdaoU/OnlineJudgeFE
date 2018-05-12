@@ -4,7 +4,7 @@
       <!--problem main-->
       <Panel :padding="40" shadow>
         <div slot="title">{{problem.title}}</div>
-        <div id="problem-content" class="markdown-body">
+        <div id="problem-content" class="markdown-body" v-katex>
           <p class="title">Description</p>
           <p class="content" v-html=problem.description></p>
 
@@ -269,11 +269,6 @@
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
-          this.$nextTick(() => {
-            if (window.MathJax) {
-              window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
-            }
-          })
           let problem = res.data.data
           this.changeDomTitle({title: problem.title})
           api.submissionExists(problem.id).then(res => {

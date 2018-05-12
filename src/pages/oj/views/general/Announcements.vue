@@ -32,7 +32,7 @@
       </template>
 
       <template v-else>
-        <div v-html="announcement.content" key="content" class="content-container markdown-body"></div>
+        <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
       </template>
     </transition-group>
   </Panel>
@@ -94,11 +94,6 @@
       goAnnouncement (announcement) {
         this.announcement = announcement
         this.listVisible = false
-        this.$nextTick(() => {
-          if (window.MathJax) {
-            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
-          }
-        })
       },
       goBack () {
         this.listVisible = true

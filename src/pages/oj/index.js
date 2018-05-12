@@ -14,9 +14,10 @@ import 'iview/dist/styles/iview.css'
 import Panel from '@oj/components/Panel.vue'
 import VerticalMenu from '@oj/components/verticalMenu/verticalMenu.vue'
 import VerticalMenuItem from '@oj/components/verticalMenu/verticalMenu-item.vue'
-import highlight from '@/plugins/highlight'
 import '@/styles/index.less'
 
+import highlight from '@/plugins/highlight'
+import katex from '@/plugins/katex'
 import filters from '@/utils/filters.js'
 
 import ECharts from 'vue-echarts/components/ECharts.vue'
@@ -40,6 +41,7 @@ Vue.config.productionTip = false
 Vue.use(iView, {locale})
 Vue.use(VueClipboard)
 Vue.use(highlight)
+Vue.use(katex)
 Vue.use(VueAnalytics, {
   id: GOOGLE_ANALYTICS_ID,
   router
