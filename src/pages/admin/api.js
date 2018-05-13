@@ -313,6 +313,21 @@ export default {
     return ajax('admin/group', 'post', {
       data
     })
+  },
+  deleteGroup (id) {
+    return ajax('admin/group', 'delete', {
+      params: {
+        group_id: id
+      }
+    })
+  },
+  deleteGroupUser (groupID, userID) {
+    return ajax('admin/group', 'delete', {
+      params: {
+        group_id: groupID,
+        user_id: userID
+      }
+    })
   }
 }
 

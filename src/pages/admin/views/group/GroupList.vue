@@ -42,6 +42,8 @@
           width="250">
           <div slot-scope="scope">
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row)"></icon-btn>
+            <icon-btn name="Users" icon="user" @click.native="goUserList(scope.row)"></icon-btn>
+            <icon-btn name="Delete" icon="trash" @click.native="goDelete(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -59,8 +61,7 @@
       </div>
     </Panel>
 
-    <el-dialog :title="groupDialogTitle" :visible.sync="showGroupDialog"
-               @open="onOpenEditDialog" :close-on-click-modal="false">
+    <el-dialog title="编辑/创建小组" :visible.sync="showGroupDialog" :close-on-click-modal="false">
 
       <el-form label-position="top">
         <el-form-item label="名称" required>
@@ -92,6 +93,30 @@
           <save type="primary" @click.native="submitGroup"></save>
         </span>
     </el-dialog>
+
+    <el-dialog title="User List" :visible.sync="showUserListDialog" :close-on-click-modal="false">
+      <el-button type="info" @click="goACMRank">ACM Rank</el-button>
+      <el-button type="info" @click="goOIRank">OI Rank</el-button>
+      <el-table
+        element-loading-text="loading"
+        ref="table"
+        :data="userList"
+        style="width: 100%">
+        <el-table-column prop="id" label="ID"></el-table-column>
+
+        <el-table-column prop="username" label="Username"></el-table-column>
+        <el-table-column prop="real_name" label="RealName"></el-table-column>
+        <el-table-column
+          fixed="right"
+          label="Operation"
+          width="250">
+          <div slot-scope="scope">
+            <icon-btn name="Delete" icon="trash" @click.native="goDeleteUser(scope.row.id)"></icon-btn>
+            <icon-btn name="Submissions" icon="clipboard" @click.native="goSubmissionList(scope.row.username)"></icon-btn>
+          </div>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -113,14 +138,15 @@
         loading: false,
         currentPage: 1,
         routeName: '',
-        groupDialogTitle: '创建小组',
         showGroupDialog: false,
+        showUserListDialog: false,
         group: {
           name: '',
           description: '',
           password: '',
           allow_join: true
-        }
+        },
+        userList: []
       }
     },
     mounted () {
@@ -131,6 +157,20 @@
       goEdit (group) {
         this.group = group
         this.showGroupDialog = true
+      },
+      goUserList (group) {
+        this.group.id = group.id
+        this.userList = group.members
+        this.showUserListDialog = true
+      },
+      goACMRank () {
+        window.open('/acm-rank?group_id=' + this.group.id)
+      },
+      goOIRank () {
+        window.open('/oi-rank?group_id=' + this.group.id)
+      },
+      goSubmissionList (username) {
+        window.open('/status?myself=0&page=1&username=' + username)
       },
       // 切换页码回调
       currentChange (page) {
@@ -145,6 +185,28 @@
           this.loading = false
         }, res => {
           this.loading = false
+        })
+      },
+      goDelete (id) {
+        this.$confirm('确定要删除小组么', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          api.deleteGroup(id).then(res => {
+            this.getGroupList(1)
+          })
+        })
+      },
+      goDeleteUser (userID) {
+        this.$confirm('确定要移除该人么', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          api.deleteGroupUser(this.group.id, userID).then(res => {
+            this.userList = res.data.data.members
+          })
         })
       },
       submitGroup () {

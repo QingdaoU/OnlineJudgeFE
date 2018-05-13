@@ -238,11 +238,12 @@ export default {
       data
     })
   },
-  getUserRank (offset, limit, rule = 'acm') {
+  getUserRank (offset, limit, rule, groupID) {
     let params = {
       offset,
       limit,
-      rule
+      rule,
+      group_id: groupID
     }
     return ajax('user_rank', 'get', {
       params
@@ -265,6 +266,17 @@ export default {
   },
   getSSOLoginToken () {
     return ajax('sso', 'get')
+  },
+  getGroupList () {
+    return ajax('group', 'get', {})
+  },
+  joinGroup (groupName, password) {
+    return ajax('group', 'post', {
+      data: {
+        group_name: groupName,
+        password
+      }
+    })
   }
 }
 

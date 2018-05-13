@@ -158,9 +158,10 @@
       getRankData (page) {
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
+        let groupID = this.$route.query.group_id || ''
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         this.loadingTable = true
-        api.getUserRank(offset, this.limit, RULE_TYPE.ACM).then(res => {
+        api.getUserRank(offset, this.limit, RULE_TYPE.ACM, groupID).then(res => {
           this.loadingTable = false
           if (page === 1) {
             this.changeCharts(res.data.data.results.slice(0, 10))

@@ -70,12 +70,29 @@
             <Dropdown-item name="/user-home">{{$t('m.MyHome')}}</Dropdown-item>
             <Dropdown-item name="/status?myself=1">{{$t('m.MySubmissions')}}</Dropdown-item>
             <Dropdown-item name="/setting/profile">{{$t('m.Settings')}}</Dropdown-item>
+            <Dropdown-item name="/join-group">加入小组</Dropdown-item>
             <Dropdown-item v-if="isAdminRole" name="/admin">{{$t('m.Management')}}</Dropdown-item>
             <Dropdown-item divided name="/logout">{{$t('m.Logout')}}</Dropdown-item>
           </Dropdown-menu>
         </Dropdown>
       </template>
     </Menu>
+    <Modal
+      v-model="joinGroupModal"
+      title="加入小组"
+      @on-ok="handleJoinGroup">
+      <div>
+      <AutoComplete
+        :data="groupList"
+        v-model="groupName"
+        placeholder="搜索小组">
+        <Option v-for="item in groupList" :value="item.name" :key="item.id">{{ item.name }}</Option>
+      </AutoComplete>
+      </div>
+      <div style="margin-top: 5px">
+      <Input v-model="joinGroupPassword" placeholder="密码"></Input>
+      </div>
+    </Modal>
     <Modal v-model="modalVisible" :width="400">
       <div slot="header" class="modal-title">Welcome to {{website.website_name_shortcut}}</div>
       <component :is="modalStatus.mode" v-if="modalVisible"></component>
@@ -88,11 +105,20 @@
   import { mapGetters, mapActions } from 'vuex'
   import login from '@oj/views/user/Login'
   import register from '@oj/views/user/Register'
+  import api from '@oj/api'
 
   export default {
     components: {
       login,
       register
+    },
+    data () {
+      return {
+        joinGroupModal: false,
+        groupList: [],
+        groupName: '',
+        joinGroupPassword: ''
+      }
     },
     mounted () {
       this.getProfile()
@@ -104,6 +130,12 @@
           window.open('/forum')
           return
         }
+        if (route === '/join-group') {
+          api.getGroupList().then(res => {
+            this.groupList = res.data.data
+            this.joinGroupModal = true
+          })
+        }
         if (route && route.indexOf('admin') < 0) {
           this.$router.push(route)
         } else {
@@ -114,6 +146,11 @@
         this.changeModalStatus({
           visible: true,
           mode: mode
+        })
+      },
+      handleJoinGroup () {
+        api.joinGroup(this.groupName, this.joinGroupPassword).then(res => {
+          this.joinGroupModal = false
         })
       }
     },
