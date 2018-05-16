@@ -15,7 +15,8 @@ import {
   SubmissionDetails,
   SubmissionList,
   UserHome,
-  SSOLogin
+  SSOLogin,
+  Group
 } from '../views'
 
 import * as Contest from '@oj/views/contest'
@@ -179,6 +180,12 @@ export default [
     name: 'sso',
     meta: {title: 'SSO Login'},
     component: SSOLogin
+  },
+  {
+    path: '/groups',
+    name: 'Group',
+    meta: {'title': 'Groups'},
+    component: Group
   },
   {
     path: '*',

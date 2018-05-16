@@ -8,6 +8,7 @@
       <el-dropdown @command="handleCommand">
         <span>{{user.username}}<i class="el-icon-caret-bottom el-icon--right"></i></span>
         <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="main-site">Main Site</el-dropdown-item>
           <el-dropdown-item command="logout">Logout</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -56,6 +57,10 @@
     },
     methods: {
       handleCommand (command) {
+        if (command === 'main-site') {
+          window.open('/')
+          return
+        }
         if (command === 'logout') {
           api.logout().then(() => {
             this.$router.push({name: 'login'})

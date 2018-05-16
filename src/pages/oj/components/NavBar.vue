@@ -30,6 +30,10 @@
           {{$t('m.OI_Rank')}}
         </Menu-item>
       </Submenu>
+      <Menu-item name="/groups">
+        <Icon type="outlet"></Icon>
+        小组
+      </Menu-item>
       <Menu-item name="/forum">
         <Icon type="android-textsms"></Icon>
         讨论区
@@ -70,7 +74,7 @@
             <Dropdown-item name="/user-home">{{$t('m.MyHome')}}</Dropdown-item>
             <Dropdown-item name="/status?myself=1">{{$t('m.MySubmissions')}}</Dropdown-item>
             <Dropdown-item name="/setting/profile">{{$t('m.Settings')}}</Dropdown-item>
-            <Dropdown-item name="/join-group">加入小组</Dropdown-item>
+           <!-- <Dropdown-item name="/join-group">加入小组</Dropdown-item>-->
             <Dropdown-item v-if="isAdminRole" name="/admin">{{$t('m.Management')}}</Dropdown-item>
             <Dropdown-item divided name="/logout">{{$t('m.Logout')}}</Dropdown-item>
           </Dropdown-menu>
@@ -129,12 +133,6 @@
         if (route === '/forum') {
           window.open('/forum')
           return
-        }
-        if (route === '/join-group') {
-          api.getGroupList().then(res => {
-            this.groupList = res.data.data
-            this.joinGroupModal = true
-          })
         }
         if (route && route.indexOf('admin') < 0) {
           this.$router.push(route)
