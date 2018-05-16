@@ -14,8 +14,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Email" required>
-              <el-input type="email" v-model="smtp.email" placeholder="Account Used To Send Email"></el-input>
+            <el-form-item label="Account" required>
+              <el-input v-model="smtp.email" placeholder="Account Used To Send Email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
