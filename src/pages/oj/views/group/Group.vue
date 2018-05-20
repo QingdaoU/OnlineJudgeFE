@@ -19,6 +19,13 @@
         <Input v-model="joinGroupPassword" placeholder="密码"></Input>
       </div>
     </Modal>
+    <Modal
+      v-model="showUserList"
+      title="用户列表"
+      @on-ok="确定"
+      @on-cancel="取消">
+      <Table :columns="userListColumns" :data="userList"></Table>
+    </Modal>
   </Row>
 
 </template>
@@ -66,6 +73,8 @@
                 },
                 on: {
                   click: () => {
+                    this.showUserList = true
+                    this.userList = params.row.members
                   }
                 },
                 style: {
@@ -117,7 +126,16 @@
             }
           }
         ],
-        groupList: []
+        groupList: [],
+        showUserList: false,
+        userListColumns: [{
+          title: 'ID',
+          key: 'id'
+        }, {
+          title: '用户名',
+          key: 'username'
+        }],
+        userList: []
       }
     },
     mounted () {

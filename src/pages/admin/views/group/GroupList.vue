@@ -62,7 +62,6 @@
     </Panel>
 
     <el-dialog title="编辑/创建小组" :visible.sync="showGroupDialog" :close-on-click-modal="false">
-
       <el-form label-position="top">
         <el-form-item label="名称" required>
           <el-input
@@ -94,9 +93,23 @@
         </span>
     </el-dialog>
 
-    <el-dialog title="User List" :visible.sync="showUserListDialog" :close-on-click-modal="false">
+    <el-dialog title="小组成员管理" :visible.sync="showUserListDialog" :close-on-click-modal="false">
+
+      <div style="margin: 5px">
+        <el-input v-model="addUserUsername" placeholder="输入用户名将它加入小组" style="max-width: 300px"></el-input>
+        <el-button type="primary" @click="addUserToGroup">提交</el-button>
+      </div>
+
+      <div>
+
+        <h3>提交排名信息</h3>
+
       <el-button type="info" @click="goACMRank">ACM Rank</el-button>
       <el-button type="info" @click="goOIRank">OI Rank</el-button>
+
+      </div>
+      <div>
+        <h3>成员列表</h3>
       <el-table
         element-loading-text="loading"
         ref="table"
@@ -116,6 +129,7 @@
           </div>
         </el-table-column>
       </el-table>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -146,7 +160,8 @@
           password: '',
           allow_join: true
         },
-        userList: []
+        userList: [],
+        addUserUsername: ''
       }
     },
     mounted () {
@@ -207,6 +222,11 @@
           api.deleteGroupUser(this.group.id, userID).then(res => {
             this.userList = res.data.data.members
           })
+        })
+      },
+      addUserToGroup () {
+        api.addUserToGroup(this.group.id, this.addUserUsername).then(res => {
+          this.userList = res.data.data.members
         })
       },
       submitGroup () {

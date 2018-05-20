@@ -328,6 +328,14 @@ export default {
         user_id: userID
       }
     })
+  },
+  addUserToGroup (groupID, username) {
+    return ajax('admin/group/add_user', 'post', {
+      data: {
+        group_id: groupID,
+        username: username
+      }
+    })
   }
 }
 
