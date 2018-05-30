@@ -4,11 +4,11 @@ import App from './App.vue'
 import router from './router'
 import store from '@/store'
 import VueClipboard from 'vue-clipboard2'
-import locale from 'iview/src/locale/lang/en-US'
 import VueAnalytics from 'vue-analytics'
 import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 
 import iView from 'iview'
+import locale from 'iview/dist/locale/en-US'
 import 'iview/dist/styles/iview.css'
 
 import Panel from '@oj/components/Panel.vue'
@@ -18,6 +18,7 @@ import '@/styles/index.less'
 
 import highlight from '@/plugins/highlight'
 import katex from '@/plugins/katex'
+import VueI18n from 'vue-i18n'
 import filters from '@/utils/filters.js'
 
 import ECharts from 'vue-echarts/components/ECharts.vue'
@@ -39,12 +40,23 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 Vue.use(iView, {locale})
+Vue.use(VueI18n)
+
 Vue.use(VueClipboard)
 Vue.use(highlight)
 Vue.use(katex)
 Vue.use(VueAnalytics, {
   id: GOOGLE_ANALYTICS_ID,
   router
+})
+
+// load language packages
+const i18n = new VueI18n({
+  locale: 'zh-CN',
+  messages: {
+    'en-US': require('../../i18n/oj/en-US'),
+    'zh-CN': require('../../i18n/oj/zh-CN')
+  }
 })
 
 Vue.component('ECharts', ECharts)
@@ -60,4 +72,4 @@ Vue.prototype.$error = (s) => Vue.prototype.$Message.error(s)
 Vue.prototype.$info = (s) => Vue.prototype.$Message.info(s)
 Vue.prototype.$success = (s) => Vue.prototype.$Message.success(s)
 
-new Vue(Vue.util.extend({router, store}, App)).$mount('#app')
+new Vue(Vue.util.extend({router, store, i18n}, App)).$mount('#app')

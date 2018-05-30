@@ -1,7 +1,7 @@
 <template>
   <div>
     <Panel>
-      <div slot="title">Problems List</div>
+      <div slot="title">{{$t('m.Problems_List')}}</div>
       <Table v-if="contestRuleType == 'ACM' || OIContestRealTimePermission"
              :columns="ACMTableColumns"
              :data="problems"

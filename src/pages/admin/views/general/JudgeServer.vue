@@ -1,9 +1,9 @@
 <template>
   <div class="view">
-    <Panel title="Judge Server Token">
+    <Panel :title="$t('m.Judge_Server_Token')">
       <code>{{ token }}</code>
     </Panel>
-    <Panel title="Judge Server">
+    <Panel :title="$t('m.Judge_Server_Info')">
       <el-table
         :data="servers"
         :default-expand-all="true"
@@ -11,14 +11,14 @@
         <el-table-column
           type="expand">
           <template slot-scope="props">
-            <p>IP:
+            <p>{{$t('m.IP')}}:
               <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
-              Judger Version:
+              {{$t('m.Judger_Version')}}:
               <el-tag type="success">{{ props.row.judger_version }}</el-tag>
             </p>
-            <p>Service URL: <code>{{ props.row.service_url }}</code></p>
-            <p>Last Heartbeat: {{ props.row.last_heartbeat | localtime}}</p>
-            <p>Create Time: {{ props.row.create_time | localtime }}</p>
+            <p>{{$t('m.Service_URL')}}: <code>{{ props.row.service_url }}</code></p>
+            <p>{{$t('m.Last_Heartbeat')}}: {{ props.row.last_heartbeat | localtime}}</p>
+            <p>{{$t('m.Create_Time')}}: {{ props.row.create_time | localtime }}</p>
           </template>
         </el-table-column>
         <el-table-column

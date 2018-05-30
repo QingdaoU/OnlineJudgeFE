@@ -35,7 +35,7 @@ npm run dev
 
 ## Screenshots
 
-[Check here.](https://github.com/QingdaoU/OnlineJudge/tree/2.0)
+[Check here.](https://github.com/QingdaoU/OnlineJudge)
 
 ## Browser Support
 
