@@ -21,6 +21,7 @@ export default new VueRouter({
       children: [
         {
           path: '',
+          name: 'dashboard',
           component: Dashboard
         },
         {
