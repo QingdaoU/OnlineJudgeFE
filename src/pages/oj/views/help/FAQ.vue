@@ -1,6 +1,6 @@
 <template>
   <panel>
-    <div slot="title">Frequently Asked Questions</div>
+    <div slot="title">{{$t('m.Frequently_Asked_Questions')}}</div>
     <div class="content markdown-body">
       <ul>
         <li>Where is the input and the output?

@@ -1,7 +1,7 @@
 <template>
   <div>
     <panel>
-      <span slot="title">Prune Test Case
+      <span slot="title">{{$t('m.Test_Case_Prune_Test_Case')}}
         <el-popover placement="right" trigger="hover">
           These test cases are not owned by any problem, you can clean them safely.
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>

@@ -4,13 +4,13 @@
       {{title}}
     </div>
     <div slot="extra">
-      <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">Refresh</Button>
-      <Button v-else type="ghost" icon="ios-undo" @click="goBack">Back</Button>
+      <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
+      <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
     </div>
 
     <transition-group name="announcement-animate" mode="in-out">
       <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
-        <p>No announcements</p>
+        <p>{{$t('m.No_Announcements')}}</p>
       </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
@@ -32,7 +32,7 @@
       </template>
 
       <template v-else>
-        <div v-html="announcement.content" key="content" class="content-container markdown-body"></div>
+        <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
       </template>
     </transition-group>
   </Panel>
@@ -94,11 +94,6 @@
       goAnnouncement (announcement) {
         this.announcement = announcement
         this.listVisible = false
-        this.$nextTick(() => {
-          if (window.MathJax) {
-            window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
-          }
-        })
       },
       goBack () {
         this.listVisible = true
@@ -168,7 +163,7 @@
   .no-announcement {
     text-align: center;
     font-size: 16px;
-  }
+  }changeLocale
 
   .announcement-animate-enter-active {
     animation: fadeIn 1s;

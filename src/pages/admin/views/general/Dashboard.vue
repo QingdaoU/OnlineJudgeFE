@@ -13,7 +13,7 @@
         </el-row>
         <hr/>
         <div class="last-info">
-          <p class="last-info-title">Last Login</p>
+          <p class="last-info-title">{{$t('m.Last_Login')}}</p>
           <el-form label-width="80px" class="last-info-body">
             <el-form-item label="Time:">
               <span>{{session.last_activity | localtime}}</span>
@@ -30,19 +30,19 @@
           </el-form>
         </div>
       </el-card>
-      <panel title="System Overview" v-if="isSuperAdmin">
-        <p>Judge Server:  {{infoData.judge_server_count}}</p>
-        <p>HTTPS Status:
+      <panel :title="$t('m.System_Overview')" v-if="isSuperAdmin">
+        <p>{{$t('m.DashBoardJudge_Server')}}:  {{infoData.judge_server_count}}</p>
+        <p>{{$t('m.HTTPS_Status')}}:
           <el-tag :type="https ? 'success' : 'danger'" size="small">
             {{ https ? 'Enabled' : 'Disabled'}}
           </el-tag>
         </p>
-        <p>Force HTTPS:
+        <p>{{$t('m.Force_HTTPS')}}:
           <el-tag :type="forceHttps ? 'success' : 'danger'" size="small">
             {{forceHttps ? 'Enabled' : 'Disabled'}}
           </el-tag>
         </p>
-        <p>CDN HOST:
+        <p>{{$t('m.CDN_HOST')}}:
           <el-tag :type="cdn ? 'success' : 'warning'" size="small">
             {{cdn ? cdn : 'Not Use'}}
           </el-tag>
@@ -70,7 +70,7 @@
         </el-popover>
         </span>
 
-        <el-collapse v-model="activeNames" v-for="release, index in releases" :key="'release' + index">
+        <el-collapse v-model="activeNames" v-for="(release, index) of releases" :key="'release' + index">
           <el-collapse-item :name="index+1">
             <template slot="title">
               <div v-if="release.new_version">{{release.title}}
@@ -81,7 +81,7 @@
             <p>Level: {{release.level}}</p>
             <p>Details: </p>
             <div class="release-body">
-              <ul v-for="detail in release.details">
+              <ul v-for="detail in release.details" :key="detail">
                 <li v-html="detail"></li>
               </ul>
             </div>

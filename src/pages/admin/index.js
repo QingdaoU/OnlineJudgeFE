@@ -17,6 +17,8 @@ import Save from './components/btn/Save.vue'
 import Cancel from './components/btn/Cancel.vue'
 import './style.less'
 
+import VueI18n from 'vue-i18n'
+
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -31,6 +33,21 @@ Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
 Vue.component(Save.name, Save)
 Vue.component(Cancel.name, Cancel)
+
+Vue.use(VueI18n)
+
+// load language packages
+const i18n = new VueI18n({
+  locale: 'zh-CN',
+  messages: {
+    'en-US': require('../../i18n/admin/en-US'),
+    'zh-CN': require('../../i18n/admin/zh-CN')
+  }
+})
+
+Vue.use(Element, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 
 Vue.prototype.$error = (msg) => {
   Vue.prototype.$message({'message': msg, 'type': 'error'})
@@ -48,4 +65,4 @@ Vue.prototype.$success = (msg) => {
   }
 }
 
-new Vue(Vue.util.extend({router, store}, App)).$mount('#app')
+new Vue(Vue.util.extend({router, store, i18n}, App)).$mount('#app')

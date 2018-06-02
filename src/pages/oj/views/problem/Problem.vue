@@ -4,20 +4,20 @@
       <!--problem main-->
       <Panel :padding="40" shadow>
         <div slot="title">{{problem.title}}</div>
-        <div id="problem-content" class="markdown-body">
-          <p class="title">Description</p>
+        <div id="problem-content" class="markdown-body" v-katex>
+          <p class="title">{{$t('m.Description')}}</p>
           <p class="content" v-html=problem.description></p>
-
-          <p class="title">Input</p>
+          <!-- {{$t('m.music')}} -->
+          <p class="title">{{$t('m.Input')}}</p>
           <p class="content" v-html=problem.input_description></p>
 
-          <p class="title">Output</p>
+          <p class="title">{{$t('m.Output')}}</p>
           <p class="content" v-html=problem.output_description></p>
 
-          <div v-for="sample, index in problem.samples">
+          <div v-for="(sample, index) of problem.samples" :key="index">
             <div class="flex-container sample">
               <div class="sample-input">
-                <p class="title">Sample Input {{index + 1}}
+                <p class="title">{{$t('m.Sample_Input')}} {{index + 1}}
                   <a class="copy"
                      v-clipboard:copy="sample.input"
                      v-clipboard:success="onCopy"
@@ -28,21 +28,21 @@
                 <pre>{{sample.input}}</pre>
               </div>
               <div class="sample-output">
-                <p class="title">Sample Output {{index + 1}}</p>
+                <p class="title">{{$t('m.Sample_Output')}} {{index + 1}}</p>
                 <pre>{{sample.output}}</pre>
               </div>
             </div>
           </div>
 
           <div v-if="problem.hint">
-            <p class="title">Hint</p>
+            <p class="title">{{$t('m.Hint')}}</p>
             <Card dis-hover>
               <div class="content" v-html=problem.hint></div>
             </Card>
           </div>
 
           <div v-if="problem.source">
-            <p class="title">Source</p>
+            <p class="title">{{$t('m.Source')}}</p>
             <p class="content">{{problem.source}}</p>
           </div>
 
@@ -56,7 +56,7 @@
           <Col :span="10">
           <div class="status" v-if="statusVisible">
             <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
-              <span>Status:</span>
+              <span>{{$t('m.Status')}}</span>
               <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
                 {{submissionStatus.text}}
               </Tag>
@@ -130,29 +130,29 @@
       <Card id="info">
         <div slot="title" class="header">
           <Icon type="information-circled"></Icon>
-          <span class="card-title">Information</span>
+          <span class="card-title">{{$t('m.Information')}}</span>
         </div>
         <ul>
           <li><p>ID</p>
             <p>{{problem._id}}</p></li>
           <li>
-            <p>Time Limit</p>
+            <p>{{$t('m.Time_Limit')}}</p>
             <p>{{problem.time_limit}}MS</p></li>
           <li>
-            <p>Memory Limit</p>
+            <p>{{$t('m.Memory_Limit')}}</p>
             <p>{{problem.memory_limit}}MB</p></li>
           <li>
-            <p>Created By</p>
+            <p>{{$t('m.Created')}}</p>
             <p>{{problem.created_by.username}}</p></li>
           <li v-if="problem.difficulty">
-            <p>Level</p>
+            <p>{{$t('m.Level')}}</p>
             <p>{{problem.difficulty}}</p></li>
           <li v-if="problem.total_score">
-            <p>Score</p>
+            <p>{{$t('m.Score')}}</p>
             <p>{{problem.total_score}}</p>
           </li>
           <li>
-            <p>Tags</p>
+            <p>{{$t('m.Tags')}}</p>
             <p>
               <Poptip trigger="hover" placement="left-end">
                 <a>Show</a>
@@ -269,11 +269,6 @@
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
-          this.$nextTick(() => {
-            if (window.MathJax) {
-              window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
-            }
-          })
           let problem = res.data.data
           this.changeDomTitle({title: problem.title})
           api.submissionExists(problem.id).then(res => {
