@@ -38,7 +38,7 @@ Vue.use(VueI18n)
 
 // load language packages
 const i18n = new VueI18n({
-  locale: 'zh-CN',
+  locale: 'en-US',
   messages: {
     'en-US': require('../../i18n/admin/en-US'),
     'zh-CN': require('../../i18n/admin/zh-CN')

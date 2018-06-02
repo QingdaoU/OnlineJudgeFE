@@ -52,7 +52,7 @@ Vue.use(VueAnalytics, {
 
 // load language packages
 const i18n = new VueI18n({
-  locale: 'zh-CN',
+  locale: 'en-US',
   messages: {
     'en-US': require('../../i18n/oj/en-US'),
     'zh-CN': require('../../i18n/oj/zh-CN')
