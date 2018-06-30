@@ -85,6 +85,7 @@
                 v-model="tagInput"
                 :trigger-on-focus="false"
                 @keyup.enter.native="addTag"
+                @blur="addTag"
                 @select="addTag"
                 :fetch-suggestions="querySearch">
               </el-autocomplete>
