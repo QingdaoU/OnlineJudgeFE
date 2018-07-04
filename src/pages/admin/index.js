@@ -41,7 +41,8 @@ const i18n = new VueI18n({
   locale: 'en-US',
   messages: {
     'en-US': require('../../i18n/admin/en-US'),
-    'zh-CN': require('../../i18n/admin/zh-CN')
+    'zh-CN': require('../../i18n/admin/zh-CN'),
+    'zh-TW': require('../../i18n/admin/zh-TW')
   }
 })
 
