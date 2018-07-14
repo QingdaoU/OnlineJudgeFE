@@ -18,7 +18,7 @@
         <Icon type="ios-pulse-strong"></Icon>
         {{$t('m.NavStatus')}}
       </Menu-item>
-      <Submenu name="">
+      <Submenu name="rank">
         <template slot="title">
           <Icon type="podium"></Icon>
           {{$t('m.Rank')}}
@@ -30,7 +30,7 @@
           {{$t('m.OI_Rank')}}
         </Menu-item>
       </Submenu>
-      <Submenu name="">
+      <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>
           {{$t('m.About')}}
