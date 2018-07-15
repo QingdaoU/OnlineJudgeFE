@@ -6,8 +6,7 @@
         <router-view></router-view>
       </transition>
       <div class="footer">
-        <Button type="text" class="btn btn-success" @click="changeLocale()">简体中文 / 繁體中文 / English</Button>
-        <p v-html="website.website_footer"></p>    
+        <p v-html="website.website_footer"></p>
         <p>Powered by <a href="https://github.com/QingdaoU/OnlineJudge">OnlineJudge</a>
           <span v-if="version">&nbsp; Version: {{ version }}</span>
         </p>
@@ -41,17 +40,7 @@
       this.getWebsiteConfig()
     },
     methods: {
-      ...mapActions(['getWebsiteConfig', 'changeDomTitle']),
-      changeLocale () {
-        // 通过默认locale切换语言
-        if (this.$i18n.locale === 'zh-CN') {
-          this.$i18n.locale = 'zh-TW'
-        } else if (this.$i18n.locale === 'zh-TW') {
-          this.$i18n.locale = 'en-US'
-        } else {
-          this.$i18n.locale = 'zh-CN'
-        }
-      }
+      ...mapActions(['getWebsiteConfig', 'changeDomTitle'])
     },
     computed: {
       ...mapState(['website'])

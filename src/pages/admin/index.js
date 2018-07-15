@@ -2,6 +2,7 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 import store from '@/store'
+import i18n from '@/i18n'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
@@ -17,8 +18,6 @@ import Save from './components/btn/Save.vue'
 import Cancel from './components/btn/Cancel.vue'
 import './style.less'
 
-import VueI18n from 'vue-i18n'
-
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -33,18 +32,6 @@ Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
 Vue.component(Save.name, Save)
 Vue.component(Cancel.name, Cancel)
-
-Vue.use(VueI18n)
-
-// load language packages
-const i18n = new VueI18n({
-  locale: 'en-US',
-  messages: {
-    'en-US': require('../../i18n/admin/en-US'),
-    'zh-CN': require('../../i18n/admin/zh-CN'),
-    'zh-TW': require('../../i18n/admin/zh-TW')
-  }
-})
 
 Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
