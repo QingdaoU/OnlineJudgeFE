@@ -9,7 +9,7 @@
               :before-upload="handleSelectFile">
         <div style="padding: 30px 0">
           <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-          <p>Drop  here, or click to select manually</p>
+          <p>Drop here, or click to select manually</p>
         </div>
       </Upload>
     </template>
@@ -66,30 +66,35 @@
     <Form ref="formProfile" :model="formProfile">
       <Row type="flex" :gutter="30" justify="space-around">
         <Col :span="11">
-        <FormItem label="Real Name">
-          <Input v-model="formProfile.real_name"/>
-        </FormItem>
-        <Form-item label="School">
-          <Input v-model="formProfile.school"/>
-        </Form-item>
-        <Form-item label="Major">
-          <Input v-model="formProfile.major"/>
-        </Form-item>
-        <Form-item>
-          <Button type="primary" @click="updateProfile" :loading="loadingSaveBtn">Save All</Button>
-        </Form-item>
+          <FormItem label="Real Name">
+            <Input v-model="formProfile.real_name"/>
+          </FormItem>
+          <Form-item label="School">
+            <Input v-model="formProfile.school"/>
+          </Form-item>
+          <Form-item label="Major">
+            <Input v-model="formProfile.major"/>
+          </Form-item>
+          <FormItem label="Language">
+            <Select v-model="formProfile.language">
+              <Option v-for="lang in languages" :key="lang.value" :value="lang.value">{{lang.label}}</Option>
+            </Select>
+          </FormItem>
+          <Form-item>
+            <Button type="primary" @click="updateProfile" :loading="loadingSaveBtn">Save All</Button>
+          </Form-item>
         </Col>
 
         <Col :span="11">
-        <Form-item label="Mood">
-          <Input v-model="formProfile.mood"/>
-        </Form-item>
-        <Form-item label="Blog">
-          <Input v-model="formProfile.blog"/>
-        </Form-item>
-        <Form-item label="Github">
-          <Input v-model="formProfile.github"/>
-        </Form-item>
+          <Form-item label="Mood">
+            <Input v-model="formProfile.mood"/>
+          </Form-item>
+          <Form-item label="Blog">
+            <Input v-model="formProfile.blog"/>
+          </Form-item>
+          <Form-item label="Github">
+            <Input v-model="formProfile.github"/>
+          </Form-item>
         </Col>
       </Row>
     </Form>
@@ -100,7 +105,8 @@
   import api from '@oj/api'
   import utils from '@/utils/utils'
   import vueCropper from 'vue-cropper'
-  import {types} from '../../../../../store'
+  import {types} from '@/store'
+  import {languages} from '@/i18n'
 
   export default {
     components: {
@@ -118,13 +124,15 @@
           size: 0.8,
           outputType: 'png'
         },
+        languages: languages,
         formProfile: {
           real_name: '',
           mood: '',
           major: '',
           blog: '',
           school: '',
-          github: ''
+          github: '',
+          language: ''
         }
       }
     },

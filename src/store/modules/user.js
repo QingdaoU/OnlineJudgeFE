@@ -1,6 +1,7 @@
 import types from '../types'
 import api from '@oj/api'
 import storage from '@/utils/storage'
+import i18n from '@/i18n'
 import { STORAGE_KEY, USER_TYPE, PROBLEM_PERMISSION } from '@/utils/constants'
 
 const state = {
@@ -28,6 +29,9 @@ const getters = {
 const mutations = {
   [types.CHANGE_PROFILE] (state, {profile}) {
     state.profile = profile
+    if (profile.language) {
+      i18n.locale = profile.language
+    }
     storage.set(STORAGE_KEY.AUTHED, !!profile.user)
   }
 }

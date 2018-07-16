@@ -3,6 +3,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from '@/store'
+import i18n from '@/i18n'
 import VueClipboard from 'vue-clipboard2'
 import VueAnalytics from 'vue-analytics'
 import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
@@ -18,7 +19,6 @@ import '@/styles/index.less'
 
 import highlight from '@/plugins/highlight'
 import katex from '@/plugins/katex'
-import VueI18n from 'vue-i18n'
 import filters from '@/utils/filters.js'
 
 import ECharts from 'vue-echarts/components/ECharts.vue'
@@ -40,7 +40,6 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 Vue.use(iView, {locale})
-Vue.use(VueI18n)
 
 Vue.use(VueClipboard)
 Vue.use(highlight)
@@ -48,16 +47,6 @@ Vue.use(katex)
 Vue.use(VueAnalytics, {
   id: GOOGLE_ANALYTICS_ID,
   router
-})
-
-// load language packages
-const i18n = new VueI18n({
-  locale: 'en-US',
-  messages: {
-    'en-US': require('../../i18n/oj/en-US'),
-    'zh-CN': require('../../i18n/oj/zh-CN'),
-    'zh-TW': require('../../i18n/oj/zh-TW')
-  }
 })
 
 Vue.component('ECharts', ECharts)

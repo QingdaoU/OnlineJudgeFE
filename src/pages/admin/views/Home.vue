@@ -17,7 +17,6 @@
         <router-view></router-view>
       </transition>
       <div class="footer">
-        <el-button type="text" class="btn btn-success" @click="changeLocale()">简体中文 / 繁體中文 / English</el-button > |
         Build Version: {{ version }}
       </div>
     </div>
@@ -60,16 +59,6 @@
           api.logout().then(() => {
             this.$router.push({name: 'login'})
           })
-        }
-      },
-      changeLocale () {
-        // 通过默认locale切换语言
-        if (this.$i18n.locale === 'zh-CN') {
-          this.$i18n.locale = 'zh-TW'
-        } else if (this.$i18n.locale === 'zh-TW') {
-          this.$i18n.locale = 'en-US'
-        } else {
-          this.$i18n.locale = 'zh-CN'
         }
       }
     },
