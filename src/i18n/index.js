@@ -17,7 +17,6 @@ for (let lang of languages) {
   Object.assign(m, require(`./admin/${locale}`).m)
   messages[locale] = {m: m}
 }
-console.log(messages)
 // load language packages
 export default new VueI18n({
   locale: 'en-US',
