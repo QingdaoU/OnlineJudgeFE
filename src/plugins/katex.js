@@ -2,8 +2,12 @@ import 'katex'
 import renderMathInElement from 'katex/contrib/auto-render/auto-render'
 import 'katex/dist/katex.min.css'
 
+function _ () {
+}
+
 const defaultOptions = {
-  errorCallback: null,
+  errorCallback: _,
+  throwOnError: false,
   delimiters: [
     {left: '$', right: '$', display: false},
     {left: '$$', right: '$$', display: true},
@@ -18,7 +22,6 @@ function render (el, binding) {
     options = binding.value.options || {}
   }
   Object.assign(options, defaultOptions)
-  console.log(el, options)
   renderMathInElement(el, options)
 }
 

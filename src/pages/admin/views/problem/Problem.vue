@@ -134,6 +134,9 @@
             </Accordion>
           </el-form-item>
         </div>
+        <el-form-item style="margin-top: 20px" :label="$t('m.Hint')">
+          <Simditor v-model="problem.hint" placeholder=""></Simditor>
+        </el-form-item>
         <div class="add-sample-btn">
           <button type="button" class="add-samples" @click="addSample()"><i class="el-icon-plus"></i>{{$t('m.Add_Sample')}}
           </button>
@@ -222,9 +225,7 @@
             </el-table>
           </el-col>
         </el-row>
-        <el-form-item style="margin-top: 20px" :label="$t('m.Hint')">
-          <Simditor v-model="problem.hint" placeholder=""></Simditor>
-        </el-form-item>
+
         <el-form-item :label="$t('m.Source')">
           <el-input :placeholder="$t('m.Source')" v-model="problem.source"></el-input>
         </el-form-item>
