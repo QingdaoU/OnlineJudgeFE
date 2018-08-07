@@ -4,6 +4,7 @@
       <SideMenu></SideMenu>
     </div>
     <div id="header">
+      <i class="el-icon-fa-font katex-editor" @click="katexVisible=true" ></i>
       <screen-full :width="14" :height="14" class="screen-full"></screen-full>
       <el-dropdown @command="handleCommand">
         <span>{{user.username}}<i class="el-icon-caret-bottom el-icon--right"></i></span>
@@ -20,6 +21,10 @@
         Build Version: {{ version }}
       </div>
     </div>
+
+    <el-dialog title="Latex Editor" :visible.sync="katexVisible">
+      <KatexEditor></KatexEditor>
+    </el-dialog>
   </div>
 </template>
 
@@ -28,17 +33,20 @@
   import { mapGetters } from 'vuex'
   import SideMenu from '../components/SideMenu.vue'
   import ScreenFull from '@admin/components/ScreenFull.vue'
+  import KatexEditor from '@admin/components/KatexEditor.vue'
   import api from '../api'
 
   export default {
     name: 'app',
     data () {
       return {
-        version: process.env.VERSION
+        version: process.env.VERSION,
+        katexVisible: false
       }
     },
     components: {
       SideMenu,
+      KatexEditor,
       ScreenFull
     },
     beforeRouteEnter (to, from, next) {
@@ -133,6 +141,11 @@
 
   .fadeInUp-enter-active {
     animation: fadeInUp .8s;
+  }
+
+  .katex-editor {
+    margin-right: 5px;
+    /*font-size: 18px;*/
   }
 
 

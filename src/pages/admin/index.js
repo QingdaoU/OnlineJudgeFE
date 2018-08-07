@@ -11,6 +11,7 @@ import filters from '@/utils/filters'
 import router from './router'
 import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 import VueAnalytics from 'vue-analytics'
+import katex from '@/plugins/katex'
 
 import Panel from './components/Panel.vue'
 import IconBtn from './components/btn/IconBtn.vue'
@@ -28,6 +29,7 @@ Vue.use(VueAnalytics, {
   router
 })
 Vue.use(Element, {locale})
+Vue.use(katex)
 Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
 Vue.component(Save.name, Save)
