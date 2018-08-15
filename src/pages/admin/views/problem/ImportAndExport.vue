@@ -1,6 +1,8 @@
 <template>
   <div>
-    <panel title="Export Problems">
+    <div style="padding-bottom: 10px;">
+    </div>
+    <panel title="Export Problems (beta)">
       <el-table :data="problems"
                 v-loading="loadingProblems" @selection-change="handleSelectionChange">
         <el-table-column
@@ -47,7 +49,7 @@
         </el-pagination>
       </div>
     </panel>
-    <panel title="Import QDUOJ Problems">
+    <panel title="Import QDUOJ Problems (beta)">
       <el-upload
         action="/api/admin/import_problem"
         name="file"
@@ -59,7 +61,7 @@
       </el-upload>
     </panel>
 
-    <panel title="Import FPS Problems">
+    <panel title="Import FPS Problems (beta)">
       <el-upload
         action="/api/admin/import_fps"
         name="file"
