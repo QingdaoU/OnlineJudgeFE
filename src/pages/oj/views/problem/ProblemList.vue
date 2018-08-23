@@ -126,7 +126,6 @@
                 style: {
                   padding: '2px 0',
                   overflowX: 'auto',
-                  scrollbarArrowColor: 'blue',
                   textAlign: 'left',
                   width: '100%'
                 }
