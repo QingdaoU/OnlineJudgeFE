@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-input
+      v-model="keyword"
+      placeholder="Keywords"
+      prefix-icon="el-icon-search">
+    </el-input>
     <el-table :data="problems" v-loading="loading">
       <el-table-column
         label="ID"
@@ -38,6 +43,7 @@
 </template>
 <script>
   import api from '@admin/api'
+  import oapi from '@oj/api'
 
   export default {
     name: 'add-problem-from-public',
@@ -49,28 +55,27 @@
         total: 0,
         loading: false,
         problems: [],
+        keyword: '',
         contest: {}
       }
     },
     mounted () {
       api.getContest(this.contestID).then(res => {
         this.contest = res.data.data
-        this.getPublicProblem()
+        this.getPublicProblem(this.page)
       }).catch(() => {
       })
     },
     methods: {
       getPublicProblem (page) {
         this.loading = true
-        let params = {
-          offset: (page - 1) * this.limit,
-          limit: this.limit,
-          rule_type: this.contest.rule_type
-        }
-        api.getProblemList(params).then(res => {
+        oapi.getProblemList((page - 1) * this.limit, this.limit, {
+          keyword: this.keyword,
+          page: page
+        }).then(res => {
           this.loading = false
           this.total = res.data.data.total
-          this.problems = res.data.data.results
+          this.problems = res.data.data.results.filter(item => item.rule_type === this.contest.rule_type)
         }).catch(() => {
         })
       },
@@ -86,6 +91,11 @@
           }, () => {})
         }, () => {
         })
+      }
+    },
+    watch: {
+      'keyword' () {
+        this.getPublicProblem(this.page)
       }
     }
   }
