@@ -11,9 +11,9 @@ export const m = {
   Problem_List: '问题列表',
   Create_Problem: '增加题目',
   Export_Import_Problem: '导入导出题目',
-  Contest: '测试&练习',
-  Contest_List: '测试列表',
-  Create_Contest: '创建测试',
+  Contest: '比赛&练习',
+  Contest_List: '比赛列表',
+  Create_Contest: '创建比赛',
   // User.vue
   User_User: '用户',
   Import_User: '导入用户',

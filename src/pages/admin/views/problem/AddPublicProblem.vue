@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-input
+      v-model="keyword"
+      placeholder="Keywords"
+      prefix-icon="el-icon-search">
+    </el-input>
     <el-table :data="problems" v-loading="loading">
       <el-table-column
         label="ID"
@@ -49,7 +54,8 @@
         total: 0,
         loading: false,
         problems: [],
-        contest: {}
+        contest: {},
+        keyword: ''
       }
     },
     mounted () {
@@ -63,6 +69,7 @@
       getPublicProblem (page) {
         this.loading = true
         let params = {
+          keyword: this.keyword,
           offset: (page - 1) * this.limit,
           limit: this.limit,
           rule_type: this.contest.rule_type
@@ -83,9 +90,15 @@
           }
           api.addProblemFromPublic(data).then(() => {
             this.$emit('on-change')
-          }, () => {})
+          }, () => {
+          })
         }, () => {
         })
+      }
+    },
+    watch: {
+      'keyword' () {
+        this.getPublicProblem(this.page)
       }
     }
   }
