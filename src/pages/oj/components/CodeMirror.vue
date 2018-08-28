@@ -1,16 +1,21 @@
 <template>
   <div style="margin: 0px 0px 15px 0px">
     <Row type="flex" justify="space-between" class="header">
-      <Col :span=10>
+      <Col :span=12>
       <div>
         <span>Language:</span>
         <Select :value="language" @on-change="onLangChange" class="adjust">
           <Option v-for="item in languages" :key="item" :value="item">{{item}}
           </Option>
         </Select>
+
+        <Tooltip content="Reset to default code definition" placement="top" style="margin-left: 10px">
+          <Button icon="refresh" @click="onResetClick"></Button>
+        </Tooltip>
+
       </div>
       </Col>
-      <Col :span=10>
+      <Col :span=12>
       <div class="fl-right">
         <span>Theme:</span>
         <Select v-model="options.theme" @on-change="onThemeChange" class="adjust">
@@ -115,6 +120,9 @@
       },
       onThemeChange (newTheme) {
         this.editor.setOption('theme', newTheme)
+      },
+      onResetClick () {
+        this.$emit('resetCode')
       }
     },
     computed: {

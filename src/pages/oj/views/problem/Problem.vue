@@ -50,46 +50,50 @@
       </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
-        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages"
-                    :language="language"></CodeMirror>
+        <CodeMirror :value.sync="code"
+                    :languages="problem.languages"
+                    :language="language"
+                    @resetCode="onResetToTemplate"
+                    @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
-          <div class="status" v-if="statusVisible">
-            <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
-              <span>{{$t('m.Status')}}</span>
-              <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
-                {{submissionStatus.text}}
-              </Tag>
-            </template>
-            <template v-else-if="this.contestID && !OIContestRealTimePermission">
-              <Alert type="success" show-icon>Submitted successfully</Alert>
-            </template>
-          </div>
-          <div v-else-if="problem.my_status === 0">
-            <Alert type="success" show-icon>You have solved the problem</Alert>
-          </div>
-          <div v-else-if="this.contestID && !OIContestRealTimePermission && submissionExists">
-            <Alert type="success" show-icon>You have submitted a solution.</Alert>
-          </div>
-          <div v-if="contestEnded">
-            <Alert type="warning" show-icon>Contest has ended</Alert>
-          </div>
+            <div class="status" v-if="statusVisible">
+              <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
+                <span>{{$t('m.Status')}}</span>
+                <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
+                  {{submissionStatus.text}}
+                </Tag>
+              </template>
+              <template v-else-if="this.contestID && !OIContestRealTimePermission">
+                <Alert type="success" show-icon>Submitted successfully</Alert>
+              </template>
+            </div>
+            <div v-else-if="problem.my_status === 0">
+              <Alert type="success" show-icon>You have solved the problem</Alert>
+            </div>
+            <div v-else-if="this.contestID && !OIContestRealTimePermission && submissionExists">
+              <Alert type="success" show-icon>You have submitted a solution.</Alert>
+            </div>
+            <div v-if="contestEnded">
+              <Alert type="warning" show-icon>Contest has ended</Alert>
+            </div>
           </Col>
 
           <Col :span="12">
-          <template v-if="captchaRequired">
-            <div class="captcha-container">
-              <Tooltip v-if="captchaRequired" content="Click to refresh" placement="top">
-                <img :src="captchaSrc" @click="getCaptchaSrc"/>
-              </Tooltip>
-              <Input v-model="captchaCode" class="captcha-code"/>
-            </div>
-          </template>
-          <Button type="warning" icon="edit" :loading="submitting" @click="submitCode" :disabled="problemSubmitDisabled"
-                  class="fl-right">
-            <span v-if="!submitting">Submit</span>
-            <span v-else>Submitting</span>
-          </Button>
+            <template v-if="captchaRequired">
+              <div class="captcha-container">
+                <Tooltip v-if="captchaRequired" content="Click to refresh" placement="top">
+                  <img :src="captchaSrc" @click="getCaptchaSrc"/>
+                </Tooltip>
+                <Input v-model="captchaCode" class="captcha-code"/>
+              </div>
+            </template>
+            <Button type="warning" icon="edit" :loading="submitting" @click="submitCode"
+                    :disabled="problemSubmitDisabled"
+                    class="fl-right">
+              <span v-if="!submitting">Submit</span>
+              <span v-else>Submitting</span>
+            </Button>
           </Col>
         </Row>
       </Card>
@@ -189,14 +193,14 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  import { types } from '../../../../store'
+  import {mapGetters, mapActions} from 'vuex'
+  import {types} from '../../../../store'
   import CodeMirror from '@oj/components/CodeMirror.vue'
   import storage from '@/utils/storage'
-  import { FormMixin } from '@oj/components/mixins'
-  import { JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey } from '@/utils/constants'
+  import {FormMixin} from '@oj/components/mixins'
+  import {JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey} from '@/utils/constants'
   import api from '@oj/api'
-  import { pie, largePie } from './chartData'
+  import {pie, largePie} from './chartData'
 
   // 只显示这些状态的图形占用
   const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
@@ -278,10 +282,11 @@
           this.problem = problem
           this.changePie(problem)
 
-          // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
-          if (this.language !== 'C++' || this.code !== '' || this.problem.languages.indexOf(this.language) !== -1) {
+          // 在beforeRouteEnter中修改了, 说明本地有code，无需加载template
+          if (this.code !== '') {
             return
           }
+          // try to load problem template
           this.language = this.problem.languages[0]
           let template = this.problem.template
           if (template && template[this.language]) {
@@ -334,16 +339,20 @@
         if (this.problem.template[newLang]) {
           if (this.code.trim() === '') {
             this.code = this.problem.template[newLang]
-          } else {
-            this.$Modal.confirm({
-              content: 'The problem has template for ' + newLang + ', Do you want to replace your code with template?',
-              onOk: () => {
-                this.code = this.problem.template[newLang]
-              }
-            })
           }
         }
         this.language = newLang
+      },
+      onResetToTemplate () {
+        this.$Modal.confirm({
+          content: 'Are you sure you want to reset your code?',
+          onOk: () => {
+            let template = this.problem.template
+            if (template && template[this.language]) {
+              this.code = template[this.language]
+            }
+          }
+        })
       },
       checkSubmissionStatus () {
         // 使用setTimeout避免一些问题
