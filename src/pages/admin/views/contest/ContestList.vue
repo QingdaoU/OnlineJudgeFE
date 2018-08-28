@@ -70,13 +70,15 @@
         </el-table-column>
         <el-table-column
           fixed="right"
-          width="200"
+          width="250"
           label="Operation">
           <div slot-scope="scope">
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
             <icon-btn name="Problem" icon="list-ol" @click.native="goContestProblemList(scope.row.id)"></icon-btn>
             <icon-btn name="Announcement" icon="info-circle"
                       @click.native="goContestAnnouncement(scope.row.id)"></icon-btn>
+            <icon-btn icon="download" name="Download Accepted Submissions"
+                      @click.native="openDownloadOptions(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -90,12 +92,21 @@
         </el-pagination>
       </div>
     </Panel>
+    <el-dialog title="Download Contest Submissions"
+               width="30%"
+               :visible.sync="downloadDialogVisible">
+      <el-switch v-model="excludeAdmin" active-text="Exclude admin submissions"></el-switch>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="downloadSubmissions">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import api from '../../api.js'
-  import { CONTEST_STATUS_REVERSE } from '@/utils/constants'
+  import utils from '@/utils/utils'
+  import {CONTEST_STATUS_REVERSE} from '@/utils/constants'
 
   export default {
     name: 'ContestList',
@@ -106,7 +117,10 @@
         contestList: [],
         keyword: '',
         loading: false,
-        currentPage: 1
+        excludeAdmin: true,
+        currentPage: 1,
+        currentId: 1,
+        downloadDialogVisible: false
       }
     },
     mounted () {
@@ -132,6 +146,15 @@
         }, res => {
           this.loading = false
         })
+      },
+      openDownloadOptions (contestId) {
+        this.downloadDialogVisible = true
+        this.currentId = contestId
+      },
+      downloadSubmissions () {
+        let excludeAdmin = this.excludeAdmin ? '1' : '0'
+        let url = `/admin/download_submissions?contest_id=${this.currentId}&exclude_admin=${excludeAdmin}`
+        utils.downloadFile(url)
       },
       goEdit (contestId) {
         this.$router.push({name: 'edit-contest', params: {contestId}})
