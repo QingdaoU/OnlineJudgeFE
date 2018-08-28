@@ -3,6 +3,13 @@
     <div style="padding-bottom: 10px;">
     </div>
     <panel title="Export Problems (beta)">
+      <div slot="header">
+        <el-input
+          v-model="keyword"
+          prefix-icon="el-icon-search"
+          placeholder="Keywords">
+        </el-input>
+      </div>
       <el-table :data="problems"
                 v-loading="loadingProblems" @selection-change="handleSelectionChange">
         <el-table-column
@@ -51,25 +58,37 @@
     </panel>
     <panel title="Import QDUOJ Problems (beta)">
       <el-upload
+        ref="QDU"
         action="/api/admin/import_problem"
         name="file"
-        :show-file-list="false"
+        :file-list="fileList1"
+        :show-file-list="true"
         :with-credentials="true"
+        :limit="3"
+        :on-change="onFile1Change"
+        :auto-upload="false"
         :on-success="uploadSucceeded"
         :on-error="uploadFailed">
-        <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
+        <el-button size="small" type="primary" icon="el-icon-fa-upload" slot="trigger">Choose File</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload('QDU')">Upload</el-button>
       </el-upload>
     </panel>
 
     <panel title="Import FPS Problems (beta)">
       <el-upload
-        action="/api/admin/import_fps"
+        ref="FPS"
+        action="/api/admin/import_problem"
         name="file"
-        :show-file-list="false"
+        :file-list="fileList2"
+        :show-file-list="true"
         :with-credentials="true"
+        :limit="3"
+        :on-change="onFile2Change"
+        :auto-upload="false"
         :on-success="uploadSucceeded"
         :on-error="uploadFailed">
-        <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
+        <el-button size="small" type="primary" icon="el-icon-fa-upload" slot="trigger">Choose File</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload('FPS')">Upload</el-button>
       </el-upload>
     </panel>
   </div>
@@ -82,11 +101,14 @@
     name: 'import_and_export',
     data () {
       return {
+        fileList1: [],
+        fileList2: [],
         page: 1,
         limit: 10,
         total: 0,
         loadingProblems: false,
         loadingImporting: false,
+        keyword: '',
         problems: [],
         selected_problems: []
       }
@@ -100,12 +122,14 @@
       },
       getProblems (page = 1) {
         let params = {
+          keyword: this.keyword,
           offset: (page - 1) * this.limit,
           limit: this.limit
         }
         this.loadingProblems = true
         api.getProblemList(params).then(res => {
           this.problems = res.data.data.results
+          this.total = res.data.data.total
           this.loadingProblems = false
         })
       },
@@ -117,6 +141,15 @@
         let url = '/admin/export_problem?' + params.join('&')
         utils.downloadFile(url)
       },
+      submitUpload (ref) {
+        this.$refs[ref].submit()
+      },
+      onFile1Change (file, fileList) {
+        this.fileList1 = fileList.slice(-1)
+      },
+      onFile2Change (file, fileList) {
+        this.fileList2 = fileList.slice(-1)
+      },
       uploadSucceeded (response) {
         if (response.error) {
           this.$error(response.data)
@@ -127,6 +160,11 @@
       },
       uploadFailed () {
         this.$error('Upload failed')
+      }
+    },
+    watch: {
+      'keyword' () {
+        this.getProblems()
       }
     }
   }

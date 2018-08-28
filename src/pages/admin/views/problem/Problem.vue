@@ -177,20 +177,7 @@
           </Accordion>
         </el-form-item>
         <el-row :gutter="20">
-          <el-col :span="4">
-            <el-form-item :label="$t('m.TestCase')" :error="error.testcase">
-              <el-upload
-                action="/api/admin/test_case"
-                name="file"
-                :data="{spj: problem.spj}"
-                :show-file-list="false"
-                :on-success="uploadSucceeded"
-                :on-error="uploadFailed">
-                <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="6">
             <el-form-item :label="$t('m.Type')">
               <el-radio-group v-model="problem.rule_type" :disabled="disableRuleType">
                 <el-radio label="ACM">ACM</el-radio>
@@ -198,6 +185,20 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.TestCase')" :error="error.testcase">
+              <el-upload
+                action="/api/admin/test_case"
+                name="file"
+                :data="{spj: problem.spj}"
+                :show-file-list="true"
+                :on-success="uploadSucceeded"
+                :on-error="uploadFailed">
+                <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="24">
             <el-table
               :data="problem.test_case_score"
