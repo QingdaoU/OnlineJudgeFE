@@ -18,7 +18,7 @@
       <Col :span=12>
       <div class="fl-right">
         <span>Theme:</span>
-        <Select v-model="options.theme" @on-change="onThemeChange" class="adjust">
+        <Select :value="theme" @on-change="onThemeChange" class="adjust">
           <Option v-for="item in themes" :key="item.label" :value="item.value">{{item.label}}
           </Option>
         </Select>
@@ -70,6 +70,10 @@
       language: {
         type: String,
         default: 'C++'
+      },
+      theme: {
+        type: String,
+        default: 'material'
       }
     },
     data () {
@@ -120,6 +124,7 @@
       },
       onThemeChange (newTheme) {
         this.editor.setOption('theme', newTheme)
+        this.$emit('changeTheme', newTheme)
       },
       onResetClick () {
         this.$emit('resetCode')
@@ -129,6 +134,11 @@
       editor () {
         // get current editor object
         return this.$refs.myEditor.editor
+      }
+    },
+    watch: {
+      'theme' (newVal, oldVal) {
+        this.editor.setOption('theme', newVal)
       }
     }
   }

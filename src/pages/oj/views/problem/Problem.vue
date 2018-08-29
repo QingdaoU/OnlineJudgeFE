@@ -53,7 +53,9 @@
         <CodeMirror :value.sync="code"
                     :languages="problem.languages"
                     :language="language"
+                    :theme="theme"
                     @resetCode="onResetToTemplate"
+                    @changeTheme="onChangeTheme"
                     @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
@@ -224,6 +226,7 @@
         submitting: false,
         code: '',
         language: 'C++',
+        theme: 'solarized',
         submissionId: '',
         result: {
           result: 9
@@ -255,6 +258,7 @@
         next(vm => {
           vm.language = problemCode.language
           vm.code = problemCode.code
+          vm.theme = problemCode.theme
         })
       } else {
         next()
@@ -342,6 +346,9 @@
           }
         }
         this.language = newLang
+      },
+      onChangeTheme (newTheme) {
+        this.theme = newTheme
       },
       onResetToTemplate () {
         this.$Modal.confirm({
@@ -478,7 +485,8 @@
       this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: true})
       storage.set(buildProblemCodeKey(this.problem._id, from.params.contestID), {
         code: this.code,
-        language: this.language
+        language: this.language,
+        theme: this.theme
       })
       next()
     },
