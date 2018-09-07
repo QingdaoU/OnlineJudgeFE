@@ -73,7 +73,7 @@
       },
       theme: {
         type: String,
-        default: 'material'
+        default: 'solarized'
       }
     },
     data () {
