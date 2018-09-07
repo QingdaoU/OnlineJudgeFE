@@ -91,10 +91,11 @@
               </div>
             </template>
             <Button type="warning" icon="edit" :loading="submitting" @click="submitCode"
-                    :disabled="problemSubmitDisabled"
+                    :disabled="problemSubmitDisabled || submitted"
                     class="fl-right">
-              <span v-if="!submitting">Submit</span>
-              <span v-else>Submitting</span>
+              <span v-if="submitting">Submitting</span>
+              <span v-else-if="submitted">Submitted</span>
+              <span v-else>Submit</span>
             </Button>
           </Col>
         </Row>
@@ -228,6 +229,7 @@
         language: 'C++',
         theme: 'solarized',
         submissionId: '',
+        submitted: false,
         result: {
           result: 9
         },
@@ -405,6 +407,7 @@
         const submitFunc = (data, detailsVisible) => {
           this.statusVisible = true
           api.submitCode(data).then(res => {
+            this.submitted = true
             this.submissionId = res.data.data && res.data.data.submission_id
             // 定时检查状态
             this.submitting = false
