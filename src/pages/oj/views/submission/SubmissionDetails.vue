@@ -1,41 +1,41 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="20" id="status">
-    <Alert :type="status.type" showIcon>
-      <span class="title">{{status.statusName}}</span>
-      <div slot="desc" class="content">
-        <template v-if="isCE">
-          <pre>{{submission.statistic_info.err_info}}</pre>
-        </template>
-        <template v-else>
-          <span>Time: {{submission.statistic_info.time_cost | submissionTime}}</span>
-          <span>Memory: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
-          <span>Lang: {{submission.language}}</span>
-          <span>Author: {{submission.username}}</span>
-        </template>
-      </div>
-    </Alert>
+      <Alert :type="status.type" showIcon>
+        <span class="title">{{status.statusName}}</span>
+        <div slot="desc" class="content">
+          <template v-if="isCE">
+            <pre>{{submission.statistic_info.err_info}}</pre>
+          </template>
+          <template v-else>
+            <span>Time: {{submission.statistic_info.time_cost | submissionTime}}</span>
+            <span>Memory: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
+            <span>Lang: {{submission.language}}</span>
+            <span>Author: {{submission.username}}</span>
+          </template>
+        </div>
+      </Alert>
     </Col>
 
     <!--后台返info就显示出来， 权限控制放后台 -->
     <Col v-if="submission.info && !isCE" :span="20">
-    <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
+      <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
     <Col :span="20">
-    <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
+      <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
     <Col v-if="submission.can_unshare" :span="20">
-    <div id="share-btn">
-      <Button v-if="submission.shared"
-              type="warning" size="large" @click="shareSubmission(false)">
-        UnShare
-      </Button>
-      <Button v-else
-              type="primary" size="large" @click="shareSubmission(true)">
-        Share
-      </Button>
-    </div>
+      <div id="share-btn">
+        <Button v-if="submission.shared"
+                type="warning" size="large" @click="shareSubmission(false)">
+          UnShare
+        </Button>
+        <Button v-else
+                type="primary" size="large" @click="shareSubmission(true)">
+          Share
+        </Button>
+      </div>
     </Col>
   </Row>
 
@@ -43,7 +43,7 @@
 
 <script>
   import api from '@oj/api'
-  import { JUDGE_STATUS } from '@/utils/constants'
+  import {JUDGE_STATUS} from '@/utils/constants'
   import utils from '@/utils/utils'
   import Highlight from '@/pages/oj/components/Highlight'
 
