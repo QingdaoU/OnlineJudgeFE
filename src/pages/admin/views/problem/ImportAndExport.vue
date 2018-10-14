@@ -77,7 +77,7 @@
     <panel title="Import FPS Problems (beta)">
       <el-upload
         ref="FPS"
-        action="/api/admin/import_problem"
+        action="/api/admin/import_fps"
         name="file"
         :file-list="fileList2"
         :show-file-list="true"
