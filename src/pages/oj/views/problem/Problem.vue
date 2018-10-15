@@ -94,7 +94,6 @@
                     :disabled="problemSubmitDisabled || submitted"
                     class="fl-right">
               <span v-if="submitting">Submitting</span>
-              <span v-else-if="submitted">Submitted</span>
               <span v-else>Submit</span>
             </Button>
           </Col>
@@ -375,6 +374,7 @@
             this.result = res.data.data
             if (Object.keys(res.data.data.statistic_info).length !== 0) {
               this.submitting = false
+              this.submitted = false
               clearTimeout(this.refreshStatus)
               this.init()
             } else {
@@ -407,7 +407,6 @@
         const submitFunc = (data, detailsVisible) => {
           this.statusVisible = true
           api.submitCode(data).then(res => {
-            this.submitted = true
             this.submissionId = res.data.data && res.data.data.submission_id
             // 定时检查状态
             this.submitting = false
@@ -419,6 +418,7 @@
               })
               return
             }
+            this.submitted = true
             this.checkSubmissionStatus()
           }, res => {
             this.getCaptchaSrc()
