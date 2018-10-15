@@ -94,7 +94,6 @@
                     :disabled="problemSubmitDisabled || submitted"
                     class="fl-right">
               <span v-if="submitting">Submitting</span>
-              <span v-else-if="submitted">Submitted</span>
               <span v-else>Submit</span>
             </Button>
           </Col>
@@ -375,6 +374,7 @@
             this.result = res.data.data
             if (Object.keys(res.data.data.statistic_info).length !== 0) {
               this.submitting = false
+              this.submitted = false
               clearTimeout(this.refreshStatus)
               this.init()
             } else {
