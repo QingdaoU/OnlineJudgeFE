@@ -41,6 +41,13 @@
             </Card>
           </div>
 
+          <div v-if="this.contestID">
+            <p class="title" key="info1">友情提醒</p>
+            <p class="content" key="info2">实在搞不定的话，你可以
+              <Button type="ghost" @click="downloadTestCase(problem.id)">点此下载测试数据</Button>
+            </p>
+          </div>
+
           <div v-if="problem.source">
             <p class="title">{{$t('m.Source')}}</p>
             <p class="content">{{problem.source}}</p>
@@ -203,6 +210,7 @@
   import {JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey} from '@/utils/constants'
   import api from '@oj/api'
   import {pie, largePie} from './chartData'
+  import utils from '@/utils/utils'
 
   // 只显示这些状态的图形占用
   const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
@@ -457,6 +465,10 @@
       },
       onCopyError (e) {
         this.$error('Failed to copy code')
+      },
+      downloadTestCase (problemID) {
+        let url = '/admin/test_case?problem_id=' + problemID
+        utils.downloadFile(url)
       }
     },
     computed: {
@@ -593,6 +605,10 @@
 
   .fl-right {
     float: right;
+  }
+
+  .fl-left {
+    float: left;
   }
 
   #pieChart {
