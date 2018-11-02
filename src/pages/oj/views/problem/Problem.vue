@@ -41,16 +41,16 @@
             </Card>
           </div>
 
-          <div v-if="this.contestID">
-            <p class="title" key="info1">友情提醒</p>
-            <p class="content" key="info2">实在搞不定的话，你可以
-              <Button type="ghost" @click="downloadTestCase(problem.id)">点此下载测试数据</Button>
-            </p>
-          </div>
-
           <div v-if="problem.source">
             <p class="title">{{$t('m.Source')}}</p>
             <p class="content">{{problem.source}}</p>
+          </div>
+
+          <div v-if="problem.source === 'xmu'">
+            <p class="title" key="info1">温馨提示</p>
+            <p class="content" key="info2">实在搞不定的话，你可以
+              <Button type="ghost" @click="downloadTestCase(problem.id)">点此下载测试数据</Button>
+            </p>
           </div>
 
         </div>
@@ -605,10 +605,6 @@
 
   .fl-right {
     float: right;
-  }
-
-  .fl-left {
-    float: left;
   }
 
   #pieChart {
