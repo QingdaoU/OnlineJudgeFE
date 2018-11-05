@@ -167,6 +167,29 @@
         </el-form-item>
       </el-form>
     </Panel>
+
+    <Panel :title="$t('m.User_New_Password')">
+      <el-form :model="formChangeUserpassword" ref="formChangeUserpassword">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="4">
+            <el-form-item label="学号后几位" prop="right_length" required>
+              <el-input-number v-model="formChangeUserpassword.right_length" style="width: 100%"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="后缀" prop="suffix" required>
+              <el-input v-model="formChangeUserpassword.suffix" placeholder="Suffix"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="新密码 = 学号后几位 + 后缀">
+              <br /><el-button type="primary" @click="changeUserpassword" icon="el-icon-fa-users" :loading="loadingChangeUserpassword">批量修改密码</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>        
+      </el-form>
+    </Panel>
+
     <!--对话框-->
     <el-dialog :title="$t('m.User_Info')" :visible.sync="showUserDialog" :close-on-click-modal="false">
       <el-form :model="user" label-width="120px" label-position="left">
@@ -274,6 +297,7 @@
         user: {},
         loadingTable: false,
         loadingGenerate: false,
+        loadingChangeUserpassword: false,
         // 当前页码
         currentPage: 0,
         selectedUsers: [],
@@ -283,6 +307,10 @@
           number_from: 0,
           number_to: 0,
           password_length: 8
+        },
+        formChangeUserpassword: {
+          right_length: 4,
+          suffix: ''
         }
       }
     },
@@ -357,6 +385,23 @@
             this.getUserList(1)
           }).catch(() => {
             this.loadingGenerate = false
+          })
+        })
+      },
+      changeUserpassword () {
+        this.$refs['formChangeUserpassword'].validate((valid) => {
+          if (!valid) {
+            this.$error('Please validate the error fields')
+            return
+          }
+          this.loadingChangeUserpassword = true
+          let data = Object.assign({}, this.formChangeUserpassword)
+          api.changeUserpassword(data).then(res => {
+            this.loadingChangeUserpassword = false
+            this.$alert('Great! Change user password success.', 'Notice')
+          }).catch(() => {
+            this.loadingChangeUserpassword = false
+            this.$alert('Oh NO! Change user password fail...', 'Notice')
           })
         })
       },
