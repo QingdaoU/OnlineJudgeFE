@@ -467,7 +467,7 @@
         this.$error('Failed to copy code')
       },
       downloadTestCase (problemID) {
-        let url = '/admin/test_case?problem_id=' + problemID
+        let url = '/dl_test_case?problem_id=' + problemID
         utils.downloadFile(url)
       }
     },
