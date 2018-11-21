@@ -3,10 +3,10 @@
 </template>
 
 <script>
-  import Simditor from 'simditor'
-  import 'simditor/styles/simditor.css'
-  import 'simditor-markdown'
-  import 'simditor-markdown/styles/simditor-markdown.css'
+  import Simditor from 'tar-simditor'
+  import 'tar-simditor/styles/simditor.css'
+  import 'tar-simditor-markdown'
+  import 'tar-simditor-markdown/styles/simditor-markdown.css'
 
   export default {
     name: 'Simditor',
