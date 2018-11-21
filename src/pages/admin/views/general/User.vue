@@ -89,12 +89,12 @@
               {{row[0]}}
             </template>
           </el-table-column>
-          <el-table-column label="Password">
+          <el-table-column label="Real Name">
             <template slot-scope="{row}">
               {{row[1]}}
             </template>
           </el-table-column>
-          <el-table-column label="Email">
+          <el-table-column label="Classroom">
             <template slot-scope="{row}">
               {{row[2]}}
             </template>
