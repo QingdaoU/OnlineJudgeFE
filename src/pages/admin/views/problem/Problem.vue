@@ -37,12 +37,12 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item :label="$t('m.Time_Limit')" required>
+            <el-form-item :label="$t('m.Time_Limit') + ' (ms)' " required>
               <el-input type="Number" :placeholder="$t('m.Time_Limit')" v-model="problem.time_limit"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item :label="$t('m.Memory_limit')" required>
+            <el-form-item :label="$t('m.Memory_limit') + ' (MB)' " required>
               <el-input type="Number" :placeholder="$t('m.Memory_limit')" v-model="problem.memory_limit"></el-input>
             </el-form-item>
           </el-col>
