@@ -18,7 +18,7 @@
 
 ## Get Started
 
-Install nodejs **v6.11** first.
+Install nodejs **v8.12.0** first.
 
 ```bash
 npm install
