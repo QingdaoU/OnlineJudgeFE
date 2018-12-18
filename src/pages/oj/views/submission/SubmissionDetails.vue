@@ -3,9 +3,16 @@
     <Col :span="20" id="status">
       <Alert :type="status.type" showIcon>
         <span class="title">{{status.statusName}}</span>
+        <span class="title" v-if="isCE">[main.c:后面的两个数字分别表示错误代码所在的“行号”和“列号”]</span>
         <div slot="desc" class="content">
           <template v-if="isCE">
-            <pre>{{submission.statistic_info.err_info}}</pre>
+            请选择出错信息的语言：
+            <i-switch size="large" v-model="isCn">
+                <span slot="open">中文</span>
+                <span slot="close">English</span>
+            </i-switch>
+            <pre v-if="isCn">{{submission.statistic_info.err_info_cn}}</pre>
+            <pre v-else>{{submission.statistic_info.err_info}}</pre>
           </template>
           <template v-else>
             <span>Time: {{submission.statistic_info.time_cost | submissionTime}}</span>
@@ -106,6 +113,7 @@
     },
     data () {
       return {
+        isCn: true,
         columns: [],
         submission: {
           result: '0',
