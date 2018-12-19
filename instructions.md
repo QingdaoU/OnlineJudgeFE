@@ -16,36 +16,45 @@
 3. `sudo apt-get update`
 4. `sudo apt-get upgrade`
 
-## 环境配置（有些已经预装，可忽略）
+## 环境配置
 
-1. `sudo apt-get install -y vim`
-2. `sudo apt-get install -y curl`
-3. `sudo apt-get install -y python3-pip`
-4. `sudo apt-get install -y git`
-5. `pip3 install docker-compose`
-6. `sudo snap install docker`
+1. `sudo apt-get install -y python3-pip`
+2. `sudo apt-get install -y git`
+3. `pip3 install docker-compose`
+4. `sudo snap install docker`
+   
+## node版本
+
+直接`sudo apt install nodejs`装的是8.10.0版本，为与开发文档一致，最好安装8.12.0版
+1. 安装npm：`sudo apt install npm`
+2. 安装n：`sudo npm install -g n`
+3. 利用n下载安装指定node版本，支持以下命令：
+   + `sudo n lts` 长期支持版
+   + `sudo n stable` 稳定版
+   + `sudo n latest` 最新版
+   + `sudo n 8.12.0` 指定版本
+   + `sudo n` 列出所有版本，然后直接键盘上下移动选择切换的版本，回车确认
 
 ## 首次安装OJ
 
 1. `git clone -b 2.0 https://github.com/QingdaoU/OnlineJudgeDeploy.git && cd OnlineJudgeDeploy`
-2. root用户执行：`docker-compose up –d`  
-   非root用户执行：`sudo -E docker-compose up –d` （一定要-E参数，否则会出现数据丢失，原因未知）
+2. root用户执行：`docker-compose up`  
+   非root用户执行：`sudo -E docker-compose up` （一定要-E参数，否则会出现数据丢失，原因未知）
 
 ## 更新OJ
 
 1. `cd OnlineJudgeDeploy`
 2. `sudo git pull`
 3. `sudo docker-compose pull`
-4. root用户执行：`docker-compose up –d`
+4. root用户执行：`docker-compose up –d`  
    非root用户执行：`sudo -E docker-compose up –d` （一定要-E参数，否则会出现数据丢失，原因未知）
   
 ## 前端二次开发环境
 
-1. `sudo apt-get install -y nodejs npm`
-2. 首次拉取代码：`git clone https://github.com/shaohuihuang/OnlineJudgeFE.git` 
+1. 首次拉取代码：`git clone https://github.com/shaohuihuang/OnlineJudgeFE.git`  
    或者更新代码：`cd OnlineJudgeFE && git pull`
-3. `cd OnlineJudgeFE`
-4. `npm install`
+2. `cd OnlineJudgeFE`
+3. `npm install`
 
 ## 前端注入
 
@@ -60,7 +69,7 @@
 
 ## 后端二次开发
 
-1. 首次拉取代码：`git clone https://github.com/shaohuihuang/OnlineJudge.git`
+1. 首次拉取代码：`git clone https://github.com/shaohuihuang/OnlineJudge.git`  
    或者更新代码：`cd OnlineJudge && git pull`
 2. `cd OnlineJudge`
 3. `sudo docker cp ./ oj-backend:/app/`
