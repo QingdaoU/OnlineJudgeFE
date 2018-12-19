@@ -65,6 +65,11 @@
           {{$t('m.Rankings')}}
         </VerticalMenu-item>
 
+        <VerticalMenu-item :route="{name: 'similar-checker', params: {contestID: contestID}}">
+          <Icon type="ios-pulse"></Icon>
+          {{$t('m.Similar_Check')}}
+        </VerticalMenu-item>
+
         <VerticalMenu-item v-if="showAdminHelper"
                            :route="{name: 'acm-helper', params: {contestID: contestID}}">
           <Icon type="ios-paw"></Icon>
