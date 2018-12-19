@@ -206,7 +206,8 @@
       getSimilarList () {
         let params = this.$route.params.contestID
         api.ContestRunCheckSimilar(params).then(
-          this.$success('Success')
+          () => this.$success('Successful'),
+          () => {}
         )
       },
       showSimilarList () {
@@ -270,7 +271,8 @@
         this.SimilarInfo = ranges
         this.total = ranges.length
         this.showSimilarList()
-      })
+      }, () => {}
+      )
     },
     beforeDestroy () {
       clearInterval(this.refreshFunc)
