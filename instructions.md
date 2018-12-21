@@ -1,6 +1,6 @@
 # QingdaoU OnlineJudge 安装及二次开发指南
 
-> ### by sway 2018-12-16 ###
+> ### by sway 2018-12-21 ###
 
 ## 系统安装及更新
 
@@ -79,3 +79,22 @@
 + 进入：`sudo docker exec -it oj-postgres /bin/sh`
 + 备份：`pg_dump -U onlinejudge -F t -f 1216.tar onlinejudge`
 + 还原：`pg_restore –c –U onlinejudge –d onlinejudge 1216.tar`
+
+## 不同数据库版本之间的备份
+
+前面的备份在postgres版本不同时貌似不能成功，需要改为如下方案：
+
+### 准备活动
+
+1. 备份为sql格式：`sudo docker exec -it oj-postgres pg_dumpall -c -U onlinejudge > 1221.sql`
+2. 复制到容器内：`sudo docker cp 1221.sql oj-postgres:/`
+3. 断开数据库连接：`sudo docker stop oj-backend`
+
+### psql操作
+
+1. 进入容器：`sudo docker exec -it oj-postgres /bin/sh`
+2. 用onlinejudge身份进入postgres数据库：`psql -U onlinejudge -d postgres`
+3. 删除旧库：`drop database onlinejudge;`
+4. 创建新库：`create database onlinejudge;`
+5. 退出库：`\q`
+6. 导入sql：`psql -U onlinejudge -d onlinejudge < 1221.sql` 
