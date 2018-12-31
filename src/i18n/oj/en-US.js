@@ -47,6 +47,7 @@ export const m = {
   ACM_Rank: 'ACM Rank',
   OI_Rank: 'OI Rank',
   About: 'About',
+  AboutUs: 'About Us',
   Judger: 'Judger',
   FAQ: 'FAQ',
   Login: 'Login',

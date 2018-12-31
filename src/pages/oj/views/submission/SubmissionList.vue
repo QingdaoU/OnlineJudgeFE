@@ -71,26 +71,26 @@
             }
           },
           {
-            title: 'ID',
+            title: 'Author',
             align: 'center',
             render: (h, params) => {
-              if (params.row.show_link) {
-                return h('span', {
-                  style: {
-                    color: '#57a3f3',
-                    cursor: 'pointer'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push('/status/' + params.row.id)
-                    }
+              return h('a', {
+                style: {
+                  'display': 'inline-block',
+                  'max-width': '150px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push(
+                      {
+                        name: 'user-home',
+                        query: {username: params.row.username}
+                      })
                   }
-                }, params.row.id.slice(0, 12))
-              } else {
-                return h('span', params.row.id.slice(0, 12))
-              }
+                }
+              }, params.row.username)
             }
-          },
+          }, 
           {
             title: 'Status',
             align: 'center',
@@ -148,25 +148,25 @@
             align: 'center',
             key: 'language'
           },
-          {
-            title: 'Author',
+		  {
+            title: 'ID',
             align: 'center',
             render: (h, params) => {
-              return h('a', {
-                style: {
-                  'display': 'inline-block',
-                  'max-width': '150px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push(
-                      {
-                        name: 'user-home',
-                        query: {username: params.row.username}
-                      })
+              if (params.row.show_link) {
+                return h('span', {
+                  style: {
+                    color: '#57a3f3',
+                    cursor: 'pointer'
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push('/status/' + params.row.id)
+                    }
                   }
-                }
-              }, params.row.username)
+                }, params.row.id.slice(0, 12))
+              } else {
+                return h('span', params.row.id.slice(0, 12))
+              }
             }
           }
         ],

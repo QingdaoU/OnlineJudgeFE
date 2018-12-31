@@ -23,5 +23,6 @@ module.exports = {
       "skipTemplates": true
     }],
     "no-unused-vars": ["warn"]
+	    "no-tabs":"off"
   }
 }

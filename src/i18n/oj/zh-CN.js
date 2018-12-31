@@ -47,6 +47,7 @@ export const m = {
   ACM_Rank: 'ACM 排名',
   OI_Rank: 'OI 排名',
   About: '关于',
+  AboutUs: '关于我们',
   Judger: '判题解释',
   FAQ: '常见问题',
   Login: '登录',
@@ -82,7 +83,7 @@ export const m = {
   Forget_Password: '忘记密码',
   UserLogin: '登录',
   // Register.vue
-  RegisterUsername: '用户名',
+  RegisterUsername: '用户名|请使用“k/c+入学年份+真实姓名”',
   Email_Address: '电子邮箱',
   RegisterPassword: '密码',
   Password_Again: '确认密码',

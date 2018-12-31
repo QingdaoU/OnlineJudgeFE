@@ -5,6 +5,7 @@ import {
   Announcements,
   ApplyResetPassword,
   FAQ,
+  AboutUs,
   Home,
   Logout,
   NotFound,
@@ -172,6 +173,12 @@ export default [
     name: 'faq',
     meta: {title: 'FAQ'},
     component: FAQ
+  },
+  {
+    path: '/AboutUs',
+    name: 'AboutUs',
+    meta: {title: 'About Us'},
+    component: AboutUs
   },
   {
     path: '*',

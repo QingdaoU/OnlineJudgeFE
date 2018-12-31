@@ -3,6 +3,7 @@ import Logout from './user/Logout.vue'
 import UserHome from './user/UserHome.vue'
 import About from './help/About.vue'
 import FAQ from './help/FAQ.vue'
+import AboutUs from './help/AboutUs.vue'
 import NotFound from './general/404.vue'
 import Home from './general/Home.vue'
 import Announcements from './general/Announcements.vue'
@@ -21,7 +22,7 @@ const Problem = () => import(/* webpackChunkName: "Problem" */ '@oj/views/proble
 
 export {
   Home, NotFound, Announcements,
-  Logout, UserHome, About, FAQ,
+  Logout, UserHome, About, FAQ, AboutUs,
   ProblemList, Problem,
   ACMRank, OIRank,
   SubmissionList, SubmissionDetails,
