@@ -37,5 +37,5 @@ deploy:
   file: dist.zip
   on:
     repo: Harry-zklcdc/OJ
-    all_branches: true
+    branch: master
     tags: false
