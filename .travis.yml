@@ -38,4 +38,4 @@ deploy:
   on:
     repo: Harry-zklcdc/OJ
     all_branches: true
-    tags: false
+    tags: true
