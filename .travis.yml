@@ -36,6 +36,4 @@ deploy:
     secure: ${GH_TOKEN}
   file: dist.zip
   on:
-    repo: Harry-zklcdc/OJ
-    branch: master
-    tags: false
+    tags: true
