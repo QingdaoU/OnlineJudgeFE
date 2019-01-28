@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavBar></NavBar>
+	<vue-canvas-nest :config="{color:'0,117,169', count: 200, opacity: 0.7, pointColor: '0,0,0', zIndex: -2}" :el="'.content-app'"></vue-canvas-nest>
     <div class="content-app">
       <transition name="fadeInUp" mode="out-in">
         <router-view></router-view>
@@ -19,11 +20,12 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import NavBar from '@oj/components/NavBar.vue'
+  import vueCanvasNest from 'vue-canvas-nest'
 
   export default {
     name: 'app',
     components: {
-      NavBar
+      NavBar, vueCanvasNest
     },
     data () {
       return {
