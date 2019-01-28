@@ -44,3 +44,16 @@ Modern browsers and Internet Explorer 10+.
 ## LICENSE
 
 [MIT](http://opensource.org/licenses/MIT)
+
+## Attention
+
+```
+#custom JavaScript or CSS   自定义JavaScript/CSS
+./src/styles
+
+#page    修改界面
+./src/pages
+
+#language    语言文件
+./src/i18n
+```
