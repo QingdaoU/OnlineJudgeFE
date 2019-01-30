@@ -91,7 +91,7 @@
     animation: fadeInUp .8s;
   }
 
-  .theme(@background: #eee, @ivu-btn-info: #2db7f5, @color: #2d8cf0, @word1: #2d8cf0, @word2: #57a3f3, @element: rgb(87, 163, 243)){
+  .theme(@background: #eee, @ivu-btn-info: #2db7f5, @color: #2d8cf0, @word1: #2d8cf0, @word2: #57a3f3, @element: rgb(87, 163, 243), @color2: rgba(255, 255, 255, 0.7)){
 	html {
         background-color: @background;
     }
@@ -135,16 +135,20 @@
 	.ivu-btn-info:hover {
         background-color: @word2;
         border-color: @word2;
-    } 
+    }
+	
+	.ivu-card {
+        background: @color2;
+    }
   }
   .theme1{  //胖次蓝
     .theme();
   }
   .theme2{  //少女粉
-    .theme(rgba(245, 143, 152, 0.35), #f58f98, #f58f98, #f58f98, #d93a49, #f58f98);
+    .theme(rgba(245, 143, 152, 0.35), #f58f98, #f58f98, #f58f98, #d93a49, #f58f98, rgba(245, 143, 152, 0.35));
   }
   .theme3{  //基佬紫
-    .theme(rgba(63, 81, 181, 0.25), #3F51B5, #673AB7, #3F51B5, #673AB7, #3F51B5);
+    .theme(rgba(63, 81, 181, 0.25), #3F51B5, #673AB7, #3F51B5, #673AB7, #3F51B5, rgba(103, 58, 183, 0.25));
   }
 
 </style>

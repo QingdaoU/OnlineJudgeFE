@@ -197,7 +197,7 @@
     }
 	.change-menu {
       float: right;
-      margin-right: 70px;
+      margin-right: 130px;
       position: absolute;
       right: 10px;
       &-title {
