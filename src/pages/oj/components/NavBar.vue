@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
+    <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" :class="oj-menu">
       <div class="logo"><span>{{website.website_name}}</span></div>
       <Menu-item name="/">
         <Icon type="home"></Icon>
@@ -45,6 +45,18 @@
           {{$t('m.AboutUs')}}
         </Menu-item>
       </Submenu>
+	  
+          <Dropdown trigger="click" @on-click="switchChange" class="change-menu">
+            <div>换肤
+              <Icon type="arrow-down-b"></Icon>
+            </div>
+            <DropdownMenu slot="list">
+              <DropdownItem name="1">胖次蓝</DropdownItem>
+              <DropdownItem name="2">少女粉</DropdownItem>
+              <DropdownItem name="3">基佬紫</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"
@@ -110,6 +122,18 @@
           visible: true,
           mode: mode
         })
+      },
+	  // 更换主题
+      switchChange(status) {
+        let params = document.getElementById("app");
+        params.className = "theme" + status;
+        localStorage.setItem("app", document.getElementById("app").className);
+      },
+      //存储主题颜色
+      localStorageDate() {
+        let memoryColor = localStorage.getItem("app");
+        let params = document.getElementById("app");
+        params.className = memoryColor;
       }
     },
     computed: {
@@ -126,7 +150,11 @@
           this.changeModalStatus({visible: value})
         }
       }
+    },
+	created() {
+      this.localStorageDate();
     }
+
   }
 </script>
 
@@ -167,6 +195,15 @@
       float: right;
       margin-right: 10px;
     }
+	.change-menu {
+      float: right;
+      margin-right: 70px;
+      position: absolute;
+      right: 10px;
+      &-title {
+        font-size: 18px;
+      }
+    }
   }
 
   .modal {
@@ -175,4 +212,5 @@
       font-weight: 600;
     }
   }
+  
 </style>
