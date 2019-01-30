@@ -21,7 +21,7 @@ before_install:
 
 script:
   - npm install
-  - npm run build:dll
+  - NODE_ENV=production npm run build:dll
   - npm run build
 
 before_deploy:
