@@ -53,6 +53,8 @@
             <DropdownMenu slot="list">
               <DropdownItem name="1">胖次蓝</DropdownItem>
               <DropdownItem name="2">少女粉</DropdownItem>
+			  <DropdownItem name="4">姨妈红</DropdownItem>
+			  <DropdownItem name="5">原谅绿</DropdownItem>
               <DropdownItem name="3">基佬紫</DropdownItem>
             </DropdownMenu>
           </Dropdown>

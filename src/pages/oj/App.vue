@@ -13,7 +13,13 @@
         </p>
       </div>
     </div>
-    <BackTop></BackTop>
+	<BackTop :height="-1" :bottom="10" :right="0" >
+	    <Tooltip content="点我返回顶部" placement="left">
+            <div style="text-align:center">
+              <img class="card" src="@/assets/img/transparent.png" width="100px">
+            </div>
+		</Tooltip>
+      </BackTop>
   </div>
 </template>
 
@@ -90,15 +96,17 @@
   .fadeInUp-enter-active {
     animation: fadeInUp .8s;
   }
+  
+  .card{
+    display:block;
+    height:120px;
+    width:100px;
+    background:url(/static/img/blue.png) no-repeat;
+	background-size: 100%,100%;
+	background-position: center center;
+  }
 
-  .theme(@background: #eee, @ivu-btn-info: #2db7f5, @color: #2d8cf0, @word1: #2d8cf0, @word2: #57a3f3, @element: rgb(87, 163, 243), @color2: rgba(255, 255, 255, 0.7)){
-	html {
-        background-color: @background;
-    }
-	
-	element.style {
-        color: @element;
-    }
+  .theme(@ivu-btn-info: #2db7f5, @color: #2d8cf0, @word2: #57a3f3, @color2: rgba(255, 255, 255, 0.7), @url: url(/static/img/blue.png)) {
 
     .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu-active{
         color: @color;
@@ -140,15 +148,32 @@
 	.ivu-card {
         background: @color2;
     }
+	
+	.ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover{
+	    color: @color;
+		border-bottom: 2px solid @color;
+	}
+	
+	.card {
+    background:@url no-repeat;
+	background-size: 100%,100%;
+    background-position: center center;
+    }
   }
   .theme1{  //胖次蓝
     .theme();
   }
   .theme2{  //少女粉
-    .theme(rgba(245, 143, 152, 0.35), #f58f98, #f58f98, #f58f98, #d93a49, #f58f98, rgba(245, 143, 152, 0.35));
+    .theme(#f58f98, #f58f98, #d93a49, rgba(245, 143, 152, 0.35), url(/static/img/pink.png));
   }
   .theme3{  //基佬紫
-    .theme(rgba(63, 81, 181, 0.25), #3F51B5, #673AB7, #3F51B5, #673AB7, #3F51B5, rgba(103, 58, 183, 0.25));
+    .theme(#3F51B5, #673AB7, #673AB7, rgba(103, 58, 183, 0.25), url(/static/img/purple.png));
+  }
+  .theme4{  //姨妈红
+    .theme(#EF4136, #d63031, #ed1941cc, rgba(255, 118, 117, 0.3), url(/static/img/red.png))
+  }
+  .theme5{  //原谅绿
+    .theme(#00b894, #00b894, #55efc4, rgba(129, 236, 236, 0.35), url(/static/img/green.png))
   }
 
 </style>
