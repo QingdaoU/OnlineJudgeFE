@@ -110,7 +110,7 @@
 
   export default {
     components: {
-      vueCropper
+      VueCropper
     },
     data () {
       return {
