@@ -104,7 +104,7 @@
 <script>
   import api from '@oj/api'
   import utils from '@/utils/utils'
-  import {vueCropper} from 'vue-cropper'
+  import {VueCropper} from 'vue-cropper'
   import {types} from '@/store'
   import {languages} from '@/i18n'
 
