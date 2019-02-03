@@ -55,7 +55,7 @@
            title="Upload the avatar">
       <div class="upload-modal">
         <p class="notice">Your avatar will be set to:</p>
-        <img :src="uploadImgSrc"/>
+        <img :src="uploadImgSrc" width="300px"	background-position: center center/>
       </div>
       <div slot="footer">
         <Button @click="uploadAvatar" :loading="loadingUploadBtn">upload</Button>
