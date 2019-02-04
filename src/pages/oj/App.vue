@@ -120,6 +120,12 @@
 	.ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item-selected, .ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item-selected:hover {
         background: @color;
     }
+	
+	.ivu-btn-ghost:hover {
+        color: @color;
+        background-color: transparent;
+        border-color: @color;
+    }
 
     .ivu-btn-info {
         background-color: @ivu-btn-info;
