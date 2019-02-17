@@ -46,9 +46,9 @@
         </Menu-item>
       </Submenu>
 	  
-          <Dropdown trigger="click" @on-click="switchChange" class="change-menu">
+          <Dropdown trigger="click" @on-click="switchChange">
             <div>换肤
-              <Icon type="arrow-down-b"></Icon>
+              <Icon type="ios-arrow-down"></Icon>
             </div>
             <DropdownMenu slot="list">
               <DropdownItem name="1">胖次蓝</DropdownItem>
