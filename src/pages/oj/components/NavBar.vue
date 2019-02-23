@@ -46,20 +46,20 @@
         </Menu-item>
       </Submenu>
           
-          <Dropdown @on-click="switchChange">
-            <div>
-			  <Icon type="ios-browsers"></Icon>
-			  &emsp;换肤
-              <Icon type="ios-arrow-down"></Icon>
-            </div>
-            <DropdownMenu slot="list">
-              <DropdownItem name="1">胖次蓝</DropdownItem>
-              <DropdownItem name="2">少女粉</DropdownItem>
-			  <DropdownItem name="4">姨妈红</DropdownItem>
-			  <DropdownItem name="5">原谅绿</DropdownItem>
-              <DropdownItem name="3">基佬紫</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+      <Dropdown @on-click="switchChange">
+        <div>
+		  <Icon type="ios-browsers"></Icon>
+		  &emsp;换肤
+          <Icon type="ios-arrow-down"></Icon>
+        </div>
+        <DropdownMenu slot="list">
+          <DropdownItem name="1">胖次蓝</DropdownItem>
+          <DropdownItem name="2">少女粉</DropdownItem>
+	      <DropdownItem name="4">姨妈红</DropdownItem>
+		  <DropdownItem name="5">原谅绿</DropdownItem>
+          <DropdownItem name="3">基佬紫</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
 
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
