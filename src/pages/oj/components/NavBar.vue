@@ -45,9 +45,11 @@
           {{$t('m.AboutUs')}}
         </Menu-item>
       </Submenu>
-	  
-          <Dropdown trigger="click" @on-click="switchChange">
-            <div>换肤
+          
+          <Dropdown @on-click="switchChange">
+            <div>
+			  <Icon type="ios-browsers"></Icon>
+			  &emsp;换肤
               <Icon type="ios-arrow-down"></Icon>
             </div>
             <DropdownMenu slot="list">
