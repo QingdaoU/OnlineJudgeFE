@@ -32,7 +32,7 @@ export const m = {
   General_Announcement: '公告',
   Announcement_Title: '標題',
   Announcement_Content: '內容',
-  Announcement_Status: '狀態',
+  Announcement_visible: '是否可見',
   // Conf.vue
   SMTP_Config: 'SMTP 設定',
   Server: '伺服器',
