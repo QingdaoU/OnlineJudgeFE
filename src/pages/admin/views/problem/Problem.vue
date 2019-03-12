@@ -177,7 +177,7 @@
           </Accordion>
         </el-form-item>
         <el-row :gutter="20">
-          <el-col :span="6">
+          <el-col :span="4">
             <el-form-item :label="$t('m.Type')">
               <el-radio-group v-model="problem.rule_type" :disabled="disableRuleType">
                 <el-radio label="ACM">ACM</el-radio>
@@ -185,7 +185,7 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="6">
             <el-form-item :label="$t('m.TestCase')" :error="error.testcase">
               <el-upload
                 action="/api/admin/test_case"
@@ -196,6 +196,26 @@
                 :on-error="uploadFailed">
                 <el-button size="small" type="primary" icon="el-icon-fa-upload">Choose File</el-button>
               </el-upload>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6">
+            <el-form-item :label="$t('m.IOMode')">
+              <el-radio-group v-model="problem.io_mode.io_mode">
+                <el-radio label="Standard IO">Standard IO</el-radio>
+                <el-radio label="File IO">File IO</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="4" v-if="problem.io_mode.io_mode == 'File IO'">
+            <el-form-item :label="$t('m.InputFileName')" required>
+              <el-input type="text" v-model="problem.io_mode.input"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" v-if="problem.io_mode.io_mode == 'File IO'">
+            <el-form-item :label="$t('m.OutputFileName')" required>
+              <el-input type="text" v-model="problem.io_mode.output"></el-input>
             </el-form-item>
           </el-col>
 
@@ -261,10 +281,12 @@
         mode: '',
         contest: {},
         problem: {
-          languages: []
+          languages: [],
+          io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
         },
         reProblem: {
-          languages: []
+          languages: [],
+          io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
         },
         testCaseUploaded: false,
         allLanguage: {},
@@ -313,7 +335,8 @@
           test_case_score: [],
           rule_type: 'ACM',
           hint: '',
-          source: ''
+          source: '',
+          io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
         }
         let contestID = this.$route.params.contestId
         if (contestID) {
