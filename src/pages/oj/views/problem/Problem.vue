@@ -152,6 +152,7 @@
             <p>{{$t('m.IOMode')}}</p>
             <p>{{problem.io_mode.io_mode}}</p>
           </li>
+          <li>
             <p>{{$t('m.Created')}}</p>
             <p>{{problem.created_by.username}}</p></li>
           <li v-if="problem.difficulty">
@@ -246,7 +247,8 @@
           created_by: {
             username: ''
           },
-          tags: []
+          tags: [],
+          io_mode: {'io_mode': 'Standard IO'}
         },
         pie: pie,
         largePie: largePie,
