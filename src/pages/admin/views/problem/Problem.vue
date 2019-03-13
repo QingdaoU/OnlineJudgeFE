@@ -6,7 +6,7 @@
         <el-row :gutter="20">
           <el-col :span="6">
             <el-form-item prop="_id" :label="$t('m.Display_ID')"
-                          :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contet-problem'">
+                          :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem'">
               <el-input :placeholder="$t('m.Display_ID')" v-model="problem._id"></el-input>
             </el-form-item>
           </el-col>
@@ -57,10 +57,19 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="6">
+          <el-col :span="4">
             <el-form-item :label="$t('m.Visible')">
               <el-switch
                 v-model="problem.visible"
+                active-text=""
+                inactive-text="">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" v-if="this.routeName != 'create-contest-problem' && this.routeName != 'edit-contest-problem'">
+            <el-form-item :label="$t('m.ShareSubmission')">
+              <el-switch
+                v-model="problem.share_submission"
                 active-text=""
                 inactive-text="">
               </el-switch>
@@ -323,6 +332,7 @@
           memory_limit: 256,
           difficulty: 'Low',
           visible: true,
+          share_submission: false,
           tags: [],
           languages: [],
           template: {},

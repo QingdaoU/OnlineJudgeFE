@@ -10,6 +10,7 @@ export const m = {
   Problem: '问题',
   FromFile: '读取文件',
   ToFile: '写入文件',
+  ShareSubmission: '分享提交',
   Problem_List: '问题列表',
   Create_Problem: '增加题目',
   Export_Import_Problem: '导入导出题目',

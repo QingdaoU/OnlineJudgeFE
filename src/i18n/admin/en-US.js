@@ -10,6 +10,7 @@ export const m = {
   Problem: 'Problem',
   FromFile: 'From File',
   ToFile: 'To File',
+  ShareSubmission: 'Share Submission',
   Problem_List: 'Problem List',
   Create_Problem: 'Create Problem',
   Export_Import_Problem: 'Export Or Import Problem',
