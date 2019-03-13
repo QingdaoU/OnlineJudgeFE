@@ -148,6 +148,10 @@
             <p>{{$t('m.Memory_Limit')}}</p>
             <p>{{problem.memory_limit}}MB</p></li>
           <li>
+          <li>
+            <p>{{$t('m.IOMode')}}</p>
+            <p>{{problem.io_mode.io_mode}}</p>
+          </li>
             <p>{{$t('m.Created')}}</p>
             <p>{{problem.created_by.username}}</p></li>
           <li v-if="problem.difficulty">
@@ -156,10 +160,6 @@
           <li v-if="problem.total_score">
             <p>{{$t('m.Score')}}</p>
             <p>{{problem.total_score}}</p>
-          </li>
-          <li>
-            <p>{{$t('m.IOMode')}}</p>
-            <p>{{problem.io_mode.io_mode}}</p>
           </li>
           <li>
             <p>{{$t('m.Tags')}}</p>
