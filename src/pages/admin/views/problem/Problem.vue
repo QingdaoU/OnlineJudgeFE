@@ -66,7 +66,7 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="4" v-if="this.routeName != 'create-contest-problem' && this.routeName != 'edit-contest-problem'">
+          <el-col :span="4">
             <el-form-item :label="$t('m.ShareSubmission')">
               <el-switch
                 v-model="problem.share_submission"
@@ -471,7 +471,7 @@
         let fileList = response.data.info
         for (let file of fileList) {
           file.score = (100 / fileList.length).toFixed(0)
-          if (this.problem.spj) {
+          if (!file.output_name && this.problem.spj) {
             file.output_name = '-'
           }
         }
