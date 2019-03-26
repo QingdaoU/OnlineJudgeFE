@@ -8,10 +8,10 @@
           <p class="title">{{$t('m.Description')}}</p>
           <p class="content" v-html=problem.description></p>
           <!-- {{$t('m.music')}} -->
-          <p class="title">{{$t('m.Input')}}</p>
+          <p class="title">{{$t('m.Input')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.FromFile')}}: {{ problem.io_mode.input }})</span></p>
           <p class="content" v-html=problem.input_description></p>
 
-          <p class="title">{{$t('m.Output')}}</p>
+          <p class="title">{{$t('m.Output')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.ToFile')}}: {{ problem.io_mode.output }})</span></p>
           <p class="content" v-html=problem.output_description></p>
 
           <div v-for="(sample, index) of problem.samples" :key="index">
@@ -148,6 +148,11 @@
             <p>{{$t('m.Memory_Limit')}}</p>
             <p>{{problem.memory_limit}}MB</p></li>
           <li>
+          <li>
+            <p>{{$t('m.IOMode')}}</p>
+            <p>{{problem.io_mode.io_mode}}</p>
+          </li>
+          <li>
             <p>{{$t('m.Created')}}</p>
             <p>{{problem.created_by.username}}</p></li>
           <li v-if="problem.difficulty">
@@ -242,7 +247,8 @@
           created_by: {
             username: ''
           },
-          tags: []
+          tags: [],
+          io_mode: {'io_mode': 'Standard IO'}
         },
         pie: pie,
         largePie: largePie,

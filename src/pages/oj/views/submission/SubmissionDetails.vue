@@ -134,7 +134,7 @@
           let columns = baseColumn
           if (data.info && data.info.data && !this.isConcat) {
             // score exist means the submission is OI problem submission
-            if (data.info.data[0].score) {
+            if (data.info.data[0].score !== undefined) {
               this.isConcat = true
               columns = columns.concat(scoreColumn)
             }
