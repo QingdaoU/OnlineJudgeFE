@@ -69,7 +69,8 @@ function downloadFile (url) {
       }
       let link = document.createElement('a')
       link.href = window.URL.createObjectURL(new window.Blob([resp.data], {type: headers['content-type']}))
-      link.download = (headers['content-disposition'] || '').split('filename=')[1]
+      let filename = (headers['content-disposition'] || '').split('filename=')[1]
+      link.download = decodeURI(filename)
       document.body.appendChild(link)
       link.click()
       link.remove()
