@@ -113,6 +113,10 @@
         border-bottom: 2px solid @color;
     }
 	
+	.ivu-btn-ghost:hover {
+		border-color: @ivu-btn-info;
+	}
+	
 	.ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item-selected, .ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item-selected:hover {
         color: #fff;
     }
