@@ -35,7 +35,7 @@
     <div v-show="showChart" class="echarts">
       <ECharts :options="options" ref="chart" auto-resize></ECharts>
     </div>
-    <Table ref="tableRank" class="auto-resize" :columns="columns" :data="dataRank" disabled-hover></Table>
+    <Table ref="tableRank" class="table" :columns="columns" :data="dataRank" disabled-hover></Table>
     <Pagination :total="total"
                 :page-size.sync="limit"
                 :current.sync="page"
@@ -68,6 +68,7 @@
           {
             align: 'center',
             width: 60,
+			fixed: 'left',
             render: (h, params) => {
               return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
             }
@@ -75,6 +76,8 @@
           {
             title: 'User',
             align: 'center',
+			width: 100,
+			fixed: 'left',
             render: (h, params) => {
               return h('a', {
                 style: {
@@ -116,6 +119,7 @@
           {
             title: 'TotalTime',
             align: 'center',
+			width: 100,
             render: (h, params) => {
               return h('span', this.parseTotalTime(params.row.total_time))
             }
@@ -267,6 +271,7 @@
         problems.forEach(problem => {
           this.columns.push({
             align: 'center',
+			width: 100,
             key: problem.id,
             renderHeader: (h, params) => {
               return h('a', {
@@ -321,6 +326,10 @@
 
   .screen-full {
     margin-right: 8px;
+  }
+  
+  .table {
+    width: calc(100vw - 280px) !important;
   }
 
   #switches {

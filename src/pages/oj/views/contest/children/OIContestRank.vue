@@ -68,7 +68,7 @@
           {
             title: 'User',
             align: 'center',
-			width: 100,
+			minWidth: 110,
 			fixed: 'left',
             render: (h, params) => {
               return h('a', {
@@ -91,7 +91,7 @@
           {
             title: 'Total Score',
             align: 'center',
-			width: 100,
+			minWidth: 110,
             render: (h, params) => {
               return h('a', {
                 on: {
@@ -204,7 +204,7 @@
         problems.forEach(problem => {
           this.columns.push({
             align: 'center',
-			width: 100,
+			minWidth: 100,
             key: problem.id,
             renderHeader: (h, params) => {
               return h('a', {
