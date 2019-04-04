@@ -204,7 +204,7 @@
         problems.forEach(problem => {
           this.columns.push({
             align: 'center',
-			minWidth: 110,
+			minWidth: 100,
             key: problem.id,
             renderHeader: (h, params) => {
               return h('a', {

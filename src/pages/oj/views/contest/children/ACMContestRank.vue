@@ -119,6 +119,7 @@
           {
             title: 'TotalTime',
             align: 'center',
+			minWidth: 100,
             render: (h, params) => {
               return h('span', this.parseTotalTime(params.row.total_time))
             }
