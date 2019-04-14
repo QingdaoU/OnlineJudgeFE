@@ -127,17 +127,17 @@
           mode: mode
         })
       },
-	  // 更换主题
-      switchChange(status) {
-        let params = document.getElementById("app");
-        params.className = "theme" + status;
-        localStorage.setItem("app", document.getElementById("app").className);
+      // 更换主题
+      switchChange (status) {
+        let params = document.getElementById('app')
+        params.className = 'theme' + status
+        window.localStorage.setItem('app', document.getElementById('app').className)
       },
-      //存储主题颜色
-      localStorageDate() {
-        let memoryColor = localStorage.getItem("app");
-        let params = document.getElementById("app");
-        params.className = memoryColor;
+      // 存储主题颜色
+      localStorageDate () {
+        let memoryColor = window.localStorage.getItem('app')
+        let params = document.getElementById('app')
+        params.className = memoryColor
       }
     },
     computed: {
@@ -155,10 +155,9 @@
         }
       }
     },
-	created() {
-      this.localStorageDate();
+    created () {
+      this.localStorageDate()
     }
-
   }
 </script>
 

@@ -412,8 +412,8 @@
     },
     watch: {
       'onlyadmin' () {
-	        this.currentChange(1)
-	      },
+        this.currentChange(1)
+      },
       'keyword' () {
         this.currentChange(1)
       },

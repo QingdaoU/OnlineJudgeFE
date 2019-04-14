@@ -60,7 +60,7 @@
           {
             align: 'center',
             width: 60,
-			fixed: 'left',
+            fixed: 'left',
             render: (h, params) => {
               return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
             }
@@ -68,8 +68,8 @@
           {
             title: 'User',
             align: 'center',
-			minWidth: 110,
-			fixed: 'left',
+            minWidth: 110,
+            fixed: 'left',
             render: (h, params) => {
               return h('a', {
                 style: {
@@ -91,7 +91,7 @@
           {
             title: 'Total Score',
             align: 'center',
-			minWidth: 110,
+            minWidth: 110,
             render: (h, params) => {
               return h('a', {
                 on: {
@@ -204,7 +204,7 @@
         problems.forEach(problem => {
           this.columns.push({
             align: 'center',
-			minWidth: 100,
+            minWidth: 100,
             key: problem.id,
             renderHeader: (h, params) => {
               return h('a', {

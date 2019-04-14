@@ -61,8 +61,8 @@ export default {
       params.keyword = keyword
     }
     if (onlyadmin) {
-	      params.onlyadmin = true
-	  }
+      params.onlyadmin = true
+    }
     return ajax('admin/user', 'get', {
       params: params
     })

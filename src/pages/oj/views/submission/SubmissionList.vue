@@ -90,7 +90,7 @@
                 }
               }, params.row.username)
             }
-          }, 
+          },
           {
             title: 'Status',
             align: 'center',
@@ -148,7 +148,7 @@
             align: 'center',
             key: 'language'
           },
-		  {
+          {
             title: 'ID',
             align: 'center',
             render: (h, params) => {

@@ -68,7 +68,7 @@
           {
             align: 'center',
             width: 60,
-			fixed: 'left',
+            fixed: 'left',
             render: (h, params) => {
               return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
             }
@@ -76,8 +76,8 @@
           {
             title: 'User',
             align: 'center',
-			minWidth: 100,
-			fixed: 'left',
+            minWidth: 100,
+            fixed: 'left',
             render: (h, params) => {
               return h('a', {
                 style: {
@@ -119,7 +119,7 @@
           {
             title: 'TotalTime',
             align: 'center',
-			minWidth: 100,
+            minWidth: 100,
             render: (h, params) => {
               return h('span', this.parseTotalTime(params.row.total_time))
             }
@@ -271,7 +271,7 @@
         problems.forEach(problem => {
           this.columns.push({
             align: 'center',
-			minWidth: 100,
+            minWidth: 100,
             key: problem.id,
             renderHeader: (h, params) => {
               return h('a', {
