@@ -4,7 +4,7 @@
 [![echarts](https://img.shields.io/badge/echarts-3.8.3-blue.svg?style=flat-square)](https://github.com/ecomfe/echarts)
 [![iview](https://img.shields.io/badge/iview-2.8.0-blue.svg?style=flat-square)](https://github.com/iview/iview)
 [![element-ui](https://img.shields.io/badge/element-2.0.9-blue.svg?style=flat-square)](https://github.com/ElemeFE/element)
-[![Build Status](https://travis-ci.org/QingdaoU/OnlineJudgeFE.svg?branch=master)](https://travis-ci.org/QingdaoU/OnlineJudgeFE)
+[![Build Status](https://travis-ci.org/Harry-zklcdc/OnlineJudgeFE.svg?branch=master)](https://travis-ci.org/Harry-zklcdc/OnlineJudgeFE)
 
 >### A multiple pages app built for OnlineJudge. [Demo](https://qduoj.com)
 
