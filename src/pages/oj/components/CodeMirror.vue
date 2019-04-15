@@ -13,6 +13,12 @@
           <Button icon="refresh" @click="onResetClick"></Button>
         </Tooltip>
 
+        <Tooltip content="Upload file" placement="top" style="margin-left: 10px">
+          <Button icon="upload" @click="onUploadFile"></Button>
+        </Tooltip>
+
+        <input type="file" id="file-uploader" style="display: none" @change="onUploadFileDone">
+
       </div>
       </Col>
       <Col :span=12>
@@ -90,7 +96,7 @@
           gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
           // 选中文本自动高亮，及高亮方式
           styleSelectedText: true,
-          lineWrapping: false,
+          lineWrapping: true,
           highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true}
         },
         mode: {
@@ -128,6 +134,20 @@
       },
       onResetClick () {
         this.$emit('resetCode')
+      },
+      onUploadFile () {
+        document.getElementById('file-uploader').click()
+      },
+      onUploadFileDone () {
+        let f = document.getElementById('file-uploader').files[0]
+        let fileReader = new window.FileReader()
+        let self = this
+        fileReader.onload = function (e) {
+          var text = e.target.result
+          self.editor.setValue(text)
+          document.getElementById('file-uploader').value = ''
+        }
+        fileReader.readAsText(f, 'UTF-8')
       }
     },
     computed: {

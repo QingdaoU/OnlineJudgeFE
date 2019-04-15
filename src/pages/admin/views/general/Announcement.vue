@@ -84,7 +84,7 @@
           <Simditor v-model="announcement.content"></Simditor>
         </el-form-item>
         <div class="visible-box">
-          <span>{{$t('m.Announcement_Status')}}</span>
+          <span>{{$t('m.Announcement_visible')}}</span>
           <el-switch
             v-model="announcement.visible"
             active-text=""
