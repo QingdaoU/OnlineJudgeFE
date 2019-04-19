@@ -17,6 +17,7 @@ export const m = {
   Contest: 'Contest',
   Contest_List: 'Contest List',
   Create_Contest: 'Create Contest',
+  AboutUs: 'About Us',
   // User.vue
   User_User: 'User',
   Import_User: 'Import User',

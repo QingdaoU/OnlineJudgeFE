@@ -1,0 +1,46 @@
+.theme(@background: #eee, @ivu-btn-info: #2db7f5, @color: #2d8cf0, @word1: #2d8cf0, @word2: #57a3f3, @element: rgb(87, 163, 243))
+{
+    html {
+        background-color: @background;
+    }
+	
+	a {
+	    color: @word1;
+	}
+	
+	a:hover {
+        color: @word2;
+    }
+	
+	element.style {
+        color: @element;
+    }
+
+    .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu-active, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover {
+        color: @color;
+        border-bottom: 2px solid @color;
+    }
+
+    .ivu-btn-info {
+        background-color: @ivu-btn-info;
+        border-color: @ivu-btn-info;
+    }
+
+    .ivu-page-item-active {
+        background-color: @color;
+    }
+
+	.ivu-page-item:hover {
+        border-color: @color;
+    }
+	
+	.announcements-container li .flex-container .title a.entry[data-v-5fab8d1a]:hover {
+        color: @color;
+        border-bottom: 1px solid @color;
+    }
+	
+	.ivu-btn-info:hover {
+        background-color: @word2;
+        border-color: @word2;
+    }
+}

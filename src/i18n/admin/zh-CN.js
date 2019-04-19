@@ -17,6 +17,7 @@ export const m = {
   Contest: '比赛&练习',
   Contest_List: '比赛列表',
   Create_Contest: '创建比赛',
+  AboutUs: '关于我们',
   // User.vue
   User_User: '用户',
   Import_User: '导入用户',
