@@ -103,7 +103,7 @@
     computed: {
       title () {
         if (this.listVisible) {
-          return this.isContest ? 'Contest Announcements' : 'Announcements'
+          return this.isContest ? '대회 공지사항' : '공지사항'
         } else {
           return this.announcement.title
         }
