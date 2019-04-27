@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Row type="flex" justify="space-around">
     <Col :span="20" id="status">
       <Alert :type="status.type" showIcon>
@@ -49,12 +49,12 @@
 
   const baseColumn = [
     {
-      title: 'ID',
+      title: '번호',
       align: 'center',
       type: 'index'
     },
     {
-      title: 'Status',
+      title: '상태',
       align: 'center',
       render: (h, params) => {
         return h('Tag', {
@@ -65,14 +65,14 @@
       }
     },
     {
-      title: 'Memory',
+      title: '메모리',
       align: 'center',
       render: (h, params) => {
         return h('span', utils.submissionMemoryFormat(params.row.memory))
       }
     },
     {
-      title: 'Time',
+      title: '시간',
       align: 'center',
       render: (h, params) => {
         return h('span', utils.submissionTimeFormat(params.row.cpu_time))
@@ -80,20 +80,20 @@
     }
   ]
   const scoreColumn = [{
-    title: 'Score',
+    title: '점수',
     align: 'center',
     key: 'score'
   }]
   const adminColumn = [
     {
-      title: 'Real Time',
+      title: '실시간',
       align: 'center',
       render: (h, params) => {
         return h('span', utils.submissionTimeFormat(params.row.real_time))
       }
     },
     {
-      title: 'Singal',
+      title: '신호',
       align: 'center',
       key: 'signal'
     }
