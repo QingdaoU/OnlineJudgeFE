@@ -2,26 +2,26 @@
   <Row type="flex" :gutter="18">
     <Col :span=19>
     <Panel shadow>
-      <div slot="title">문제 목록</div>
+      <div slot="title">Problem List</div>
       <div slot="extra">
         <ul class="filter">
           <li>
             <Dropdown @on-click="filterByDifficulty">
-              <span>{{query.difficulty === '' ? '난이도' : query.difficulty}}
+              <span>{{query.difficulty === '' ? 'Difficulty' : query.difficulty}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
-                <Dropdown-item name="">전체</Dropdown-item>
-                <Dropdown-item name="Low">쉬움</Dropdown-item>
-                <Dropdown-item name="Mid">보통</Dropdown-item>
-                <Dropdown-item name="High">어려움</Dropdown-item>
+                <Dropdown-item name="">All</Dropdown-item>
+                <Dropdown-item name="Low">Low</Dropdown-item>
+                <Dropdown-item name="Mid">Mid</Dropdown-item>
+                <Dropdown-item name="High">High</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
           <li>
             <i-switch size="large" @on-change="handleTagsVisible">
-              <span slot="open">태그</span>
-              <span slot="close">태그</span>
+              <span slot="open">Tags</span>
+              <span slot="close">Tags</span>
             </i-switch>
           </li>
           <li>
@@ -34,7 +34,7 @@
           <li>
             <Button type="info" @click="onReset">
               <Icon type="refresh"></Icon>
-              새로고침
+              Reset
             </Button>
           </li>
         </ul>
@@ -63,7 +63,7 @@
 
       <Button long id="pick-one" @click="pickone">
         <Icon type="shuffle"></Icon>
-        랜덤문제
+        Pick one
       </Button>
     </Panel>
     <Spin v-if="loadings.tag" fix size="large"></Spin>

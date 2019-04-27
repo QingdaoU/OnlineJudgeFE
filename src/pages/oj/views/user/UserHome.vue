@@ -33,8 +33,8 @@
             <Poptip v-if="refreshVisible" trigger="hover" placement="right-start">
               <Icon type="ios-help-outline"></Icon>
               <div slot="content">
-                <p>해당 문제가 없습니다.<br>버튼을 눌러주세요.</p>
-                <Button type="info" @click="freshProblemDisplayID">다시불러오기</Button>
+                <p>If you find the following problem id does not exist,<br> try to click the button.</p>
+                <Button type="info" @click="freshProblemDisplayID">regenerate</Button>
               </div>
             </Poptip>
           </div>

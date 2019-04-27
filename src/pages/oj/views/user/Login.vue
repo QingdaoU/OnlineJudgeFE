@@ -86,7 +86,7 @@
             this.btnLoginLoading = false
             this.changeModalStatus({visible: false})
             this.getProfile()
-            this.$success('평촌아이티코드에 방문해주셔서 감사합니다.')
+            this.$success('Welcome back to OJ')
           }, _ => {
             this.btnLoginLoading = false
           })
