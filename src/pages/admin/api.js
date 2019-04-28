@@ -54,6 +54,22 @@ export default {
       data
     })
   },
+  // 获取关于我们列表
+  getAboutUsList (offset, limit) {
+    return ajax('admin/aboutus', 'get', {
+      params: {
+        paging: true,
+        offset,
+        limit
+      }
+    })
+  },
+  // 修改关于我们
+  updateAboutUs (data) {
+    return ajax('admin/aboutus', 'put', {
+      data
+    })
+  },
   // 获取用户列表
   getUserList (offset, limit, keyword, onlyadmin) {
     let params = {paging: true, offset, limit}

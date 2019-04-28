@@ -1,22 +1,13 @@
 <template>
-  <div class="announcement view">
+  <div class="aboutus view">
     <Panel :title="$t('m.AboutUs')">
       <div class="list">
         <el-table
           v-loading="loading"
           element-loading-text="loading"
           ref="table"
-          :data="announcementList"
+          :data="aboutusList"
           style="width: 100%">
-          <el-table-column
-            width="100"
-            prop="id"
-            label="ID">
-          </el-table-column>
-          <el-table-column
-            prop="title"
-            label="Title">
-          </el-table-column>
           <el-table-column
             prop="last_update_time"
             label="LastUpdateTime">
@@ -33,37 +24,29 @@
             label="Option"
             width="200">
             <div slot-scope="scope">
-              <icon-btn name="Edit" icon="edit" @click.native="openAnnouncementDialog(scope.row.id)"></icon-btn>
+              <icon-btn name="Edit" icon="edit" @click.native="openAboutUsDialog(scope.row.id)"></icon-btn>
             </div>
           </el-table-column>
         </el-table>
       </div>
     </Panel>
     <!--对话框-->
-    <el-dialog :title="announcementDialogTitle" :visible.sync="showEditAnnouncementDialog"
+    <el-dialog :title="aboutusDialogTitle" :visible.sync="showEditAboutUsDialog"
                @open="onOpenEditDialog" :close-on-click-modal="false">
       <el-form label-position="top">
         <el-form-item :label="$t('m.Announcement_Title')" required>
           <el-input
-            v-model="announcement.title"
+            v-model="aboutus.title"
             :placeholder="$t('m.Announcement_Title')" class="title-input">
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('m.Announcement_Content')" required>
-          <Simditor v-model="announcement.content"></Simditor>
+          <Simditor v-model="aboutus.content"></Simditor>
         </el-form-item>
-        <div class="visible-box">
-          <span>{{$t('m.Announcement_visible')}}</span>
-          <el-switch
-            v-model="announcement.visible"
-            active-text=""
-            inactive-text="">
-          </el-switch>
-        </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <cancel @click.native="showEditAnnouncementDialog = false"></cancel>
-          <save type="primary" @click.native="submitAnnouncement"></save>
+          <cancel @click.native="showEditAboutUsDialog = false"></cancel>
+          <save type="primary" @click.native="submitAboutUs"></save>
         </span>
     </el-dialog>
   </div>
@@ -82,24 +65,23 @@
       return {
         contestID: '',
         // 显示编辑公告对话框
-        showEditAnnouncementDialog: false,
+        showEditAboutUsDialog: false,
         // 公告列表
-        announcementList: [],
+        aboutusList: [],
         // 一页显示的公告数
         pageSize: 15,
         // 总公告数
         total: 0,
         // 当前公告id
-        currentAnnouncementId: null,
+        currentAboutUsId: null,
         mode: 'create',
         // 公告 (new | edit) model
-        announcement: {
+        aboutus: {
           title: '',
-          visible: true,
           content: ''
         },
         // 对话框标题
-        announcementDialogTitle: 'Edit Announcement',
+        aboutusDialogTitle: 'Edit AboutUs',
         // 是否显示loading
         loading: true,
         // 当前页码
@@ -111,34 +93,20 @@
     },
     methods: {
       init () {
-        this.contestID = this.$route.params.contestId
-        if (this.contestID) {
-          this.getContestAnnouncementList()
-        } else {
-          this.getAnnouncementList(1)
-        }
+        this.getAboutUsList(1)
       },
       // 切换页码回调
       currentChange (page) {
         this.currentPage = page
-        this.getAnnouncementList(page)
+        this.getAboutUsList(page)
       },
-      getAnnouncementList (page) {
+      getAboutUsList (page) {
         this.loading = true
-        api.getAnnouncementList((page - 1) * this.pageSize, this.pageSize).then(res => {
+        api.getAboutUsList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.loading = false
           this.total = res.data.data.total
-          this.announcementList = res.data.data.results
+          this.aboutusList = res.data.data.results
         }, res => {
-          this.loading = false
-        })
-      },
-      getContestAnnouncementList () {
-        this.loading = true
-        api.getContestAnnouncementList(this.contestID).then(res => {
-          this.loading = false
-          this.announcementList = res.data.data
-        }).catch(() => {
           this.loading = false
         })
       },
@@ -158,55 +126,39 @@
       },
       // 提交编辑
       // 默认传入MouseEvent
-      submitAnnouncement (data = undefined) {
+      submitAboutUs (data = undefined) {
         let funcName = ''
         if (!data.title) {
           data = {
-            id: this.currentAnnouncementId,
-            title: this.announcement.title,
-            content: this.announcement.content,
-            visible: this.announcement.visible
+            content: this.aboutus.content
           }
         }
-        if (this.contestID) {
-          data.contest_id = this.contestID
-          funcName = this.mode === 'edit' ? 'updateContestAnnouncement' : 'createContestAnnouncement'
-        } else {
-          funcName = this.mode === 'edit' ? 'updateAnnouncement' : 'createAnnouncement'
-        }
+        funcName = this.mode === 'edit' ? 'updateAboutUs' : 'updateAboutUs'
         api[funcName](data).then(res => {
-          this.showEditAnnouncementDialog = false
+          this.showEditAboutUsDialog = false
           this.init()
         }).catch()
       },
-      openAnnouncementDialog (id) {
-        this.showEditAnnouncementDialog = true
+      openAboutUsDialog (id) {
+        this.showEditAboutUsDialog = true
         if (id !== null) {
-          this.currentAnnouncementId = id
-          this.announcementDialogTitle = 'Edit Announcement'
-          this.announcementList.find(item => {
-            if (item.id === this.currentAnnouncementId) {
-              this.announcement.title = item.title
-              this.announcement.visible = item.visible
-              this.announcement.content = item.content
+          this.aboutusDialogTitle = 'Edit AboutUs'
+          this.aboutusList.find(item => {
+            if (item.id === this.currentAboutUsId) {
+              this.aboutus.content = item.content
               this.mode = 'edit'
             }
           })
         } else {
-          this.announcementDialogTitle = 'Create Announcement'
-          this.announcement.title = ''
-          this.announcement.visible = true
-          this.announcement.content = ''
+          this.aboutusDialogTitle = 'Create AboutUs'
+          this.aboutus.content = ''
           this.mode = 'create'
         }
       },
       handleVisibleSwitch (row) {
         this.mode = 'edit'
-        this.submitAnnouncement({
-          id: row.id,
-          title: row.title,
-          content: row.content,
-          visible: row.visible
+        this.submitAboutUs({
+          content: row.content
         })
       }
     },
