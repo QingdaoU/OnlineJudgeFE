@@ -1,73 +1,37 @@
 <template>
   <panel>
     <div slot="title">{{$t('m.AboutUs')}}</div>
-    <div class="content markdown-body">
-      <ul>
-	    <li>简介
-		<p>稳健IT社创立于8102年，由一群喜欢编程的养中学子创立并管理。「稳健OJ」的出道名为「稳健 Online Judge」，为养中学子提供在线测题（刷题）系统。现由「稳健IT社」技术部提供运行维护，由「稳健IT社」技术部部长提供技术指导。判题服务器及网站服务器均运行于学校「网络中心」（放心，相当稳健），由网络中心提供稳健的硬件维护。</p>
-        <p></p>
-		<p>「稳健 Online Judge」使用了<a href="https://baike.baidu.com/item/Docker/13344470">Docker容器</a>容器和判题沙箱技术。由于运行于虚拟化环境中，所以这种技术是特别安全的。并且本站敏感数据经过多层加密，任何开发及管理人员均无法直接接触到敏感数据的明文，请放心使用。</p>
-		</li>
-        <li>“什么是稳健？”
-		<p>“等你进了稳健IT社就明白啦！”</p>
-        <p></p>
-        <p>只要你对信息技术感兴趣，就可以愉快地加入我们！</p>
-        <p></p>
-        <p>在这里，你可以交到同样喜爱电(稳)脑(健)的朋友！</p>
-        <p></p>
-        <p>(放心，大佬多得很)我们平时会敲代码，做游戏，建网页...</p>
-        <p></p>
-        <p>我们还会建一个网站哦！至于活动嘛，我们可以一起进群探讨。</p>
-        <p></p>
-        <p>来吧，年轻人！一起稳健吧！</p>
-        </li>
-		<p></p>
-		<li>下面是真正的介绍（皮！）
-		<p>稳健IT社创始人及第一任社长——陈文韬</p>
-        <p></p>
-        <p>「稳健 Online Judge」创始人及第一任站长：蔡骐璠[fán]（不要读错，不然小心被封号！！！）</p>
-        <p></p>
-		<p>管理员组：张昱峥老师，陈文韬，蔡骐璠，李立森</p>
-        <p></p>
-		<p>「稳健OJ」出题组：蔡承臻，肖林尭，郑东霖</p>
-        <p></p>
-		</li>
-        <li>我们所拥有的部门
-        <p></p>
-        <p>技术部，命题部，比赛组织部……</p>
-        <p></p>
-		</li>
-		<li>技术部
-        <p>部长：当然是站长大大啦；</p>
-		<p></p>
-		<p>副部长：吕辉桓（一位了解各种型号硬件的dalao，以后装机可以找他 斜眼笑）</p>
-		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王炜（尝试破解还原卡密码，被老师捉奸的dalao）</p>
-        <p></p>
-		<p>PS:技术部常年招人（因为缺人），在技术部你可以得到最好的待遇——部长们的亲自指导！！！（技术杠杠的，不然怎么当上部长的？）</p>
-        </li>
-		<li>命题部
-        <p>部长：蔡承臻（一个写出了一道200多行代码的题目的dalao，详情见：<a href="/problem/ZC10011">问题ZC10011</a>）</p>
-		<p></p>
-		<p>副部长：暂时还没人= =||</p>
-        <p></p>
-		<p>PS：在这里，你可以分享自己的创意，也可以将自己的创意最大程度的发挥，并享受coding（编程）的乐趣。</p>
-        </li>
-		<li>组织部
-        <p>部长：张祺楠（是谁你们应该听过了，身兼数职的dalao）</p>
-		<p></p>
-		<p>副部长：暂时还没人= =||</p>
-        <p></p>
-		<p>PS：可以管理我们的经费（斜眼笑），负责活动、比赛组织。</p>
-        </li>
-		<li>活动
-        <p>我们将会举行「稳健OJ」秋季ACM编程大赛和春季OI编程大赛，届时还有年度编程大赛，获奖者可以获得……（好东西 斜眼笑）。</p>
-        </li>
-      </ul>
-    </div>
+    <div v-katex v-html="aboutus.content" class="content markdown-body"></div>
+	<p></p>
+    <div class="content markdown-body update_time"><strong>last update time: </strong>{{aboutus.last_update_time | localtime }}</div>
   </panel>
 </template>
 
 <script>
+  import api from '@oj/api'
+  import Pagination from '@oj/components/Pagination'
+
+  export default {
+    name: 'AboutUs',
+    components: {
+      Pagination
+    },
+    data () {
+      return {
+        aboutus: ''
+      }
+    },
+    mounted () {
+      api.getAboutUs().then(res => {
+        if (res.data.data) {
+          this.aboutus = res.data.data
+        } else {
+          this.onit = true
+        }
+      }).catch(() => {
+      })
+    }
+  }
 </script>
 
 <style lang="less" scoped>
@@ -88,5 +52,9 @@
         }
       }
     }
+  }
+  
+  .update_time{
+    text-align:right;
   }
 </style>

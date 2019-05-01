@@ -16,6 +16,9 @@ export default {
   getAnnouncementList () {
     return ajax('announcement', 'get')
   },
+  getAboutUs () {
+    return ajax('aboutus', 'get')
+  },
   login (data) {
     return ajax('login', 'post', {
       data
