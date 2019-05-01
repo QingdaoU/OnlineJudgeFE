@@ -94,7 +94,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <save type="primary" @click.native="submitAboutUs"></save>
+          <save type="primary" @click.native="saveAboutUs"></save>
         </span>
       </div>
     </Panel>
@@ -124,12 +124,12 @@
         },
         websiteConfig: {},
         // 当前关于我们id
-        currentAboutUsId: 0,
-        mode: 'create',
-        // 公告 (new | edit) model
+        currentAboutUsId: 1,
         aboutus: {
+          id: 1,
           content: ''
-        }
+        },
+        onit: false
       }
     },
     mounted () {
@@ -146,7 +146,11 @@
       }).catch(() => {
       })
       api.getAboutUsList().then(res => {
-        this.aboutus = res.data.data
+        if (res.data.data) {
+          this.aboutus = res.data.data
+        } else {
+          this.onit = true
+        }
       }).catch(() => {
       })
     },
@@ -183,43 +187,29 @@
         }).catch(() => {
         })
       },
-      openAboutUsDialog (id) {
-        if (id === 0) {
-          this.currentAboutUsId = 0
-          this.aboutusList.find(item => {
-            if (item.id === this.currentAboutUsId) {
-              this.aboutus.content = item.content
-              this.mode = 'edit'
+      saveAboutUs (data) {
+        if (this.onit === false) {
+          api.updateAboutUs(this.aboutus).then(() => {
+            data = {
+              id: this.currentAboutUsId,
+              content: this.aboutus.content
             }
+          }, () => {
           })
         } else {
-          this.aboutus.content = ''
-          this.mode = 'create'
+          api.createAboutUs(this.aboutus).then(() => {
+            data = {
+              id: this.currentAboutUsId,
+              content: this.aboutus.content
+            }
+          }, () => {
+          })
         }
-      },
-      submitAboutUs (data = undefined) {
-        let funcName = ''
-        data = {
-          id: 0,
-          content: this.AboutUs.content
-        }
-        funcName = this.mode === 'edit' ? 'updateAboutUs' : 'createAboutUs'
-        api[funcName](data).then(res => {
-          this.onOpenEditDialog()
-        }).catch()
-      },
-      onOpenEditDialog () {
-        // todo 优化
-        // 暂时解决 文本编辑器显示异常bug
-        setTimeout(() => {
-          if (document.createEvent) {
-            let event = document.createEvent('HTMLEvents')
-            event.initEvent('resize', true, true)
-            window.dispatchEvent(event)
-          } else if (document.createEventObject) {
-            window.fireEvent('onresize')
-          }
-        }, 0)
+        api.getAboutUsList().then(res => {
+          this.aboutus = res.data.data
+          this.onit = false
+        }).catch(() => {
+        })
       }
     }
   }
