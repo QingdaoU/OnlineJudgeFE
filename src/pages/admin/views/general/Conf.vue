@@ -85,14 +85,31 @@
       </el-form>
       <save @click.native="saveWebsiteConfig"></save>
     </Panel>
+
+    <Panel :title="$t('About Us Config')">
+      <div>
+        <el-form label-position="top">
+          <el-form-item>
+            <Simditor v-model="aboutus.content"></Simditor>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <save type="primary" @click.native="submitAboutUs"></save>
+        </span>
+      </div>
+    </Panel>
   </div>
 </template>
 
 <script>
+  import Simditor from '../../components/Simditor.vue'
   import api from '../../api.js'
 
   export default {
     name: 'Conf',
+    components: {
+      Simditor
+    },
     data () {
       return {
         init: false,
@@ -105,7 +122,14 @@
           email: 'email@example.com',
           tls: true
         },
-        websiteConfig: {}
+        websiteConfig: {},
+        // 当前关于我们id
+        currentAboutUsId: 0,
+        mode: 'create',
+        // 公告 (new | edit) model
+        aboutus: {
+          content: ''
+        }
       }
     },
     mounted () {
@@ -119,6 +143,10 @@
       })
       api.getWebsiteConfig().then(res => {
         this.websiteConfig = res.data.data
+      }).catch(() => {
+      })
+      api.getAboutUsList().then(res => {
+        this.aboutus = res.data.data
       }).catch(() => {
       })
     },
@@ -154,6 +182,44 @@
         api.editWebsiteConfig(this.websiteConfig).then(() => {
         }).catch(() => {
         })
+      },
+      openAboutUsDialog (id) {
+        if (id === 0) {
+          this.currentAboutUsId = 0
+          this.aboutusList.find(item => {
+            if (item.id === this.currentAboutUsId) {
+              this.aboutus.content = item.content
+              this.mode = 'edit'
+            }
+          })
+        } else {
+          this.aboutus.content = ''
+          this.mode = 'create'
+        }
+      },
+      submitAboutUs (data = undefined) {
+        let funcName = ''
+        data = {
+          id: 0,
+          content: this.AboutUs.content
+        }
+        funcName = this.mode === 'edit' ? 'updateAboutUs' : 'createAboutUs'
+        api[funcName](data).then(res => {
+          this.onOpenEditDialog()
+        }).catch()
+      },
+      onOpenEditDialog () {
+        // todo 优化
+        // 暂时解决 文本编辑器显示异常bug
+        setTimeout(() => {
+          if (document.createEvent) {
+            let event = document.createEvent('HTMLEvents')
+            event.initEvent('resize', true, true)
+            window.dispatchEvent(event)
+          } else if (document.createEventObject) {
+            window.fireEvent('onresize')
+          }
+        }, 0)
       }
     }
   }

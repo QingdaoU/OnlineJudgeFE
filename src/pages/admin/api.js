@@ -54,22 +54,6 @@ export default {
       data
     })
   },
-  // 获取关于我们列表
-  getAboutUsList (offset, limit) {
-    return ajax('admin/aboutus', 'get', {
-      params: {
-        paging: true,
-        offset,
-        limit
-      }
-    })
-  },
-  // 修改关于我们
-  updateAboutUs (data) {
-    return ajax('admin/aboutus', 'put', {
-      data
-    })
-  },
   // 获取用户列表
   getUserList (offset, limit, keyword, onlyadmin) {
     let params = {paging: true, offset, limit}
@@ -311,6 +295,23 @@ export default {
   },
   exportProblems (data) {
     return ajax('export_problem', 'post', {
+      data
+    })
+  },
+  // 获取关于我们列表
+  getAboutUsList () {
+    return ajax('admin/aboutus', 'get', {
+    })
+  },
+  // 修改关于我们
+  updateAboutUs (data) {
+    return ajax('admin/aboutus', 'put', {
+      data
+    })
+  },
+  // 添加关于我们
+  createAboutUs (data) {
+    return ajax('admin/aboutus', 'post', {
       data
     })
   }

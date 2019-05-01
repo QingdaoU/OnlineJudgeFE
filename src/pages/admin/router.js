@@ -103,6 +103,11 @@ export default new VueRouter({
           path: '/contest/:contestId/problem/:problemId/edit',
           name: 'edit-contest-problem',
           component: Problem
+        },
+        {
+          path: '/aboutus',
+          name: 'aboutus',
+          component: Conf
         }
       ]
     },
