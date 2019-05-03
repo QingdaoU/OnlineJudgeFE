@@ -30,6 +30,15 @@
           {{$t('m.OI_Rank')}}
         </Menu-item>
       </Submenu>
+      <Submenu name="onlineapp">
+        <template slot="title">
+          <Icon type="ios-cloud" />
+          {{$t('m.App')}}
+        </template>
+        <Menu-item name="/IDE">
+          {{$t('m.IDE')}}
+        </Menu-item>
+      </Submenu>
       <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>

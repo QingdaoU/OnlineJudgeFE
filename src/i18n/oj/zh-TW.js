@@ -47,6 +47,8 @@ export const m = {
   ACM_Rank: 'ACM 排名',
   OI_Rank: 'OI 排名',
   About: '關於',
+  App: '應用',
+  IDE: '線上IDE',
   AboutUs: '關於我們',
   Judger: 'Judge 說明',
   FAQ: '常見問題',

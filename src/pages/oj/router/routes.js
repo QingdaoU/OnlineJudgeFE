@@ -15,7 +15,8 @@ import {
   ResetPassword,
   SubmissionDetails,
   SubmissionList,
-  UserHome
+  UserHome,
+  IDE
 } from '../views'
 
 import * as Contest from '@oj/views/contest'
@@ -179,6 +180,12 @@ export default [
     name: 'AboutUs',
     meta: {title: 'About Us'},
     component: AboutUs
+  },
+  {
+    path: '/IDE',
+    name: 'IDE',
+    meta: {title: 'IDE'},
+    component: IDE
   },
   {
     path: '*',

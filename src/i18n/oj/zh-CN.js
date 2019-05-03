@@ -48,6 +48,8 @@ export const m = {
   OI_Rank: 'OI 排名',
   About: '关于',
   AboutUs: '关于我们',
+  App: '应用',
+  IDE: '在线IDE',
   Judger: '判题解释',
   FAQ: '常见问题',
   Login: '登录',

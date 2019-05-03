@@ -48,6 +48,8 @@ export const m = {
   OI_Rank: 'OI Rank',
   About: 'About',
   AboutUs: 'About Us',
+  App: 'APP',
+  IDE: 'Online IDE',
   Judger: 'Judger',
   FAQ: 'FAQ',
   Login: 'Login',
