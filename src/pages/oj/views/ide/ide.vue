@@ -6,24 +6,13 @@
       <Card :padding="20" id="submit-code" dis-hover>
 	    <p slot="title">{{$t('m.IDE')}}</p>
         <CodeMirror :value.sync="code"
-                    :languages="problem.languages"
+                    :languages="languages.name"
                     :language="language"
                     :theme="theme"
                     @resetCode="onResetToTemplate"
                     @changeTheme="onChangeTheme"
                     @changeLang="onChangeLang"></CodeMirror>
         <Row type="flex" justify="space-between">
-          <Col :span="10">
-            <div class="status" v-if="statusVisible">
-              <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
-                <span>{{$t('m.Status')}}</span>
-                <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
-                  {{submissionStatus.text}}
-                </Tag>
-              </template>
-            </div>
-          </Col>
-
           <Col :span="12">
             <template v-if="captchaRequired">
               <div class="captcha-container">
@@ -68,18 +57,14 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import {types} from '../../../../store'
   import CodeMirror from '@oj/components/CodeMirror.vue'
-  import storage from '@/utils/storage'
   import {FormMixin} from '@oj/components/mixins'
-  import {JUDGE_STATUS, buildProblemCodeKey} from '@/utils/constants'
+  import {JUDGE_STATUS} from '@/utils/constants'
   import api from '@oj/api'
-
-  // 只显示这些状态的图形占用
+  import utils from '@/utils/utils'
 
   export default {
-    name: 'Problem',
+    name: 'IDE',
     components: {
       CodeMirror
     },
@@ -97,71 +82,27 @@
         language: 'C++',
         theme: 'solarized',
         submissionId: '',
-        submitted: true,
         result: {
           result: 9
         },
-        problem: {
-          title: '',
-          description: '',
-          hint: '',
-          my_status: '',
-          template: {},
-          languages: [],
-          created_by: {
-            username: ''
-          },
-          tags: [],
-          io_mode: {'io_mode': 'Standard IO'}
-        },
+        languages: [],
         input: '',
         output: ''
       }
     },
-    beforeRouteEnter (to, from, next) {
-      let problemCode = storage.get(buildProblemCodeKey(to.params.problemID, to.params.contestID))
-      if (problemCode) {
-        next(vm => {
-          vm.language = problemCode.language
-          vm.code = problemCode.code
-          vm.theme = problemCode.theme
-        })
-      } else {
-        next()
-      }
-    },
     mounted () {
-      this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: false})
-      this.init()
+      api.getLanguages().then(res => {
+        this.languages = res.data.data.languages.name.sort()
+      })
+    },
+    beforeRouteEnter (to, from, next) {
+      utils.getLanguages().then(languages => {
+        next(vm => {
+          vm.languages = languages
+        })
+      })
     },
     methods: {
-      ...mapActions(['changeDomTitle']),
-      init () {
-        this.$Loading.start()
-        let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
-        api[func](this.problemID, this.contestID).then(res => {
-          this.$Loading.finish()
-          let problem = res.data.data
-          this.changeDomTitle({title: problem.title})
-          api.submissionExists(problem.id).then(res => {
-            this.submissionExists = res.data.data
-          })
-          problem.languages = problem.languages.sort()
-
-          // 在beforeRouteEnter中修改了, 说明本地有code，无需加载template
-          if (this.code !== '') {
-            return
-          }
-          // try to load problem template
-          this.language = this.problem.languages[0]
-          let template = this.problem.template
-          if (template && template[this.language]) {
-            this.code = template[this.language]
-          }
-        }, () => {
-          this.$Loading.error()
-        })
-      },
       handleRoute (route) {
         this.$router.push(route)
       },
@@ -284,7 +225,6 @@
       }
     },
     computed: {
-      ...mapGetters(['contestRuleType', 'OIContestRealTimePermission', 'contestStatus']),
       submissionStatus () {
         return {
           text: JUDGE_STATUS[this.result.result]['name'],
@@ -302,18 +242,10 @@
     beforeRouteLeave (to, from, next) {
       // 防止切换组件后仍然不断请求
       clearInterval(this.refreshStatus)
-
-      this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: true})
-      storage.set(buildProblemCodeKey(this.problem._id, from.params.contestID), {
-        code: this.code,
-        language: this.language,
-        theme: this.theme
-      })
       next()
     },
     watch: {
       '$route' () {
-        this.init()
       }
     }
   }
