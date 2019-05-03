@@ -14,12 +14,12 @@
       </div>
     </div>
 	<BackTop :height="-1" :bottom="10" :right="0" >
-	    <Tooltip content="点我返回顶部" placement="left">
-            <div style="text-align:center">
-              <img class="card" src="@/assets/img/transparent.png" width="100px">
-            </div>
-		</Tooltip>
-      </BackTop>
+	  <Tooltip content="点我返回顶部" placement="left">
+          <div style="text-align:center">
+            <img class="card" src="@/assets/img/transparent.png" width="100px">
+          </div>
+      </Tooltip>
+    </BackTop>
   </div>
 </template>
 
