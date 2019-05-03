@@ -1,8 +1,6 @@
 <template>
   <div class="flex-container">
     <div id="problem-main">
-      <!--problem main-->
-      <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
 	    <p slot="title">{{$t('m.IDE')}}</p>
         <CodeMirror :value.sync="code"
@@ -36,10 +34,11 @@
           <Input v-model="input" type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="Enter Input" />
         </Card>
       </Col>
+
       <Col span="11" offset="1">
         <Card shadow>
           <p slot="title">Output</p>
-          <Input v-model="onput" type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="Output" />
+          <Input v-model="onput" readonly type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="Output" />
         </Card>
       </Col>
     </div>
@@ -57,11 +56,10 @@
 </template>
 
 <script>
-  import CodeMirror from '@oj/components/CodeMirror.vue'
+  import CodeMirror from './CodeMirror.vue'
   import {FormMixin} from '@oj/components/mixins'
   import {JUDGE_STATUS} from '@/utils/constants'
   import api from '@oj/api'
-  import utils from '@/utils/utils'
 
   export default {
     name: 'IDE',
@@ -87,19 +85,23 @@
         },
         languages: [],
         input: '',
-        output: ''
+        output: '',
+        submission: {
+          result: '0',
+          code: '',
+          info: {
+            data: []
+          },
+          statistic_info: {
+            time_cost: '',
+            memory_cost: ''
+          }
+        }
       }
     },
     mounted () {
       api.getLanguages().then(res => {
-        this.languages = res.data.data.languages.name.sort()
-      })
-    },
-    beforeRouteEnter (to, from, next) {
-      utils.getLanguages().then(languages => {
-        next(vm => {
-          vm.languages = languages
-        })
+        this.languages = res.data.data.languages.name
       })
     },
     methods: {
@@ -164,7 +166,7 @@
         let data = {
           language: this.language,
           code: this.code,
-          contest_id: this.contestID
+          testcase: this.input
         }
         if (this.captchaRequired) {
           data.captcha = this.captchaCode
@@ -247,6 +249,25 @@
     watch: {
       '$route' () {
       }
+    },
+    getSubmission () {
+      this.loading = true
+      api.getSubmission(this.$route.params.id).then(res => {
+        this.loading = false
+        let data = res.data.data
+        if (data.info && data.info.data && !this.isConcat) {
+          // score exist means the submission is OI problem submission
+          if (data.info.data[0].score !== undefined) {
+            this.isConcat = true
+          }
+          if (this.isAdminRole) {
+            this.isConcat = true
+          }
+        }
+        this.submission = data
+      }, () => {
+        this.loading = false
+      })
     }
   }
 </script>
