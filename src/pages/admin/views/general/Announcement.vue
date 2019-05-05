@@ -217,6 +217,7 @@
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
+          // then 为确定
           this.loading = true
           let funcName = this.contestID ? 'deleteContestAnnouncement' : 'deleteAnnouncement'
           api[funcName](announcementId).then(res => {
@@ -224,7 +225,8 @@
             this.init()
           })
         }).catch(() => {
-          this.loading = true
+          // catch 为取消
+          this.loading = false
         })
       },
       openAnnouncementDialog (id) {
