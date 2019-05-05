@@ -265,6 +265,11 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
+  },
+  IDE (data) {
+    return ajax('ide', 'post', {
+      data
+    })
   }
 }
 

@@ -79,7 +79,6 @@
         code: '',
         language: 'C++',
         theme: 'solarized',
-        submissionId: '',
         result: {
           result: 9
         },
@@ -105,9 +104,6 @@
       })
     },
     methods: {
-      handleRoute (route) {
-        this.$router.push(route)
-      },
       onChangeLang (newLang) {
         if (this.problem.template[newLang]) {
           if (this.code.trim() === '') {
@@ -130,100 +126,30 @@
           }
         })
       },
-      checkSubmissionStatus () {
-        // 使用setTimeout避免一些问题
-        if (this.refreshStatus) {
-          // 如果之前的提交状态检查还没有停止,则停止,否则将会失去timeout的引用造成无限请求
-          clearTimeout(this.refreshStatus)
-        }
-        const checkStatus = () => {
-          let id = this.submissionId
-          api.getSubmission(id).then(res => {
-            this.result = res.data.data
-            if (Object.keys(res.data.data.statistic_info).length !== 0) {
-              this.submitting = false
-              this.submitted = false
-              clearTimeout(this.refreshStatus)
-              this.init()
-            } else {
-              this.refreshStatus = setTimeout(checkStatus, 2000)
-            }
-          }, res => {
-            this.submitting = false
-            clearTimeout(this.refreshStatus)
-          })
-        }
-        this.refreshStatus = setTimeout(checkStatus, 2000)
-      },
       submitCode () {
         if (this.code.trim() === '') {
           this.$error('Code can not be empty')
           return
         }
-        this.submissionId = ''
         this.result = {result: 9}
         this.submitting = true
         let data = {
           language: this.language,
           code: this.code,
-          testcase: this.input
+          input: this.input
         }
         if (this.captchaRequired) {
           data.captcha = this.captchaCode
         }
-        const submitFunc = (data, detailsVisible) => {
-          this.statusVisible = true
-          api.submitCode(data).then(res => {
-            this.submissionId = res.data.data && res.data.data.submission_id
-            // 定时检查状态
-            this.submitting = false
-            this.submissionExists = true
-            if (!detailsVisible) {
-              this.$Modal.success({
-                title: 'Success',
-                content: 'Submit code successfully'
-              })
-              return
-            }
-            this.submitted = true
-            this.checkSubmissionStatus()
-          }, res => {
-            this.getCaptchaSrc()
-            if (res.data.data.startsWith('Captcha is required')) {
-              this.captchaRequired = true
-            }
-            this.submitting = false
-            this.statusVisible = false
-          })
-        }
-
-        if (this.contestRuleType === 'OI' && !this.OIContestRealTimePermission) {
-          if (this.submissionExists) {
-            this.$Modal.confirm({
-              title: '',
-              content: '<h3>You have submission in this problem, sure to cover it?<h3>',
-              onOk: () => {
-                // 暂时解决对话框与后面提示对话框冲突的问题(否则一闪而过）
-                setTimeout(() => {
-                  submitFunc(data, false)
-                }, 1000)
-              },
-              onCancel: () => {
-                this.submitting = false
-              }
-            })
+        api.IDE(data).then(res => {
+          if (res.data.err) {
+            this.output = res.data.data
           } else {
-            submitFunc(data, false)
+            this.output = res.data.output
+            this.time_cost = res.data.real_time
+            this.memory_cost = res.date.memory
           }
-        } else {
-          submitFunc(data, true)
-        }
-      },
-      onCopy (event) {
-        this.$success('Code copied')
-      },
-      onCopyError (e) {
-        this.$error('Failed to copy code')
+        })
       }
     },
     computed: {
