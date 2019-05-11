@@ -37,17 +37,16 @@
 
       <Col span="11" offset="1">
         <Card shadow>
-          <p slot="title">Output</p>
-          <Input v-model="onput" readonly type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="Output" />
+          <p slot="title">Output:</p>
+		  <p slot="extra">Time: {{time_cost}}ms</p>
+		  <p slot="extra">Memory: {{memory_cost}}MB</p>
+          <Input v-model="output" readonly type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="Output" />
         </Card>
       </Col>
     </div>
 
 
     <Modal v-model="graphVisible">
-      <div id="pieChart-detail">
-        <ECharts :options="largePie" :initOptions="largePieInitOpts"></ECharts>
-      </div>
       <div slot="footer">
         <Button type="ghost" @click="graphVisible=false">Close</Button>
       </div>
@@ -90,26 +89,19 @@
           code: '',
           info: {
             data: []
-          },
-          statistic_info: {
-            time_cost: '',
-            memory_cost: ''
           }
-        }
+        },
+        time_cost: 'None ',
+        memory_cost: 'None '
       }
     },
     mounted () {
       api.getLanguages().then(res => {
-        this.languages = res.data.data.languages.name
+        this.languages = res.data.data.languages
       })
     },
     methods: {
       onChangeLang (newLang) {
-        if (this.problem.template[newLang]) {
-          if (this.code.trim() === '') {
-            this.code = this.problem.template[newLang]
-          }
-        }
         this.language = newLang
       },
       onChangeTheme (newTheme) {
@@ -131,8 +123,8 @@
           this.$error('Code can not be empty')
           return
         }
-        this.result = {result: 9}
         this.submitting = true
+        this.result = {result: 9}
         let data = {
           language: this.language,
           code: this.code,
@@ -142,12 +134,17 @@
           data.captcha = this.captchaCode
         }
         api.IDE(data).then(res => {
-          if (res.data.err) {
-            this.output = res.data.data
+          var resdata = res.data.data
+          if (res.data.data.err) {
+            this.output = resdata.data
+            this.submitting = false
+            this.time_cost = 'Error '
+            this.memory_cost = 'Error '
           } else {
-            this.output = res.data.output
-            this.time_cost = res.data.real_time
-            this.memory_cost = res.date.memory
+            this.output = resdata.data[0]['output']
+            this.submitting = false
+            this.time_cost = resdata.data[0]['real_time']
+            this.memory_cost = parseInt(resdata.data[0]['memory'] / 1024 / 1024)
           }
         })
       }
