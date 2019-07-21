@@ -17,6 +17,7 @@ export const m = {
   Contest: 'Contest',
   Contest_List: 'Contest List',
   Create_Contest: 'Create Contest',
+  AboutUs: 'About Us',
   // User.vue
   User_User: 'User',
   Import_User: 'Import User',
@@ -34,7 +35,7 @@ export const m = {
   // Announcement.vue
   General_Announcement: 'Announcement',
   Announcement_Title: 'Title',
-  Announcement_Content: 'Conten',
+  Announcement_Content: 'Content',
   Announcement_visible: 'Visible',
   // Conf.vue
   SMTP_Config: 'SMTP Config',

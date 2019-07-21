@@ -85,14 +85,31 @@
       </el-form>
       <save @click.native="saveWebsiteConfig"></save>
     </Panel>
+
+    <Panel :title="$t('About Us Config')">
+      <div>
+        <el-form label-position="top">
+          <el-form-item>
+            <Simditor v-model="aboutus.content"></Simditor>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <save type="primary" @click.native="saveAboutUs"></save>
+        </span>
+      </div>
+    </Panel>
   </div>
 </template>
 
 <script>
+  import Simditor from '../../components/Simditor.vue'
   import api from '../../api.js'
 
   export default {
     name: 'Conf',
+    components: {
+      Simditor
+    },
     data () {
       return {
         init: false,
@@ -105,7 +122,14 @@
           email: 'email@example.com',
           tls: true
         },
-        websiteConfig: {}
+        websiteConfig: {},
+        // 当前关于我们id
+        currentAboutUsId: 1,
+        aboutus: {
+          id: 1,
+          content: ''
+        },
+        onit: false
       }
     },
     mounted () {
@@ -119,6 +143,14 @@
       })
       api.getWebsiteConfig().then(res => {
         this.websiteConfig = res.data.data
+      }).catch(() => {
+      })
+      api.getAboutUsList().then(res => {
+        if (res.data.data) {
+          this.aboutus = res.data.data
+        } else {
+          this.onit = true
+        }
       }).catch(() => {
       })
     },
@@ -152,6 +184,30 @@
       },
       saveWebsiteConfig () {
         api.editWebsiteConfig(this.websiteConfig).then(() => {
+        }).catch(() => {
+        })
+      },
+      saveAboutUs (data) {
+        if (this.onit === false) {
+          api.updateAboutUs(this.aboutus).then(() => {
+            data = {
+              id: this.currentAboutUsId,
+              content: this.aboutus.content
+            }
+          }, () => {
+          })
+        } else {
+          api.createAboutUs(this.aboutus).then(() => {
+            data = {
+              id: this.currentAboutUsId,
+              content: this.aboutus.content
+            }
+          }, () => {
+          })
+        }
+        api.getAboutUsList().then(res => {
+          this.aboutus = res.data.data
+          this.onit = false
         }).catch(() => {
         })
       }

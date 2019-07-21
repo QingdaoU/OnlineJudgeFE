@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
+    <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" :class="oj-menu">
       <div class="logo"><span>{{website.website_name}}</span></div>
       <Menu-item name="/">
         <Icon type="home"></Icon>
@@ -30,6 +30,15 @@
           {{$t('m.OI_Rank')}}
         </Menu-item>
       </Submenu>
+      <Submenu name="onlineapp">
+        <template slot="title">
+          <Icon type="ios-cloud" />
+          {{$t('m.App')}}
+        </template>
+        <Menu-item name="/IDE">
+          {{$t('m.IDE')}}
+        </Menu-item>
+      </Submenu>
       <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>
@@ -40,8 +49,27 @@
         </Menu-item>
         <Menu-item name="/FAQ">
           {{$t('m.FAQ')}}
+		</Menu-item>
+		<Menu-item name="/AboutUs">
+          {{$t('m.AboutUs')}}
         </Menu-item>
       </Submenu>
+          
+      <Dropdown @on-click="switchChange" class="ivu-menu-submenu">
+        <div>
+		  <Icon type="ios-browsers"></Icon>
+		  &emsp;换肤
+          <Icon type="ios-arrow-down"></Icon>
+        </div>
+        <DropdownMenu slot="list">
+          <DropdownItem name="1"><Icon type="ios-browsers" color="#2d8cf0" />&emsp;胖次蓝</DropdownItem>
+          <DropdownItem name="2"><Icon type="ios-browsers" color="#f58f98" />&emsp;少女粉</DropdownItem>
+	      <DropdownItem name="4"><Icon type="ios-browsers" color="#d63031" />&emsp;姨妈红</DropdownItem>
+		  <DropdownItem name="5"><Icon type="ios-browsers" color="#00b894" />&emsp;原谅绿</DropdownItem>
+          <DropdownItem name="3"><Icon type="ios-browsers" color="#673AB7" />&emsp;基佬紫</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"
@@ -107,6 +135,18 @@
           visible: true,
           mode: mode
         })
+      },
+      // 更换主题
+      switchChange (status) {
+        let params = document.getElementById('app')
+        params.className = 'theme' + status
+        window.localStorage.setItem('app', document.getElementById('app').className)
+      },
+      // 存储主题颜色
+      localStorageDate () {
+        let memoryColor = window.localStorage.getItem('app')
+        let params = document.getElementById('app')
+        params.className = memoryColor
       }
     },
     computed: {
@@ -123,6 +163,9 @@
           this.changeModalStatus({visible: value})
         }
       }
+    },
+    created () {
+      this.localStorageDate()
     }
   }
 </script>
@@ -164,6 +207,15 @@
       float: right;
       margin-right: 10px;
     }
+	.change-menu {
+      float: right;
+      margin-right: 130px;
+      position: absolute;
+      right: 10px;
+      &-title {
+        font-size: 18px;
+      }
+    }
   }
 
   .modal {
@@ -172,4 +224,5 @@
       font-weight: 600;
     }
   }
+  
 </style>

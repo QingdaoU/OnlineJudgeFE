@@ -166,6 +166,7 @@
   }changeLocale
 
   .announcement-animate-enter-active {
+    color: rgba(255, 255, 255, 0.5);
     animation: fadeIn 1s;
   }
 </style>

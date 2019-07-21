@@ -9,23 +9,24 @@ env:
     - CXX=g++-4.8
   matrix:
     - USE_SENTRY=1
-#    - USE_SENTRY=0
+
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+    - g++-4.8
+
 before_install:
   - docker pull getsentry/sentry-cli
 
 script:
   - npm install
-  - npm run build:dll
+  - NODE_ENV=production npm run build:dll
   - npm run build
 
 before_deploy:
-  - bash deploy/sentry_release.sh
+#  - bash deploy/sentry_release.sh
   - find dist/ -type f -name "*.map" -delete
   - zip -r dist.zip dist
 
@@ -33,9 +34,9 @@ deploy:
   provider: releases
   skip_cleanup: true
   api_key:
-    secure: I+BjkiPd+7XnMo1qWFhyz2xqElBLlGuCx1ZamvEa61zk4HPAnfWDPvpxXWihLdE4WDIkrOTRQ6Nh6GlVz+2uFugtdAlrxEWjU3bhadf5hAPNL2faNd52CN2qRNOuaWZmIkY4KUDmKoxvcFVQCKqMCxpghlNT7IJLwaC5wjogMeQKERXSa4rXl/ZGHdZzpkPo8SIEIy7hwQcHDl0ckm3t8wlXe6/xCRR2YoI3enZE15oJ15PChEcYbI6kUHNg3iIAddAAykqU0PnBtGSaPkl2JU90f4Rs62wW626wXyBs39ZU2rSbooyKF7OgFtS7KeTbYxyINBta8JH45plE/HVB3U3wy/8dBneZYr6ySGtSZSV10ortW59Al6Pifyo1na6tgkXSrckUOh1HFSiOsN6k46RXo6T1L1w1P8cUCJ2WYJksHJqBXnQmKbol9x3Gz6fQHR6yA5ToczKmg2ow549Q3g3oRb6RjRzXNkYu9sAZ2mhQ1fIjm7GkYPQvHzze+qwBxeX/ysFwIUNjUnK6u6EZunShz6fF9NEsDxzfUXPDOfB28MmxGkIi6TuT21F8tKfCG0C0CqLWBBve2agU9gutvIA1aY9i5K0YnlXPah1NYYzDPlk1RepWzJrq9VzGz3HxwY++cm6vR/7o9V+3WVpMIWHjnYwDTpK7pfm3VYbiLlg=
+    secure: cUs72lPWFx+X1LGQx/HdLGrWc5TET54akk6kU4B1uQHKY4A/uCXreUbtMQl+5oxRfZIsAwiGR39xk1MjmuK3/gXfmcWkOZP3lZD2K2DBYvxzscsHo+tKfM+pk3oW4iV0xjCmDiuCVYCWN8L9mN1zGZC5pJAIDZvcpQZlvsoVzYKA6NAdN1O/trWtvyWvbSnKMB9DDXL+WsB5uRUYXURiomIANbvoKH0brBoFT0TQ8M89wvmnl36tdyDuvAqBAJMzQ0F/y/W4k+7wzj64U7G5BPqCN9kpZAeEOo+aI2BiYRPYS6mjKjPNwfw0bn4pvRv4B2H7hqzA7lrRAE4ry42lPZfCs+qKQg3J7MHU0oeGxPzweVP3nDCkvdMpFAn9i4l+zMONRGvuTKcHzv31TGoF+QXpmzozqHeDn4sUSb5xU9bcv1ErNHd+HnCzoYpxOzhOREVR16cPi3aOUJcGWRBOkA60rZsqMhKVnPn8NCq9+Es1ifjiCSSyn1zoWilmrEiGq8fo1MiRL22oWR2YHAVxBHrntM0w74QxLSXhFAO0W6xILJX2SuMQNnOqK6QWWeg18Ut1O62lv38F02D3b8CUnyxjPoEspP2ni8J69Jr4o9yl1m9bPAJaLRz2/yCpdB31RAzArFBfmrY1DTAr8fstB2PXFLozsT0S7OhNkRdlElU=
   file: dist.zip
   on:
-    repo: QingdaoU/OnlineJudgeFE
+    repo: Harry-zklcdc/OJ
     all_branches: true
     tags: true

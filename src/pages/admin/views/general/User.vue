@@ -57,6 +57,18 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
+        <el-form label-width="120px" label-position="left">
+	         <el-row :gutter="20">
+	           <el-col :span="8">
+	             <el-form-item label="Only Admin">
+	               <el-switch
+	                 v-model="onlyadmin">
+	               </el-switch>
+	             </el-form-item>
+	           </el-col>
+	         </el-row>
+	       </el-form>
+	
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -266,6 +278,7 @@
         uploadUsersPageSize: 15,
         // 搜索关键字
         keyword: '',
+        onlyadmin: false,
         // 是否显示用户对话框
         showUserDialog: false,
         // 当前用户model
@@ -315,7 +328,7 @@
       // 获取用户列表
       getUserList (page) {
         this.loadingTable = true
-        api.getUserList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
+        api.getUserList((page - 1) * this.pageSize, this.pageSize, this.keyword, this.onlyadmin).then(res => {
           this.loadingTable = false
           this.total = res.data.data.total
           this.userList = res.data.data.results
@@ -398,6 +411,9 @@
       }
     },
     watch: {
+      'onlyadmin' () {
+        this.currentChange(1)
+      },
       'keyword' () {
         this.currentChange(1)
       },

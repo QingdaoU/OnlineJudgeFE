@@ -16,6 +16,9 @@ export default {
   getAnnouncementList () {
     return ajax('announcement', 'get')
   },
+  getAboutUs () {
+    return ajax('aboutus', 'get')
+  },
   login (data) {
     return ajax('login', 'post', {
       data
@@ -260,6 +263,11 @@ export default {
   },
   updateACInfoCheckedStatus (data) {
     return ajax('admin/contest/acm_helper', 'put', {
+      data
+    })
+  },
+  IDE (data) {
+    return ajax('ide', 'post', {
       data
     })
   }
