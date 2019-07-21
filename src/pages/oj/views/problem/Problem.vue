@@ -364,6 +364,8 @@
             let template = this.problem.template
             if (template && template[this.language]) {
               this.code = template[this.language]
+            } else {
+              this.code = ''
             }
           }
         })
