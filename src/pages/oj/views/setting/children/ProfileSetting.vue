@@ -69,7 +69,7 @@
           <FormItem label="Real Name">
             <Input v-model="formProfile.real_name" disabled/>
           </FormItem>
-          <Form-item label="Classroom">
+          <Form-item label="Class Name">
             <Input v-model="formProfile.school" disabled/>
           </Form-item>
           <Form-item label="Major">
