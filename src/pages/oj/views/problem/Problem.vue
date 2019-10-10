@@ -63,7 +63,7 @@
               <template v-if="!this.contestID || (this.contestID && OIContestRealTimePermission)">
                 <span>{{$t('m.Status')}}</span>
                 <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
-                  {{submissionStatus.text}}
+                  {{$t('m.' + submissionStatus.text.replace(/ /g, "_"))}}
                 </Tag>
               </template>
               <template v-else-if="this.contestID && !OIContestRealTimePermission">
@@ -93,8 +93,8 @@
             <Button type="warning" icon="edit" :loading="submitting" @click="submitCode"
                     :disabled="problemSubmitDisabled || submitted"
                     class="fl-right">
-              <span v-if="submitting">Submitting</span>
-              <span v-else>Submit</span>
+              <span v-if="submitting">{{$t('m.Submitting')}}</span>
+              <span v-else>{{$t('m.Submit')}}</span>
             </Button>
           </Col>
         </Row>
@@ -106,29 +106,29 @@
         <template v-if="this.contestID">
           <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
             <Icon type="ios-photos"></Icon>
-            Problems
+            {{$t('m.Problems')}}
           </VerticalMenu-item>
 
           <VerticalMenu-item :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
             <Icon type="chatbubble-working"></Icon>
-            Announcements
+            {{$t('m.Announcements')}}
           </VerticalMenu-item>
         </template>
 
         <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission" :route="submissionRoute">
           <Icon type="navicon-round"></Icon>
-          Submissions
+           {{$t('m.Submissions')}}
         </VerticalMenu-item>
 
         <template v-if="this.contestID">
           <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"
                              :route="{name: 'contest-rank', params: {contestID: contestID}}">
             <Icon type="stats-bars"></Icon>
-            Rankings
+            {{$t('m.Rankings')}}
           </VerticalMenu-item>
           <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
             <Icon type="home"></Icon>
-            View Contest
+            {{$t('m.View_Contest')}}
           </VerticalMenu-item>
         </template>
       </VerticalMenu>
@@ -157,7 +157,7 @@
             <p>{{problem.created_by.username}}</p></li>
           <li v-if="problem.difficulty">
             <p>{{$t('m.Level')}}</p>
-            <p>{{problem.difficulty}}</p></li>
+            <p>{{$t('m.' + problem.difficulty)}}</p></li>
           <li v-if="problem.total_score">
             <p>{{$t('m.Score')}}</p>
             <p>{{problem.total_score}}</p>
@@ -166,7 +166,7 @@
             <p>{{$t('m.Tags')}}</p>
             <p>
               <Poptip trigger="hover" placement="left-end">
-                <a>Show</a>
+                <a>{{$t('m.Show')}}</a>
                 <div slot="content">
                   <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
                 </div>
@@ -179,7 +179,7 @@
       <Card id="pieChart" :padding="0" v-if="!this.contestID || OIContestRealTimePermission">
         <div slot="title">
           <Icon type="ios-analytics"></Icon>
-          <span class="card-title">Statistic</span>
+          <span class="card-title">{{$t('m.Statistic')}}</span>
           <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
         </div>
         <div class="echarts">
@@ -193,7 +193,7 @@
         <ECharts :options="largePie" :initOptions="largePieInitOpts"></ECharts>
       </div>
       <div slot="footer">
-        <Button type="ghost" @click="graphVisible=false">Close</Button>
+        <Button type="ghost" @click="graphVisible=false">{{$t('m.Close')}}</Button>
       </div>
     </Modal>
   </div>

@@ -11,9 +11,9 @@
                   <Icon type="arrow-down-b"></Icon>
                 </span>
                 <Dropdown-menu slot="list">
-                  <Dropdown-item name="">All</Dropdown-item>
+                  <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
                   <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
-                    {{JUDGE_STATUS[status].name}}
+                    {{$t('m.' + JUDGE_STATUS[status].name.replace(/ /g, "_"))}}
                   </Dropdown-item>
                 </Dropdown-menu>
               </Dropdown>
@@ -22,12 +22,12 @@
 
             <li>
               <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
-                <span slot="open">Mine</span>
-                <span slot="close">All</span>
+                <span slot="open">{{$t('m.Mine')}}</span>
+                <span slot="close">{{$t('m.All')}}</span>
               </i-switch>
             </li>
             <li>
-              <Input v-model="formFilter.username" placeholder="Search Author" @on-enter="handleQueryChange"/>
+              <Input v-model="formFilter.username" :placeholder="$t('m.Search_Author')" @on-enter="handleQueryChange"/>
             </li>
 
             <li>
@@ -64,14 +64,14 @@
         },
         columns: [
           {
-            title: 'When',
+            title: this.$i18n.t('m.When'),
             align: 'center',
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.create_time))
             }
           },
           {
-            title: 'ID',
+            title: this.$i18n.t('m.ID'),
             align: 'center',
             render: (h, params) => {
               if (params.row.show_link) {
@@ -92,18 +92,18 @@
             }
           },
           {
-            title: 'Status',
+            title: this.$i18n.t('m.Status'),
             align: 'center',
             render: (h, params) => {
               return h('Tag', {
                 props: {
                   color: JUDGE_STATUS[params.row.result].color
                 }
-              }, JUDGE_STATUS[params.row.result].name)
+              }, this.$i18n.t('m.' + JUDGE_STATUS[params.row.result].name.replace(/ /g, '_')))
             }
           },
           {
-            title: 'Problem',
+            title: this.$i18n.t('m.Problem'),
             align: 'center',
             render: (h, params) => {
               return h('span',
@@ -130,26 +130,26 @@
             }
           },
           {
-            title: 'Time',
+            title: this.$i18n.t('m.Time'),
             align: 'center',
             render: (h, params) => {
               return h('span', utils.submissionTimeFormat(params.row.statistic_info.time_cost))
             }
           },
           {
-            title: 'Memory',
+            title: this.$i18n.t('m.Memory'),
             align: 'center',
             render: (h, params) => {
               return h('span', utils.submissionMemoryFormat(params.row.statistic_info.memory_cost))
             }
           },
           {
-            title: 'Language',
+            title: this.$i18n.t('m.Language'),
             align: 'center',
             key: 'language'
           },
           {
-            title: 'Author',
+            title: this.$i18n.t('m.Author'),
             align: 'center',
             render: (h, params) => {
               return h('a', {
@@ -251,7 +251,7 @@
           return
         }
         const judgeColumn = {
-          title: 'Option',
+          title: this.$i18n.t('m.Option'),
           fixed: 'right',
           align: 'center',
           width: 90,
@@ -267,7 +267,7 @@
                   this.handleRejudge(params.row.id, params.index)
                 }
               }
-            }, 'Rejudge')
+            }, this.$i18n.t('m.Rejudge'))
           }
         }
         this.columns.push(judgeColumn)
@@ -297,15 +297,15 @@
       ...mapGetters(['isAuthenticated', 'user']),
       title () {
         if (!this.contestID) {
-          return 'Status'
+          return this.$i18n.t('m.Status')
         } else if (this.problemID) {
-          return 'Problem Submissions'
+          return this.$i18n.t('m.Problem_Submissions')
         } else {
-          return 'Submissions'
+          return this.$i18n.t('m.Submissions')
         }
       },
       status () {
-        return this.formFilter.result === '' ? 'Status' : JUDGE_STATUS[this.formFilter.result].name
+        return this.formFilter.result === '' ? this.$i18n.t('m.Status') : this.$i18n.t('m.' + JUDGE_STATUS[this.formFilter.result].name.replace(/ /g, '_'))
       },
       rejudgeColumnVisible () {
         return !this.contestID && this.user.admin_type === USER_TYPE.SUPER_ADMIN

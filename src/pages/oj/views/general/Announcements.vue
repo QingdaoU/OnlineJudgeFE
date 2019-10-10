@@ -19,7 +19,7 @@
               <div class="title"><a class="entry" @click="goAnnouncement(announcement)">
                 {{announcement.title}}</a></div>
               <div class="date">{{announcement.create_time | localtime }}</div>
-              <div class="creator"> By {{announcement.created_by.username}}</div>
+              <div class="creator"> {{$t('m.By')}} {{announcement.created_by.username}}</div>
             </div>
           </li>
         </ul>
@@ -103,7 +103,7 @@
     computed: {
       title () {
         if (this.listVisible) {
-          return this.isContest ? 'Contest Announcements' : 'Announcements'
+          return this.isContest ? this.$i18n.t('m.Contest_Announcements') : this.$i18n.t('m.Announcements')
         } else {
           return this.announcement.title
         }

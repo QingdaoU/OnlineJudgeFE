@@ -18,14 +18,14 @@ export const m = {
   Show: '顯示',
   // About.vue
   Result_Explanation: '結果說明',
-  Pending_Juding: '您的答案即將進行評分，請等待結果。',
-  Compile_Error: '無法編譯您的原始碼，請點選連結以檢視編譯器的輸出。',
-  Accepted: '您的解題方法是正確的。',
-  Wrong_Answer: '您程式的輸出結果與標準程式的答案不符。',
-  Runtime_Error: '您的程式異常終止，可能的原因是: 記憶體區段錯誤、被零除或結束程式時傳回非 0 的值。',
-  Time_Limit_Exceeded: '您的程式使用的 CPU 時間已超出限制，Java 有三倍的時間限制。',
-  Memory_Limit_Exceeded: '程式實際使用的記憶體已超出限制。',
-  System_Error: 'Judge 系統發生錯誤。請回報系統管理員。',
+  Pending_Judging_Description: '您的答案即將進行評分，請等待結果。',
+  Compile_Error_Description: '無法編譯您的原始碼，請點選連結以檢視編譯器的輸出。',
+  Accepted_Description: '您的解題方法是正確的。',
+  Wrong_Answer_Description: '您程式的輸出結果與標準程式的答案不符。',
+  Runtime_Error_Description: '您的程式異常終止，可能的原因是: 記憶體區段錯誤、被零除或結束程式時傳回非 0 的值。',
+  Time_Limit_Exceeded_Description: '您的程式使用的 CPU 時間已超出限制，Java 有三倍的時間限制。',
+  Memory_Limit_Exceeded_Description: '程式實際使用的記憶體已超出限制。',
+  System_Error_Description: 'Judge 系統發生錯誤。請回報系統管理員。',
   // FAQ.vue
   Frequently_Asked_Questions: '常見問題',
   // ContestDetail.vue
