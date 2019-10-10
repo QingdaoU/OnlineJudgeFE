@@ -40,6 +40,9 @@
           fileKey: 'image',
           connectionCount: 3,
           leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
+        },
+        allowedStyles: {
+          span: ['color']
         }
       })
       this.editor.on('valuechanged', (e, src) => {
