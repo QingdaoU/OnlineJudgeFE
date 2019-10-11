@@ -41,7 +41,7 @@
           leaveConfirm: this.$i18n.t('m.Uploading_is_in_progress')
         },
         allowedStyles: {
-          span: ['color'
+          span: ['color']
         }
       })
       this.editor.on('valuechanged', (e, src) => {
