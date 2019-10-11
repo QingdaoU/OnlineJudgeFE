@@ -67,17 +67,17 @@
                 </Tag>
               </template>
               <template v-else-if="this.contestID && !OIContestRealTimePermission">
-                <Alert type="success" show-icon>Submitted successfully</Alert>
+                <Alert type="success" show-icon>{{$t('m.Submitted_successfully')}}</Alert>
               </template>
             </div>
             <div v-else-if="problem.my_status === 0">
-              <Alert type="success" show-icon>You have solved the problem</Alert>
+              <Alert type="success" show-icon>{{$t('m.You_have_solved_the_problem')}}</Alert>
             </div>
             <div v-else-if="this.contestID && !OIContestRealTimePermission && submissionExists">
-              <Alert type="success" show-icon>You have submitted a solution.</Alert>
+              <Alert type="success" show-icon>{{$t('m.You_have_submitted_a_solution')}}</Alert>
             </div>
             <div v-if="contestEnded">
-              <Alert type="warning" show-icon>Contest has ended</Alert>
+              <Alert type="warning" show-icon>{{$t('m.Contest_has_ended')}}</Alert>
             </div>
           </Col>
 
@@ -359,7 +359,7 @@
       },
       onResetToTemplate () {
         this.$Modal.confirm({
-          content: 'Are you sure you want to reset your code?',
+          content: this.$i18n.t('m.Are_you_sure_you_want_to_reset_your_code'),
           onOk: () => {
             let template = this.problem.template
             if (template && template[this.language]) {
@@ -395,7 +395,7 @@
       },
       submitCode () {
         if (this.code.trim() === '') {
-          this.$error('Code can not be empty')
+          this.$error(this.$i18n.t('m.Code_can_not_be_empty'))
           return
         }
         this.submissionId = ''
@@ -419,8 +419,8 @@
             this.submissionExists = true
             if (!detailsVisible) {
               this.$Modal.success({
-                title: 'Success',
-                content: 'Submit code successfully'
+                title: this.$i18n.t('m.Success'),
+                content: this.$i18n.t('m.Submit_code_successfully')
               })
               return
             }
@@ -440,7 +440,7 @@
           if (this.submissionExists) {
             this.$Modal.confirm({
               title: '',
-              content: '<h3>You have submission in this problem, sure to cover it?<h3>',
+              content: '<h3>' + this.$i18n.t('m.You_have_submission_in_this_problem_sure_to_cover_it') + '<h3>',
               onOk: () => {
                 // 暂时解决对话框与后面提示对话框冲突的问题(否则一闪而过）
                 setTimeout(() => {
