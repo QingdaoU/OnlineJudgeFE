@@ -37,7 +37,7 @@
           url: '/api/admin/upload_image/',
           params: null,
           fileKey: 'image',
-          connectionCount: 3
+          connectionCount: 3,
           leaveConfirm: this.$i18n.t('m.Uploading_is_in_progress')
         },
         allowedStyles: {
