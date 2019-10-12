@@ -25,6 +25,7 @@
     "papaparse": "^4.4.0",
     "raven-js": "^3.25.0",
     "screenfull": "^3.3.2",
+    "tar-simditor": "^3.0.5",
     "tar-simditor-markdown": "^1.2.3",
     "vue": "^2.5.16",
     "vue-analytics": "^5.10.4",
