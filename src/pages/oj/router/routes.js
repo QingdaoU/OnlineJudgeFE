@@ -107,6 +107,11 @@ export default [
         component: Contest.ContestRank
       },
       {
+        name: 'similar-checker',
+        path: 'similar',
+        component: Contest.ContestSimilar
+      },
+      {
         name: 'acm-helper',
         path: 'helper',
         component: Contest.ACMContestHelper

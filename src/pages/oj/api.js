@@ -262,6 +262,20 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
+  },
+  ContestRunCheckSimilar (Contestid) {
+    return ajax('admin/contest_check_similar', 'get', {
+      params: {
+        contest_id: Contestid
+      }
+    })
+  },
+  ContestGetSimilarList (Contestid) {
+    return ajax('contest/get_similar', 'get', {
+      params: {
+        contest_id: Contestid
+      }
+    })
   }
 }
 
