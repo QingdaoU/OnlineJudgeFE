@@ -41,7 +41,7 @@ export const m = {
   Accepted_Description: 'Congratulations. Your solution is correct.',
   Wrong_Answer_Description: "Your program's output doesn't match judger's answer.",
   Runtime_Error_Description: 'Your program terminated abnormally. Possible reasons are: segment fault, divided by zero or exited with code other than 0.',
-  Time_Limit_Exceeded_Description: 'The CPU time your program used has exceeded limit. Java has a triple time limit.',
+  Time_Limit_Exceeded_Description: 'The CPU time your program used has exceeded limit.',
   Memory_Limit_Exceeded_Description: 'The memory your program actually used has exceeded limit.',
   System_Error_Description: 'Oops, something has gone wrong with the judger. Please report this to administrator.',
   // ACMContestRank.vue

@@ -41,7 +41,7 @@ export const m = {
   Accepted_Description: '你的解题方法是正确的。',
   Wrong_Answer_Description: '你的程序输出结果与判题程序的答案不符。',
   Runtime_Error_Description: '您的程序异常终止，可能的原因是：段错误，被零除或用非0的代码退出程序。',
-  Time_Limit_Exceeded_Description: '您的程序使用的 CPU 时间已超出限制，Java 有三倍的时间限制。',
+  Time_Limit_Exceeded_Description: '您的程序使用的 CPU 时间已超出限制。',
   Memory_Limit_Exceeded_Description: '程序实际使用的内存已超出限制。',
   System_Error_Description: '糟糕，判题程序出了问题。请报告给管理员。',
   // ACMContestRank.vue

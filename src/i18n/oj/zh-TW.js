@@ -23,7 +23,7 @@ export const m = {
   Accepted_Description: '您的解題方法是正確的。',
   Wrong_Answer_Description: '您程式的輸出結果與標準程式的答案不符。',
   Runtime_Error_Description: '您的程式異常終止，可能的原因是: 記憶體區段錯誤、被零除或結束程式時傳回非 0 的值。',
-  Time_Limit_Exceeded_Description: '您的程式使用的 CPU 時間已超出限制，Java 有三倍的時間限制。',
+  Time_Limit_Exceeded_Description: '您的程式使用的 CPU 時間已超出限制。',
   Memory_Limit_Exceeded_Description: '程式實際使用的記憶體已超出限制。',
   System_Error_Description: 'Judge 系統發生錯誤。請回報系統管理員。',
   // FAQ.vue
