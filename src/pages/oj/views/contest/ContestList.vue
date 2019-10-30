@@ -2,31 +2,31 @@
   <Row type="flex">
     <Col :span="24">
     <Panel id="contest-card" shadow>
-      <div slot="title">{{query.rule_type === '' ? 'All' : query.rule_type}} Contests</div>
+      <div slot="title">{{query.rule_type === '' ? this.$i18n.t('m.All') : query.rule_type}} {{$t('m.Contests')}}</div>
       <div slot="extra">
         <ul class="filter">
           <li>
             <Dropdown @on-click="onRuleChange">
-              <span>{{query.rule_type === '' ? 'Rule' : query.rule_type}}
+              <span>{{query.rule_type === '' ? this.$i18n.t('m.Rule') : this.$i18n.t('m.' + query.rule_type)}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
-                <Dropdown-item name="">All</Dropdown-item>
-                <Dropdown-item name="OI">OI</Dropdown-item>
-                <Dropdown-item name="ACM">ACM</Dropdown-item>
+                <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
+                <Dropdown-item name="OI">{{$t('m.OI')}}</Dropdown-item>
+                <Dropdown-item name="ACM">{{$t('m.ACM')}}</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
           <li>
             <Dropdown @on-click="onStatusChange">
-              <span>{{query.status === '' ? 'Status' : CONTEST_STATUS_REVERSE[query.status].name}}
+              <span>{{query.status === '' ? this.$i18n.t('m.Status') : this.$i18n.t('m.' + CONTEST_STATUS_REVERSE[query.status].name.replace(/ /g,"_"))}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
-                <Dropdown-item name="">All</Dropdown-item>
-                <Dropdown-item name="0">UnderWay</Dropdown-item>
-                <Dropdown-item name="1">Not Started</Dropdown-item>
-                <Dropdown-item name="-1">Ended</Dropdown-item>
+                <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
+                <Dropdown-item name="0">{{$t('m.Underway')}}</Dropdown-item>
+                <Dropdown-item name="1">{{$t('m.Not_Started')}}</Dropdown-item>
+                <Dropdown-item name="-1">{{$t('m.Ended')}}</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
@@ -36,7 +36,7 @@
           </li>
         </ul>
       </div>
-      <p id="no-contest" v-if="contests.length == 0">No contest</p>
+      <p id="no-contest" v-if="contests.length == 0">{{$t('m.No_contest')}}</p>
       <ol id="contest-list">
         <li v-for="contest in contests" :key="contest.title">
           <Row type="flex" justify="space-between" align="middle">
@@ -67,7 +67,7 @@
             </ul>
             </Col>
             <Col :span="4" style="text-align: center">
-            <Tag type="dot" :color="CONTEST_STATUS_REVERSE[contest.status].color">{{CONTEST_STATUS_REVERSE[contest.status].name}}</Tag>
+            <Tag type="dot" :color="CONTEST_STATUS_REVERSE[contest.status].color">{{$t('m.' + CONTEST_STATUS_REVERSE[contest.status].name.replace(/ /g, "_"))}}</Tag>
             </Col>
           </Row>
         </li>
@@ -158,7 +158,7 @@
       goContest (contest) {
         this.cur_contest_id = contest.id
         if (contest.contest_type !== CONTEST_TYPE.PUBLIC && !this.isAuthenticated) {
-          this.$error('Please login first.')
+          this.$error(this.$i18n.t('m.Please_login_first'))
           this.$store.dispatch('changeModalStatus', {visible: true})
         } else {
           this.$router.push({name: 'contest-details', params: {contestID: contest.id}})

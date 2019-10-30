@@ -86,7 +86,7 @@
             this.btnLoginLoading = false
             this.changeModalStatus({visible: false})
             this.getProfile()
-            this.$success('Welcome back to OJ')
+            this.$success(this.$i18n.t('m.Welcome_back'))
           }, _ => {
             this.btnLoginLoading = false
           })
