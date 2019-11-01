@@ -2,26 +2,26 @@
   <Row type="flex" :gutter="18">
     <Col :span=19>
     <Panel shadow>
-      <div slot="title">Problem List</div>
+      <div slot="title">{{$t('m.Problem_List')}}</div>
       <div slot="extra">
         <ul class="filter">
           <li>
             <Dropdown @on-click="filterByDifficulty">
-              <span>{{query.difficulty === '' ? 'Difficulty' : query.difficulty}}
+              <span>{{query.difficulty === '' ? this.$i18n.t('m.Difficulty') : this.$i18n.t('m.' + query.difficulty)}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
-                <Dropdown-item name="">All</Dropdown-item>
-                <Dropdown-item name="Low">Low</Dropdown-item>
-                <Dropdown-item name="Mid">Mid</Dropdown-item>
-                <Dropdown-item name="High">High</Dropdown-item>
+                <Dropdown-item name="">{{$t('m.All')}}</Dropdown-item>
+                <Dropdown-item name="Low">{{$t('m.Low')}}</Dropdown-item>
+                <Dropdown-item name="Mid" >{{$t('m.Mid')}}</Dropdown-item>
+                <Dropdown-item name="High">{{$t('m.High')}}</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
           <li>
             <i-switch size="large" @on-change="handleTagsVisible">
-              <span slot="open">Tags</span>
-              <span slot="close">Tags</span>
+              <span slot="open">{{$t('m.Tags')}}</span>
+              <span slot="close">{{$t('m.Tags')}}</span>
             </i-switch>
           </li>
           <li>
@@ -34,7 +34,7 @@
           <li>
             <Button type="info" @click="onReset">
               <Icon type="refresh"></Icon>
-              Reset
+              {{$t('m.Reset')}}
             </Button>
           </li>
         </ul>
@@ -51,7 +51,7 @@
 
     <Col :span="5">
     <Panel :padding="10">
-      <div slot="title" class="taglist-title">Tags</div>
+      <div slot="title" class="taglist-title">{{$t('m.Tags')}}</div>
       <Button v-for="tag in tagList"
               :key="tag.name"
               @click="filterByTag(tag.name)"
@@ -63,7 +63,7 @@
 
       <Button long id="pick-one" @click="pickone">
         <Icon type="shuffle"></Icon>
-        Pick one
+        {{$t('m.Pick_One')}}
       </Button>
     </Panel>
     <Spin v-if="loadings.tag" fix size="large"></Spin>
@@ -110,7 +110,7 @@
             }
           },
           {
-            title: 'Title',
+            title: this.$i18n.t('m.Title'),
             width: 400,
             render: (h, params) => {
               return h('Button', {
@@ -133,7 +133,7 @@
             }
           },
           {
-            title: 'Level',
+            title: this.$i18n.t('m.Level'),
             render: (h, params) => {
               let t = params.row.difficulty
               let color = 'blue'
@@ -143,15 +143,15 @@
                 props: {
                   color: color
                 }
-              }, params.row.difficulty)
+              }, this.$i18n.t('m.' + params.row.difficulty))
             }
           },
           {
-            title: 'Total',
+            title: this.$i18n.t('m.Total'),
             key: 'submission_number'
           },
           {
-            title: 'AC Rate',
+            title: this.$i18n.t('m.AC_Rate'),
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
@@ -238,7 +238,7 @@
         if (value) {
           this.problemTableColumns.push(
             {
-              title: 'Tags',
+              title: this.$i18n.t('m.Tags'),
               align: 'center',
               render: (h, params) => {
                 let tags = []

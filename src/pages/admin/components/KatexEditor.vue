@@ -1,10 +1,10 @@
 <template>
   <el-form>
-    <el-form-item label="Input">
+    <el-form-item :label="$t('m.Input')">
       <el-input type="textarea" v-model="input" @change="changeInput" @keyup.enter.native="changeInput"></el-input>
     </el-form-item>
 
-    <el-form-item label="Output">
+    <el-form-item :label="$t('m.Output')">
     </el-form-item>
     <div v-html="text"></div>
   </el-form>

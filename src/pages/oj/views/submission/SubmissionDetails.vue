@@ -2,7 +2,7 @@
   <Row type="flex" justify="space-around">
     <Col :span="20" id="status">
       <Alert :type="status.type" showIcon>
-        <span class="title">{{status.statusName}}</span>
+        <span class="title">{{$t('m.' + status.statusName.replace(/ /g, "_"))}}</span>
         <span class="title" v-if="isCE">[main.c:后面的两个数字分别表示错误代码所在的“行号”和“列号”]</span>
         <div slot="desc" class="content">
           <template v-if="isCE">
@@ -15,10 +15,10 @@
             <pre v-else>{{submission.statistic_info.err_info}}</pre>
           </template>
           <template v-else>
-            <span>Time: {{submission.statistic_info.time_cost | submissionTime}}</span>
-            <span>Memory: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
-            <span>Lang: {{submission.language}}</span>
-            <span>Author: {{submission.username}}</span>
+            <span>{{$t('m.Time')}}: {{submission.statistic_info.time_cost | submissionTime}}</span>
+            <span>{{$t('m.Memory')}}: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
+            <span>{{$t('m.Lang')}}: {{submission.language}}</span>
+            <span>{{$t('m.Author')}}: {{submission.username}}</span>
           </template>
         </div>
       </Alert>
@@ -36,11 +36,11 @@
       <div id="share-btn">
         <Button v-if="submission.shared"
                 type="warning" size="large" @click="shareSubmission(false)">
-          UnShare
+          {{$t('m.UnShare')}}
         </Button>
         <Button v-else
                 type="primary" size="large" @click="shareSubmission(true)">
-          Share
+          {{$t('m.Share')}}
         </Button>
       </div>
     </Col>
@@ -54,58 +54,6 @@
   import utils from '@/utils/utils'
   import Highlight from '@/pages/oj/components/Highlight'
 
-  const baseColumn = [
-    {
-      title: 'ID',
-      align: 'center',
-      type: 'index'
-    },
-    {
-      title: 'Status',
-      align: 'center',
-      render: (h, params) => {
-        return h('Tag', {
-          props: {
-            color: JUDGE_STATUS[params.row.result].color
-          }
-        }, JUDGE_STATUS[params.row.result].name)
-      }
-    },
-    {
-      title: 'Memory',
-      align: 'center',
-      render: (h, params) => {
-        return h('span', utils.submissionMemoryFormat(params.row.memory))
-      }
-    },
-    {
-      title: 'Time',
-      align: 'center',
-      render: (h, params) => {
-        return h('span', utils.submissionTimeFormat(params.row.cpu_time))
-      }
-    }
-  ]
-  const scoreColumn = [{
-    title: 'Score',
-    align: 'center',
-    key: 'score'
-  }]
-  const adminColumn = [
-    {
-      title: 'Real Time',
-      align: 'center',
-      render: (h, params) => {
-        return h('span', utils.submissionTimeFormat(params.row.real_time))
-      }
-    },
-    {
-      title: 'Singal',
-      align: 'center',
-      key: 'signal'
-    }
-  ]
-
   export default {
     name: 'submissionDetails',
     components: {
@@ -114,7 +62,38 @@
     data () {
       return {
         isCn: true,
-        columns: [],
+        columns: [
+          {
+            title: this.$i18n.t('m.ID'),
+            align: 'center',
+            type: 'index'
+          },
+          {
+            title: this.$i18n.t('m.Status'),
+            align: 'center',
+            render: (h, params) => {
+              return h('Tag', {
+                props: {
+                  color: JUDGE_STATUS[params.row.result].color
+                }
+              }, this.$i18n.t('m.' + JUDGE_STATUS[params.row.result].name.replace(/ /g, '_')))
+            }
+          },
+          {
+            title: this.$i18n.t('m.Memory'),
+            align: 'center',
+            render: (h, params) => {
+              return h('span', utils.submissionMemoryFormat(params.row.memory))
+            }
+          },
+          {
+            title: this.$i18n.t('m.Time'),
+            align: 'center',
+            render: (h, params) => {
+              return h('span', utils.submissionTimeFormat(params.row.cpu_time))
+            }
+          }
+        ],
         submission: {
           result: '0',
           code: '',
@@ -139,18 +118,36 @@
         api.getSubmission(this.$route.params.id).then(res => {
           this.loading = false
           let data = res.data.data
-          let columns = baseColumn
           if (data.info && data.info.data && !this.isConcat) {
             // score exist means the submission is OI problem submission
             if (data.info.data[0].score !== undefined) {
               this.isConcat = true
-              columns = columns.concat(scoreColumn)
+              const scoreColumn = {
+                title: this.$i18n.t('m.Score'),
+                align: 'center',
+                key: 'score'
+              }
+              this.columns.push(scoreColumn)
+              this.loadingTable = false
             }
             if (this.isAdminRole) {
               this.isConcat = true
-              columns = columns.concat(adminColumn)
+              const adminColumn = [
+                {
+                  title: this.$i18n.t('m.Real_Time'),
+                  align: 'center',
+                  render: (h, params) => {
+                    return h('span', utils.submissionTimeFormat(params.row.real_time))
+                  }
+                },
+                {
+                  title: this.$i18n.t('m.Singal'),
+                  align: 'center',
+                  key: 'signal'
+                }
+              ]
+              this.columns = this.columns.concat(adminColumn)
             }
-            this.columns = columns
           }
           this.submission = data
         }, () => {
@@ -161,7 +158,7 @@
         let data = {id: this.submission.id, shared: shared}
         api.updateSubmission(data).then(res => {
           this.getSubmission()
-          this.$success('Succeeded')
+          this.$success(this.$i18n.t('m.Succeeded'))
         }, () => {
         })
       }
