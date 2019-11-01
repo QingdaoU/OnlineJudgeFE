@@ -3,17 +3,17 @@
     <Row type="flex" justify="space-between" class="header">
       <Col :span=12>
       <div>
-        <span>Language:</span>
+        <span>{{$t('m.Language')}}:</span>
         <Select :value="language" @on-change="onLangChange" class="adjust">
           <Option v-for="item in languages" :key="item" :value="item">{{item}}
           </Option>
         </Select>
 
-        <Tooltip content="Reset to default code definition" placement="top" style="margin-left: 10px">
+        <Tooltip :content="this.$i18n.t('m.Reset_to_default_code_definition')" placement="top" style="margin-left: 10px">
           <Button icon="refresh" @click="onResetClick"></Button>
         </Tooltip>
 
-        <Tooltip content="Upload file" placement="top" style="margin-left: 10px">
+        <Tooltip :content="this.$i18n.t('m.Upload_file')" placement="top" style="margin-left: 10px">
           <Button icon="upload" @click="onUploadFile"></Button>
         </Tooltip>
 
@@ -23,7 +23,7 @@
       </Col>
       <Col :span=12>
       <div class="fl-right">
-        <span>Theme:</span>
+        <span>{{$t('m.Theme')}}:</span>
         <Select :value="theme" @on-change="onThemeChange" class="adjust">
           <Option v-for="item in themes" :key="item.label" :value="item.value">{{item.label}}
           </Option>
@@ -103,9 +103,9 @@
           'C++': 'text/x-csrc'
         },
         themes: [
-          {label: 'Monokai', value: 'monokai'},
-          {label: 'Solarized Light', value: 'solarized'},
-          {label: 'Material', value: 'material'}
+          {label: this.$i18n.t('m.Monokai'), value: 'monokai'},
+          {label: this.$i18n.t('m.Solarized_Light'), value: 'solarized'},
+          {label: this.$i18n.t('m.Material'), value: 'material'}
         ]
       }
     },

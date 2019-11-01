@@ -31,8 +31,8 @@
     </template>
     <template v-else>
       <Alert type="success" show-icon>
-        Success
-        <span slot="desc">Password reset mail has been sent to your email.</span>
+        {{$t('Success')}}
+        <span slot="desc"> {{$t('Password_reset_mail_sent')}}</span>
       </Alert>
     </template>
   </Panel>
@@ -48,7 +48,7 @@
         if (value !== '') {
           api.checkUsernameOrEmail(undefined, value).then(res => {
             if (res.data.data.email === false) {
-              callback(new Error('The email doesn\'t exist'))
+              callback(new Error(this.$i18n.t('m.The_email_doesnt_exist')))
             } else {
               callback()
             }

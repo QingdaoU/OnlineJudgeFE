@@ -31,12 +31,12 @@
     <Button type="primary"
             @click="resetPassword"
             class="btn" long
-            :loading="btnLoading">Reset Password
+            :loading="btnLoading">{{$t('m.Reset_Password')}}
     </Button>
     </template>
 
     <template v-else>
-      <Alert type="success">Your password has been reset.</Alert>
+      <Alert type="success">{{$t('m.Your_password_has_been_reset')}}</Alert>
     </template>
   </Panel>
 </template>
@@ -59,7 +59,7 @@
 
       const CheckAgainPassword = (rule, value, callback) => {
         if (value !== this.formResetPassword.password) {
-          callback(new Error('password does not match'))
+          callback(new Error(this.$i18n.t('m.password_does_not_match')))
         }
         callback()
       }

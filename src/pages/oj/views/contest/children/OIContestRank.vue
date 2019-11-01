@@ -7,21 +7,21 @@
         <Icon type="android-settings" size="20"></Icon>
         <div slot="content" id="switches">
           <p>
-            <span>Menu</span>
+            <span>{{$t('m.Menu')}}</span>
             <i-switch v-model="showMenu"></i-switch>
-            <span>Chart</span>
+            <span>{{$t('m.Chart')}}</span>
             <i-switch v-model="showChart"></i-switch>
           </p>
           <p>
-            <span>Auto Refresh(10s)</span>
+            <span>{{$t('m.Auto_Refresh')}}(10s)</span>
             <i-switch :disabled="refreshDisabled" @on-change="handleAutoRefresh"></i-switch>
           </p>
           <p v-if="isContestAdmin">
-            <span>RealName</span>
+            <span>{{$t('m.RealName')}}</span>
             <i-switch v-model="showRealName"></i-switch>
           </p>
           <p>
-            <Button type="primary" size="small" @click="downloadRankCSV">download csv</Button>
+            <Button type="primary" size="small" @click="downloadRankCSV">{{$t('m.download_csv')}}</Button>
           </p>
         </div>
       </Poptip>
@@ -65,7 +65,7 @@
             }
           },
           {
-            title: 'User',
+            title: this.$i18n.t('m.User_User'),
             align: 'center',
             render: (h, params) => {
               return h('a', {
@@ -86,7 +86,7 @@
             }
           },
           {
-            title: 'Total Score',
+            title: this.$i18n.t('m.Total_Score'),
             align: 'center',
             render: (h, params) => {
               return h('a', {
@@ -105,7 +105,7 @@
         dataRank: [],
         options: {
           title: {
-            text: 'Top 10 Teams',
+            text: this.$i18n.t('m.Top_10_Teams'),
             left: 'center'
           },
           tooltip: {
@@ -147,7 +147,7 @@
           ],
           series: [
             {
-              name: 'Score',
+              name: this.$i18n.t('m.Score'),
               type: 'bar',
               barMaxWidth: '80',
               data: [0],
