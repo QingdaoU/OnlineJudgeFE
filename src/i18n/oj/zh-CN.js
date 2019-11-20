@@ -65,8 +65,8 @@ export const m = {
   Check_It: '现在检查',
   // ACMRank.vue
   ACM_Ranklist: 'ACM 排名',
-  mood: '情态',
-  AC: 'AC',
+  mood: '心情',
+  AC: '总接受数',
   Rating: '评分',
   // Announcements.vue
   Contest_Announcements: '比赛公告',
@@ -118,7 +118,7 @@ export const m = {
   StartAt: '开始时间',
   EndAt: '结束时间',
   ContestType: '比赛类型',
-  Creator: '发起人',
+  Creator: '创建者',
   Public: '公开',
   Password_Protected: '密码保护',
   // ContestList.vue
@@ -126,7 +126,7 @@ export const m = {
   OI: 'OI',
   ACM: 'ACM',
   Underway: '进行中',
-  Not_Started: '筹备中',
+  Not_Started: '准备中',
   Ended: '已结束',
   No_contest: '尚无练习或比赛',
   Please_login_first: '请先登录！',
@@ -138,9 +138,9 @@ export const m = {
   Theme: '主题',
   Reset_to_default_code_definition: '重设返回默认代码设置',
   Upload_file: '上传文件',
-  Monokai: '物界',
-  Solarized_Light: '日光灯',
-  Material: '材料',
+  Monokai: 'Monokai 风格',
+  Solarized_Light: 'Solarized Light 风格',
+  Material: 'Material 风格',
   // KatexEditor.vue
   Latex_Editor: 'Latex 编辑器',
   // NavBar.vue
@@ -193,6 +193,7 @@ export const m = {
   // OIContestRank.vue
   Total_Score: '总分',
   // ProblemList.vue
+  Keyword: '关键字',
   Problem_List: '问题列表',
   High: '高',
   Mid: '中',
@@ -235,14 +236,14 @@ export const m = {
   Real_Time: '总时间',
   Singal: '信号值',
   // SubmissionList.vue
-  When: '时间',
+  When: '提交时间',
   ID: 'ID',
   Time: '运行时间',
   Memory: '内存',
-  Author: '作者',
+  Author: '提交者',
   Option: '选项',
   Mine: '我的',
-  Search_Author: '搜索作者',
+  Search_Author: '搜索提交者',
   Accepted: '已接受',
   Time_Limit_Exceeded: '运行超时',
   Memory_Limit_Exceeded: '超出内存限制',
@@ -252,6 +253,7 @@ export const m = {
   Partial_Accepted: '部分接受',
   Compile_Error: '编译失败',
   Rejudge: '重新评分',
+  Problem_Submissions: '本题提交信息',
   // UserHome.vue
   UserHomeSolved: '已解决数量',
   UserHomeserSubmissions: '提交次数',

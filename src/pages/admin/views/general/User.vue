@@ -94,7 +94,7 @@
               {{row[1]}}
             </template>
           </el-table-column>
-          <el-table-column label="Classroom">
+          <el-table-column label="Class Name">
             <template slot-scope="{row}">
               {{row[2]}}
             </template>
@@ -172,7 +172,7 @@
       <el-form :model="formChangeUserpassword" ref="formChangeUserpassword">
         <el-row type="flex" justify="space-between">
           <el-col :span="4">
-            <el-form-item label="目标用户名（模糊匹配）" prop="target_name" required>
+            <el-form-item label="目标用户名" prop="target_name" required>
               <el-input v-model="formChangeUserpassword.target_name" style="width: 100%"></el-input>
             </el-form-item>
           </el-col>
@@ -210,7 +210,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="$t('m.User_Email')" required>
+            <el-form-item :label="$t('m.User_Email')">
               <el-input v-model="user.email"></el-input>
             </el-form-item>
           </el-col>
