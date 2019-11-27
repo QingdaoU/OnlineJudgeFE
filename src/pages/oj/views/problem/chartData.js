@@ -1,15 +1,15 @@
-const pieColorMap = {
-  'AC': {color: '#19be6b'},
-  'WA': {color: '#ed3f14'},
-  'TLE': {color: '#ff9300'},
-  'MLE': {color: '#f7de00'},
-  'RE': {color: '#ff6104'},
-  'CE': {color: '#80848f'},
-  'PAC': {color: '#2d8cf0'}
-}
+import i18n from '@/i18n'
 
 function getItemColor (obj) {
-  return pieColorMap[obj.name].color
+  var pieColorMap = new Map()
+  pieColorMap.set(i18n.t('m.Short_Accepted'), '#19be6b')
+  pieColorMap.set(i18n.t('m.Short_Wrong_Answer'), '#ed3f14')
+  pieColorMap.set(i18n.t('m.Short_Time_Limit_Exceeded'), '#ff9300')
+  pieColorMap.set(i18n.t('m.Short_Memory_Limit_Exceeded'), '#f7de00')
+  pieColorMap.set(i18n.t('m.Short_Runtime_Error'), '#ff6104')
+  pieColorMap.set(i18n.t('m.Short_Compile_Error'), '#80848f')
+  pieColorMap.set(i18n.t('m.Short_Partial_Accepted'), '#2d8cf0')
+  return pieColorMap.get(obj.name)
 }
 
 const pie = {
@@ -17,7 +17,7 @@ const pie = {
     left: 'center',
     top: '10',
     orient: 'horizontal',
-    data: ['AC', 'WA']
+    data: [i18n.t('m.Short_Accepted'), i18n.t('m.Short_Wrong_Answer')]
   },
   series: [
     {
@@ -29,8 +29,8 @@ const pie = {
         normal: {color: getItemColor}
       },
       data: [
-        {value: 0, name: 'WA'},
-        {value: 0, name: 'AC'}
+        {value: 0, name: i18n.t('m.Short_Wrong_Answer')},
+        {value: 0, name: i18n.t('m.Short_Accepted')}
       ],
       label: {
         normal: {
@@ -56,7 +56,7 @@ const largePie = {
     itemGap:
       20,
     data:
-      ['AC', 'RE', 'WA', 'TLE', 'PAC', 'MLE']
+      [i18n.t('m.Short_Accepted'), i18n.t('m.Short_Runtime_Error'), i18n.t('m.Short_Wrong_Answer'), i18n.t('m.Short_Time_Limit_Exceeded'), i18n.t('m.Short_Partial_Accepted'), i18n.t('m.Short_Memory_Limit_Exceeded')]
   },
   series: [
     {
@@ -68,12 +68,12 @@ const largePie = {
         normal: {color: getItemColor}
       },
       data: [
-        {value: 0, name: 'RE'},
-        {value: 0, name: 'WA'},
-        {value: 0, name: 'TLE'},
-        {value: 0, name: 'AC'},
-        {value: 0, name: 'MLE'},
-        {value: 0, name: 'PAC'}
+        {value: 0, name: i18n.t('m.Short_Runtime_Error')},
+        {value: 0, name: i18n.t('m.Short_Wrong_Answer')},
+        {value: 0, name: i18n.t('m.Short_Time_Limit_Exceeded')},
+        {value: 0, name: i18n.t('m.Short_Accepted')},
+        {value: 0, name: i18n.t('m.Short_Memory_Limit_Exceeded')},
+        {value: 0, name: i18n.t('m.Short_Partial_Accepted')}
       ],
       label: {
         normal: {
@@ -93,8 +93,8 @@ const largePie = {
         normal: {color: getItemColor}
       },
       data: [
-        {value: '0', name: 'WA'},
-        {value: 0, name: 'AC', selected: true}
+        {value: 0, name: i18n.t('m.Short_Wrong_Answer')},
+        {value: 0, name: i18n.t('m.Short_Accepted'), selected: true}
       ],
       label: {
         normal: {

@@ -187,7 +187,7 @@
         <div slot="title">
           <Icon type="ios-analytics"></Icon>
           <span class="card-title">{{$t('m.Statistic')}}</span>
-          <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
+          <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">{{$t('m.Details')}}</Button>
         </div>
         <div class="echarts">
           <ECharts :options="pie"></ECharts>
@@ -324,19 +324,20 @@
         }
         let acNum = problemData.accepted_number
         let data = [
-          {name: 'WA', value: problemData.submission_number - acNum},
-          {name: 'AC', value: acNum}
+          {name: this.$i18n.t('m.Short_Wrong_Answer'), value: problemData.submission_number - acNum},
+          {name: this.$i18n.t('m.Short_Accepted'), value: acNum}
         ]
         this.pie.series[0].data = data
+        this.pie.legend.data = [this.$i18n.t('m.Short_Accepted'), this.$i18n.t('m.Short_Wrong_Answer')]
         // 只把大图的AC selected下，这里需要做一下deepcopy
         let data2 = JSON.parse(JSON.stringify(data))
         data2[1].selected = true
         this.largePie.series[1].data = data2
 
         // 根据结果设置legend,没有提交过的legend不显示
-        let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
+        let legend = Object.keys(problemData.statistic_info).map(ele => this.$i18n.t(JUDGE_STATUS[ele].short))
         if (legend.length === 0) {
-          legend.push('AC', 'WA')
+          legend.push(this.$i18n.t('m.Short_Accepted'), this.$i18n.t('m.Short_Wrong_Answer'))
         }
         this.largePie.legend.data = legend
 
@@ -346,9 +347,9 @@
 
         let largePieData = []
         Object.keys(problemData.statistic_info).forEach(ele => {
-          largePieData.push({name: JUDGE_STATUS[ele].short, value: problemData.statistic_info[ele]})
+          largePieData.push({name: this.$i18n.t(JUDGE_STATUS[ele].short), value: problemData.statistic_info[ele]})
         })
-        largePieData.push({name: 'AC', value: acCount})
+        largePieData.push({name: this.$i18n.t('m.Short_Accepted'), value: acCount})
         this.largePie.series[0].data = largePieData
       },
       handleRoute (route) {

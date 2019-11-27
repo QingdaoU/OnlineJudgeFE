@@ -23,6 +23,7 @@ export const m = {
   Judging: 'Judging',
   Wrong_Answer: 'Wrong Answer',
   Statistic: 'Statistic',
+  Details: 'Details',
   Close: 'Close',
   View_Contest: 'View Contest',
   Are_you_sure_you_want_to_reset_your_code: 'Are you sure you want to reset your code?',
@@ -193,6 +194,7 @@ export const m = {
   // OIContestRank.vue
   Total_Score: 'Total Score',
   // ProblemList.vue
+  Keyword: 'Keyword',
   Problem_List: 'Problem List',
   High: 'High',
   Mid: 'Mid',
@@ -252,6 +254,16 @@ export const m = {
   Partial_Accepted: 'Partial Accepted',
   Compile_Error: 'Compile Error',
   Rejudge: 'Rejudge',
+  Problem_Submissions: 'Problem Submissions',
+  // constants.js
+  Short_Accepted: 'AC',
+  Short_Time_Limit_Exceeded: 'TLE',
+  Short_Memory_Limit_Exceeded: 'MLE',
+  Short_Runtime_Error: 'RE',
+  Short_System_Error: 'SE',
+  Short_Partial_Accepted: 'PAC',
+  Short_Compile_Error: 'CE',
+  Short_Wrong_Answer: 'WA',
   // UserHome.vue
   UserHomeSolved: 'Solved',
   UserHomeserSubmissions: 'Submissions',
