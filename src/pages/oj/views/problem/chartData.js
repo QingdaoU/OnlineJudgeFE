@@ -4,10 +4,10 @@ function getItemColor (obj) {
   var pieColorMap = new Map()
   pieColorMap.set(i18n.t('m.Short_Accepted'), '#19be6b')
   pieColorMap.set(i18n.t('m.Short_Wrong_Answer'), '#ed3f14')
-  pieColorMap.set(i18n.t('m.Short_Time_Limit_Exceeded'), '#ff9300')
+  pieColorMap.set(i18n.t('m.Short_Time_Limit_Exceeded'), '#80848f')
   pieColorMap.set(i18n.t('m.Short_Memory_Limit_Exceeded'), '#f7de00')
   pieColorMap.set(i18n.t('m.Short_Runtime_Error'), '#ff6104')
-  pieColorMap.set(i18n.t('m.Short_Compile_Error'), '#80848f')
+  pieColorMap.set(i18n.t('m.Short_Compile_Error'), '#ff9300')
   pieColorMap.set(i18n.t('m.Short_Partial_Accepted'), '#2d8cf0')
   return pieColorMap.get(obj.name)
 }
