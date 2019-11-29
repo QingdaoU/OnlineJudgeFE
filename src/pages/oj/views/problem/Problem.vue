@@ -263,7 +263,7 @@
         // echarts 无法获取隐藏dom的大小，需手动指定
         largePieInitOpts: {
           width: '500',
-          height: '480'
+          height: '440'
         }
       }
     },

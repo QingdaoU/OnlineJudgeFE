@@ -257,7 +257,7 @@ export const m = {
   Problem_Submissions: '本题提交信息',
   // constants.js
   Short_Accepted: '接受',
-  Short_Time_Limit_Exceeded: '超时限',
+  Short_Time_Limit_Exceeded: '超时',
   Short_Memory_Limit_Exceeded: '超内存',
   Short_Runtime_Error: '运行错',
   Short_System_Error: '系统错',
