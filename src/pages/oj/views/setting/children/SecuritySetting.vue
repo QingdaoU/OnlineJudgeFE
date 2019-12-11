@@ -6,11 +6,11 @@
         <Card :padding="20" class="flex-child">
           <span slot="title" style="line-height: 20px">{{session.ip}}</span>
           <div slot="extra">
-            <Tag v-if="session.current_session" color="green">Current</Tag>
+            <Tag v-if="session.current_session" color="green">{{$t('m.Current')}}</Tag>
             <Button v-else
                     type="warning"
                     size="small"
-                    @click="deleteSession(session.session_key)">Revoke
+                    @click="deleteSession(session.session_key)">{{$t('m.Revoke')}}
             </Button>
           </div>
           <Form :label-width="100">
@@ -34,7 +34,7 @@
         <Alert v-if="TFAOpened"
                type="success"
                class="notice"
-               showIcon>You have enabled two-factor authentication.
+               showIcon>{{$t('m.You_have_enabled_two_factor_authentication')}}
         </Alert>
         <FormItem v-if="!TFAOpened">
           <div class="oj-relative">
@@ -44,17 +44,17 @@
         </FormItem>
         <template v-if="!loadingQRcode">
           <FormItem style="width: 250px">
-            <Input v-model="formTwoFactor.code" placeholder="Enter the code from your application"/>
+            <Input v-model="formTwoFactor.code" :placeholder="$t('m.Enter_the_code_from_your_application')"/>
           </FormItem>
           <Button type="primary"
                   :loading="loadingBtn"
                   @click="updateTFA(false)"
-                  v-if="!TFAOpened">Open TFA
+                  v-if="!TFAOpened">{{$t('m.Open_TFA')}}
           </Button>
           <Button type="error"
                   :loading="loadingBtn"
                   @click="closeTFA"
-                  v-else>Close TFA
+                  v-else>{{$t('m.Close_TFA')}}
           </Button>
         </template>
       </Form>
