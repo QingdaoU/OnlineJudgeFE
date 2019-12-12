@@ -9,7 +9,7 @@ import VueAnalytics from 'vue-analytics'
 import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 
 import iView from 'iview'
-import locale from 'iview/dist/locale/en-US'
+import locale from 'iview/dist/locale/zh-CN'
 import 'iview/dist/styles/iview.css'
 
 import Panel from '@oj/components/Panel.vue'

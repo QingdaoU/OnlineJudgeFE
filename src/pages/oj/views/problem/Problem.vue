@@ -72,7 +72,7 @@
                 <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
                   {{$t('m.' + submissionStatus.text.replace(/ /g, "_"))}}
                 </Tag>
-                <span>[提示：点击左侧按钮，可查看详情]</span>
+                <span>[ <B>&larr;</B> 点击左侧按钮，可查看详情 ]</span>
               </template>
               <template v-else-if="this.contestID && !OIContestRealTimePermission">
                 <Alert type="success" show-icon>{{$t('m.Submitted_successfully')}}</Alert>
