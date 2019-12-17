@@ -153,7 +153,12 @@ const actions = {
     return new Promise((resolve, reject) => {
       api.getContestProblemList(rootState.route.params.contestID).then(res => {
         res.data.data.sort((a, b) => {
-          return a._id > b._id
+          if (a._id === b._id) {
+            return 0
+          } else if (a._id > b._id) {
+            return 1
+          }
+          return -1
         })
         commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: res.data.data})
         resolve(res)
