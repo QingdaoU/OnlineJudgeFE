@@ -18,7 +18,7 @@ function duration (startTime, endTime) {
 
 function secondFormat (seconds) {
   let m = moment.duration(seconds, 'seconds')
-  return m.hours() + ':' + m.minutes() + ':' + m.seconds()
+  return Math.floor(m.asHours()) + ':' + m.minutes() + ':' + m.seconds()
 }
 
 export default {
