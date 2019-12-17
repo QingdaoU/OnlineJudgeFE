@@ -123,6 +123,7 @@ export const m = {
   Public: '公开',
   Password_Protected: '密码保护',
   // ContestList.vue
+  Contest_List: '实验列表',
   Rule: '赛制',
   OI: 'OI',
   ACM: 'ACM',

@@ -123,6 +123,7 @@ export const m = {
   Public: 'Public',
   Password_Protected: 'Password Protected',
   // ContestList.vue
+  Contest_List: 'Contest List',
   Rule: 'Rule',
   OI: 'OI',
   ACM: 'ACM',
