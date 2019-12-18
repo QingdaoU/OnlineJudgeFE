@@ -69,12 +69,8 @@
         }
       },
       getAnnouncementList (page = 1) {
-        let params = {
-          limit: this.limit,
-          offset: (page - 1) * this.limit
-        }
         this.btnLoading = true
-        api.getAnnouncementList(params).then(res => {
+        api.getAnnouncementList((page - 1) * this.limit, this.limit).then(res => {
           this.btnLoading = false
           this.announcements = res.data.data.results
           this.total = res.data.data.total
