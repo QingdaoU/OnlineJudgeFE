@@ -13,8 +13,14 @@ export default {
       params
     })
   },
-  getAnnouncementList () {
-    return ajax('announcement', 'get')
+  getAnnouncementList (offset, limit) {
+    let params = {
+      offset: offset,
+      limit: limit
+    }
+    return ajax('announcement', 'get', {
+      params
+    })
   },
   login (data) {
     return ajax('login', 'post', {
