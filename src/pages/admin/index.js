@@ -5,7 +5,6 @@ import store from '@/store'
 import i18n from '@/i18n'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en'
 
 import filters from '@/utils/filters'
 import router from './router'
@@ -28,7 +27,6 @@ Vue.use(VueAnalytics, {
   id: GOOGLE_ANALYTICS_ID,
   router
 })
-Vue.use(Element, {locale})
 Vue.use(katex)
 Vue.component(IconBtn.name, IconBtn)
 Vue.component(Panel.name, Panel)
