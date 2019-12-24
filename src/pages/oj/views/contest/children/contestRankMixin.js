@@ -88,7 +88,6 @@ export default {
         } else {
           this.columns.splice(2, 1)
         }
-        console.log(this.columns)
       }
     },
     forceUpdate: {
