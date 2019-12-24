@@ -80,7 +80,7 @@ export default {
           this.columns.splice(2, 0, {
             title: 'RealName',
             align: 'center',
-            width: '150px',
+            width: 150,
             render: (h, {row}) => {
               return h('span', row.user.real_name)
             }
@@ -88,6 +88,7 @@ export default {
         } else {
           this.columns.splice(2, 1)
         }
+        console.log(this.columns)
       }
     },
     forceUpdate: {
