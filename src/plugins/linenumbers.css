@@ -1,0 +1,23 @@
+/* for block of numbers */
+.hljs-ln-numbers {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align: center;
+    color: #666;
+    border-right: 1px solid #999;
+    vertical-align: top;
+    padding-right: 5px!important;
+
+    /* your custom style here */
+    width: 40px;
+}
+
+/* for block of code */
+.hljs-ln-code {
+    padding-left: 10px!important;
+}
