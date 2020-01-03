@@ -107,6 +107,7 @@
   import {VueCropper} from 'vue-cropper'
   import {types} from '@/store'
   import {languages} from '@/i18n'
+  import time from '@/utils/time'
 
   export default {
     components: {
@@ -230,6 +231,7 @@
         api.updateProfile(updateData).then(res => {
           this.$success('Success')
           this.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
+          time.changeLocale(this.formProfile.language)
           this.loadingSaveBtn = false
         }, _ => {
           this.loadingSaveBtn = false

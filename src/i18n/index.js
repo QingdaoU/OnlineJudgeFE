@@ -6,6 +6,7 @@ import ivzhTW from 'iview/dist/locale/zh-TW'
 import elenUS from 'element-ui/lib/locale/lang/en'
 import elzhCN from 'element-ui/lib/locale/lang/zh-CN'
 import elzhTW from 'element-ui/lib/locale/lang/zh-TW'
+import time from '@/utils/time'
 
 Vue.use(VueI18n)
 
@@ -24,6 +25,10 @@ for (let lang of languages) {
   let ui = Object.assign(lang.iv, lang.el)
   messages[locale] = Object.assign({m: m}, ui)
 }
+
+// defalt time locale
+time.changeLocale('zh-CN')
+
 // load language packages
 export default new VueI18n({
   locale: 'zh-CN',

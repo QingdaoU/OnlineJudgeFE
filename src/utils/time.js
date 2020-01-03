@@ -1,4 +1,17 @@
 import moment from 'moment'
+import 'moment/locale/zh-cn'
+import 'moment/locale/zh-tw'
+
+// change locale
+function changeLocale (lang) {
+  if (lang === 'zh-CN') {
+    moment.locale('zh-cn')
+  } else if (lang === 'zh-TW') {
+    moment.locale('zh-tw')
+  } else {
+    moment.locale('en')
+  }
+}
 
 // convert utc time to localtime
 function utcToLocal (utcDt, format = 'YYYY-M-D  HH:mm:ss') {
@@ -10,18 +23,16 @@ function duration (startTime, endTime) {
   let start = moment(startTime)
   let end = moment(endTime)
   let duration = moment.duration(start.diff(end, 'seconds'), 'seconds')
-  if (duration.days() !== 0) {
-    return duration.humanize()
-  }
-  return Math.abs(duration.asHours().toFixed(1)) + ' hours'
+  return duration.humanize()
 }
 
 function secondFormat (seconds) {
   let m = moment.duration(seconds, 'seconds')
-  return Math.floor(m.asHours()) + ':' + m.minutes() + ':' + m.seconds()
+  return m.humanize()
 }
 
 export default {
+  changeLocale: changeLocale,
   utcToLocal: utcToLocal,
   duration: duration,
   secondFormat: secondFormat
