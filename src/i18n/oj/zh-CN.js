@@ -65,7 +65,7 @@ export const m = {
   Check_It: '现在检查',
   // ACMRank.vue
   ACM_Ranklist: 'ACM 排名',
-  mood: '情态',
+  mood: '格言',
   AC: 'AC',
   Rating: '评分',
   // Announcements.vue
