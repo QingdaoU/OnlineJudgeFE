@@ -117,8 +117,8 @@ export const m = {
   Force_HTTPS: '强制使用 HTTPS',
   CDN_HOST: 'CDN 主机',
   // Login.vue
-  Welcome_to_Login: '欢迎登录',
-  GO: '进入',
+  Welcome_to_Login: '欢迎登录 OnlineJudge 后台管理系统',
+  GO: '登录',
   username: '用户名',
   password: '密码'
 }
