@@ -133,7 +133,7 @@
                   }
                 },
                 {
-                  title: this.$i18n.t('m.Singal'),
+                  title: this.$i18n.t('m.Signal'),
                   align: 'center',
                   key: 'signal'
                 }
