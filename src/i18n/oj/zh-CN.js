@@ -233,7 +233,7 @@ export const m = {
   UnShare: '不分享',
   Succeeded: '成功',
   Real_Time: '真实时间',
-  Singal: '单身',
+  Signal: '信号',
   // SubmissionList.vue
   When: '时间',
   ID: 'ID',
