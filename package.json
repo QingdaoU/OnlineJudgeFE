@@ -22,7 +22,7 @@
     "iview": "^2.13.0",
     "katex": "^0.10.0",
     "moment": "^2.22.1",
-    "papaparse": "^4.4.0",
+    "papaparse": "^5.2.0",
     "raven-js": "^3.25.0",
     "screenfull": "^3.3.2",
     "tar-simditor": "^3.0.5",
