@@ -207,6 +207,7 @@
   .flex-container {
     #contest-main {
       flex: 1 1;
+      width: 0;
       #contest-desc {
         flex: auto;
       }
