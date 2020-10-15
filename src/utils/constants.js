@@ -1,49 +1,49 @@
 export const JUDGE_STATUS = {
   '-2': {
     name: 'Compile Error',
-    short: 'CE',
+    short: 'm.Short_Compile_Error',
     color: 'yellow',
     type: 'warning'
   },
   '-1': {
     name: 'Wrong Answer',
-    short: 'WA',
+    short: 'm.Short_Wrong_Answer',
     color: 'red',
     type: 'error'
   },
   '0': {
     name: 'Accepted',
-    short: 'AC',
+    short: 'm.Short_Accepted',
     color: 'green',
     type: 'success'
   },
   '1': {
     name: 'Time Limit Exceeded',
-    short: 'TLE',
+    short: 'm.Short_Time_Limit_Exceeded',
     color: 'red',
     type: 'error'
   },
   '2': {
     name: 'Time Limit Exceeded',
-    short: 'TLE',
+    short: 'm.Short_Time_Limit_Exceeded',
     color: 'red',
     type: 'error'
   },
   '3': {
     name: 'Memory Limit Exceeded',
-    short: 'MLE',
+    short: 'm.Short_Memory_Limit_Exceeded',
     color: 'red',
     type: 'error'
   },
   '4': {
     name: 'Runtime Error',
-    short: 'RE',
+    short: 'm.Short_Runtime_Error',
     color: 'red',
     type: 'error'
   },
   '5': {
     name: 'System Error',
-    short: 'SE',
+    short: 'm.Short_System_Error',
     color: 'red',
     type: 'error'
   },
@@ -59,7 +59,7 @@ export const JUDGE_STATUS = {
   },
   '8': {
     name: 'Partial Accepted',
-    short: 'PAC',
+    short: 'm.Short_Partial_Accepted',
     color: 'blue',
     type: 'info'
   },

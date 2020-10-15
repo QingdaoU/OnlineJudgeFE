@@ -70,7 +70,7 @@
         </el-table-column>
         <el-table-column
           fixed="right"
-          width="250"
+          width="300"
           label="Operation">
           <div slot-scope="scope">
             <icon-btn name="Edit" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
@@ -78,7 +78,9 @@
             <icon-btn name="Announcement" icon="info-circle"
                       @click.native="goContestAnnouncement(scope.row.id)"></icon-btn>
             <icon-btn icon="download" name="Download Accepted Submissions"
-                      @click.native="openDownloadOptions(scope.row.id)"></icon-btn>
+                      @click.native="openDownloadOptions(scope.row.id, 1)"></icon-btn>
+            <icon-btn icon="download" name="Download All Submissions"
+                      @click.native="openDownloadOptions(scope.row.id, 0)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
@@ -112,7 +114,7 @@
     name: 'ContestList',
     data () {
       return {
-        pageSize: 10,
+        pageSize: 15,
         total: 0,
         contestList: [],
         keyword: '',
@@ -120,6 +122,7 @@
         excludeAdmin: true,
         currentPage: 1,
         currentId: 1,
+        dlType: 0,
         downloadDialogVisible: false
       }
     },
@@ -147,13 +150,14 @@
           this.loading = false
         })
       },
-      openDownloadOptions (contestId) {
+      openDownloadOptions (contestId, dlType) {
         this.downloadDialogVisible = true
         this.currentId = contestId
+        this.dlType = dlType
       },
       downloadSubmissions () {
         let excludeAdmin = this.excludeAdmin ? '1' : '0'
-        let url = `/admin/download_submissions?contest_id=${this.currentId}&exclude_admin=${excludeAdmin}`
+        let url = `/admin/download_submissions?contest_id=${this.currentId}&exclude_admin=${excludeAdmin}&dlType=${this.dlType}`
         utils.downloadFile(url)
       },
       goEdit (contestId) {

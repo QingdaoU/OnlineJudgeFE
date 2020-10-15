@@ -97,6 +97,11 @@ export default {
       data
     })
   },
+  changeUserpassword (data) {
+    return ajax('admin/change_userpassword', 'post', {
+      data
+    })
+  },
   getLanguages () {
     return ajax('languages', 'get')
   },

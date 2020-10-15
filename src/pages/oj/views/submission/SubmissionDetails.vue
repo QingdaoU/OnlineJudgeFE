@@ -3,8 +3,18 @@
     <Col :span="20" id="status">
       <Alert :type="status.type" showIcon>
         <span class="title">{{$t('m.' + status.statusName.replace(/ /g, "_"))}}</span>
+        <span class="title" v-if="isCE">[main.c:后面的两个数字分别表示错误代码所在的“行号”和“列号”]</span>
         <div slot="desc" class="content">
           <template v-if="isCE">
+            <!--
+            请选择出错信息的语言：
+            <i-switch size="large" v-model="isCn">
+                <span slot="open">中文</span>
+                <span slot="close">English</span>
+            </i-switch>
+            <pre v-if="isCn">{{submission.statistic_info.err_info_cn}}</pre>
+            <pre v-else>{{submission.statistic_info.err_info}}</pre>
+            -->
             <pre>{{submission.statistic_info.err_info}}</pre>
           </template>
           <template v-else>
@@ -54,6 +64,7 @@
     },
     data () {
       return {
+        isCn: true,
         columns: [
           {
             title: this.$i18n.t('m.ID'),

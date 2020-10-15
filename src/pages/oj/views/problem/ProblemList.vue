@@ -28,7 +28,7 @@
             <Input v-model="query.keyword"
                    @on-enter="filterByKeyword"
                    @on-click="filterByKeyword"
-                   placeholder="keyword"
+                   :placeholder="$t('m.Keyword')"
                    icon="ios-search-strong"/>
           </li>
           <li>

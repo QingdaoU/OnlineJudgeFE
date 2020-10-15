@@ -24,62 +24,62 @@ export default [
   {
     name: 'home',
     path: '/',
-    meta: {title: 'Home'},
+    meta: {title: 'm.Home'},
     component: Home
   },
   {
     name: 'logout',
     path: '/logout',
-    meta: {title: 'Logout'},
+    meta: {title: 'm.Logout'},
     component: Logout
   },
   {
     name: 'apply-reset-password',
     path: '/apply-reset-password',
-    meta: {title: 'Apply Reset Password'},
+    meta: {title: 'm.Settings'},
     component: ApplyResetPassword
   },
   {
     name: 'reset-password',
     path: '/reset-password/:token',
-    meta: {title: 'Reset Password'},
+    meta: {title: 'm.Settings'},
     component: ResetPassword
   },
   {
     name: 'problem-list',
     path: '/problem',
-    meta: {title: 'Problem List'},
+    meta: {title: 'm.Problem_List'},
     component: ProblemList
   },
   {
     name: 'problem-details',
     path: '/problem/:problemID',
-    meta: {title: 'Problem Details'},
+    meta: {title: 'm.Problems'},
     component: Problem
   },
   {
     name: 'submission-list',
     path: '/status',
-    meta: {title: 'Submission List'},
+    meta: {title: 'm.Status'},
     component: SubmissionList
   },
   {
     name: 'submission-details',
     path: '/status/:id/',
-    meta: {title: 'Submission Details'},
+    meta: {title: 'm.Status'},
     component: SubmissionDetails
   },
   {
     name: 'contest-list',
     path: '/contest',
-    meta: {title: 'Contest List'},
+    meta: {title: 'm.Contest_List'},
     component: Contest.ContestList
   },
   {
     name: 'contest-details',
     path: '/contest/:contestID/',
     component: Contest.ContestDetails,
-    meta: {title: 'Contest Details'},
+    meta: {title: 'm.Contests'},
     children: [
       {
         name: 'contest-submission-list',
@@ -116,20 +116,20 @@ export default [
   {
     name: 'acm-rank',
     path: '/acm-rank',
-    meta: {title: 'ACM Rankings'},
+    meta: {title: 'm.ACM_Rank'},
     component: ACMRank
   },
   {
     name: 'oi-rank',
     path: '/oi-rank',
-    meta: {title: 'OI Rankings'},
+    meta: {title: 'm.OI_Rank'},
     component: OIRank
   },
   {
     name: 'user-home',
     path: '/user-home',
     component: UserHome,
-    meta: {requiresAuth: true, title: 'User Home'}
+    meta: {requiresAuth: true, title: 'm.MyHome'}
   },
   {
     path: '/setting',
@@ -138,25 +138,25 @@ export default [
       {
         name: 'default-setting',
         path: '',
-        meta: {requiresAuth: true, title: 'Default Settings'},
+        meta: {requiresAuth: true, title: 'm.Settings'},
         component: Setting.ProfileSetting
       },
       {
         name: 'profile-setting',
         path: 'profile',
-        meta: {requiresAuth: true, title: 'Profile Settings'},
+        meta: {requiresAuth: true, title: 'm.Settings'},
         component: Setting.ProfileSetting
       },
       {
         name: 'account-setting',
         path: 'account',
-        meta: {requiresAuth: true, title: 'Account Settings'},
+        meta: {requiresAuth: true, title: 'm.Settings'},
         component: Setting.AccountSetting
       },
       {
         name: 'security-setting',
         path: 'security',
-        meta: {requiresAuth: true, title: 'Security Settings'},
+        meta: {requiresAuth: true, title: 'm.Settings'},
         component: Setting.SecuritySetting
       }
     ]
@@ -164,13 +164,13 @@ export default [
   {
     path: '/about',
     name: 'about',
-    meta: {title: 'About'},
+    meta: {title: 'm.About'},
     component: About
   },
   {
     path: '/faq',
     name: 'faq',
-    meta: {title: 'FAQ'},
+    meta: {title: 'm.FAQ'},
     component: FAQ
   },
   {

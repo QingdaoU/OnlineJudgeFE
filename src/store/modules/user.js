@@ -3,6 +3,7 @@ import api from '@oj/api'
 import storage from '@/utils/storage'
 import i18n from '@/i18n'
 import { STORAGE_KEY, USER_TYPE, PROBLEM_PERMISSION } from '@/utils/constants'
+import time from '@/utils/time'
 
 const state = {
   profile: {}
@@ -31,6 +32,7 @@ const mutations = {
     state.profile = profile
     if (profile.language) {
       i18n.locale = profile.language
+      time.changeLocale(profile.language)
     }
     storage.set(STORAGE_KEY.AUTHED, !!profile.user)
   }

@@ -139,7 +139,7 @@
     mounted () {
       if (this.$route.name === 'edit-contest') {
         this.title = 'Edit Contest'
-        this.disableRuleType = true
+        this.disableRuleType = false
         api.getContest(this.$route.params.contestId).then(res => {
           let data = res.data.data
           let ranges = []

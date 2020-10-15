@@ -46,6 +46,13 @@
             <p class="content">{{problem.source}}</p>
           </div>
 
+          <div v-if="problem.source === 'xmu'">
+            <p class="title" key="info1">温馨提示</p>
+            <p class="content" key="info2">实在搞不定的话，你可以
+              <Button type="ghost" @click="downloadTestCase(problem.id)">点此下载测试数据</Button>
+            </p>
+          </div>
+
         </div>
       </Panel>
       <!--problem main end-->
@@ -65,6 +72,7 @@
                 <Tag type="dot" :color="submissionStatus.color" @click.native="handleRoute('/status/'+submissionId)">
                   {{$t('m.' + submissionStatus.text.replace(/ /g, "_"))}}
                 </Tag>
+                <span> [ <Icon type="arrow-left-a"></Icon> 点击左侧按钮，查看详情 ]</span>
               </template>
               <template v-else-if="this.contestID && !OIContestRealTimePermission">
                 <Alert type="success" show-icon>{{$t('m.Submitted_successfully')}}</Alert>
@@ -180,7 +188,7 @@
         <div slot="title">
           <Icon type="ios-analytics"></Icon>
           <span class="card-title">{{$t('m.Statistic')}}</span>
-          <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
+          <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">{{$t('m.Details')}}</Button>
         </div>
         <div class="echarts">
           <ECharts :options="pie"></ECharts>
@@ -208,6 +216,7 @@
   import {JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey} from '@/utils/constants'
   import api from '@oj/api'
   import {pie, largePie} from './chartData'
+  import utils from '@/utils/utils'
 
   // 只显示这些状态的图形占用
   const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
@@ -255,7 +264,7 @@
         // echarts 无法获取隐藏dom的大小，需手动指定
         largePieInitOpts: {
           width: '500',
-          height: '480'
+          height: '440'
         }
       }
     },
@@ -316,19 +325,20 @@
         }
         let acNum = problemData.accepted_number
         let data = [
-          {name: 'WA', value: problemData.submission_number - acNum},
-          {name: 'AC', value: acNum}
+          {name: this.$i18n.t('m.Short_Wrong_Answer'), value: problemData.submission_number - acNum},
+          {name: this.$i18n.t('m.Short_Accepted'), value: acNum}
         ]
         this.pie.series[0].data = data
+        this.pie.legend.data = [this.$i18n.t('m.Short_Accepted'), this.$i18n.t('m.Short_Wrong_Answer')]
         // 只把大图的AC selected下，这里需要做一下deepcopy
         let data2 = JSON.parse(JSON.stringify(data))
         data2[1].selected = true
         this.largePie.series[1].data = data2
 
         // 根据结果设置legend,没有提交过的legend不显示
-        let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
+        let legend = Object.keys(problemData.statistic_info).map(ele => this.$i18n.t(JUDGE_STATUS[ele].short))
         if (legend.length === 0) {
-          legend.push('AC', 'WA')
+          legend.push(this.$i18n.t('m.Short_Accepted'), this.$i18n.t('m.Short_Wrong_Answer'))
         }
         this.largePie.legend.data = legend
 
@@ -338,9 +348,9 @@
 
         let largePieData = []
         Object.keys(problemData.statistic_info).forEach(ele => {
-          largePieData.push({name: JUDGE_STATUS[ele].short, value: problemData.statistic_info[ele]})
+          largePieData.push({name: this.$i18n.t(JUDGE_STATUS[ele].short), value: problemData.statistic_info[ele]})
         })
-        largePieData.push({name: 'AC', value: acCount})
+        largePieData.push({name: this.$i18n.t('m.Short_Accepted'), value: acCount})
         this.largePie.series[0].data = largePieData
       },
       handleRoute (route) {
@@ -465,6 +475,10 @@
       },
       onCopyError (e) {
         this.$error('Failed to copy code')
+      },
+      downloadTestCase (problemID) {
+        let url = '/dl_test_case?problem_id=' + problemID
+        utils.downloadFile(url)
       }
     },
     computed: {
@@ -619,7 +633,7 @@
   #pieChart-detail {
     margin-top: 20px;
     width: 500px;
-    height: 480px;
+    height: 440px;
   }
 </style>
 

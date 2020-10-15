@@ -23,6 +23,7 @@ export const m = {
   Judging: 'Judging',
   Wrong_Answer: 'Wrong Answer',
   Statistic: 'Statistic',
+  Details: 'Details',
   Close: 'Close',
   View_Contest: 'View Contest',
   Are_you_sure_you_want_to_reset_your_code: 'Are you sure you want to reset your code?',
@@ -122,6 +123,7 @@ export const m = {
   Public: 'Public',
   Password_Protected: 'Password Protected',
   // ContestList.vue
+  Contest_List: 'Contest List',
   Rule: 'Rule',
   OI: 'OI',
   ACM: 'ACM',
@@ -193,6 +195,7 @@ export const m = {
   // OIContestRank.vue
   Total_Score: 'Total Score',
   // ProblemList.vue
+  Keyword: 'Keyword',
   Problem_List: 'Problem List',
   High: 'High',
   Mid: 'Mid',
@@ -252,10 +255,47 @@ export const m = {
   Partial_Accepted: 'Partial Accepted',
   Compile_Error: 'Compile Error',
   Rejudge: 'Rejudge',
+  Problem_Submissions: 'Problem Submissions',
+  // constants.js
+  Short_Accepted: 'AC',
+  Short_Time_Limit_Exceeded: 'TLE',
+  Short_Memory_Limit_Exceeded: 'MLE',
+  Short_Runtime_Error: 'RE',
+  Short_System_Error: 'SE',
+  Short_Partial_Accepted: 'PAC',
+  Short_Compile_Error: 'CE',
+  Short_Wrong_Answer: 'WA',
   // UserHome.vue
   UserHomeSolved: 'Solved',
   UserHomeserSubmissions: 'Submissions',
   UserHomeScore: 'Score',
   List_Solved_Problems: 'List of solved problems',
-  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.'
+  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
+  // ProfileSetting.vue
+  Drop_here_or_click_to_select_manually: 'Drop here, or click to select manually',
+  Your_avatar_will_be_set_to: 'Your avatar will be set to',
+  Upload: 'Upload',
+  Real_Name: 'Real Name',
+  Class_Name: 'Class Name',
+  Major: 'Major',
+  UI_Language: 'UI Language',
+  Mood: 'Mood',
+  Blog: 'Blog',
+  Github: 'Github',
+  Save_All: 'Save All',
+  // AccountSetting.vue
+  Old_Password: 'Old Password',
+  New_Password: 'New Password',
+  Confirm_New_Password: 'Confirm New Password',
+  You_will_need_to_login_again_after_5_seconds: 'You will need to login again after 5 seconds...',
+  Current_Password: 'Current Password',
+  Old_Email: 'Old Email',
+  New_Email: 'New Email',
+  // SecuritySetting.vue
+  Current: 'Current',
+  Revoke: 'Revoke',
+  You_have_enabled_two_factor_authentication: 'You have enabled two-factor authentication',
+  Enter_the_code_from_your_application: 'Enter the code from your application',
+  Open_TFA: 'Open TFA',
+  Close_TFA: 'Close TFA'
 }
