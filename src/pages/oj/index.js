@@ -37,11 +37,10 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
-
 Vue.use(VueClipboard)
 Vue.use(highlight)
 Vue.use(katex)
@@ -64,3 +63,4 @@ Vue.prototype.$info = (s) => Vue.prototype.$Message.info(s)
 Vue.prototype.$success = (s) => Vue.prototype.$Message.success(s)
 
 new Vue(Vue.util.extend({router, store, i18n}, App)).$mount('#app')
+Vue.config.devtools = true

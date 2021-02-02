@@ -134,8 +134,8 @@ export const m = {
   Problems_List: '문제 목록',
   No_Problems: 'No Problems',
   // CodeMirror.vue
-  Language: 'Language',
-  Theme: 'Theme',
+  Language: '언어',
+  Theme: '테마',
   Reset_to_default_code_definition: 'Reset to default code definition',
   Upload_file: 'Upload file',
   Monokai: 'Monokai',
@@ -193,11 +193,11 @@ export const m = {
   // OIContestRank.vue
   Total_Score: 'Total Score',
   // ProblemList.vue
-  Problem_List: 'Problem List',
-  High: 'High',
-  Mid: 'Mid',
-  Low: 'Low',
-  All: 'All',
+  Problem_List: '문제 리스트',
+  High: '고급',
+  Mid: '중급',
+  Low: '초급',
+  All: '전체',
   Reset: 'Reset',
   Pick_One: 'Pick one',
   Difficulty: 'Difficulty',
@@ -249,7 +249,7 @@ export const m = {
   System_Error: 'System Error',
   Pending: 'Pending',
   Partial_Accepted: 'Partial Accepted',
-  Compile_Error: 'Compile Error',
+  Compile_Error: '컴파일에러',
   Rejudge: 'Rejudge',
   // UserHome.vue
   UserHomeSolved: '해결',

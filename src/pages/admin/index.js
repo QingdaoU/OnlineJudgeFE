@@ -54,3 +54,4 @@ Vue.prototype.$success = (msg) => {
 }
 
 new Vue(Vue.util.extend({router, store, i18n}, App)).$mount('#app')
+Vue.config.devtools = true
