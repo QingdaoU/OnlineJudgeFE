@@ -146,7 +146,7 @@ export const m = {
   // NavBar.vue
   Home: '홈',
   NavProblems: '문제',
-  Contests: '대회',
+  Contests: '강의',
   NavStatus: '상태',
   Rank: '랭킹',
   ACM_Rank: 'ACM 랭킹',
@@ -187,7 +187,7 @@ export const m = {
   No_Account: '계정이 없으신가요? 회원가입하세요!',
   Forget_Password: '비밀번호를 잊으셨나요?',
   UserLogin: '로그인',
-  Welcome_back: 'Welcome back to OJ',
+  Welcome_back: '지식 공유자 및 관리자 로그인',
   // OIRank.vue
   OI_Ranklist: 'OI Ranklist',
   // OIContestRank.vue

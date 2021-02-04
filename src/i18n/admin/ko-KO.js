@@ -117,7 +117,7 @@ export const m = {
   Force_HTTPS: '강제 HTTPS',
   CDN_HOST: 'CDN 호스트',
   // Login.vue
-  Welcome_to_Login: 'Welcome to Login',
+  Welcome_to_Login: '지식 공유자 및 어드민 만이 로그인이 가능합니다.',
   GO: 'GO',
   username: 'username',
   password: 'password'

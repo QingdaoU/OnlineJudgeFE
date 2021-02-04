@@ -112,7 +112,7 @@
       }
     },
     beforeRouteEnter (to, from, next) {
-      api.getContestList(0, limit).then((res) => {
+      api.getContestList(0, limit, to.query).then((res) => {
         next((vm) => {
           vm.contests = res.data.data.results
           vm.total = res.data.data.total

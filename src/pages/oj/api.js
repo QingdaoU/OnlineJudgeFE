@@ -155,10 +155,11 @@ export default {
       params
     })
   },
-  getContest (id) {
+  getContest (id, token) {
     return ajax('contest', 'get', {
       params: {
-        id
+        id,
+        token
       }
     })
   },

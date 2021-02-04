@@ -25,7 +25,8 @@
         :loading="btnLoginLoading">
         {{$t('m.UserLogin')}}
       </Button>
-      <a v-if="website.allow_register" @click.stop="handleBtnClick('register')">{{$t('m.No_Account')}}</a>
+      <a v-bind:href=inflean_link>일반 사용자는 인프런으로 로그인</a>
+<!--      <a v-if="website.allow_register" @click.stop="handleBtnClick('register')">{{$t('m.No_Account')}}</a>-->
       <a @click.stop="goResetPassword" style="float: right">{{$t('m.Forget_Password')}}</a>
     </div>
   </div>
@@ -49,6 +50,7 @@
       }
 
       return {
+        inflean_link: 'https://www.inflearn.com/',
         tfaRequired: false,
         btnLoginLoading: false,
         formLogin: {
