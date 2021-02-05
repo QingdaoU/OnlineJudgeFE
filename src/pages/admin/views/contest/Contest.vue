@@ -13,29 +13,29 @@
               <Simditor v-model="contest.description"></Simditor>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item :label="$t('m.Contest_Start_Time')" required>
-              <el-date-picker
-                v-model="contest.start_time"
-                type="datetime"
-                :placeholder="$t('m.Contest_Start_Time')">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item :label="$t('m.Contest_End_Time')" required>
-              <el-date-picker
-                v-model="contest.end_time"
-                type="datetime"
-                :placeholder="$t('m.Contest_End_Time')">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item :label="$t('m.Contest_Password')">
-              <el-input v-model="contest.password" :placeholder="$t('m.Contest_Password')"></el-input>
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="8">-->
+<!--            <el-form-item :label="$t('m.Contest_Start_Time')" required>-->
+<!--              <el-date-picker-->
+<!--                v-model="contest.start_time"-->
+<!--                type="datetime"-->
+<!--                :placeholder="$t('m.Contest_Start_Time')">-->
+<!--              </el-date-picker>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="8">-->
+<!--            <el-form-item :label="$t('m.Contest_End_Time')" required>-->
+<!--              <el-date-picker-->
+<!--                v-model="contest.end_time"-->
+<!--                type="datetime"-->
+<!--                :placeholder="$t('m.Contest_End_Time')">-->
+<!--              </el-date-picker>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="8">-->
+<!--            <el-form-item :label="$t('m.Contest_Password')">-->
+<!--              <el-input v-model="contest.password" :placeholder="$t('m.Contest_Password')"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
           <el-col :span="8">
             <el-form-item :label="$t('m.Contest_Rule_Type')">
               <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>

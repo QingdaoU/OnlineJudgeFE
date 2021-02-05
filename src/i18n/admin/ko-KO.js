@@ -106,7 +106,7 @@ export const m = {
   Contest_Password: '비밀번호',
   Contest_Rule_Type: '대회 규칙 유형',
   Real_Time_Rank: '실시간 랭킹',
-  Contest_Status: '대회 상태',
+  Contest_Status: '대회 공개',
   Allowed_IP_Ranges: '허용된 IP 범위',
   CIDR_Network: 'CIDR 네트워크',
   // Dashboard.vue

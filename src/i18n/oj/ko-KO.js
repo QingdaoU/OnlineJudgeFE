@@ -118,7 +118,7 @@ export const m = {
   StartAt: 'StartAt',
   EndAt: 'EndAt',
   ContestType: 'ContestType',
-  Creator: 'Creator',
+  Creator: '제작자',
   Public: 'Public',
   Password_Protected: 'Password Protected',
   // ContestList.vue
@@ -161,7 +161,7 @@ export const m = {
   Settings: '설정',
   Management: '관리',
   Logout: '로그아웃',
-  Welcome_to: 'Welcome to',
+  Welcome_to: '지식공유자 및 관리자 로그인',
   // announcements.vue
   Refresh: '새로고침',
   Back: '뒤로가기',

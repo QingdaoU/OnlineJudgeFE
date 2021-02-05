@@ -14,9 +14,10 @@
                 {{contest.title}}
               </div>
               <div slot="extra">
-                <Tag type="dot" :color="countdownColor">
-                  <span id="countdown">{{countdown}}</span>
-                </Tag>
+<!--                대회진행시간 -->
+<!--                <Tag type="dot" :color="countdownColor">-->
+<!--                  <span id="countdown">{{countdown}}</span>-->
+<!--                </Tag>-->
               </div>
               <div v-html="contest.description" class="markdown-body"></div>
               <div v-if="passwordFormVisible" class="contest-password">
@@ -95,23 +96,24 @@
         contestPassword: '',
         columns: [
           {
-            title: this.$i18n.t('m.StartAt'),
+            // title: this.$i18n.t('m.StartAt'),
+            title: '제작시간',
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.start_time))
             }
           },
-          {
-            title: this.$i18n.t('m.EndAt'),
-            render: (h, params) => {
-              return h('span', time.utcToLocal(params.row.end_time))
-            }
-          },
-          {
-            title: this.$i18n.t('m.ContestType'),
-            render: (h, params) => {
-              return h('span', this.$i18n.t('m.' + params.row.contest_type.replace(' ', '_')))
-            }
-          },
+          // {
+          //   title: this.$i18n.t('m.EndAt'),
+          //   render: (h, params) => {
+          //     return h('span', time.utcToLocal(params.row.end_time))
+          //   }
+          // },
+          // {
+          //   title: this.$i18n.t('m.ContestType'),
+          //   render: (h, params) => {
+          //     return h('span', this.$i18n.t('m.' + params.row.contest_type.replace(' ', '_')))
+          //   }
+          // },
           {
             title: this.$i18n.t('m.Rule'),
             render: (h, params) => {

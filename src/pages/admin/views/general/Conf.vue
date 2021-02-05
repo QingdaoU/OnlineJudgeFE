@@ -105,7 +105,8 @@
           email: 'email@example.com',
           tls: true
         },
-        websiteConfig: {}
+        websiteConfig: {
+        }
       }
     },
     mounted () {

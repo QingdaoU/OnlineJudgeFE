@@ -38,25 +38,25 @@
             <el-tag type="gray">{{scope.row.rule_type}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column
-          label="Contest Type"
-          width="180">
-          <template slot-scope="scope">
-            <el-tag :type="scope.row.contest_type === 'Public' ? 'success' : 'primary'">
-              {{ scope.row.contest_type}}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="Status"
-          width="130">
-          <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.status === '-1' ? 'danger' : scope.row.status === '0' ? 'success' : 'primary'">
-              {{ scope.row.status | contestStatus}}
-            </el-tag>
-          </template>
-        </el-table-column>
+<!--        <el-table-column-->
+<!--          label="Contest Type"-->
+<!--          width="180">-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-tag :type="scope.row.contest_type === 'Public' ? 'success' : 'primary'">-->
+<!--              {{ scope.row.contest_type}}-->
+<!--            </el-tag>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--          label="Status"-->
+<!--          width="130">-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-tag-->
+<!--              :type="scope.row.status === '-1' ? 'danger' : scope.row.status === '0' ? 'success' : 'primary'">-->
+<!--              {{ scope.row.status | contestStatus}}-->
+<!--            </el-tag>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column
           width="100"
           label="Visible">
