@@ -82,11 +82,11 @@
       </el-table>
       <div class="panel-options">
         <el-button type="primary" size="small"
-                   @click="goCreateProblem" icon="el-icon-plus">Create
+                   @click="goCreateProblem" icon="el-icon-plus">문제 만들기
         </el-button>
         <el-button v-if="contestId" type="primary"
                    size="small" icon="el-icon-plus"
-                   @click="addProblemDialogVisible = true">Add From Public Problem
+                   @click="addProblemDialogVisible = true">문제 추가하기
         </el-button>
         <el-pagination
           class="page"
@@ -110,7 +110,7 @@
         <save @click.native="updateProblem(currentRow)"></save>
       </span>
     </el-dialog>
-    <el-dialog title="Add Contest Problem"
+    <el-dialog title="강의 문제 추가"
                v-if="contestId"
                width="80%"
                :visible.sync="addProblemDialogVisible"

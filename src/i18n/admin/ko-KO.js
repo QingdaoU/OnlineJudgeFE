@@ -95,9 +95,9 @@ export const m = {
   Mid: '중급',
   Low: '초급',
   Tag: 'Tag',
-  New_Tag: 'New Tag',
+  New_Tag: 'Tag 추가',
   // ProblemList.vue
-  Contest_Problem_List: 'Contest Problem List',
+  Contest_Problem_List: '강의 문제 리스트',
   // Contest.vue
   ContestTitle: '제목',
   ContestDescription: '설명',

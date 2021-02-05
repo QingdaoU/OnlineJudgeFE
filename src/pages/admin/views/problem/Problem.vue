@@ -281,9 +281,9 @@
     data () {
       return {
         rules: {
-          _id: {required: true, message: 'Display ID is required', trigger: 'blur'},
-          title: {required: true, message: 'Title is required', trigger: 'blur'},
-          input_description: {required: true, message: 'Input Description is required', trigger: 'blur'},
+          _id: {required: true, message: '번호를 작성해주세요', trigger: 'blur'},
+          title: {required: true, message: '제목을 작성해주세요', trigger: 'blur'},
+          input_description: {required: true, message: '설명을 작성해주세요', trigger: 'blur'},
           output_description: {required: true, message: 'Output Description is required', trigger: 'blur'}
         },
         loadingCompile: false,
@@ -519,7 +519,7 @@
           }
         }
         if (!this.problem.tags.length) {
-          this.error.tags = 'Please add at least one tag'
+          this.error.tags = 'Tag를 하나이상으로 넣어주세요'
           this.$error(this.error.tags)
           return
         }
