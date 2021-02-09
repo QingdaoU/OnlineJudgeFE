@@ -17,7 +17,7 @@ export const m = {
   Export_Import_Problem: '문제 가져오기 및 내보내기',
   Contest: '대회',
   // ContestID: '강의 ID',
-  ContestID: 'Contess ID',
+  ContestID: 'Contest ID',
   Contest_List: '대회 목록',
   Create_Contest: '대회 생성하기',
   // User.vue

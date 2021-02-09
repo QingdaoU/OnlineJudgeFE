@@ -127,7 +127,7 @@
                 style: {
                   padding: '2px 0'
                 }
-              }, params.row.contest)
+              }, params.row._id)
             }
           },
           {
