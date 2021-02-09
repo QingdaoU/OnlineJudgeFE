@@ -89,7 +89,7 @@
         tagList: [],
         problemTableColumns: [
           {
-            title: '#',
+            title: this.$i18n.t('m.ContestID'),
             key: '_id',
             width: 80,
             render: (h, params) => {
@@ -100,13 +100,34 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'problem-details', params: {problemID: params.row._id}})
+                    this.$router.push({name: 'contest-details', params: {contestID: params.row.contest}})
                   }
                 },
                 style: {
                   padding: '2px 0'
                 }
-              }, params.row._id)
+              }, params.row.contest)
+            }
+          },
+          {
+            title: 'display_id',
+            key: '_id',
+            width: 100,
+            render: (h, params) => {
+              return h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.ProblemRoute(params)
+                  }
+                },
+                style: {
+                  padding: '2px 0'
+                }
+              }, params.row.contest)
             }
           },
           {
@@ -120,7 +141,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'problem-details', params: {problemID: params.row._id}})
+                    this.ProblemRoute(params)
                   }
                 },
                 style: {
@@ -205,6 +226,7 @@
           this.loadings.table = false
           this.total = res.data.data.total
           this.problemList = res.data.data.results
+          console.log(this.problemList)
           if (this.isAuthenticated) {
             this.addStatusColumn(this.problemTableColumns, res.data.data.results)
           }
@@ -264,6 +286,19 @@
           this.$success('Good Luck')
           this.$router.push({name: 'problem-details', params: {problemID: res.data.data}})
         })
+      },
+      ProblemRoute (params) {
+        if (params.row.contest) {
+          this.$router.push({
+            name: 'contest-problem-details',
+            params: {
+              contestID: params.row.contest,
+              problemID: params.row._id
+            }
+          })
+        } else {
+          this.$router.push({name: 'problem-details', params: {problemID: params.row._id}})
+        }
       }
     },
     computed: {
