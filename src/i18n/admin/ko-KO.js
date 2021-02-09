@@ -8,6 +8,7 @@ export const m = {
   Judge_Server: '채점 서버',
   Prune_Test_Case: '테스트 케이스 가지치기',
   Problem: '문제',
+  ProblemID: '문제 ID',
   FromFile: 'From File',
   ToFile: 'To File',
   ShareSubmission: '서브미션 공유',
@@ -15,6 +16,7 @@ export const m = {
   Create_Problem: '문제 만들기',
   Export_Import_Problem: '문제 가져오기 및 내보내기',
   Contest: '대회',
+  ContestID: '강의 ID',
   Contest_List: '대회 목록',
   Create_Contest: '대회 생성하기',
   // User.vue

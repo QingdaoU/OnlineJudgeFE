@@ -103,7 +103,30 @@
             }
           },
           {
-            title: this.$i18n.t('m.Problem'),
+            title: this.$i18n.t('m.ContestID'),
+            align: 'center',
+            render: (h, params) => {
+              return h('span',
+                {
+                  style: {
+                    color: '#57a3f3',
+                    cursor: 'pointer'
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push(
+                        {
+                          name: 'contest-details',
+                          params: {contestID: params.row.contest}
+                        })
+                    }
+                  }
+                },
+              params.row.contest)
+            }
+          },
+          {
+            title: this.$i18n.t('m.ProblemID'),
             align: 'center',
             render: (h, params) => {
               return h('span',
@@ -121,7 +144,15 @@
                             params: {problemID: params.row.problem, contestID: this.contestID}
                           })
                       } else {
-                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem}})
+                        if (params.row.contest) {
+                          this.$router.push(
+                            {
+                              name: 'contest-problem-details',
+                              params: {problemID: params.row.problem, contestID: params.row.contest}
+                            })
+                        } else {
+                          this.$router.push({name: 'problem-details', params: {problemID: params.row.problem}})
+                        }
                       }
                     }
                   }
@@ -191,6 +222,7 @@
     },
     methods: {
       init () {
+        console.log('init')
         this.contestID = this.$route.params.contestID
         let query = this.$route.query
         this.problemID = query.problemID
@@ -234,6 +266,7 @@
       },
       // 改变route， 通过监听route变化请求数据，这样可以产生route history， 用户返回时就会保存之前的状态
       changeRoute () {
+        console.log('changeRoute')
         let query = utils.filterEmptyValue(this.buildQuery())
         query.contestID = this.contestID
         query.problemID = this.problemID
@@ -244,6 +277,7 @@
         })
       },
       goRoute (route) {
+        console.log('goRoute')
         this.$router.push(route)
       },
       adjustRejudgeColumn () {
