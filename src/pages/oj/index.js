@@ -37,7 +37,8 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.config.productionTip = true
+// Vue.config.productionTip = true
+Vue.config.productionTip = false
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
