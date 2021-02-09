@@ -82,7 +82,7 @@
         })
       },
       handleAddProblem (problemID) {
-        this.$prompt('해당 강의에서 문제의 displayID를 적어주세요. 해당 displayID를 기반으로 오름차순으로 문제가 표시됩니다.', '확인').then(({value}) => {
+        this.$prompt('해당 Contest에서 문제의 displayID를 적어주세요. 해당 displayID를 기반으로 오름차순으로 문제가 표시됩니다.', '확인').then(({value}) => {
           let data = {
             problem_id: problemID,
             contest_id: this.contestID,

@@ -16,7 +16,8 @@ export const m = {
   Create_Problem: '문제 만들기',
   Export_Import_Problem: '문제 가져오기 및 내보내기',
   Contest: '대회',
-  ContestID: '강의 ID',
+  // ContestID: '강의 ID',
+  ContestID: 'Contess ID',
   Contest_List: '대회 목록',
   Create_Contest: '대회 생성하기',
   // User.vue
@@ -99,7 +100,8 @@ export const m = {
   Tag: 'Tag',
   New_Tag: 'Tag 추가',
   // ProblemList.vue
-  Contest_Problem_List: '강의 문제 리스트',
+  // Contest_Problem_List: '강의 문제 리스트',
+  Contest_Problem_List: 'Contest Problem List',
   // Contest.vue
   ContestTitle: '제목',
   ContestDescription: '설명',

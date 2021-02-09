@@ -146,7 +146,7 @@ export const m = {
   // NavBar.vue
   Home: '홈',
   NavProblems: '문제',
-  Contests: '강의',
+  Contests: 'Contest',
   NavStatus: '상태',
   Rank: '랭킹',
   ACM_Rank: 'ACM 랭킹',
