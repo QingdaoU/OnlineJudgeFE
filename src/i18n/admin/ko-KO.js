@@ -34,6 +34,9 @@ export const m = {
   Problem_Permission: '문제 승인',
   Two_Factor_Auth: '이중 인증',
   Is_Disabled: '비활성화',
+  RegularUser: '일반 사용자',
+  AdminUser: '지식 공유자',
+  SuperUser: '인프런 관리자',
   // Announcement.vue
   General_Announcement: '공지사항',
   Announcement_Title: '제목',

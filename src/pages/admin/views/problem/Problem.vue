@@ -66,15 +66,16 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item :label="$t('m.ShareSubmission')">
-              <el-switch
-                v-model="problem.share_submission"
-                active-text=""
-                inactive-text="">
-              </el-switch>
-            </el-form-item>
-          </el-col>
+<!--          서브미션 공유 미사용으로 주석으로 변경-->
+<!--          <el-col :span="4">-->
+<!--            <el-form-item :label="$t('m.ShareSubmission')">-->
+<!--              <el-switch-->
+<!--                v-model="problem.share_submission"-->
+<!--                active-text=""-->
+<!--                inactive-text="">-->
+<!--              </el-switch>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
           <el-col :span="8">
             <el-form-item :label="$t('m.Tag')" :error="error.tags" required>
               <span class="tags">

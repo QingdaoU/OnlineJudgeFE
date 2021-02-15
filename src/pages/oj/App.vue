@@ -7,7 +7,7 @@
       </transition>
       <div class="footer">
         <p v-html="website.website_footer"></p>
-        <p>Powered by <a href="https://www.inflearn.com/">Inflean</a>
+        <p>Powered by <a href="https://www.inflearn.com/">Inflearn</a>
           <span v-if="version">&nbsp; Version: {{ version }}</span>
         </p>
       </div>
