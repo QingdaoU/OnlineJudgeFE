@@ -1,6 +1,6 @@
 <template>
   <div class="view">
-    <Panel :title="title">
+    <Panel :title="$t('m.Contest_MainTitle')">
       <el-form label-position="top">
         <el-row :gutter="20">
           <el-col :span="24">
@@ -8,11 +8,13 @@
               <el-input v-model="contest.title" :placeholder="$t('m.ContestTitle')"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item :label="$t('m.ContestDescription')" required>
-              <Simditor v-model="contest.description"></Simditor>
-            </el-form-item>
-          </el-col>
+<!--          설명-->
+<!--          <el-col :span="24">-->
+<!--            <el-form-item :label="$t('m.ContestDescription')" required>-->
+<!--              <Simditor v-model="contest.description"></Simditor>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          시작시간-->
 <!--          <el-col :span="8">-->
 <!--            <el-form-item :label="$t('m.Contest_Start_Time')" required>-->
 <!--              <el-date-picker-->
@@ -36,21 +38,21 @@
 <!--              <el-input v-model="contest.password" :placeholder="$t('m.Contest_Password')"></el-input>-->
 <!--            </el-form-item>-->
 <!--          </el-col>-->
-          <el-col :span="8">
-            <el-form-item :label="$t('m.Contest_Rule_Type')">
-              <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>
-              <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item :label="$t('m.Real_Time_Rank')">
-              <el-switch
-                v-model="contest.real_time_rank"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
-              </el-switch>
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="8">-->
+<!--            <el-form-item :label="$t('m.Contest_Rule_Type')">-->
+<!--              <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>-->
+<!--              <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="8">-->
+<!--            <el-form-item :label="$t('m.Real_Time_Rank')">-->
+<!--              <el-switch-->
+<!--                v-model="contest.real_time_rank"-->
+<!--                active-color="#13ce66"-->
+<!--                inactive-color="#ff4949">-->
+<!--              </el-switch>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
           <el-col :span="8">
             <el-form-item :label="$t('m.Contest_Status')">
               <el-switch
@@ -60,21 +62,22 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item :label="$t('m.Allowed_IP_Ranges')">
-              <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
-                <el-row :gutter="20" style="margin-bottom: 15px">
-                  <el-col :span="8">
-                    <el-input v-model="range.value" :placeholder="$t('m.CIDR_Network')"></el-input>
-                  </el-col>
-                  <el-col :span="10">
-                    <el-button plain icon="el-icon-fa-plus" @click="addIPRange"></el-button>
-                    <el-button plain icon="el-icon-fa-trash" @click="removeIPRange(range)"></el-button>
-                  </el-col>
-                </el-row>
-              </div>
-            </el-form-item>
-          </el-col>
+<!--          허용된 IP 범위-->
+<!--          <el-col :span="24">-->
+<!--            <el-form-item :label="$t('m.Allowed_IP_Ranges')">-->
+<!--              <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">-->
+<!--                <el-row :gutter="20" style="margin-bottom: 15px">-->
+<!--                  <el-col :span="8">-->
+<!--                    <el-input v-model="range.value" :placeholder="$t('m.CIDR_Network')"></el-input>-->
+<!--                  </el-col>-->
+<!--                  <el-col :span="10">-->
+<!--                    <el-button plain icon="el-icon-fa-plus" @click="addIPRange"></el-button>-->
+<!--                    <el-button plain icon="el-icon-fa-trash" @click="removeIPRange(range)"></el-button>-->
+<!--                  </el-col>-->
+<!--                </el-row>-->
+<!--              </div>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
         </el-row>
       </el-form>
       <save @click.native="saveContest"></save>
