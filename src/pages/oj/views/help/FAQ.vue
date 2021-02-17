@@ -3,28 +3,42 @@
     <div slot="title">{{$t('m.Frequently_Asked_Questions')}}</div>
     <div class="content markdown-body">
       <ul>
-        <li>{{$t('m.Where_is_the_input_and_the_output')}} 
-          <p>{{$t('m.Where_is_the_input_and_the_output_answer_part_1')}} <code>stdin</code> ('{{$t('m.Standard_Input')}}') {{$t('m.Where_is_the_input_and_the_output_answer_part_3')}} <code>stdout</code>
-            ('{{$t('m.Standard_Output')}}') {{$t('m.Where_is_the_input_and_the_output_answer_part_5')}} <code>scanf</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_6')}} <code>cin</code>
-            {{$t('m.Where_is_the_input_and_the_output_answer_part_7')}} <code>printf</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_8')}} <code>cout</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_9')}} <code>{{$t('m.Runtime_Error')}}</code>.
+        <li>{{$t('m.Where_is_the_input_and_the_output')}}
+          <p>
+            여러분이 작성하신 프로그램은 <code>stdin</code>('{{$t('m.Standard_Input')}}') 과  <code>stdout</code>('{{$t('m.Standard_Output')}}') 을 통해서 입력과 출력을 받습니다.
           </p>
+          <p>
+            예를 들어서 C언어는 <code>scanf</code>로 C++은 <code>cin</code>으로 <code>stdin</code>('{{$t('m.Standard_Input')}}') 을 읽어오고, C언어는 printf, C++은 coutd을 통해서 <code>stdout</code>('{{$t('m.Standard_Output')}}')을 작성합니다.
+          </p>
+          <p>또한 파일을 작성 또는 읽어오는 기능이 포함된 경우, <code>{{$t('m.Runtime_Error')}}</code> 에러가 발생할 수 있습니다.</p>
+<!--          <p>{{$t('m.Where_is_the_input_and_the_output_answer_part_1')}} <code>stdin</code> ('{{$t('m.Standard_Input')}}') {{$t('m.Where_is_the_input_and_the_output_answer_part_3')}} <code>stdout</code>-->
+<!--            ('{{$t('m.Standard_Output')}}') {{$t('m.Where_is_the_input_and_the_output_answer_part_5')}} <code>scanf</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_6')}} <code>cin</code>-->
+<!--            {{$t('m.Where_is_the_input_and_the_output_answer_part_7')}} <code>printf</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_8')}} <code>cout</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_9')}} <code>{{$t('m.Runtime_Error')}}</code>.-->
+<!--          </p>-->
         </li>
         <li>{{$t('m.What_is_the_meaning_of_submission_execution_time')}} 
         <p>{{$t('m.What_is_the_meaning_of_submission_execution_time_answer')}} 
         </p>
         </li>
-        <li>{{$t('m.How_Can_I_use_CPP_Int64')}} 
-          <p>{{$t('m.How_Can_I_use_CPP_Int64_answer_part_1')}}<code>long long</code> {{$t('m.How_Can_I_use_CPP_Int64_answer_part_2')}} <code>cin/cout</code> {{$t('m.or')}} <code>%lld</code>, {{$t('m.using')}}<code> __int64</code> {{$t('m.How_Can_I_use_CPP_Int64_answer_part_3')}} <code>{{$t('m.Compile_Error')}}</code>.</p>
+        <li>{{$t('m.How_Can_I_use_CPP_Int64')}}
+          <p><code>long long</code>을 선언하고 <code>cin/cout</code> 또는 <code>%lld</code>과(와) 함께 사용해야 하며, <code>__int64</code>를 사용하면 <code>{{$t('m.Compile_Error')}}</code>가 발생합니다.</p>
+<!--          <p>{{$t('m.How_Can_I_use_CPP_Int64_answer_part_1')}}<code>long long</code> {{$t('m.How_Can_I_use_CPP_Int64_answer_part_2')}} <code>cin/cout</code> {{$t('m.or')}} <code>%lld</code>, {{$t('m.using')}}<code> __int64</code> {{$t('m.How_Can_I_use_CPP_Int64_answer_part_3')}} <code></code>.</p>-->
         </li>
         <li>{{$t('m.Java_specifications')}}
+          <p>모든 자바 프로그램은 <code>Main class</code>안에 static <code>Main method</code>에서 시작합니다.</p>
+          <p>또한 <code>public class</code> 사용을 금지하며, 이는 <code>Main class</code>에도 적용하면 됩니다.</p>
+          <p>이를 어길 경우 <code>{{$t('m.Compile_Error')}}</code>가 발생할수 있습니다.</p>
           <p>{{$t('m.Java_specifications_answer_part_1')}} <code>Main</code> {{$t('m.Java_specifications_answer_part_2')}} <code>Main</code> {{$t('m.Java_specifications_answer_part_3')}}</p>
         </li>
         <li>{{$t('m.About_presentation_error')}}
           <p>{{$t('m.About_presentation_error_answer_part_1')}} <b>{{$t('m.last')}}</b> {{$t('m.About_presentation_error_answer_part_2')}} <code> {{$t('m.Wrong_Answer')}}</code>.</p>
+          <p>
+          </p>
+
         </li>
         <li>{{$t('m.How_to_report_bugs')}}
-          <p>{{$t('m.How_to_report_bugs_answer_part_1')}} <a href="https://github.com/QingdaoU/OnlineJudge">Github</a>
-            {{$t('m.How_to_report_bugs_answer_part_2')}}
+          <p>
+            <a href="https://www.inflearn.com/" target="_blank">인프런</a> 접속후 <b>문의하기</b> -> <b>실시간 버그/피드백</b> -> <b>실시간 버그 발견! 👀</b> 으로 접속하셔서 버그 및 피드백에서 <b>주스🥤</b>를 찾아주세요.
           </p>
         </li>
       </ul>
