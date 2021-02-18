@@ -24,7 +24,7 @@ export const m = {
   Wrong_Answer: '오답입니다',
   Statistic: 'Statistic',
   Close: 'Close',
-  View_Contest: 'View Contest',
+  View_Contest: '문제집으로 가기',
   Are_you_sure_you_want_to_reset_your_code: 'Are you sure you want to reset your code?',
   Code_can_not_be_empty: 'Code can not be empty',
   Submit_code_successfully: 'Submit code successfully',

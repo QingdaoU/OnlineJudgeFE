@@ -109,10 +109,10 @@
             {{$t('m.Problems')}}
           </VerticalMenu-item>
 
-          <VerticalMenu-item :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">
-            <Icon type="chatbubble-working"></Icon>
-            {{$t('m.Announcements')}}
-          </VerticalMenu-item>
+<!--          <VerticalMenu-item :route="{name: 'contest-announcement-list', params: {contestID: contestID}}">-->
+<!--            <Icon type="chatbubble-working"></Icon>-->
+<!--            {{$t('m.Announcements')}}-->
+<!--          </VerticalMenu-item>-->
         </template>
 
         <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission" :route="submissionRoute">
@@ -121,11 +121,11 @@
         </VerticalMenu-item>
 
         <template v-if="this.contestID">
-          <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"
-                             :route="{name: 'contest-rank', params: {contestID: contestID}}">
-            <Icon type="stats-bars"></Icon>
-            {{$t('m.Rankings')}}
-          </VerticalMenu-item>
+<!--          <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"-->
+<!--                             :route="{name: 'contest-rank', params: {contestID: contestID}}">-->
+<!--            <Icon type="stats-bars"></Icon>-->
+<!--            {{$t('m.Rankings')}}-->
+<!--          </VerticalMenu-item>-->
           <VerticalMenu-item :route="{name: 'contest-details', params: {contestID: contestID}}">
             <Icon type="home"></Icon>
             {{$t('m.View_Contest')}}
