@@ -5,34 +5,29 @@
       <ul>
         <li>{{$t('m.Where_is_the_input_and_the_output')}}
           <p>
-            여러분이 작성하신 프로그램은 <code>stdin</code>('{{$t('m.Standard_Input')}}') 과  <code>stdout</code>('{{$t('m.Standard_Output')}}') 을 통해서 입력과 출력을 받습니다.
+            여러분이 작성하신 프로그램은 <code>stdin</code>('{{$t('m.Standard_Input')}}') 과  <code>stdout</code>('{{$t('m.Standard_Output')}}') 을 통해서 입력과 출력을 받아요.
           </p>
           <p>
-            예를 들어서 C언어는 <code>scanf</code>로 C++은 <code>cin</code>으로 <code>stdin</code>('{{$t('m.Standard_Input')}}') 을 읽어오고, C언어는 printf, C++은 coutd을 통해서 <code>stdout</code>('{{$t('m.Standard_Output')}}')을 작성합니다.
+            예를 들어서 C언어는 <code>scanf</code>로 C++은 <code>cin</code>으로 <code>stdin</code>('{{$t('m.Standard_Input')}}') 을 읽어오고, C언어는 printf, C++은 coutd을 통해서 <code>stdout</code>('{{$t('m.Standard_Output')}}')을 작성해요.
           </p>
-          <p>또한 파일을 작성 또는 읽어오는 기능이 포함된 경우, <code>{{$t('m.Runtime_Error')}}</code> 에러가 발생할 수 있습니다.</p>
-<!--          <p>{{$t('m.Where_is_the_input_and_the_output_answer_part_1')}} <code>stdin</code> ('{{$t('m.Standard_Input')}}') {{$t('m.Where_is_the_input_and_the_output_answer_part_3')}} <code>stdout</code>-->
-<!--            ('{{$t('m.Standard_Output')}}') {{$t('m.Where_is_the_input_and_the_output_answer_part_5')}} <code>scanf</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_6')}} <code>cin</code>-->
-<!--            {{$t('m.Where_is_the_input_and_the_output_answer_part_7')}} <code>printf</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_8')}} <code>cout</code> {{$t('m.Where_is_the_input_and_the_output_answer_part_9')}} <code>{{$t('m.Runtime_Error')}}</code>.-->
-<!--          </p>-->
+          <p>또한 파일을 작성 또는 읽어오는 기능이 포함된 경우, <code>{{$t('m.Runtime_Error')}}</code> 에러가 발생할 수 있어요.</p>
         </li>
         <li>{{$t('m.What_is_the_meaning_of_submission_execution_time')}} 
         <p>{{$t('m.What_is_the_meaning_of_submission_execution_time_answer')}} 
         </p>
         </li>
         <li>{{$t('m.How_Can_I_use_CPP_Int64')}}
-          <p><code>long long</code>을 선언하고 <code>cin/cout</code> 또는 <code>%lld</code>과(와) 함께 사용해야 하며, <code>__int64</code>를 사용하면 <code>{{$t('m.Compile_Error')}}</code>가 발생합니다.</p>
-<!--          <p>{{$t('m.How_Can_I_use_CPP_Int64_answer_part_1')}}<code>long long</code> {{$t('m.How_Can_I_use_CPP_Int64_answer_part_2')}} <code>cin/cout</code> {{$t('m.or')}} <code>%lld</code>, {{$t('m.using')}}<code> __int64</code> {{$t('m.How_Can_I_use_CPP_Int64_answer_part_3')}} <code></code>.</p>-->
+          <p><code>long long</code>을 선언하고 <code>cin/cout</code> 또는 <code>%lld</code>과(와) 함께 사용해야 하며, <code>__int64</code>를 사용하면 <code>{{$t('m.Compile_Error')}}</code>가 발생해요</p>
         </li>
         <li>{{$t('m.Java_specifications')}}
-          <p>모든 자바 프로그램은 <code>Main class</code>안에 static <code>Main method</code>에서 시작합니다.</p>
-          <p>또한 <code>public class</code> 사용을 금지하며, 이는 <code>Main class</code>에도 적용하면 됩니다.</p>
-          <p>이를 어길 경우 <code>{{$t('m.Compile_Error')}}</code>가 발생할수 있습니다.</p>
+          <p>모든 자바 프로그램은 <code>Main class</code>안에 static <code>Main method</code>에서 시작해요.</p>
+          <p>또한 <code>public class</code> 사용을 금지하며, 이는 <code>Main class</code>에도 적용하면 되요.</p>
+          <p>이를 어길 경우 <code>{{$t('m.Compile_Error')}}</code>가 발생할수 있어요.</p>
           <p>{{$t('m.Java_specifications_answer_part_1')}} <code>Main</code> {{$t('m.Java_specifications_answer_part_2')}} <code>Main</code> {{$t('m.Java_specifications_answer_part_3')}}</p>
         </li>
         <li>{{$t('m.About_presentation_error')}}
-          <p>{{$t('m.About_presentation_error_answer_part_1')}} <b>{{$t('m.last')}}</b> {{$t('m.About_presentation_error_answer_part_2')}} <code> {{$t('m.Wrong_Answer')}}</code>.</p>
           <p>
+            코테 시스템은 잘못된 출력 형식으로 인한 오류가 없어요. 실행 결과물의 앞 뒤의 빈칸 또는 마지막 빈 줄은 자동으로 제거되요!
           </p>
 
         </li>
