@@ -12,12 +12,12 @@
                 <Button type="info" shape="circle" size="small" icon="calendar">
                   {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
                 </Button>
-                <Button type="success" shape="circle" size="small" icon="android-time">
-                  {{getDuration(contest.start_time, contest.end_time)}}
-                </Button>
-                <Button type="warning" shape="circle" size="small" icon="trophy">
-                  {{contest.rule_type}}
-                </Button>
+<!--                <Button type="success" shape="circle" size="small" icon="android-time">-->
+<!--                  {{getDuration(contest.start_time, contest.end_time)}}-->
+<!--                </Button>-->
+<!--                <Button type="warning" shape="circle" size="small" icon="trophy">-->
+<!--                  {{contest.rule_type}}-->
+<!--                </Button>-->
               </div>
               <div class="contest-content-description">
                 <blockquote v-html="contest.description"></blockquote>
@@ -49,6 +49,7 @@
       }
     },
     mounted () {
+      // this.$router.push('contest')
       let params = {status: CONTEST_STATUS.NOT_START}
       api.getContestList(0, 5, params).then(res => {
         this.contests = res.data.data.results

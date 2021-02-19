@@ -130,7 +130,7 @@
       }
     },
     mounted () {
-      this.$router.push({name: 'contest-problem-list'})
+      // this.$router.push({name: 'contest-problem-list'})
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest').then(res => {

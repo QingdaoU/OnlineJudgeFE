@@ -55,10 +55,10 @@
                 <Icon type="calendar" color="#3091f2"></Icon>
                 {{contest.start_time | localtime('YYYY-M-D HH:mm') }}
               </li>
-              <li>
-                <Icon type="android-time" color="#3091f2"></Icon>
-                {{getDuration(contest.start_time, contest.end_time)}}
-              </li>
+<!--              <li>-->
+<!--                <Icon type="android-time" color="#3091f2"></Icon>-->
+<!--                {{getDuration(contest.start_time, contest.end_time)}}-->
+<!--              </li>-->
               <li>
                 <Button size="small" shape="circle" @click="onRuleChange(contest.rule_type)">
                   {{contest.rule_type}}
@@ -67,7 +67,7 @@
             </ul>
             </Col>
             <Col :span="4" style="text-align: center">
-            <Tag type="dot" :color="CONTEST_STATUS_REVERSE[contest.status].color">{{$t('m.' + CONTEST_STATUS_REVERSE[contest.status].name.replace(/ /g, "_"))}}</Tag>
+<!--            <Tag type="dot" :color="CONTEST_STATUS_REVERSE[contest.status].color">{{$t('m.' + CONTEST_STATUS_REVERSE[contest.status].name.replace(/ /g, "_"))}}</Tag>-->
             </Col>
           </Row>
         </li>

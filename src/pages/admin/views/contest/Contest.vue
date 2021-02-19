@@ -63,21 +63,21 @@
             </el-form-item>
           </el-col>
 <!--          허용된 IP 범위-->
-<!--          <el-col :span="24">-->
-<!--            <el-form-item :label="$t('m.Allowed_IP_Ranges')">-->
-<!--              <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">-->
-<!--                <el-row :gutter="20" style="margin-bottom: 15px">-->
-<!--                  <el-col :span="8">-->
-<!--                    <el-input v-model="range.value" :placeholder="$t('m.CIDR_Network')"></el-input>-->
-<!--                  </el-col>-->
-<!--                  <el-col :span="10">-->
-<!--                    <el-button plain icon="el-icon-fa-plus" @click="addIPRange"></el-button>-->
-<!--                    <el-button plain icon="el-icon-fa-trash" @click="removeIPRange(range)"></el-button>-->
-<!--                  </el-col>-->
-<!--                </el-row>-->
-<!--              </div>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
+          <el-col :span="24">
+            <el-form-item :label="$t('m.Allowed_IP_Ranges')">
+              <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
+                <el-row :gutter="20" style="margin-bottom: 15px">
+                  <el-col :span="8">
+                    <el-input v-model="range.value" :placeholder="$t('m.CIDR_Network')"></el-input>
+                  </el-col>
+                  <el-col :span="10">
+                    <el-button plain icon="el-icon-fa-plus" @click="addIPRange"></el-button>
+                    <el-button plain icon="el-icon-fa-trash" @click="removeIPRange(range)"></el-button>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <save @click.native="saveContest"></save>

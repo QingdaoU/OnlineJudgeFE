@@ -28,37 +28,38 @@
       </template>
     </div>
 
-    <p class="section-title">{{$t('m.Two_Factor_Authentication')}}</p>
-    <div class="mini-container setting-content">
-      <Form>
-        <Alert v-if="TFAOpened"
-               type="success"
-               class="notice"
-               showIcon>You have enabled two-factor authentication.
-        </Alert>
-        <FormItem v-if="!TFAOpened">
-          <div class="oj-relative">
-            <img :src="qrcodeSrc" id="qr-img">
-            <Spin size="large" fix v-if="loadingQRcode"></Spin>
-          </div>
-        </FormItem>
-        <template v-if="!loadingQRcode">
-          <FormItem style="width: 250px">
-            <Input v-model="formTwoFactor.code" placeholder="Enter the code from your application"/>
-          </FormItem>
-          <Button type="primary"
-                  :loading="loadingBtn"
-                  @click="updateTFA(false)"
-                  v-if="!TFAOpened">Open TFA
-          </Button>
-          <Button type="error"
-                  :loading="loadingBtn"
-                  @click="closeTFA"
-                  v-else>Close TFA
-          </Button>
-        </template>
-      </Form>
-    </div>
+<!--    이중인증 TFA-->
+<!--    <p class="section-title">{{$t('m.Two_Factor_Authentication')}}</p>-->
+<!--    <div class="mini-container setting-content">-->
+<!--      <Form>-->
+<!--        <Alert v-if="TFAOpened"-->
+<!--               type="success"-->
+<!--               class="notice"-->
+<!--               showIcon>You have enabled two-factor authentication.-->
+<!--        </Alert>-->
+<!--        <FormItem v-if="!TFAOpened">-->
+<!--          <div class="oj-relative">-->
+<!--            <img :src="qrcodeSrc" id="qr-img">-->
+<!--            <Spin size="large" fix v-if="loadingQRcode"></Spin>-->
+<!--          </div>-->
+<!--        </FormItem>-->
+<!--        <template v-if="!loadingQRcode">-->
+<!--          <FormItem style="width: 250px; display: none;">-->
+<!--            <Input v-model="formTwoFactor.code" placeholder="Enter the code from your application"/>-->
+<!--          </FormItem>-->
+<!--          <Button type="primary"-->
+<!--                  :loading="loadingBtn"-->
+<!--                  @click="updateTFA(false)"-->
+<!--                  v-if="!TFAOpened">Open TFA-->
+<!--          </Button>-->
+<!--          <Button type="error"-->
+<!--                  :loading="loadingBtn"-->
+<!--                  @click="closeTFA"-->
+<!--                  v-else>Close TFA-->
+<!--          </Button>-->
+<!--        </template>-->
+<!--      </Form>-->
+<!--    </div>-->
   </div>
 </template>
 

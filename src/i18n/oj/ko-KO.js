@@ -9,7 +9,7 @@ export const m = {
   Sample_Output: '예시 출력',
   Hint: '힌트',
   Source: '소스코드',
-  Status: '결좌',
+  Status: '결과',
   Information: '정보',
   Time_Limit: '시간 제한',
   Memory_Limit: '메모리 제한',
