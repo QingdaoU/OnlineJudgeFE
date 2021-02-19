@@ -5,7 +5,7 @@
       <transition name="fadeInUp" mode="out-in">
         <router-view></router-view>
       </transition>
-      <div class="footer">
+      <div class="footer" style="display: none">
         <p v-html="website.website_footer"></p>
         <p>Powered by <a href="https://www.inflearn.com/">Inflearn</a>
           <span v-if="version">&nbsp; Version: {{ version }}</span>
