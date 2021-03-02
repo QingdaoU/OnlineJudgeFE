@@ -8,6 +8,51 @@ const pieColorMap = {
   'PAC': {color: '#2d8cf0'}
 }
 
+const template = {
+  'C': `#include <stdio.h>
+
+int main() {
+  int input1;
+  int input2;
+  scanf("%d %d",&input1,&input2);
+  printf("%d",input1 + input2);
+  return 0;
+}`,
+  'C++': `#include <iostream>
+using namespace std;
+
+int main() {
+  int input1, input2;
+  std::cin >> input1 >> input2;
+  std::cout << input1 + input2;
+  return 0;
+}`,
+  'Java': `import java.util.Scanner;
+  
+public class Main {
+  public static void main(String[] args){
+    Scanner in=new Scanner(System.in);
+    int input1 = in.nextInt();
+    int input2 = in.nextInt();
+    System.out.println(input1 + input2);
+    return ;
+  }
+}`,
+  'Golang': `package main
+import "fmt"
+
+func main() {
+   var input1, input2 int
+   fmt.Scan(&input1)
+   fmt.Scan(&input2)
+   fmt.Println(input1 + input2)
+}`,
+  'Python2': `input1, input2 = map(int, raw_input().split())
+print input1 + input2`,
+  'Python3': `input1, input2 = map(int, input().split())
+print(input1 + input2)`
+}
+
 function getItemColor (obj) {
   return pieColorMap[obj.name].color
 }
@@ -106,4 +151,4 @@ const largePie = {
   ]
 }
 
-export { pie, largePie }
+export { pie, largePie, template }

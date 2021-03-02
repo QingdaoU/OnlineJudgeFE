@@ -207,8 +207,7 @@
   import {FormMixin} from '@oj/components/mixins'
   import {JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey} from '@/utils/constants'
   import api from '@oj/api'
-  import {pie, largePie} from './chartData'
-
+  import {pie, largePie, template} from './chartData'
   // 只显示这些状态的图形占用
   const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
 
@@ -237,6 +236,7 @@
         result: {
           result: 9
         },
+        default_template: template,
         problem: {
           title: '',
           description: '',
@@ -295,6 +295,7 @@
 
           // 在beforeRouteEnter中修改了, 说明本地有code，无需加载template
           if (this.code !== '') {
+            this.code = this.default_template[this.language]
             return
           }
           // try to load problem template
@@ -351,6 +352,8 @@
           if (this.code.trim() === '') {
             this.code = this.problem.template[newLang]
           }
+        } else {
+          this.code = this.default_template[newLang]
         }
         this.language = newLang
       },
@@ -365,7 +368,7 @@
             if (template && template[this.language]) {
               this.code = template[this.language]
             } else {
-              this.code = ''
+              this.code = this.default_template[this.language]
             }
           }
         })
