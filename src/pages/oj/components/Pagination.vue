@@ -54,3 +54,9 @@
     float: right;
   }
 </style>
+
+<style lang="less">
+  .ivu-page-options-sizer {
+    min-width: 85px;
+  }
+</style>
