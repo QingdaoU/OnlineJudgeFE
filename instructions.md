@@ -98,3 +98,11 @@
 4. 创建新库：`create database onlinejudge;`
 5. 退出库：`\q`
 6. 导入sql：`psql -U onlinejudge -d onlinejudge < 1221.sql` 
+
+## 增加编译语言（修改judge/languages.py文件后，需要重设配置）
+1. `sudo docker exec -it oj-backend /bin/sh`
+2. `python3 manage.py shell`
+3. `from options.options import *`
+4. `SysOptions.reset_languages()`
+5. `exit()`
+6. `exit`
