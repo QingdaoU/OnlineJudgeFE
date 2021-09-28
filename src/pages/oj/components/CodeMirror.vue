@@ -48,6 +48,7 @@
   import 'codemirror/mode/clike/clike.js'
   import 'codemirror/mode/python/python.js'
   import 'codemirror/mode/go/go.js'
+  import 'codemirror/mode/javascript/javascript.js'
 
   // active-line.js
   import 'codemirror/addon/selection/active-line.js'
