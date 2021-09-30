@@ -203,8 +203,10 @@ export default {
       data
     })
   },
-  getProblemTagList () {
-    return ajax('problem/tags', 'get')
+  getProblemTagList (params) {
+    return ajax('problem/tags', 'get', {
+      params
+    })
   },
   compileSPJ (data) {
     return ajax('admin/compile_spj', 'post', {

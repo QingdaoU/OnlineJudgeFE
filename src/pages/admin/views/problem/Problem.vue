@@ -91,10 +91,10 @@
                 v-if="inputVisible"
                 size="mini"
                 class="input-new-tag"
+                popper-class="problem-tag-poper"
                 v-model="tagInput"
                 :trigger-on-focus="false"
                 @keyup.enter.native="addTag"
-                @blur="addTag"
                 @select="addTag"
                 :fetch-suggestions="querySearch">
               </el-autocomplete>
@@ -432,7 +432,7 @@
         }
       },
       querySearch (queryString, cb) {
-        api.getProblemTagList().then(res => {
+        api.getProblemTagList({ keyword: queryString }).then(res => {
           let tagList = []
           for (let tag of res.data.data) {
             tagList.push({value: tag.name})
@@ -640,6 +640,9 @@
 </style>
 
 <style>
+  .problem-tag-poper {
+    width: 200px !important;
+  }
   .dialog-compile-error {
     width: auto;
     max-width: 80%;
