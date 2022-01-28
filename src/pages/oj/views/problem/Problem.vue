@@ -291,7 +291,9 @@
           })
           problem.languages = problem.languages.sort()
           this.problem = problem
-          this.changePie(problem)
+          if (problem.statistic_info) {
+            this.changePie(problem)
+          }
 
           // 在beforeRouteEnter中修改了, 说明本地有code，无需加载template
           if (this.code !== '') {
