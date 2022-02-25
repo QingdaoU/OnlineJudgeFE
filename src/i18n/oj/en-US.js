@@ -100,7 +100,7 @@ export const m = {
   Java_specifications_answer_part_2: 'class. Do not use public classes: even',
   Java_specifications_answer_part_3: 'must be non public to avoid compile error.Use buffered I/O to avoid time limit exceeded due to excesive flushing.',
   About_presentation_error: 'About presentation error?',
-  About_presentation_error_answer_part_1: 'There is no presentation error in this oj.The judger will trim the blacks and wraps in your ouput\'s',
+  About_presentation_error_answer_part_1: 'There is no presentation error in this oj.The judger will trim the blanks and wraps in your ouput\'s',
   last: 'last',
   About_presentation_error_answer_part_2: 'line.  if it\'s still different with the correct output, the result will be',
   How_to_report_bugs: 'How to report bugs about this oj?',
