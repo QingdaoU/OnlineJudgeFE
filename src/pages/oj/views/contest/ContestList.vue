@@ -73,7 +73,7 @@
         </li>
       </ol>
     </Panel>
-    <Pagination :total="total" :pageSize="limit" @on-change="getContestList" :current.sync="page"></Pagination>
+    <Pagination :total="total" :page-size.sync="limit" @on-change="changeRoute" :current.sync="page" :show-sizer="true" @on-page-size-change="changeRoute"></Pagination>
     </Col>
   </Row>
 
@@ -128,7 +128,8 @@
         this.query.rule_type = route.rule_type || ''
         this.query.keyword = route.keyword || ''
         this.page = parseInt(route.page) || 1
-        this.getContestList()
+        this.limit = parseInt(route.limit) || 10
+        this.getContestList(this.page)
       },
       getContestList (page = 1) {
         let offset = (page - 1) * this.limit
@@ -140,6 +141,8 @@
       changeRoute () {
         let query = Object.assign({}, this.query)
         query.page = this.page
+        query.limit = this.limit
+
         this.$router.push({
           name: 'contest-list',
           query: utils.filterEmptyValue(query)
