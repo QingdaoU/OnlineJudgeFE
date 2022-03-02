@@ -48,7 +48,7 @@ export const m = {
   Menu: '메뉴',
   Chart: '차트',
   Auto_Refresh: '자동 새로고침',
-  RealName: '실명',
+  RealName: '름이름',
   Force_Update: '강제 업데이트',
   download_csv: 'csv 다운로드',
   TotalTime: '총 시간',
