@@ -79,7 +79,7 @@ export const m = {
   Frequently_Asked_Questions: '자주 묻는 질문',
   Where_is_the_input_and_the_output: '입력과 출력은 어디에 있나요?',
   Where_is_the_input_and_the_output_answer_part_1: '프로그램은',
-  Standard_Input: '표준 입력,
+  Standard_Input: '표준 입력',
   Where_is_the_input_and_the_output_answer_part_3: '에서 입력받아',
   Standard_Output: '표준 출',
   Where_is_the_input_and_the_output_answer_part_5: '에 출력해야 합니다. 표준 입력의 경우 C에서',
