@@ -20,7 +20,7 @@ export const m = {
   // User.vue
   User_User: '사용자',
   Import_User: '사용자 가져오기',
-  Generate_User: '사용자 만들기,
+  Generate_User: '사용자 만들기',
   // User.vue-dialog
   User_Info: '사용자',
   User_Username: '아이디',
