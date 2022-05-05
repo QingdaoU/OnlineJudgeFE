@@ -1,7 +1,8 @@
 <template>
   <div>
-    <NavBar></NavBar>
-    <div class="content-app">
+    <NavBar v-bind:isExpandLeftBar="isExpandLeftBar"></NavBar>
+    <LeftMenu @expandChange="handleExpandLeftBar"></LeftMenu>
+    <div class="content-app" :class="{'with-expand-left-bar': isExpandLeftBar}">
       <transition name="fadeInUp" mode="out-in">
         <router-view></router-view>
       </transition>
@@ -19,15 +20,18 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import NavBar from '@oj/components/NavBar.vue'
+  import LeftMenu from '@oj/components/verticalMenu/leftMenu.vue'
 
   export default {
     name: 'app',
     components: {
-      NavBar
+      NavBar,
+      LeftMenu
     },
     data () {
       return {
-        version: process.env.VERSION
+        version: process.env.VERSION,
+        isExpandLeftBar: false
       }
     },
     created () {
@@ -40,7 +44,11 @@
       this.getWebsiteConfig()
     },
     methods: {
-      ...mapActions(['getWebsiteConfig', 'changeDomTitle'])
+      ...mapActions(['getWebsiteConfig', 'changeDomTitle']),
+      handleExpandLeftBar (event) {
+        this.isExpandLeftBar = event
+        console.log('take event', event)
+      }
     },
     computed: {
       ...mapState(['website'])
@@ -72,20 +80,49 @@
     }
   }
 
-
-  @media screen and (max-width: 1200px) {
-  .content-app {
-    margin-top: 160px;
-    padding: 0 2%;
+#left-menu-wrapper:hover {
+  width: 500px;
+}
+.content-app {
+  margin-top: 80px;
+  padding: 0 2% 0 calc(2% + 67px);
+  transition: 150ms ease-in;
+  &.with-expand-left-bar {
+    transition: 150ms ease-out;
+    padding: 0 2% 0 calc(2% + 180px);
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (max-width: 1200px) {
   .content-app {
-    margin-top: 80px;
-    padding: 0 2%;
+    margin-top: 110px;
+    padding: 0 2% 0 calc(2% + 67px);
+  }
+
+  .flex-container #problem-main, .info-side {
+    height: calc(100vh - 230px);
+  }
+  
+  .CodeMirror-scroll {
+    height: calc(100vh - 280px) !important;
   }
 }
+  @media screen and (max-width: 575px) {
+    .content-app {
+      margin-top: 180px;
+      padding: 0 2% 0 calc(2% + 67px);
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .flex-container #problem-main, .info-side {
+      height: calc(100vh - 150px);
+    }
+    
+    .CodeMirror-scroll {
+      height: calc(100vh - 300px) !important;
+    }
+  }
 
   .footer {
     margin-top: 20px;

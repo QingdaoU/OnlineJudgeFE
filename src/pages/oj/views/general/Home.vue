@@ -1,6 +1,6 @@
 <template>
   <Row type="flex" justify="space-around">
-    <Col :span="22">
+    <Col :xs="24" :sm="20" :md="22" :lg="24">
     <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
         <Button type="text"  class="contest-title" @click="goContest">{{contests[index].title}}</Button>
