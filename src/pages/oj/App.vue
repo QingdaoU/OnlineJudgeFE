@@ -47,7 +47,6 @@
       ...mapActions(['getWebsiteConfig', 'changeDomTitle']),
       handleExpandLeftBar (event) {
         this.isExpandLeftBar = event
-        console.log('take event', event)
       }
     },
     computed: {

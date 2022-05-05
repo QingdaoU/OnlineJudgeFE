@@ -82,7 +82,6 @@ export default {
   methods: {
     handleExpand () {
       this.isExpand = !this.isExpand
-      console.log('hehe', this.isExpand)
       this.$emit('expandChange', this.isExpand)
     },
     handleRoute (route) {
