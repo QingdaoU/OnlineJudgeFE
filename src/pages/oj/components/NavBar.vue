@@ -1,8 +1,8 @@
 <template>
-  <div id="header">
+  <div id="header" :class="{'is-expand-left-bar': isExpandLeftBar}">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
       <div class="logo"><span>{{website.website_name}}</span></div>
-      <Menu-item name="/">
+      <!-- <Menu-item name="/">
         <Icon type="home"></Icon>
         {{$t('m.Home')}}
       </Menu-item>
@@ -41,7 +41,7 @@
         <Menu-item name="/FAQ">
           {{$t('m.FAQ')}}
         </Menu-item>
-      </Submenu>
+      </Submenu> -->
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"
@@ -90,6 +90,9 @@
       login,
       register
     },
+    props: {
+      isExpandLeftBar: Boolean
+    },
     mounted () {
       this.getProfile()
     },
@@ -132,12 +135,13 @@
     min-width: 300px;
     position: fixed;
     top: 0;
-    left: 0;
+    left: 67px;
     height: auto;
-    width: 100%;
+    width: calc(100% - 67px);
     z-index: 1000;
     background-color: #fff;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    transition: 150ms ease-in;
     .oj-menu {
       background: #fdfdfd;
     }
@@ -163,6 +167,12 @@
       font-size: 16px;
       float: right;
       margin-right: 10px;
+    }
+
+    &.is-expand-left-bar {
+      transition: 150ms ease-out;
+      left: 180px;
+      width: calc(100% - 180px);
     }
   }
 
