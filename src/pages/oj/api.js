@@ -3,7 +3,7 @@ import store from '@/store'
 import axios from 'axios'
 
 Vue.prototype.$http = axios
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = '/api/v1'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
@@ -23,7 +23,7 @@ export default {
     })
   },
   login (data) {
-    return ajax('login', 'post', {
+    return ajax('users/login/', 'post', {
       data
     })
   },
@@ -72,7 +72,7 @@ export default {
     })
   },
   tfaRequiredCheck (username) {
-    return ajax('tfa_required', 'post', {
+    return ajax('users/tfa_required/', 'post', {
       data: {
         username
       }
@@ -292,7 +292,7 @@ function ajax (url, method, options) {
       data
     }).then(res => {
       // API正常返回(status=20x), 是否错误通过有无error判断
-      if (res.data.error !== null) {
+      if (res.status !== 200) {
         Vue.prototype.$error(res.data.data)
         reject(res)
         // 若后端返回为登录，则为session失效，应退出当前登录用户
