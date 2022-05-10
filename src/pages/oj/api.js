@@ -281,7 +281,7 @@ export default {
  * @param data post data, use for method put|post
  * @returns {Promise}
  */
-function ajax (url, method, options) {
+export function ajax (url, method, options) {
   if (options !== undefined) {
     var {params = {}, data = {}} = options
   } else {
