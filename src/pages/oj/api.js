@@ -6,6 +6,9 @@ Vue.prototype.$http = axios
 axios.defaults.baseURL = '/api/v1'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.validateStatus = function (status) {
+  return status === 200 || status === 400 || status === 401
+}
 
 export default {
   getWebsiteConf (params) {
@@ -291,24 +294,23 @@ function ajax (url, method, options) {
       params,
       data
     }).then(res => {
-      // API正常返回(status=20x), 是否错误通过有无error判断
-      if (res.status !== 200) {
+      if (res.status === 200) {
+        if (method !== 'get') {
+          Vue.prototype.$success('Succeeded')
+        }
+        resolve(res)
+      } else {
         Vue.prototype.$error(res.data.data)
         reject(res)
-        // 若后端返回为登录，则为session失效，应退出当前登录用户
-        if (res.data.data.startsWith('Please login')) {
+
+        if (res.status === 401) {
           store.dispatch('changeModalStatus', {'mode': 'login', 'visible': true})
         }
-      } else {
-        resolve(res)
-        // if (method !== 'get') {
-        //   Vue.prototype.$success('Succeeded')
-        // }
       }
-    }, res => {
-      // API请求异常，一般为Server error 或 network error
-      reject(res)
-      Vue.prototype.$error(res.data.data)
+    }, error => {
+      // API request exception, usually Server error or network error
+      Vue.prototype.$error(error.message)
+      reject(error)
     })
   })
 }
