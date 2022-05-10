@@ -75,9 +75,14 @@ export default {
     })
   },
   tfaRequiredCheck (username) {
-    return ajax('users/tfa_required/', 'post', {
+    // return ajax('users/tfa_required/', 'post', {
+    //   data: {
+    //     username
+    //   }
+    // })
+    return Promise.resolve({
       data: {
-        username
+        result: false
       }
     })
   },
