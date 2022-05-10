@@ -26,7 +26,7 @@ export default {
     })
   },
   login (data) {
-    return ajax('users/login/', 'post', {
+    return ajax('users/login', 'post', {
       data
     })
   },
