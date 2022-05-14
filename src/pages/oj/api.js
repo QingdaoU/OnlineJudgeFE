@@ -12,7 +12,7 @@ axios.defaults.validateStatus = function (status) {
 
 export default {
   getWebsiteConf (params) {
-    return ajax('website', 'get', {
+    return ajax('configs/website', 'get', {
       params
     })
   },
