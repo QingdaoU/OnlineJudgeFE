@@ -110,15 +110,15 @@
     },
     mounted () {
       api.getSMTPConfig().then(res => {
-        if (res.data.data) {
-          this.smtp = res.data.data
+        if (res.data) {
+          this.smtp = res.data
         } else {
           this.init = true
           this.$warning('Please setup SMTP config at first')
         }
       })
       api.getWebsiteConfig().then(res => {
-        this.websiteConfig = res.data.data
+        this.websiteConfig = res.data
       }).catch(() => {
       })
     },

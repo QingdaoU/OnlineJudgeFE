@@ -51,12 +51,12 @@
     },
     beforeRouteEnter (to, from, next) {
       api.getProfile().then(res => {
-        if (!res.data.data) {
+        if (!res.data) {
           // not login
           next({name: 'login'})
         } else {
           next(vm => {
-            vm.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
+            vm.$store.commit(types.CHANGE_PROFILE, {profile: res.data})
           })
         }
       })

@@ -161,7 +161,7 @@
         }
         api.getACMACInfo(params).then(res => {
           this.loadingTable = false
-          let data = res.data.data
+          let data = res.data
           this.total = data.length
           this.acInfo = data
           this.handlePage()

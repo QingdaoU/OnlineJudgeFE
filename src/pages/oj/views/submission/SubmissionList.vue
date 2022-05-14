@@ -220,7 +220,7 @@
         let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
         this.loadingTable = true
         api[func](offset, this.limit, params).then(res => {
-          let data = res.data.data
+          let data = res.data
           for (let v of data.results) {
             v.loading = false
           }

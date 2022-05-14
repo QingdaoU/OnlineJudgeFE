@@ -20,7 +20,7 @@ export default {
     },
     getCaptchaSrc () {
       api.getCaptcha().then(res => {
-        this.captchaSrc = res.data.data
+        this.captchaSrc = res.data
       })
     }
   }

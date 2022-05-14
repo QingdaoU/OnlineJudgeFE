@@ -109,7 +109,7 @@
         this.loading = true
         api.getSubmission(this.$route.params.id).then(res => {
           this.loading = false
-          let data = res.data.data
+          let data = res.data
           if (data.info && data.info.data && !this.isConcat) {
             // score exist means the submission is OI problem submission
             if (data.info.data[0].score !== undefined) {

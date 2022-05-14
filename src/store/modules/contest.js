@@ -138,7 +138,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       api.getContest(rootState.route.params.contestID).then((res) => {
         resolve(res)
-        let contest = res.data.data
+        let contest = res.data
         commit(types.CHANGE_CONTEST, {contest: contest})
         commit(types.NOW, {now: moment(contest.now)})
         if (contest.contest_type === CONTEST_TYPE.PRIVATE) {
@@ -152,7 +152,7 @@ const actions = {
   getContestProblems ({commit, rootState}) {
     return new Promise((resolve, reject) => {
       api.getContestProblemList(rootState.route.params.contestID).then(res => {
-        res.data.data.sort((a, b) => {
+        res.data.sort((a, b) => {
           if (a._id === b._id) {
             return 0
           } else if (a._id > b._id) {
@@ -160,7 +160,7 @@ const actions = {
           }
           return -1
         })
-        commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: res.data.data})
+        commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: res.data})
         resolve(res)
       }, () => {
         commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: []})
@@ -170,7 +170,7 @@ const actions = {
   getContestAccess ({commit, rootState}) {
     return new Promise((resolve, reject) => {
       api.getContestAccess(rootState.route.params.contestID).then(res => {
-        commit(types.CONTEST_ACCESS, {access: res.data.data.access})
+        commit(types.CONTEST_ACCESS, {access: res.data.access})
         resolve(res)
       }).catch()
     })

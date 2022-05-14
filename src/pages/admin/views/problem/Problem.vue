@@ -353,14 +353,14 @@
           this.problem.contest_id = this.reProblem.contest_id = contestID
           this.disableRuleType = true
           api.getContest(contestID).then(res => {
-            this.problem.rule_type = this.reProblem.rule_type = res.data.data.rule_type
-            this.contest = res.data.data
+            this.problem.rule_type = this.reProblem.rule_type = res.data.rule_type
+            this.contest = res.data
           })
         }
 
         this.problem.spj_language = 'C'
 
-        let allLanguage = res.data.data
+        let allLanguage = res.data
         this.allLanguage = allLanguage
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
@@ -368,7 +368,7 @@
           this.title = this.$i18n.t('m.Edit_Problem')
           let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
-            let data = problemRes.data.data
+            let data = problemRes.data
             if (!data.spj_code) {
               data.spj_code = ''
             }
@@ -434,7 +434,7 @@
       querySearch (queryString, cb) {
         api.getProblemTagList({ keyword: queryString }).then(res => {
           let tagList = []
-          for (let tag of res.data.data) {
+          for (let tag of res.data) {
             tagList.push({value: tag.name})
           }
           cb(tagList)
@@ -500,7 +500,7 @@
           this.$msgbox({
             title: 'Compile Error',
             type: 'error',
-            message: h('pre', err.data.data),
+            message: h('pre', err.data),
             showCancelButton: false,
             closeOnClickModal: false,
             customClass: 'dialog-compile-error'

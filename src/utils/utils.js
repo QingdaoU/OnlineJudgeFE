@@ -85,7 +85,7 @@ function getLanguages () {
       resolve(languages)
     }
     ojAPI.getLanguages().then(res => {
-      let languages = res.data.data.languages
+      let languages = res.data.languages
       storage.set(STORAGE_KEY.languages, languages)
       resolve(languages)
     }, err => {

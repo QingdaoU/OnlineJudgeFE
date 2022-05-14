@@ -284,10 +284,10 @@
         let func = this.$route.name === 'problem-details' ? 'getProblem' : 'getContestProblem'
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
-          let problem = res.data.data
+          let problem = res.data
           this.changeDomTitle({title: problem.title})
           api.submissionExists(problem.id).then(res => {
-            this.submissionExists = res.data.data
+            this.submissionExists = res.data
           })
           problem.languages = problem.languages.sort()
           this.problem = problem
@@ -379,8 +379,8 @@
         const checkStatus = () => {
           let id = this.submissionId
           api.getSubmission(id).then(res => {
-            this.result = res.data.data
-            if (Object.keys(res.data.data.statistic_info).length !== 0) {
+            this.result = res.data
+            if (Object.keys(res.data.statistic_info).length !== 0) {
               this.submitting = false
               this.submitted = false
               clearTimeout(this.refreshStatus)
@@ -415,7 +415,7 @@
         const submitFunc = (data, detailsVisible) => {
           this.statusVisible = true
           api.submitCode(data).then(res => {
-            this.submissionId = res.data.data && res.data.data.submission_id
+            this.submissionId = res.data && res.data.submission_id
             // 定时检查状态
             this.submitting = false
             this.submissionExists = true
@@ -430,7 +430,7 @@
             this.checkSubmissionStatus()
           }, res => {
             this.getCaptchaSrc()
-            if (res.data.data.startsWith('Captcha is required')) {
+            if (res.data.startsWith('Captcha is required')) {
               this.captchaRequired = true
             }
             this.submitting = false

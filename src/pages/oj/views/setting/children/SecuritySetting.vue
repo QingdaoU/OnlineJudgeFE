@@ -103,12 +103,12 @@
         this.loadingQRcode = true
         api.twoFactorAuth('get').then(res => {
           this.loadingQRcode = false
-          this.qrcodeSrc = res.data.data
+          this.qrcodeSrc = res.data
         })
       },
       getSessions () {
         api.getSessions().then(res => {
-          let data = res.data.data
+          let data = res.data
           // 将当前session放到第一个
           let sessions = data.filter(session => {
             return session.current_session
@@ -156,7 +156,7 @@
         }, err => {
           this.formTwoFactor.code = ''
           this.loadingBtn = false
-          if (err.data.data.indexOf('session') > -1) {
+          if (err.data.indexOf('session') > -1) {
             this.getProfile()
             this.getAuthImg()
           }

@@ -206,10 +206,10 @@
         this.loadings.table = true
         api.getProblemList(offset, this.limit, this.query).then(res => {
           this.loadings.table = false
-          this.total = res.data.data.total
-          this.problemList = res.data.data.results
+          this.total = res.data.total
+          this.problemList = res.data.results
           if (this.isAuthenticated) {
-            this.addStatusColumn(this.problemTableColumns, res.data.data.results)
+            this.addStatusColumn(this.problemTableColumns, res.data.results)
           }
         }, res => {
           this.loadings.table = false
@@ -217,7 +217,7 @@
       },
       getTagList () {
         api.getProblemTagList().then(res => {
-          this.tagList = res.data.data
+          this.tagList = res.data
           this.loadings.tag = false
         }, res => {
           this.loadings.tag = false
@@ -265,7 +265,7 @@
       pickone () {
         api.pickone().then(res => {
           this.$success('Good Luck')
-          this.$router.push({name: 'problem-details', params: {problemID: res.data.data}})
+          this.$router.push({name: 'problem-details', params: {problemID: res.data}})
         })
       }
     },

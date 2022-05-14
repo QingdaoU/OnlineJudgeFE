@@ -131,8 +131,8 @@
       this.contestID = this.$route.params.contestID
       this.route_name = this.$route.name
       this.$store.dispatch('getContest').then(res => {
-        this.changeDomTitle({title: res.data.data.title})
-        let data = res.data.data
+        this.changeDomTitle({title: res.data.title})
+        let data = res.data
         let endTime = moment(data.end_time)
         if (endTime.isAfter(moment(data.now))) {
           this.timer = setInterval(() => {

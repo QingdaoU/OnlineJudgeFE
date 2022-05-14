@@ -12,8 +12,15 @@ axios.defaults.validateStatus = function (status) {
 
 export default {
   getWebsiteConf (params) {
-    return ajax('website', 'get', {
-      params
+    return Promise.resolve({
+      data: {
+        website_base_url: 'https://qduoj.com',
+        website_name: 'QDUOJ',
+        website_name_shortcut: 'QDUOJ',
+        website_footer: 'QDUOJ',
+        allow_register: true,
+        submission_list_show_all: true
+      }
     })
   },
   getAnnouncementList (offset, limit) {
@@ -58,12 +65,12 @@ export default {
     })
   },
   updateProfile (profile) {
-    return ajax('profile', 'put', {
+    return ajax('users/profile', 'put', {
       data: profile
     })
   },
   freshDisplayID (userID) {
-    return ajax('profile/fresh_display_id', 'get', {
+    return ajax('users/profile/fresh_display_id', 'get', {
       params: {
         user_id: userID
       }
@@ -305,7 +312,7 @@ export function ajax (url, method, options) {
         }
         resolve(res)
       } else {
-        Vue.prototype.$error(res.data.data)
+        Vue.prototype.$error(res.data)
         reject(res)
 
         if (res.status === 401) {

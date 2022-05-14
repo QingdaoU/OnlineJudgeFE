@@ -47,7 +47,7 @@
       const CheckEmailExist = (rule, value, callback) => {
         if (value !== '') {
           api.checkUsernameOrEmail(undefined, value).then(res => {
-            if (res.data.data.email === false) {
+            if (res.data.email === false) {
               callback(new Error(this.$i18n.t('m.The_email_doesnt_exist')))
             } else {
               callback()

@@ -160,10 +160,10 @@
         bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
         api.getUserRank(offset, this.limit, RULE_TYPE.OI).then(res => {
           if (page === 1) {
-            this.changeCharts(res.data.data.results.slice(0, 10))
+            this.changeCharts(res.data.results.slice(0, 10))
           }
-          this.total = res.data.data.total
-          this.dataRank = res.data.data.results
+          this.total = res.data.total
+          this.dataRank = res.data.results
           bar.hideLoading()
         })
       },

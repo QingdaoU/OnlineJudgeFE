@@ -163,10 +163,10 @@
         api.getUserRank(offset, this.limit, RULE_TYPE.ACM).then(res => {
           this.loadingTable = false
           if (page === 1) {
-            this.changeCharts(res.data.data.results.slice(0, 10))
+            this.changeCharts(res.data.results.slice(0, 10))
           }
-          this.total = res.data.data.total
-          this.dataRank = res.data.data.results
+          this.total = res.data.total
+          this.dataRank = res.data.results
           bar.hideLoading()
         }).catch(() => {
           this.loadingTable = false

@@ -114,8 +114,8 @@
     beforeRouteEnter (to, from, next) {
       api.getContestList(0, limit).then((res) => {
         next((vm) => {
-          vm.contests = res.data.data.results
-          vm.total = res.data.data.total
+          vm.contests = res.data.results
+          vm.total = res.data.total
         })
       }, (res) => {
         next()
@@ -134,8 +134,8 @@
       getContestList (page = 1) {
         let offset = (page - 1) * this.limit
         api.getContestList(offset, this.limit, this.query).then((res) => {
-          this.contests = res.data.data.results
-          this.total = res.data.data.total
+          this.contests = res.data.results
+          this.total = res.data.total
         })
       },
       changeRoute () {
