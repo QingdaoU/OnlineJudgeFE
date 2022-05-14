@@ -312,7 +312,7 @@ export function ajax (url, method, options) {
         }
         resolve(res)
       } else {
-        Vue.prototype.$error(res.data)
+        Vue.prototype.$error(res.data.description)
         reject(res)
 
         if (res.status === 401) {
