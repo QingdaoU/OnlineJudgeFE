@@ -12,7 +12,7 @@ export default {
     })
   },
   logout () {
-    return ajax('users/logout', 'get')
+    return ajax('users/logout', 'post')
   },
   getProfile () {
     return ajax('users/profile', 'get')

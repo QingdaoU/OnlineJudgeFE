@@ -52,7 +52,7 @@ export default {
     })
   },
   logout () {
-    return ajax('users/logout', 'get')
+    return ajax('users/logout', 'post')
   },
   getCaptcha () {
     return ajax('captcha', 'get')
