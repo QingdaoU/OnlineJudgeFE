@@ -12,15 +12,8 @@ axios.defaults.validateStatus = function (status) {
 
 export default {
   getWebsiteConf (params) {
-    return Promise.resolve({
-      data: {
-        website_base_url: 'https://qduoj.com',
-        website_name: 'QDUOJ',
-        website_name_shortcut: 'QDUOJ',
-        website_footer: 'QDUOJ',
-        allow_register: true,
-        submission_list_show_all: true
-      }
+    return ajax('website', 'get', {
+      params
     })
   },
   getAnnouncementList (offset, limit) {
@@ -38,7 +31,7 @@ export default {
     })
   },
   checkUsernameOrEmail (username, email) {
-    return ajax('check_username_or_email', 'post', {
+    return ajax('users/check_username_or_email', 'post', {
       data: {
         username,
         email
@@ -82,14 +75,9 @@ export default {
     })
   },
   tfaRequiredCheck (username) {
-    // return ajax('users/tfa_required/', 'post', {
-    //   data: {
-    //     username
-    //   }
-    // })
-    return Promise.resolve({
+    return ajax('users/check_require_tfa', 'post', {
       data: {
-        result: false
+        username
       }
     })
   },
