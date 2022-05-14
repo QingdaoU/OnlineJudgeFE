@@ -65,7 +65,7 @@ export default {
     })
   },
   updateProfile (profile) {
-    return ajax('users/profile', 'put', {
+    return ajax('users/me/profile', 'put', {
       data: profile
     })
   },
