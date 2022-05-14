@@ -40,18 +40,18 @@ export default {
   },
   // 注册
   register (data) {
-    return ajax('register', 'post', {
+    return ajax('users/register', 'post', {
       data
     })
   },
   logout () {
-    return ajax('logout', 'get')
+    return ajax('users/logout', 'get')
   },
   getCaptcha () {
     return ajax('captcha', 'get')
   },
   getUserInfo (username = undefined) {
-    return ajax('profile', 'get', {
+    return ajax('users/profile', 'get', {
       params: {
         username
       }
@@ -107,12 +107,12 @@ export default {
     })
   },
   changePassword (data) {
-    return ajax('change_password', 'post', {
+    return ajax('users/me/change_password', 'post', {
       data
     })
   },
   changeEmail (data) {
-    return ajax('change_email', 'post', {
+    return ajax('users/me/change_email', 'post', {
       data
     })
   },

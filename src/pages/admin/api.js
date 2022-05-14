@@ -12,10 +12,10 @@ export default {
     })
   },
   logout () {
-    return ajax('logout', 'get')
+    return ajax('users/logout', 'get')
   },
   getProfile () {
-    return ajax('profile', 'get')
+    return ajax('users/profile', 'get')
   },
   // 获取公告列表
   getAnnouncementList (offset, limit) {
