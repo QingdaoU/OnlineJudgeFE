@@ -21,7 +21,7 @@ export default {
       offset: offset,
       limit: limit
     }
-    return ajax('announcement', 'get', {
+    return ajax('announcements', 'get', {
       params
     })
   },
