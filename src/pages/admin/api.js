@@ -19,7 +19,7 @@ export default {
   },
   // 获取公告列表
   getAnnouncementList (offset, limit) {
-    return ajax('admin/announcement', 'get', {
+    return ajax('admin/announcements/', 'get', {
       params: {
         paging: true,
         offset,
@@ -29,7 +29,7 @@ export default {
   },
   // 删除公告
   deleteAnnouncement (id) {
-    return ajax('admin/announcement', 'delete', {
+    return ajax('admin/announcements/', 'delete', {
       params: {
         id
       }
@@ -37,13 +37,13 @@ export default {
   },
   // 修改公告
   updateAnnouncement (data) {
-    return ajax('admin/announcement', 'put', {
+    return ajax('admin/announcements/', 'put', {
       data
     })
   },
   // 添加公告
   createAnnouncement (data) {
-    return ajax('admin/announcement', 'post', {
+    return ajax('admin/announcements/', 'post', {
       data
     })
   },
