@@ -12,7 +12,7 @@ axios.defaults.validateStatus = function (status) {
 
 export default {
   getWebsiteConf (params) {
-    return ajax('configs/website', 'get', {
+    return ajax('configs/website/', 'get', {
       params
     })
   },
@@ -21,17 +21,17 @@ export default {
       offset: offset,
       limit: limit
     }
-    return ajax('announcements', 'get', {
+    return ajax('announcements/', 'get', {
       params
     })
   },
   login (data) {
-    return ajax('users/login', 'post', {
+    return ajax('users/login/', 'post', {
       data
     })
   },
   checkUsernameOrEmail (username, email) {
-    return ajax('users/check_username_or_email', 'post', {
+    return ajax('users/check_username_or_email/', 'post', {
       data: {
         username,
         email
@@ -40,25 +40,25 @@ export default {
   },
   // 注册
   register (data) {
-    return ajax('users/register', 'post', {
+    return ajax('users/register/', 'post', {
       data
     })
   },
   logout () {
-    return ajax('users/logout', 'post')
+    return ajax('users/logout/', 'post')
   },
   getCaptcha () {
     return ajax('captcha', 'get')
   },
   getUserInfo (username = undefined) {
-    return ajax('users/profile', 'get', {
+    return ajax('users/profile/', 'get', {
       params: {
         username
       }
     })
   },
   updateProfile (profile) {
-    return ajax('users/me/profile', 'put', {
+    return ajax('users/me/profile/', 'put', {
       data: profile
     })
   },
@@ -75,7 +75,7 @@ export default {
     })
   },
   tfaRequiredCheck (username) {
-    return ajax('users/check_require_tfa', 'post', {
+    return ajax('users/check_require_tfa/', 'post', {
       data: {
         username
       }
@@ -102,12 +102,12 @@ export default {
     })
   },
   changePassword (data) {
-    return ajax('users/me/change_password', 'post', {
+    return ajax('users/me/change_password/', 'post', {
       data
     })
   },
   changeEmail (data) {
-    return ajax('users/me/change_email', 'post', {
+    return ajax('users/me/change_email/', 'post', {
       data
     })
   },

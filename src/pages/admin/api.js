@@ -4,7 +4,7 @@ import {ajax} from '../oj/api'
 export default {
   // 登录
   login (username, password) {
-    return ajax('users/login', 'post', {
+    return ajax('users/login/', 'post', {
       data: {
         username,
         password
@@ -12,10 +12,10 @@ export default {
     })
   },
   logout () {
-    return ajax('users/logout', 'post')
+    return ajax('users/logout/', 'post')
   },
   getProfile () {
-    return ajax('users/profile', 'get')
+    return ajax('users/profile/', 'get')
   },
   // 获取公告列表
   getAnnouncementList (offset, limit) {
