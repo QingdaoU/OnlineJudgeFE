@@ -41,7 +41,7 @@
 
         <el-table-column prop="real_name" label="Real Name"></el-table-column>
 
-        <el-table-column prop="email" label="Email"></el-table-column>
+        <el-table-column prop="school" label="Class Name"></el-table-column>
 
         <el-table-column prop="admin_type" label="User Type">
           <template slot-scope="scope">
@@ -70,8 +70,7 @@
     <Panel>
       <span slot="title">{{$t('m.Import_User')}}
         <el-popover placement="right" trigger="hover">
-          <p>Only support csv file without headers, check the <a
-            href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">link</a> for details</p>
+          <p>仅支持逗号分隔的、Unicode编码的csv文件。<br />每个用户一行，分别为：学号,姓名,班级<br />若用户已存在，仅更新班级信息，其余不变；否则按照默认密码123456新建用户。</p>
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
         </el-popover>
       </span>
@@ -97,11 +96,6 @@
           <el-table-column label="Class Name">
             <template slot-scope="{row}">
               {{row[2]}}
-            </template>
-          </el-table-column>
-          <el-table-column label="RealName">
-            <template slot-scope="{row}">
-              {{row[3]}}
             </template>
           </el-table-column>
         </el-table>
@@ -177,8 +171,16 @@
       <el-form :model="formChangeUserpassword" ref="formChangeUserpassword">
         <el-row type="flex" justify="space-between">
           <el-col :span="4">
-            <el-form-item label="目标用户名" prop="target_name" required>
+            <el-form-item label="目标特征串" prop="target_name" required>
               <el-input v-model="formChangeUserpassword.target_name" style="width: 100%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="筛选方式">
+              <el-select size="small" v-model="formChangeUserpassword.match_type">
+                <el-option label="匹配班级名" value="type_schoolname"></el-option>
+                <el-option label="匹配用户名" value="type_username"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -191,7 +193,7 @@
               <el-input v-model="formChangeUserpassword.suffix" style="width: 100%"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="新密码 = 学号后几位 + 后缀">
               <br /><el-button type="primary" @click="changeUserpassword" icon="el-icon-fa-users" :loading="loadingChangeUserpassword">批量修改密码</el-button>
             </el-form-item>
@@ -318,7 +320,8 @@
         },
         formChangeUserpassword: {
           right_length: 0,
-          suffix: '123456'
+          suffix: '123456',
+          match_type: 'type_schoolname'
         }
       }
     },
@@ -417,7 +420,7 @@
         papa.parse(file, {
           complete: (results) => {
             let data = results.data.filter(user => {
-              return user[0] && user[1] && user[2] && user[3]
+              return user[0] && user[1] && user[2]
             })
             let delta = results.data.length - data.length
             if (delta > 0) {
