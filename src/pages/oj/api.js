@@ -294,18 +294,18 @@ export function ajax (url, method, options) {
       params,
       data
     }).then(res => {
-      if (res.status === 200) {
-        if (method !== 'get') {
-          Vue.prototype.$success('Succeeded')
-        }
-        resolve(res)
-      } else {
-        Vue.prototype.$error(res.data.description)
+      if (res.data.error !== null) {
+        Vue.prototype.$error(res.data.data)
         reject(res)
 
-        if (res.status === 401) {
+        if (res.data.data.startsWith('Please login')) {
           store.dispatch('changeModalStatus', {'mode': 'login', 'visible': true})
         }
+      } else {
+        // if (method !== 'get') {
+        //   Vue.prototype.$success('Succeeded')
+        // }
+        resolve(res)
       }
     }, error => {
       // API request exception, usually Server error or network error
