@@ -134,7 +134,7 @@
               this.$router.push({name: 'logout'})
             }, 5000)
           }, res => {
-            if (res.data === 'tfa_required') {
+            if (res.data.data === 'tfa_required') {
               this.visible.tfaRequired = true
             }
             this.loading.btnPassword = false
@@ -154,7 +154,7 @@
             this.$success('Change email successfully')
             this.$refs.formEmail.resetFields()
           }, res => {
-            if (res.data === 'tfa_required') {
+            if (res.data.data === 'tfa_required') {
               this.visible.tfaRequired = true
             }
           })

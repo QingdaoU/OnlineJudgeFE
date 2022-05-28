@@ -141,8 +141,8 @@
         this.loading = true
         api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loading = false
-          this.total = res.data.total
-          this.contestList = res.data.results
+          this.total = res.data.data.total
+          this.contestList = res.data.data.results
         }, res => {
           this.loading = false
         })

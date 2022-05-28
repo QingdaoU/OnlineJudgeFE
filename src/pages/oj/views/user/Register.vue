@@ -67,7 +67,7 @@
     data () {
       const CheckUsernameNotExist = (rule, value, callback) => {
         api.checkUsernameOrEmail(value, undefined).then(res => {
-          if (res.data.username === true) {
+          if (res.data.data.username === true) {
             callback(new Error(this.$i18n.t('m.The_username_already_exists')))
           } else {
             callback()
@@ -76,7 +76,7 @@
       }
       const CheckEmailNotExist = (rule, value, callback) => {
         api.checkUsernameOrEmail(undefined, value).then(res => {
-          if (res.data.email === true) {
+          if (res.data.data.email === true) {
             callback(new Error(this.$i18n.t('m.The_email_already_exists')))
           } else {
             callback()

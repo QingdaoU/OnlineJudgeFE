@@ -91,8 +91,8 @@
     methods: {
       refreshJudgeServerList () {
         api.getJudgeServer().then(res => {
-          this.servers = res.data.servers
-          this.token = res.data.token
+          this.servers = res.data.data.servers
+          this.token = res.data.data.token
         })
       },
       deleteJudgeServer (hostname) {

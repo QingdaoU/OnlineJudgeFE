@@ -229,7 +229,7 @@
         let updateData = utils.filterEmptyValue(Object.assign({}, this.formProfile))
         api.updateProfile(updateData).then(res => {
           this.$success('Success')
-          this.$store.commit(types.CHANGE_PROFILE, {profile: res.data})
+          this.$store.commit(types.CHANGE_PROFILE, {profile: res.data.data})
           this.loadingSaveBtn = false
         }, _ => {
           this.loadingSaveBtn = false

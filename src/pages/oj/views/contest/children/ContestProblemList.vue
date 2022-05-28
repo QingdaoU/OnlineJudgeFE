@@ -68,9 +68,9 @@
         this.$store.dispatch('getContestProblems').then(res => {
           if (this.isAuthenticated) {
             if (this.contestRuleType === 'ACM') {
-              this.addStatusColumn(this.ACMTableColumns, res.data)
+              this.addStatusColumn(this.ACMTableColumns, res.data.data)
             } else if (this.OIContestRealTimePermission) {
-              this.addStatusColumn(this.ACMTableColumns, res.data)
+              this.addStatusColumn(this.ACMTableColumns, res.data.data)
             }
           }
         })

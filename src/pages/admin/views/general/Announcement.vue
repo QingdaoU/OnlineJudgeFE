@@ -158,8 +158,8 @@
         this.loading = true
         api.getAnnouncementList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.loading = false
-          this.total = res.data.total
-          this.announcementList = res.data.results
+          this.total = res.data.data.total
+          this.announcementList = res.data.data.results
         }, res => {
           this.loading = false
         })
@@ -168,7 +168,7 @@
         this.loading = true
         api.getContestAnnouncementList(this.contestID).then(res => {
           this.loading = false
-          this.announcementList = res.data
+          this.announcementList = res.data.data
         }).catch(() => {
           this.loading = false
         })

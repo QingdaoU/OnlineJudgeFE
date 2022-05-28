@@ -128,8 +128,8 @@
         }
         this.loadingProblems = true
         api.getProblemList(params).then(res => {
-          this.problems = res.data.results
-          this.total = res.data.total
+          this.problems = res.data.data.results
+          this.total = res.data.data.total
           this.loadingProblems = false
         })
       },

@@ -141,7 +141,7 @@
         this.title = 'Edit Contest'
         this.disableRuleType = true
         api.getContest(this.$route.params.contestId).then(res => {
-          let data = res.data
+          let data = res.data.data
           let ranges = []
           for (let v of data.allowed_ip_ranges) {
             ranges.push({value: v})

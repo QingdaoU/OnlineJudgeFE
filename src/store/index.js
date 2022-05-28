@@ -43,7 +43,7 @@ const rootActions = {
   getWebsiteConfig ({commit}) {
     api.getWebsiteConf().then(res => {
       commit(types.UPDATE_WEBSITE_CONF, {
-        websiteConfig: res.data
+        websiteConfig: res.data.data
       })
     })
   },

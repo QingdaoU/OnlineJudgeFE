@@ -42,7 +42,7 @@
       const CheckRequiredTFA = (rule, value, callback) => {
         if (value !== '') {
           api.tfaRequiredCheck(value).then(res => {
-            this.tfaRequired = res.data.result
+            this.tfaRequired = res.data.data.result
           })
         }
         callback()

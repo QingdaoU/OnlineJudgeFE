@@ -24,11 +24,11 @@ export default {
         if (this.showChart && !refresh) {
           this.$refs.chart.hideLoading()
         }
-        this.total = res.data.total
+        this.total = res.data.data.total
         if (page === 1) {
-          this.applyToChart(res.data.results.slice(0, 10))
+          this.applyToChart(res.data.data.results.slice(0, 10))
         }
-        this.applyToTable(res.data.results)
+        this.applyToTable(res.data.data.results)
       })
     },
     handleAutoRefresh (status) {

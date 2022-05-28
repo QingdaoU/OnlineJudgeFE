@@ -166,7 +166,7 @@
       this.getContestRankData(1)
       if (this.contestProblems.length === 0) {
         this.getContestProblems().then((res) => {
-          this.addTableColumns(res.data)
+          this.addTableColumns(res.data.data)
         })
       } else {
         this.addTableColumns(this.contestProblems)

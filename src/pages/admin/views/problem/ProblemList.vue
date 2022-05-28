@@ -187,11 +187,11 @@
         }
         api[funcName](params).then(res => {
           this.loading = false
-          this.total = res.data.total
-          for (let problem of res.data.results) {
+          this.total = res.data.data.total
+          for (let problem of res.data.data.results) {
             problem.isEditing = false
           }
-          this.problemList = res.data.results
+          this.problemList = res.data.data.results
         }, res => {
           this.loading = false
         })

@@ -307,7 +307,7 @@
       openUserDialog (id) {
         this.showUserDialog = true
         api.getUser(id).then(res => {
-          this.user = res.data
+          this.user = res.data.data
           this.user.password = ''
           this.user.real_tfa = this.user.two_factor_auth
         })
@@ -317,8 +317,8 @@
         this.loadingTable = true
         api.getUserList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loadingTable = false
-          this.total = res.data.total
-          this.userList = res.data.results
+          this.total = res.data.data.total
+          this.userList = res.data.data.results
         }, res => {
           this.loadingTable = false
         })
@@ -348,7 +348,7 @@
           let data = Object.assign({}, this.formGenerateUser)
           api.generateUser(data).then(res => {
             this.loadingGenerate = false
-            let url = '/admin/generate_user?file_id=' + res.data.file_id
+            let url = '/admin/generate_user?file_id=' + res.data.data.file_id
             utils.downloadFile(url).then(() => {
               this.$alert('All users created successfully, the users sheets have downloaded to your disk.', 'Notice')
             })

@@ -60,7 +60,7 @@
     },
     mounted () {
       api.getContest(this.contestID).then(res => {
-        this.contest = res.data
+        this.contest = res.data.data
         this.getPublicProblem()
       }).catch(() => {
       })
@@ -76,8 +76,8 @@
         }
         api.getProblemList(params).then(res => {
           this.loading = false
-          this.total = res.data.total
-          this.problems = res.data.results
+          this.total = res.data.data.total
+          this.problems = res.data.data.results
         }).catch(() => {
         })
       },

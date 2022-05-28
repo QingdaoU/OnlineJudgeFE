@@ -72,8 +72,8 @@
         this.btnLoading = true
         api.getAnnouncementList((page - 1) * this.limit, this.limit).then(res => {
           this.btnLoading = false
-          this.announcements = res.data.results
-          this.total = res.data.total
+          this.announcements = res.data.data.results
+          this.total = res.data.data.total
         }, () => {
           this.btnLoading = false
         })
@@ -82,7 +82,7 @@
         this.btnLoading = true
         api.getContestAnnouncementList(this.$route.params.contestID).then(res => {
           this.btnLoading = false
-          this.announcements = res.data
+          this.announcements = res.data.data
         }, () => {
           this.btnLoading = false
         })
