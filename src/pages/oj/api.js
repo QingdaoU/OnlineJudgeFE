@@ -3,7 +3,7 @@ import store from '@/store'
 import axios from 'axios'
 
 Vue.prototype.$http = axios
-axios.defaults.baseURL = '/api/v1'
+axios.defaults.baseURL = '/api'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.validateStatus = function (status) {
@@ -12,7 +12,7 @@ axios.defaults.validateStatus = function (status) {
 
 export default {
   getWebsiteConf (params) {
-    return ajax('configs/website/', 'get', {
+    return ajax('website', 'get', {
       params
     })
   },
@@ -21,17 +21,17 @@ export default {
       offset: offset,
       limit: limit
     }
-    return ajax('announcements/', 'get', {
+    return ajax('announcement', 'get', {
       params
     })
   },
   login (data) {
-    return ajax('users/login/', 'post', {
+    return ajax('login', 'post', {
       data
     })
   },
   checkUsernameOrEmail (username, email) {
-    return ajax('users/check_username_or_email/', 'post', {
+    return ajax('check_username_or_email', 'post', {
       data: {
         username,
         email
@@ -40,30 +40,30 @@ export default {
   },
   // 注册
   register (data) {
-    return ajax('users/register/', 'post', {
+    return ajax('register', 'post', {
       data
     })
   },
   logout () {
-    return ajax('users/logout/', 'post')
+    return ajax('logout', 'get')
   },
   getCaptcha () {
     return ajax('captcha', 'get')
   },
   getUserInfo (username = undefined) {
-    return ajax('users/profile/', 'get', {
+    return ajax('profile', 'get', {
       params: {
         username
       }
     })
   },
   updateProfile (profile) {
-    return ajax('users/me/profile/', 'put', {
+    return ajax('profile', 'put', {
       data: profile
     })
   },
   freshDisplayID (userID) {
-    return ajax('users/profile/fresh_display_id', 'get', {
+    return ajax('profile/fresh_display_id', 'get', {
       params: {
         user_id: userID
       }
@@ -75,7 +75,7 @@ export default {
     })
   },
   tfaRequiredCheck (username) {
-    return ajax('users/check_require_tfa/', 'post', {
+    return ajax('tfa_required', 'post', {
       data: {
         username
       }
@@ -102,12 +102,12 @@ export default {
     })
   },
   changePassword (data) {
-    return ajax('users/me/change_password/', 'post', {
+    return ajax('change_password', 'post', {
       data
     })
   },
   changeEmail (data) {
-    return ajax('users/me/change_email/', 'post', {
+    return ajax('change_email', 'post', {
       data
     })
   },
