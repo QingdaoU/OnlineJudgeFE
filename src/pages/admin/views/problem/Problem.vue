@@ -368,7 +368,7 @@
           this.title = this.$i18n.t('m.Edit_Problem')
           let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
-            let data = problemres.data.data.data
+            let data = problemRes.data.data.data
             if (!data.spj_code) {
               data.spj_code = ''
             }
