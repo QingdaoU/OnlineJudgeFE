@@ -4,7 +4,7 @@ import {ajax} from '../oj/api'
 export default {
   // 登录
   login (username, password) {
-    return ajax('users/login/', 'post', {
+    return ajax('login', 'post', {
       data: {
         username,
         password
@@ -12,14 +12,14 @@ export default {
     })
   },
   logout () {
-    return ajax('users/logout/', 'post')
+    return ajax('logout', 'get')
   },
   getProfile () {
-    return ajax('users/profile/', 'get')
+    return ajax('profile', 'get')
   },
   // 获取公告列表
   getAnnouncementList (offset, limit) {
-    return ajax('admin/announcements/', 'get', {
+    return ajax('admin/announcement', 'get', {
       params: {
         paging: true,
         offset,
@@ -29,7 +29,7 @@ export default {
   },
   // 删除公告
   deleteAnnouncement (id) {
-    return ajax('admin/announcements/', 'delete', {
+    return ajax('admin/announcement', 'delete', {
       params: {
         id
       }
@@ -37,13 +37,13 @@ export default {
   },
   // 修改公告
   updateAnnouncement (data) {
-    return ajax('admin/announcements/', 'put', {
+    return ajax('admin/announcement', 'put', {
       data
     })
   },
   // 添加公告
   createAnnouncement (data) {
-    return ajax('admin/announcements/', 'post', {
+    return ajax('admin/announcement', 'post', {
       data
     })
   },
