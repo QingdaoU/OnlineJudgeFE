@@ -1,5 +1,5 @@
 <template>
-    <Menu theme="light" mode="vertical" @on-select="handleRoute" id="left-menu-wrapper" :class="{expand: isExpand}" :active-name="activeMenu">
+    <Menu mode="vertical" @on-select="handleRoute" id="left-menu-wrapper" :class="{expand: isExpand}" :active-name="activeMenu">
       <div class="action-area">
         <Button v-if="!isExpand" type="ghost" shape="circle" icon="navicon-round" @click="handleExpand"></Button>
         <Button v-if="isExpand" type="ghost" shape="circle" icon="chevron-left" @click="handleExpand"></Button>
@@ -48,6 +48,12 @@
           </span>
         </MenuItem>
       </Submenu>
+      <MenuItem name="/class">
+        <Icon type="home"></Icon>
+        <span v-if="isExpand">
+          Classes
+        </span>
+      </MenuItem>
       <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>
@@ -76,7 +82,7 @@ export default {
   name: 'LeftMenu',
   data () {
     return {
-      isExpand: false
+      isExpand: true
     }
   },
   methods: {
@@ -85,6 +91,7 @@ export default {
       this.$emit('expandChange', this.isExpand)
     },
     handleRoute (route) {
+      console.log(route)
       if (route && route.indexOf('admin') < 0) {
         this.$router.push(route)
       } else {
@@ -117,15 +124,26 @@ export default {
       justify-content: center;
       align-items: center;
       transition: 150ms ease-in;
+
+      button.ivu-btn > i.ivu-icon {
+        line-height: 30px !important;
+      }
     }
 
     &.expand {
       width: 180px !important;
       transition: 150ms ease-out;
 
+
       & .action-area {
         justify-content: flex-end;
         padding: 0 15px;
+      }
+    }
+
+    &:not(.expand) .ivu-menu-submenu {
+      ul.ivu-menu > li.ivu-menu-item {
+        padding-left: 30px !important;
       }
     }
 

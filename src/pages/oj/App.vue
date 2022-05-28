@@ -31,7 +31,7 @@
     data () {
       return {
         version: process.env.VERSION,
-        isExpandLeftBar: false
+        isExpandLeftBar: true
       }
     },
     created () {

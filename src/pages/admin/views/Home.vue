@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <div>
-      <SideMenu></SideMenu>
-    </div>
+    <SideMenu @expandChange="handleExpandLeftBar"></SideMenu>
     <div id="header">
       <i class="el-icon-fa-font katex-editor" @click="katexVisible=true" ></i>
       <screen-full :width="14" :height="14" class="screen-full"></screen-full>
@@ -13,9 +11,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="content-app">
+    <div class="content-app" :class="{'with-expand-left-bar': isExpandLeftBar}">
       <transition name="fadeInUp" mode="out-in">
-        <router-view></router-view>
+        <router-view></router-view> 
       </transition>
       <div class="footer">
         Build Version: {{ version }}
@@ -41,7 +39,8 @@
     data () {
       return {
         version: process.env.VERSION,
-        katexVisible: false
+        katexVisible: false,
+        isExpandLeftBar: true
       }
     },
     components: {
@@ -68,6 +67,9 @@
             this.$router.push({name: 'login'})
           })
         }
+      },
+      handleExpandLeftBar (event) {
+        this.isExpandLeftBar = event
       }
     },
     computed: {
@@ -118,7 +120,13 @@
   .content-app {
     padding-top: 20px;
     padding-right: 10px;
-    padding-left: 210px;
+    padding-left: calc(2% + 67px);
+    transition: 150ms ease-in;
+
+    &.with-expand-left-bar {
+      transition: 150ms ease-out;
+      padding-left: 265px;
+    }
   }
 
   .footer {

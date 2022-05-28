@@ -11,8 +11,12 @@ import Contest from './contest/Contest.vue'
 import Login from './general/Login.vue'
 import Home from './Home.vue'
 import ProblemImportOrExport from './problem/ImportAndExport.vue'
+import Class from './class/Class.vue'
+import Tab from './class/Tab.vue'
+import Classes from './class/Classes.vue'
 
 export {
   Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest,
-  ContestList, Login, Home, PruneTestCase, Dashboard, ProblemImportOrExport
+  ContestList, Login, Home, PruneTestCase, Dashboard, ProblemImportOrExport,
+  Class, Tab, Classes
 }

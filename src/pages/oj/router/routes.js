@@ -4,6 +4,7 @@ import {
   ACMRank,
   Announcements,
   ApplyResetPassword,
+  ClassList,
   FAQ,
   Home,
   Logout,
@@ -158,6 +159,20 @@ export default [
         path: 'security',
         meta: {requiresAuth: true, title: 'Security Settings'},
         component: Setting.SecuritySetting
+      }
+    ]
+  },
+  {
+    path: '/class',
+    name: 'classes',
+    meta: {title: 'Classes'},
+    component: ClassList,
+    children: [
+      {
+        name: 'class-detail',
+        path: ':id',
+        meta: {title: 'Classes detail'},
+        component: ClassList
       }
     ]
   },
