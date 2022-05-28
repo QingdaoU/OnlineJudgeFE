@@ -56,7 +56,7 @@
     methods: {
       init () {
         api.getInvalidTestCaseList().then(resp => {
-          this.data = resp.data
+          this.data = resp.data.data
         }, () => {
         })
       },

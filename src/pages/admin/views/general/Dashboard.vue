@@ -121,16 +121,16 @@
     },
     mounted () {
       api.getDashboardInfo().then(resp => {
-        this.infoData = resp.data
+        this.infoData = resp.data.data
       }, () => {
       })
       api.getSessions().then(resp => {
-        this.parseSession(resp.data)
+        this.parseSession(resp.data.data)
       }, () => {
       })
       api.getReleaseNotes().then(resp => {
         this.loadingReleases = false
-        let data = resp.data
+        let data = resp.data.data
         if (!data) {
           return
         }

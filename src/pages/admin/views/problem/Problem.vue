@@ -368,7 +368,7 @@
           this.title = this.$i18n.t('m.Edit_Problem')
           let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
-            let data = problemres.data.data
+            let data = problemres.data.data.data
             if (!data.spj_code) {
               data.spj_code = ''
             }
@@ -500,7 +500,7 @@
           this.$msgbox({
             title: 'Compile Error',
             type: 'error',
-            message: h('pre', err.data),
+            message: h('pre', err.data.data),
             showCancelButton: false,
             closeOnClickModal: false,
             customClass: 'dialog-compile-error'
