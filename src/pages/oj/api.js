@@ -12,7 +12,7 @@ axios.defaults.validateStatus = function (status) {
 
 export default {
   getWebsiteConf (params) {
-    return ajax('website', 'get', {
+    return ajax('website/', 'get', {
       params
     })
   },
@@ -21,17 +21,17 @@ export default {
       offset: offset,
       limit: limit
     }
-    return ajax('announcement', 'get', {
+    return ajax('announcement/', 'get', {
       params
     })
   },
   login (data) {
-    return ajax('login', 'post', {
+    return ajax('login/', 'post', {
       data
     })
   },
   checkUsernameOrEmail (username, email) {
-    return ajax('check_username_or_email', 'post', {
+    return ajax('check_username_or_email/', 'post', {
       data: {
         username,
         email
@@ -40,30 +40,30 @@ export default {
   },
   // 注册
   register (data) {
-    return ajax('register', 'post', {
+    return ajax('register/', 'post', {
       data
     })
   },
   logout () {
-    return ajax('logout', 'get')
+    return ajax('logout/', 'get')
   },
   getCaptcha () {
-    return ajax('captcha', 'get')
+    return ajax('captcha/', 'get')
   },
   getUserInfo (username = undefined) {
-    return ajax('profile', 'get', {
+    return ajax('profile/', 'get', {
       params: {
         username
       }
     })
   },
   updateProfile (profile) {
-    return ajax('profile', 'put', {
+    return ajax('profile/', 'put', {
       data: profile
     })
   },
   freshDisplayID (userID) {
-    return ajax('profile/fresh_display_id', 'get', {
+    return ajax('profile/fresh_display_id/', 'get', {
       params: {
         user_id: userID
       }
@@ -75,47 +75,47 @@ export default {
     })
   },
   tfaRequiredCheck (username) {
-    return ajax('tfa_required', 'post', {
+    return ajax('tfa_required/', 'post', {
       data: {
         username
       }
     })
   },
   getSessions () {
-    return ajax('sessions', 'get')
+    return ajax('sessions/', 'get')
   },
   deleteSession (sessionKey) {
-    return ajax('sessions', 'delete', {
+    return ajax('sessions/', 'delete', {
       params: {
         session_key: sessionKey
       }
     })
   },
   applyResetPassword (data) {
-    return ajax('apply_reset_password', 'post', {
+    return ajax('apply_reset_password/', 'post', {
       data
     })
   },
   resetPassword (data) {
-    return ajax('reset_password', 'post', {
+    return ajax('reset_password/', 'post', {
       data
     })
   },
   changePassword (data) {
-    return ajax('change_password', 'post', {
+    return ajax('change_password/', 'post', {
       data
     })
   },
   changeEmail (data) {
-    return ajax('change_email', 'post', {
+    return ajax('change_email/', 'post', {
       data
     })
   },
   getLanguages () {
-    return ajax('languages', 'get')
+    return ajax('languages/', 'get')
   },
   getProblemTagList () {
-    return ajax('problem/tags', 'get')
+    return ajax('problem/tags/', 'get')
   },
   getProblemList (offset, limit, searchParams) {
     let params = {
@@ -128,15 +128,15 @@ export default {
         params[element] = searchParams[element]
       }
     })
-    return ajax('problem', 'get', {
+    return ajax('problem/', 'get', {
       params: params
     })
   },
   pickone () {
-    return ajax('pickone', 'get')
+    return ajax('pickone/', 'get')
   },
   getProblem (problemID) {
-    return ajax('problem', 'get', {
+    return ajax('problem/', 'get', {
       params: {
         problem_id: problemID
       }
@@ -154,26 +154,26 @@ export default {
         }
       })
     }
-    return ajax('contests', 'get', {
+    return ajax('contests/', 'get', {
       params
     })
   },
   getContest (id) {
-    return ajax('contest', 'get', {
+    return ajax('contest/', 'get', {
       params: {
         id
       }
     })
   },
   getContestAccess (contestID) {
-    return ajax('contest/access', 'get', {
+    return ajax('contest/access/', 'get', {
       params: {
         contest_id: contestID
       }
     })
   },
   checkContestPassword (contestID, password) {
-    return ajax('contest/password', 'post', {
+    return ajax('contest/password/', 'post', {
       data: {
         contest_id: contestID,
         password
@@ -181,21 +181,21 @@ export default {
     })
   },
   getContestAnnouncementList (contestId) {
-    return ajax('contest/announcement', 'get', {
+    return ajax('contest/announcement/', 'get', {
       params: {
         contest_id: contestId
       }
     })
   },
   getContestProblemList (contestId) {
-    return ajax('contest/problem', 'get', {
+    return ajax('contest/problem/', 'get', {
       params: {
         contest_id: contestId
       }
     })
   },
   getContestProblem (problemID, contestID) {
-    return ajax('contest/problem', 'get', {
+    return ajax('contest/problem/', 'get', {
       params: {
         contest_id: contestID,
         problem_id: problemID
@@ -203,47 +203,47 @@ export default {
     })
   },
   submitCode (data) {
-    return ajax('submission', 'post', {
+    return ajax('submission/', 'post', {
       data
     })
   },
   getSubmissionList (offset, limit, params) {
     params.limit = limit
     params.offset = offset
-    return ajax('submissions', 'get', {
+    return ajax('submissions/', 'get', {
       params
     })
   },
   getContestSubmissionList (offset, limit, params) {
     params.limit = limit
     params.offset = offset
-    return ajax('contest_submissions', 'get', {
+    return ajax('contest_submissions/', 'get', {
       params
     })
   },
   getSubmission (id) {
-    return ajax('submission', 'get', {
+    return ajax('submission/', 'get', {
       params: {
         id
       }
     })
   },
   submissionExists (problemID) {
-    return ajax('submission_exists', 'get', {
+    return ajax('submission_exists/', 'get', {
       params: {
         problem_id: problemID
       }
     })
   },
   submissionRejudge (id) {
-    return ajax('admin/submission/rejudge', 'get', {
+    return ajax('admin/submission/rejudge/', 'get', {
       params: {
         id
       }
     })
   },
   updateSubmission (data) {
-    return ajax('submission', 'put', {
+    return ajax('submission/', 'put', {
       data
     })
   },
@@ -253,22 +253,22 @@ export default {
       limit,
       rule
     }
-    return ajax('user_rank', 'get', {
+    return ajax('user_rank/', 'get', {
       params
     })
   },
   getContestRank (params) {
-    return ajax('contest_rank', 'get', {
+    return ajax('contest_rank/', 'get', {
       params
     })
   },
   getACMACInfo (params) {
-    return ajax('admin/contest/acm_helper', 'get', {
+    return ajax('admin/contest/acm_helper/', 'get', {
       params
     })
   },
   updateACInfoCheckedStatus (data) {
-    return ajax('admin/contest/acm_helper', 'put', {
+    return ajax('admin/contest/acm_helper/', 'put', {
       data
     })
   }
