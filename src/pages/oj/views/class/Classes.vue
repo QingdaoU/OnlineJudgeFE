@@ -3,7 +3,7 @@
     <div slot="title">
       <Breadcrumb>
         <BreadcrumbItem to="/class">Classes</BreadcrumbItem>
-        <BreadcrumbItem v-if="selectedClass">{{selectedClass}}</BreadcrumbItem>
+        <BreadcrumbItem v-if="selectedClass">{{selectedClassName}}</BreadcrumbItem>
       </Breadcrumb>
     </div>
     <div class="card-wrapper" v-if="!selectedClass">
@@ -25,10 +25,23 @@
         </div>
       </div>
     </div>
+    <ClassPanel v-else @activeTabChange="handleActiveTabChange($event)">
+      <Home v-if="activeTab === '0'"></Home>
+      <Announcement v-else-if="activeTab === '1'"></Announcement>
+      <Contest v-else-if="activeTab === '2'"></Contest>
+      <Grade v-else-if="activeTab === '3'"></Grade>
+      <Member v-else></Member>
+    </ClassPanel>
   </Panel>
 </template>
 
 <script>
+  import ClassPanel from './ClassPanel.vue'
+  import Home from './Home.vue'
+  import Announcement from './Announcement.vue'
+  import Contest from './Contest.vue'
+  import Grade from './Grade.vue'
+  import Member from './Member.vue'
   const mockupClasses = ['asd1esad', 'asdzx12e-asd', '21easdas', '12assda', '3r21asx-sad'].map((el, idx) => ({
     id: el,
     name: `${Math.floor(Math.random() * (12 - 10 + 1) + 10)}C${idx + 1}`,
@@ -37,17 +50,23 @@
     isContesting: idx % 2 === 0
   }))
   export default {
-    name: 'ClassList',
+    name: 'Classes',
     components: {
+      ClassPanel,
+      Home,
+      Announcement,
+      Contest,
+      Grade,
+      Member
     },
     data () {
       return {
         classList: this.getClassList(),
-        selectedClass: this.getSelectedClass()
+        selectedClass: this.getSelectedClass(),
+        activeTab: '0'
       }
     },
     mounted () {
-      console.log(this.selectedClass)
     },
     methods: {
       getClassList () {
@@ -60,16 +79,23 @@
         return this.$router.history.current.params['id']
       },
       handleSelectedClass (classId) {
-        console.log(classId)
-        this.$router.push(`/class/${classId}`)
-        this.selectedClass = this.getClassName(classId)
+        this.$router.push(`/class/${classId}/detail`)
+        this.selectedClass = classId
       },
       getClassName (classId) {
         const group = this.classList.length && this.classList.find(c => c.id === classId)
         return group['name']
+      },
+      handleActiveTabChange (event) {
+        this.activeTab = event
       }
     },
     computed: {
+      selectedClassName () {
+        return this.getClassName(this.selectedClass)
+      }
+    },
+    watch: {
     }
   }
 </script>

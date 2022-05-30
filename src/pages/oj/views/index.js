@@ -6,7 +6,7 @@ import FAQ from './help/FAQ.vue'
 import NotFound from './general/404.vue'
 import Home from './general/Home.vue'
 import Announcements from './general/Announcements.vue'
-import ClassList from './class/ClassList.vue'
+import Classes from './class/Classes.vue'
 import ClassPanel from './class/ClassPanel.vue'
 
 // Grouping Components in the Same Chunk
@@ -28,7 +28,7 @@ export {
   ACMRank, OIRank,
   SubmissionList, SubmissionDetails,
   ApplyResetPassword, ResetPassword,
-  ClassList, ClassPanel
+  Classes, ClassPanel
 }
 /* 组件导出分为两类, 一类常用的直接导出，另一类诸如Login, Logout等用懒加载,懒加载不在此处导出
  *   在对应的route内加载

@@ -4,7 +4,7 @@ import {
   ACMRank,
   Announcements,
   ApplyResetPassword,
-  ClassList,
+  Classes,
   FAQ,
   Home,
   Logout,
@@ -166,15 +166,13 @@ export default [
     path: '/class',
     name: 'classes',
     meta: {title: 'Classes'},
-    component: ClassList,
-    children: [
-      {
-        name: 'class-detail',
-        path: ':id',
-        meta: {title: 'Classes detail'},
-        component: ClassList
-      }
-    ]
+    component: Classes
+  },
+  {
+    name: 'class-detail',
+    path: '/class/:id/detail',
+    meta: {title: 'Classes detail'},
+    component: Classes
   },
   {
     path: '/about',

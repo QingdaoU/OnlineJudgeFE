@@ -1,8 +1,8 @@
 <template>
   <div>
-    <NavBar v-bind:isExpandLeftBar="isExpandLeftBar"></NavBar>
-    <LeftMenu @expandChange="handleExpandLeftBar"></LeftMenu>
-    <div class="content-app" :class="{'with-expand-left-bar': isExpandLeftBar}">
+    <NavBar v-bind:isSideMenuCollapse="isSideMenuCollapse"></NavBar>
+    <LeftMenu @isCollapsed="handleExpandLeftBar"></LeftMenu>
+    <div class="content-app" :class="{'with-side-menu-collapse': isSideMenuCollapse}">
       <transition name="fadeInUp" mode="out-in">
         <router-view></router-view>
       </transition>
@@ -31,7 +31,7 @@
     data () {
       return {
         version: process.env.VERSION,
-        isExpandLeftBar: true
+        isSideMenuCollapse: false
       }
     },
     created () {
@@ -46,7 +46,7 @@
     methods: {
       ...mapActions(['getWebsiteConfig', 'changeDomTitle']),
       handleExpandLeftBar (event) {
-        this.isExpandLeftBar = event
+        this.isSideMenuCollapse = event
       }
     },
     computed: {
@@ -79,23 +79,22 @@
     }
   }
 
-#left-menu-wrapper:hover {
-  width: 500px;
-}
 .content-app {
   margin-top: 80px;
-  padding: 0 2% 0 calc(2% + 67px);
-  transition: 150ms ease-in;
-  &.with-expand-left-bar {
-    transition: 150ms ease-out;
-    padding: 0 2% 0 calc(2% + 180px);
+  padding: 0 2% 0 calc(2% + 180px);
+  transition: all .3s;
+
+
+  &.with-side-menu-collapse {
+    padding: 0 2% 0 calc(2% + 78px);
+    transition: all .3s;
   }
 }
 
 @media screen and (max-width: 1200px) {
   .content-app {
     margin-top: 110px;
-    padding: 0 2% 0 calc(2% + 67px);
+    padding: 0 2% 0 calc(2% + 78px);
   }
 
   .flex-container #problem-main, .info-side {
@@ -109,7 +108,7 @@
   @media screen and (max-width: 575px) {
     .content-app {
       margin-top: 180px;
-      padding: 0 2% 0 calc(2% + 67px);
+      padding: 0 2% 0 calc(2% + 78px);
     }
   }
 
