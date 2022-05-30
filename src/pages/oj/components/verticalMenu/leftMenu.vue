@@ -1,74 +1,81 @@
 <template>
-    <Menu theme="light" mode="vertical" @on-select="handleRoute" id="left-menu-wrapper" :class="{expand: isExpand}" :active-name="activeMenu">
+  <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+    <Menu mode="vertical" @on-select="handleRoute" id="left-menu-wrapper" :class="menuitemClasses" :active-name="activeMenu">
       <div class="action-area">
-        <Button v-if="!isExpand" type="ghost" shape="circle" icon="navicon-round" @click="handleExpand"></Button>
-        <Button v-if="isExpand" type="ghost" shape="circle" icon="chevron-left" @click="handleExpand"></Button>
+        <Button shape="circle" icon="chevron-left" :class="rotateIcon" @click="collapsedSider"></Button>
       </div>
       <MenuItem name="/">
         <Icon type="home"></Icon>
-        <span v-if="isExpand">
+        <span>
           {{$t('m.Home')}}
         </span>
       </MenuItem>
       <MenuItem name="/problem">
         <Icon type="ios-keypad"></Icon>
-        <span v-if="isExpand">
+        <span>
           {{$t('m.NavProblems')}}
         </span>
       </MenuItem>
       <MenuItem name="/contest">
         <Icon type="trophy"></Icon>
-        <span v-if="isExpand">
+        <span>
           {{$t('m.Contests')}}
         </span>
       </MenuItem>
       <MenuItem name="/status">
         <Icon type="ios-pulse-strong"></Icon>
-        <span v-if="isExpand">
+        <span>
           {{$t('m.NavStatus')}}
         </span>
       </MenuItem>
       <Submenu name="rank">
         <template slot="title">
           <Icon type="podium"></Icon>
-          <span v-if="isExpand">
+          <span>
             {{$t('m.Rank')}}
           </span>
         </template>
         <MenuItem name="/acm-rank">
           <Icon type="ios-star"></Icon>
-          <span v-if="isExpand">
+          <span>
             {{$t('m.ACM_Rank')}}
           </span>
         </MenuItem>
         <MenuItem name="/oi-rank">
           <Icon type="ios-star"></Icon>
-          <span v-if="isExpand">
+          <span>
             {{$t('m.OI_Rank')}}
           </span>
         </MenuItem>
       </Submenu>
+      <MenuItem name="/class">
+        <Icon type="home"></Icon>
+        <span>
+          Classes
+        </span>
+      </MenuItem>
       <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>
-          <span v-if="isExpand">
+          <span>
             {{$t('m.About')}}
           </span>
         </template>
         <MenuItem name="/about">
           <Icon type="information-circled"></Icon>
-          <span v-if="isExpand">
+          <span>
             {{$t('m.Judger')}}
           </span>
         </MenuItem>
         <MenuItem name="/FAQ">
           <Icon type="information-circled"></Icon>
-          <span v-if="isExpand">
+          <span>
             {{$t('m.FAQ')}}
           </span>
         </MenuItem>
       </Submenu>
     </Menu> 
+  </Sider>
 </template>
 
 <script>
@@ -76,26 +83,39 @@ export default {
   name: 'LeftMenu',
   data () {
     return {
-      isExpand: false
+      isCollapsed: false
     }
   },
   methods: {
-    handleExpand () {
-      this.isExpand = !this.isExpand
-      this.$emit('expandChange', this.isExpand)
-    },
     handleRoute (route) {
       if (route && route.indexOf('admin') < 0) {
         this.$router.push(route)
       } else {
         window.open('/admin/')
       }
+    },
+    collapsedSider () {
+      this.$refs.side1.toggleCollapse()
+      this.$emit('isCollapsed', this.isCollapsed)
     }
   },
   computed: {
     activeMenu () {
       return '/' + this.$route.path.split('/')[1]
+    },
+    rotateIcon () {
+      return [
+        'menu-icon',
+        this.isCollapsed ? 'rotate-icon' : ''
+      ]
+    },
+    menuitemClasses () {
+      return [
+        'menu-item',
+        this.isCollapsed ? 'collapsed-menu' : ''
+      ]
     }
+
   }
 }
 </script>
@@ -106,29 +126,83 @@ export default {
     top: 0;
     left: 0;
     height: 100vh;
-    background-color: #fff;
-    width: 67px !important;
-    z-index: 1000;
-    transition: 150ms ease-in;
+    background-color: var(--background-color);
+    max-width: 180px !important;
+    transition: all .3s;
 
-    & .action-area {
+    .action-area {
       min-height: 67px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
-      transition: 150ms ease-in;
-    }
+      padding: 0 15px;
+      transition: all .3s;
 
-    &.expand {
-      width: 180px !important;
-      transition: 150ms ease-out;
+      button {
+        background: var(--background-color);
+        box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 
-      & .action-area {
-        justify-content: flex-end;
-        padding: 0 15px;
+        &.menu-icon{
+          transition: all .3s;
+        }
+
+        &.rotate-icon{
+          transform: rotate(-180deg);
+        }
+      }
+
+      button.ivu-btn > i.ivu-icon {
+        line-height: 30px !important;
       }
     }
 
-  }
+    span {
+      display: inline-block;
+      overflow: hidden;
+      width: 69px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: bottom;
+      transition: width .2s ease .2s;
+    }
 
+    i {
+      transform: translateX(0px);
+      transition: font-size .2s ease, transform .2s ease;
+      vertical-align: middle;
+      font-size: 16px;
+    }
+
+    &.collapsed-menu {
+      width: 78px !important;
+      transition: all .3s;
+
+      .action-area {
+        justify-content: center;
+        transition: all .3s;
+      }
+      .ivu-menu-submenu-title .ivu-menu-submenu-title-icon {
+        margin-right: 11px;
+      }
+
+      li {
+        ul li {
+          place-self: center;
+          padding-left: 24px !important;
+        }
+      }
+
+      span {
+        width: 0px;
+        transition: width .2s ease;
+      }
+
+      i {
+        transform: translateX(5px);
+        transition: font-size .2s ease .2s, transform .2s ease .2s;
+        vertical-align: middle;
+        font-size: 22px;
+      }
+    }
+  }
 </style>

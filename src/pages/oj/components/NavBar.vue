@@ -1,5 +1,5 @@
 <template>
-  <div id="header" :class="{'is-expand-left-bar': isExpandLeftBar}">
+  <div id="header" :class="{'with-side-menu-collapse': isSideMenuCollapse}">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
       <div class="logo"><span>{{website.website_name}}</span></div>
       <!-- <Menu-item name="/">
@@ -91,7 +91,7 @@
       register
     },
     props: {
-      isExpandLeftBar: Boolean
+      isSideMenuCollapse: Boolean
     },
     mounted () {
       this.getProfile()
@@ -135,15 +135,25 @@
     min-width: 300px;
     position: fixed;
     top: 0;
-    left: 67px;
+    left: 180px;
     height: auto;
-    width: calc(100% - 67px);
+    width: calc(100% - 180px);
     z-index: 1000;
     background-color: #fff;
+    background: var(--background-color);
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-    transition: 150ms ease-in;
+    transition: all .3s;
+
+    .logo > span {
+      color: #000000;
+      border: 2px solid #000000;
+      padding: 8px 25px;
+      font-weight: 600;
+      border-radius: 5px;
+    }
+
     .oj-menu {
-      background: #fdfdfd;
+      background: var(--background-color);
     }
 
     .logo {
@@ -169,10 +179,10 @@
       margin-right: 10px;
     }
 
-    &.is-expand-left-bar {
-      transition: 150ms ease-out;
-      left: 180px;
-      width: calc(100% - 180px);
+    &.with-side-menu-collapse {
+      left: 78px;
+      width: calc(100% - 78px);
+      transition: all .3s;
     }
   }
 

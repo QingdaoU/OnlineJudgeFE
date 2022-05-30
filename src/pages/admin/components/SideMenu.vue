@@ -1,30 +1,72 @@
 <template>
-  <el-menu class="vertical_menu"
-           :router="true" :default-active="currentPath">
+  <el-menu router="true" :default-active="currentPath" :collapse-transition="false" class="vertical_menu" @close="handleClose" :collapse="!isExpand">
+    <div class="action-area">
+      <el-button v-if="!isExpand" type="ghost" circle icon="el-icon-d-arrow-right" @click="handleExpand"></el-button>
+      <el-button v-if="isExpand" type="ghost" circle icon="el-icon-d-arrow-left" @click="handleExpand"></el-button>
+    </div>
     <div class="logo">
       <img src="../../../assets/logo.svg" alt="oj admin"/>
     </div>
-    <el-menu-item index="/"><i class="el-icon-fa-dashboard"></i>{{$t('m.Dashboard')}}</el-menu-item>
-    <el-submenu v-if="isSuperAdmin" index="general">
-      <template slot="title"><i class="el-icon-menu"></i>{{$t('m.General')}}</template>
-      <el-menu-item index="/user">{{$t('m.User')}}</el-menu-item>
-      <el-menu-item index="/announcement">{{$t('m.Announcement')}}</el-menu-item>
-      <el-menu-item index="/conf">{{$t('m.System_Config')}}</el-menu-item>
-      <el-menu-item index="/judge-server">{{$t('m.Judge_Server')}}</el-menu-item>
-      <el-menu-item index="/prune-test-case">{{$t('m.Prune_Test_Case')}}</el-menu-item>
-    </el-submenu>
-    <el-submenu index="problem" v-if="hasProblemPermission">
-      <template slot="title"><i class="el-icon-fa-bars"></i>{{$t('m.Problem')}}</template>
-      <el-menu-item index="/problems">{{$t('m.Problem_List')}}</el-menu-item>
-      <el-menu-item index="/problem/create">{{$t('m.Create_Problem')}}</el-menu-item>
-      <el-menu-item index="/problem/batch_ops">{{$t('m.Export_Import_Problem')}}</el-menu-item>
+    <el-menu-item index="/">
+      <i class="el-icon-fa-dashboard"></i>
+      <span>Dashboard</span>
+    </el-menu-item>
 
+    <el-submenu v-if="isSuperAdmin" index="general">
+      <template slot="title">
+        <i class="el-icon-menu"></i>
+        <span>{{$t('m.General')}}</span>
+      </template>
+      <el-menu-item index="/user">
+        <span>{{$t('m.User')}}</span>
+        </el-menu-item>
+      <el-menu-item index="/announcement">
+        <span>{{$t('m.Announcement')}}</span>
+        </el-menu-item>
+      <el-menu-item index="/conf">
+        <span>{{$t('m.System_Config')}}</span>
+        </el-menu-item>
+      <el-menu-item index="/judge-server">
+        <span>{{$t('m.Judge_Server')}}</span>
+        </el-menu-item>
+      <el-menu-item index="/prune-test-case">
+        <span>{{$t('m.Prune_Test_Case')}}</span>
+        </el-menu-item>
     </el-submenu>
+
+    <el-submenu index="problem" v-if="hasProblemPermission">
+      <template slot="title">
+        <span>{{$t('m.Problem')}}</span>
+      </template>
+      <el-menu-item index="/problems">
+        <i class="el-icon-delete"></i>
+        <span>{{$t('m.Problem_List')}}</span>
+        </el-menu-item>
+      <el-menu-item index="/problem/create">
+        <span>{{$t('m.Create_Problem')}}</span>
+        </el-menu-item>
+      <el-menu-item index="/problem/batch_ops">
+        <span>{{$t('m.Export_Import_Problem')}}</span>
+      </el-menu-item>
+    </el-submenu>
+
     <el-submenu index="contest">
-      <template slot="title"><i class="el-icon-fa-trophy"></i>{{$t('m.Contest')}}</template>
-      <el-menu-item index="/contest">{{$t('m.Contest_List')}}</el-menu-item>
-      <el-menu-item index="/contest/create">{{$t('m.Create_Contest')}}</el-menu-item>
+      <template slot="title">
+        <i class="el-icon-fa-trophy"></i>
+        <span v-if="isExpand">{{$t('m.Contest')}}</span>
+      </template>
+      <el-menu-item index="/contest">
+        <span v-if="isExpand">{{$t('m.Contest_List')}}</span>
+      </el-menu-item>
+      <el-menu-item index="/contest/create">
+        <span v-if="isExpand">{{$t('m.Create_Contest')}}</span>
+      </el-menu-item>
     </el-submenu>
+
+    <el-menu-item index="class">
+      <i class="el-icon-s-custom"></i>
+      <span v-if="isExpand">Class</span>
+    </el-menu-item>
   </el-menu>
 </template>
 
@@ -35,7 +77,8 @@
     name: 'SideMenu',
     data () {
       return {
-        currentPath: ''
+        currentPath: '',
+        isExpand: true
       }
     },
     mounted () {
@@ -43,20 +86,44 @@
     },
     computed: {
       ...mapGetters(['user', 'isSuperAdmin', 'hasProblemPermission'])
+    },
+    methods: {
+      handleExpand () {
+        this.isExpand = !this.isExpand
+        this.$emit('expandChange', this.isExpand)
+      }
     }
   }
 </script>
 
 <style scoped lang="less">
   .vertical_menu {
-    overflow: auto;
-    width: 205px;
-    height: 100%;
-    position: fixed !important;
-    z-index: 100;
+    position: fixed;
     top: 0;
-    bottom: 0;
     left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #fff;
+
+    & .action-area {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      transition: 150ms ease-in;
+      padding: 10px 15px;
+    }
+
+    &.el-menu--collapse {  
+      width: 67px !important;
+
+      .action-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 150ms ease-in;
+      }
+    }
+
     .logo {
       margin: 20px 0;
       text-align: center;
