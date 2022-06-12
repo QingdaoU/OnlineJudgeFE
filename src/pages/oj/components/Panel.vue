@@ -44,6 +44,9 @@
   @import (reference) '../../../styles/common.less';
 
   .panel-title {
+    display: flex;
+    justify-content: space-between;
+
     .section-title;
     padding: 5px 15px;
   }
