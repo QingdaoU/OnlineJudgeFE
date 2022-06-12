@@ -271,6 +271,25 @@ export default {
     return ajax('admin/contest/acm_helper/', 'put', {
       data
     })
+  },
+  getClassrooms () {
+    return ajax('classroom/', 'get')
+  },
+  getClassroom (id) {
+    return ajax(`classroom/${id}/`, 'get')
+  },
+  createClassroom (data) {
+    return ajax('classroom/', 'post', {
+      data
+    })
+  },
+  updateClassroom ({id, ...data}) {
+    return ajax(`classroom/${id}/`, 'put', {
+      data
+    })
+  },
+  deleteClassroom (id) {
+    return ajax(`classroom/${id}/`, 'delete')
   }
 }
 
