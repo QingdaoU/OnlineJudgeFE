@@ -57,7 +57,7 @@ UploadFile = (function (_super) {
       var formData = new FormData();
       formData.append('file', this.files[0]);
       $.ajax({
-        url: '/api/admin/upload_file',
+        url: '/api/admin/upload_file/',
         type: 'POST',
         cache: false,
         data: formData,
