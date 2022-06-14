@@ -165,13 +165,13 @@ export default [
   {
     path: '/class',
     name: 'classes',
-    meta: {title: 'Classes'},
+    meta: {requiresAuth: true, title: 'Classes'},
     component: Classes
   },
   {
     name: 'class-detail',
     path: '/class/:id/detail',
-    meta: {title: 'Classes detail'},
+    meta: {requiresAuth: true, title: 'Classes detail'},
     component: Classes
   },
   {
