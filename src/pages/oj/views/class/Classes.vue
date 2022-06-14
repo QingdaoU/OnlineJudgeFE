@@ -131,6 +131,7 @@
             api.deleteClassroom(id).then(resp => {
               if (!resp.error) {
                 this.$success('Delete successfully')
+                this.setupClassrooms()
               } else {
                 this.$error('Some thing went wrong')
               }
