@@ -10,6 +10,12 @@
           {{$t('m.Home')}}
         </span>
       </MenuItem>
+      <MenuItem name="/class">
+        <Icon type="home"></Icon>
+        <span>
+          Classes
+        </span>
+      </MenuItem>
       <MenuItem name="/problem">
         <Icon type="ios-keypad"></Icon>
         <span>
@@ -48,12 +54,6 @@
           </span>
         </MenuItem>
       </Submenu>
-      <MenuItem name="/class">
-        <Icon type="home"></Icon>
-        <span>
-          Classes
-        </span>
-      </MenuItem>
       <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>
