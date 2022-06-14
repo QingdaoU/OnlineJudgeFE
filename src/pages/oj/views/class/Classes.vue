@@ -130,7 +130,7 @@
             // still error here, not fix yet
             api.deleteClassroom(id).then(resp => {
               if (!resp.error) {
-                this.$success('Update password successfully')
+                this.$success('Delete successfully')
               } else {
                 this.$error('Some thing went wrong')
               }
