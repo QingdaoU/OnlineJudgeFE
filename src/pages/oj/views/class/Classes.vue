@@ -1,18 +1,18 @@
 <template>
   <Panel shadow :padding="10">
     <template slot="title">
-        <Breadcrumb>
-          <div @click="backToClasses()" style="display: inline;">
-            <BreadcrumbItem to="/class">Classes</BreadcrumbItem>
-          </div>
-          <BreadcrumbItem 
-            v-if="selectedClassroom && selectedClassroom['id']">
-            {{selectedClassroom.name}}
-          </BreadcrumbItem>
-        </Breadcrumb>
-        <Button v-if="isAdminRole && !selectedClassroom" @click="openCreateModal()">
-          + New Classroom
-        </Button>
+      <Breadcrumb>
+        <div @click="backToClasses()" style="display: inline;">
+          <BreadcrumbItem to="/class">Classes</BreadcrumbItem>
+        </div>
+        <BreadcrumbItem 
+          v-if="selectedClassroom && selectedClassroom['id']">
+          {{selectedClassroom.name}}
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <Button v-if="isAdminRole && !selectedClassroom" @click="openCreateModal()">
+        + New Classroom
+      </Button>
     </template>
     <div class="card-wrapper" 
       v-if="!(selectedClassroom && selectedClassroom['id'])">
@@ -130,7 +130,8 @@
             // still error here, not fix yet
             api.deleteClassroom(id).then(resp => {
               if (!resp.error) {
-                this.$success('Update password successfully')
+                this.$success('Delete successfully')
+                this.setupClassrooms()
               } else {
                 this.$error('Some thing went wrong')
               }

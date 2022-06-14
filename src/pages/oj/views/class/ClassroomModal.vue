@@ -1,32 +1,42 @@
 <template>
-  <Modal v-model="visibleModal" :width="400" @on-cancel="closeModal()">
+  <Modal v-model="visibleModal" :width="1200" @on-cancel="closeModal()">
     <div slot="header" class="modal-title">{{title}}</div>
     <div>
       <Form ref="formClassroom" :model="formClassroom" :rules="ruleClassroom">
-        <FormItem prop="name">
-          <Input type="text" v-model="formClassroom.name" placeholder="Name" size="large">
-          <Icon type="ios-person-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
-        <FormItem prop="subject_name">
-          <Input type="text" v-model="formClassroom.subject_name" placeholder="Subject Name" size="large">
-          <Icon type="ios-locked-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
-        <FormItem prop="room_name">
-          <Input type="text" v-model="formClassroom.room_name" placeholder="Room Name" size="large">
-          <Icon type="ios-person-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
-        <FormItem prop="group_name">
-          <Input type="text" v-model="formClassroom.group_name" placeholder="Group Name" size="large">
-          <Icon type="ios-locked-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
+        <Row :gutter="16">
+          <Col span="12">
+            <FormItem prop="name">
+              <Input type="text" v-model="formClassroom.name" placeholder="Name" size="large">
+              <Icon type="ios-information-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+          </Col>
+          <Col span="12">
+            <FormItem prop="subject_name">
+              <Input type="text" v-model="formClassroom.subject_name" placeholder="Subject Name" size="large">
+              <Icon type="ios-information-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row :gutter="16">
+          <Col span="12">
+            <FormItem prop="room_name">
+              <Input type="text" v-model="formClassroom.room_name" placeholder="Room Name" size="large">
+              <Icon type="ios-information-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+          </Col>
+          <Col span="12">
+            <FormItem prop="group_name">
+              <Input type="text" v-model="formClassroom.group_name" placeholder="Group Name" size="large">
+              <Icon type="ios-information-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+          </Col>
+        </Row>
         <FormItem prop="description">
-          <Input type="text" v-model="formClassroom.description" placeholder="Description" size="large">
-          <Icon type="ios-locked-outline" slot="prepend"></Icon>
-          </Input>
+          <Simditor v-model="formClassroom.description"></Simditor>
         </FormItem>
         <FormItem prop="visible">
           <i-switch v-model="formClassroom.visible" size="large">
@@ -50,12 +60,16 @@
 </template>
 
 <script>
+  import Simditor from '@admin/components/Simditor.vue'
   import { FormMixin } from '@oj/components/mixins'
   import api from '@oj/api'
 
   export default {
     name: 'ClassroomModal',
     mixins: [FormMixin],
+    components: {
+      Simditor
+    },
     props: {
       visibleModal: {
         type: Boolean,
