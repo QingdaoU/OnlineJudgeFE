@@ -10,7 +10,7 @@
           {{$t('m.Home')}}
         </span>
       </MenuItem>
-      <MenuItem name="/class">
+      <MenuItem v-if="isAuthenticated" name="/class">
         <Icon type="home"></Icon>
         <span>
           Classes
@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'LeftMenu',
   data () {
@@ -100,6 +102,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['isAuthenticated']),
     activeMenu () {
       return '/' + this.$route.path.split('/')[1]
     },
