@@ -273,23 +273,23 @@ export default {
     })
   },
   getClassrooms () {
-    return ajax('classroom/', 'get')
+    return ajax('classrooms/', 'get')
   },
   getClassroom (id) {
-    return ajax(`classroom/${id}/`, 'get')
+    return ajax(`classrooms/${id}/`, 'get')
   },
   createClassroom (data) {
-    return ajax('classroom/', 'post', {
+    return ajax('classrooms/', 'post', {
       data
     })
   },
   updateClassroom ({id, ...data}) {
-    return ajax(`classroom/${id}/`, 'put', {
+    return ajax(`classrooms/${id}/`, 'put', {
       data
     })
   },
   deleteClassroom (id) {
-    return ajax(`classroom/${id}/`, 'delete')
+    return ajax(`classrooms/${id}/`, 'delete')
   }
 }
 
