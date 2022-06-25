@@ -1,24 +1,20 @@
 <template>
-  <div class="home-wrapper">HOme</div>
+  <p class="home-wrapper" v-html="data.description"></p>
 </template>
 
 <script>
   export default {
     name: 'Home',
-    components: {
-    },
-    data () {
-      return {
-      }
+    props: {
+      data: {}
     },
     mounted () {
-    },
-    methods: {
-    },
-    computed: {
     }
   }
 </script>
 
 <style scoped lang="less">
+  .home-wrapper {
+    margin: 0 15px;
+  }
 </style>

@@ -25,12 +25,10 @@
         @onDelete="onDeleteClassroom($event)">
       </ClassroomCard>
     </div>
-    <ClassPanel v-else @activeTabChange="handleActiveTabChange($event)">
-      <Home v-if="activeTab === '0'"></Home>
-      <Announcement v-else-if="activeTab === '1'"></Announcement>
-      <Contest v-else-if="activeTab === '2'"></Contest>
-      <Grade v-else-if="activeTab === '3'"></Grade>
-      <Member v-else></Member>
+    <ClassPanel 
+      v-else 
+      @activeTabChange="handleActiveTabChange($event)" 
+      :activeClassroom="selectedClassroom">
     </ClassPanel>
     <ClassroomModal 
       :visibleModal="classroomVisibleModal"
@@ -43,11 +41,6 @@
 <script>
   import api from '@oj/api'
   import ClassPanel from './ClassPanel.vue'
-  import Home from './Home.vue'
-  import Announcement from './Announcement.vue'
-  import Contest from './Contest.vue'
-  import Grade from './Grade.vue'
-  import Member from './Member.vue'
   import ClassroomModal from './ClassroomModal.vue'
   import ClassroomCard from './ClassroomCard.vue'
   import { mapGetters } from 'vuex'
@@ -55,11 +48,6 @@
     name: 'Classes',
     components: {
       ClassPanel,
-      Home,
-      Announcement,
-      Contest,
-      Grade,
-      Member,
       ClassroomModal,
       ClassroomCard
     },
