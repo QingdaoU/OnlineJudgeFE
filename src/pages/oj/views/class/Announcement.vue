@@ -1,72 +1,84 @@
 <template>
-  <ul class="announcements-wrapper" key="list">
-    <li v-for="announcement in announcements" :key="announcement.title">
-      <div class="flex-container">
-        <div class="title"><a class="entry">
-          {{announcement.title}}</a></div>
-        <div class="date">{{announcement.create_time | localtime }}</div>
-        <div class="creator"> {{$t('m.By')}} {{announcement.created_by.username}}</div>
-      </div>
-    </li>
-  </ul>
+  <div class="announcements-wrapper">
+    <div class="action-wrapper">
+    <Button v-if="listVisible" type="info" @click="setupAnnouncements" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
+    <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
+  </div>
+
+  <transition-group name="announcement-animate" mode="in-out">
+    <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
+      <p>{{$t('m.No_Announcements')}}</p>
+    </div>
+    <template v-if="listVisible">
+      <ul class="announcements-wrapper" key="list">
+        <li v-for="announcement in announcements" :key="announcement.title">
+          <div class="flex-container">
+            <div class="title"><a class="entry" @click="goAnnouncement(announcement.id)">
+              {{announcement.title}}</a></div>
+            <div class="date">{{announcement.create_time | localtime }}</div>
+          </div>
+        </li>
+      </ul>
+      <!-- <Pagination v-if="!isContest"
+                  key="page"
+                  :total="total"
+                  :page-size="limit"
+                  @on-change="getAnnouncementList">
+      </Pagination> -->
+    </template>
+
+    <template v-else>
+      <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
+    </template>
+  </transition-group>
+  </div>
 </template>
 
 <script>
-  const mockupAnnouncements = [
-    {
-      'id': 9,
-      'created_by': {
-        'id': 12,
-        'username': 'root',
-        'real_name': null
-      },
-      'title': '各位超级管理级管理员请勿随便修改本站配置',
-      'content': '<p>包括</p><ol><li>新增、删除用户权限</li><li>删除、隐藏已有比赛和题目</li><li>站点配置</li></ol><p><b>有任何问题请在“QDU_ACM集训队内部群”和&quot;qq 1670873886&quot;内部沟通</b></p>',
-      'create_time': '2021-08-28T11:54:38.654964Z',
-      'last_update_time': '2021-10-14T07:54:26.366692Z',
-      'visible': true
-    },
-    {
-      'id': 2,
-      'created_by': {
-        'id': 1,
-        'username': 'Duy',
-        'real_name': null
-      },
-      'title': '各位超级请勿随便修请勿随便修管理员请勿随便修改本站配置',
-      'content': '<p>包括</p><ol><li>新增、删除用户权限</li><li>删除、隐藏已有比赛和题目</li><li>站点配置</li></ol><p><b>有任何问题请在“QDU_ACM集训队内部群”和&quot;qq 1670873886&quot;内部沟通</b></p>',
-      'create_time': '2021-08-28T11:54:38.654964Z',
-      'last_update_time': '2021-10-14T07:54:26.366692Z',
-      'visible': true
-    },
-    {
-      'id': 5,
-      'created_by': {
-        'id': 2,
-        'username': 'Duong',
-        'real_name': null
-      },
-      'title': '各位超级管本请勿随便修改本站配置',
-      'content': '<p>包括</p><ol><li>新增、删除用户权限</li><li>删除、隐藏已有比赛和题目</li><li>站点配置</li></ol><p><b>有任何问题请在“QDU_ACM集训队内部群”和&quot;qq 1670873886&quot;内部沟通</b></p>',
-      'create_time': '2021-08-28T11:54:38.654964Z',
-      'last_update_time': '2021-10-14T07:54:26.366692Z',
-      'visible': true
-    }
-  ]
+  import api from '@oj/api'
+  import Pagination from '@oj/components/Pagination'
   export default {
     name: 'Announcements',
     components: {
+      Pagination
     },
     data () {
       return {
-        announcements: mockupAnnouncements
+        limit: 10,
+        total: 10,
+        btnLoading: false,
+        announcements: [],
+        announcement: '',
+        listVisible: true
       }
     },
+    props: {
+      data: {}
+    },
     mounted () {
+      this.$parent.$on('should-announcement-update', () => {
+        this.setupAnnouncements()
+      })
+      this.setupAnnouncements()
     },
     methods: {
-    },
-    computed: {
+      setupAnnouncements () {
+        api.getAnnouncements(this.data.id).then(resp => {
+          this.announcements = resp.data.data
+        })
+      },
+      goAnnouncement (announcementId) {
+        api.getAnnouncement(this.data.id, announcementId).then(resp => {
+          if (resp.data.data) {
+            this.announcement = resp.data.data
+            this.listVisible = false
+          }
+        })
+      },
+      goBack () {
+        this.listVisible = true
+        this.announcement = ''
+      }
     }
   }
 </script>
@@ -75,6 +87,13 @@
   .announcements-wrapper {
     margin-top: -10px;
     margin-bottom: 10px;
+
+    .action-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+    }
+
     li {
       padding-top: 15px;
       list-style: none;
@@ -109,5 +128,18 @@
         }
       }
     }
+    .content-container {
+      padding: 0 20px 20px 20px;
+    }
+  }
+
+  
+  .no-announcement {
+    text-align: center;
+    font-size: 16px;
+  }changeLocale
+
+  .announcement-animate-enter-active {
+    animation: fadeIn 1s;
   }
 </style>

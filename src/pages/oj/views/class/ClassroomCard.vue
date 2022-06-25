@@ -1,6 +1,6 @@
 <template>
   <div class="card-class">
-    <div class="header">
+    <div class="header" :style="{background: getRandomColor(this.classroom.name + this.classroom.subject_name + this.classroom.group_name + this.classroom.room_name)}">
       <Dropdown 
         trigger="click" 
         placement="bottom-end" 
@@ -40,8 +40,14 @@
 </template>
 
 <script>
+  import { randomColor } from '@/utils/constants'
+
   export default {
     name: 'ClassroomCard',
+    data () {
+      return {
+      }
+    },
     props: {
       classroom: {
       }
@@ -59,6 +65,9 @@
             this.$emit('onDelete', this.classroom.id)
             break
         }
+      },
+      getRandomColor (input) {
+        return randomColor(input)
       }
     }
   }

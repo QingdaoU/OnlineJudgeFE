@@ -50,7 +50,7 @@
           type="primary"
           @click="handleUpdateClassroom()"
           class="btn" long
-          :loading="btnLoginLoading">
+          :loading="btnLoading">
           {{btnLabel}}
         </Button>
       </div>
@@ -81,7 +81,7 @@
     },
     data () {
       return {
-        btnLoginLoading: false,
+        btnLoading: false,
         formClassroom: {
           name: '',
           subject_name: '',
@@ -112,17 +112,17 @@
     },
     methods: {
       handleUpdateClassroom () {
-        this.btnLoginLoading = true
+        this.btnLoading = true
         if (!this.editedClassroomId) {
           api.createClassroom(this.formClassroom).then(resp => {
-            this.btnLoginLoading = false
+            this.btnLoading = false
             if (!resp.error) {
               this.closeModal(true)
             }
           })
         } else {
           api.updateClassroom(this.formClassroom).then(resp => {
-            this.btnLoginLoading = false
+            this.btnLoading = false
             if (!resp.error) {
               this.closeModal(true)
             }

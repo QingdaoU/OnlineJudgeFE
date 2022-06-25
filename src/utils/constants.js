@@ -127,3 +127,16 @@ export function buildProblemCodeKey (problemID, contestID = null) {
 }
 
 export const GOOGLE_ANALYTICS_ID = 'UA-111499601-1'
+
+export const COLORS = ['#32a852', '#2125ff', '#a11390', '#e8e11a', '#2fa7f7', '#ffdbaf', '#fa803e', '#e83f2c', '#3cf9df', '#00ff46']
+
+export const randomColor = (input) => {
+  let count = 0
+  for (let c of input) {
+    count += c.charCodeAt()
+  }
+  while (count > 10) {
+    count /= 2
+  }
+  return COLORS[Math.floor(count) - 1]
+}

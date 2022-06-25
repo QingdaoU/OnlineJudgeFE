@@ -290,6 +290,31 @@ export default {
   },
   deleteClassroom (id) {
     return ajax(`classrooms/${id}/`, 'delete')
+  },
+  getAnnouncements (classroomId) {
+    return ajax(`classrooms/${classroomId}/announcements/`, 'get')
+  },
+  getAnnouncement (classroomId, announcementId) {
+    return ajax(`classrooms/${classroomId}/announcements/${announcementId}/`, 'get')
+  },
+  createAnnouncement (classroomId, data) {
+    return ajax(`classrooms/${classroomId}/announcements/`, 'post', {
+      data
+    })
+  },
+  getUserCanAdd (classroomId) {
+    return ajax(`classrooms/${classroomId}/users/`, 'get')
+  },
+  addMembersClassroom (classroomId, data) {
+    return ajax(`classrooms/${classroomId}/members/`, 'post', {
+      data
+    })
+  },
+  getMembersClassroom (classroomId) {
+    return ajax(`classrooms/${classroomId}/members/`, 'get')
+  },
+  deleteMemberClassroom (classroomId, userId) {
+    return ajax(`classrooms/${classroomId}/members/${userId}`, 'delete')
   }
 }
 
