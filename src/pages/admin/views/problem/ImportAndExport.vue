@@ -59,7 +59,7 @@
     <panel title="Import QDUOJ Problems (beta)">
       <el-upload
         ref="QDU"
-        action="/api/admin/import_problem"
+        action="/api/admin/import_problem/"
         name="file"
         :file-list="fileList1"
         :show-file-list="true"
@@ -77,7 +77,7 @@
     <panel title="Import FPS Problems (beta)">
       <el-upload
         ref="FPS"
-        action="/api/admin/import_fps"
+        action="/api/admin/import_fps/"
         name="file"
         :file-list="fileList2"
         :show-file-list="true"
