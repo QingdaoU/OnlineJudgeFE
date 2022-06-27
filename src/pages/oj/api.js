@@ -297,8 +297,16 @@ export default {
   getAnnouncement (classroomId, announcementId) {
     return ajax(`classrooms/${classroomId}/announcements/${announcementId}/`, 'get')
   },
+  deleteAnnouncement (classroomId, announcementId) {
+    return ajax(`classrooms/${classroomId}/announcements/${announcementId}/`, 'delete')
+  },
   createAnnouncement (classroomId, data) {
     return ajax(`classrooms/${classroomId}/announcements/`, 'post', {
+      data
+    })
+  },
+  updateAnnouncement (classroomId, {id, ...data}) {
+    return ajax(`classrooms/${classroomId}/announcements/${id}/`, 'put', {
       data
     })
   },
