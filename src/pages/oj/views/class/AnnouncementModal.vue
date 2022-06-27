@@ -83,12 +83,12 @@
             }
           })
         } else {
-          // api.updateClassroom(this.formAnnouncement).then(resp => {
-          //   this.btnLoading = false
-          //   if (!resp.error) {
-          //     this.closeModal(true)
-          //   }
-          // })
+          api.updateAnnouncement(this.activeClassroom.id, this.formAnnouncement).then(resp => {
+            this.btnLoading = false
+            if (!resp.error) {
+              this.closeModal(true)
+            }
+          })
         }
       },
       closeModal (shouldUpdate) {
@@ -101,12 +101,15 @@
         this.updateFormData(data)
       },
       setupFormData () {
-        // api.getClassroom(this.editedAnnouncementId).then(resp => {
-        //   if (!resp.data.data) {
-        //     return
-        //   }
-        //   this.updateFormData(resp.data.data)
-        // })
+        if (this.editedAnnouncementId) {
+          api.getAnnouncement(this.activeClassroom.id, this.editedAnnouncementId).then(resp => {
+            if (!resp.error) {
+              this.updateFormData(resp.data.data)
+            } else {
+              this.updateFormData()
+            }
+          })
+        }
       },
       updateFormData (data) {
         this.$refs['formAnnouncement'].resetFields()
@@ -122,7 +125,7 @@
       }
     },
     watch: {
-      'editedAnnouncementId' (newValue, oldValue) {
+      'visibleModal' (newValue, oldValue) {
         if (newValue && newValue !== oldValue) {
           this.setupFormData()
         }

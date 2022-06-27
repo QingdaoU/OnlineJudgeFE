@@ -9,15 +9,17 @@
       <div class="title">
         <span>{{classMenu[parseInt(activeTab)].title}}</span>
         <Button 
-          v-if="activeTab !== '0' && activeTab !== '4'" 
-          type="primary" 
-          shape="circle" 
-          icon="plus"
-          @click="handleAddClick()"></Button>
+          v-if="isShowBtnAdd"
+          @click="handleAddClick()">
+          {{labelBtnAdd}}
+        </Button>
       </div>
       <div class="content">
         <Home v-if="activeTab === '0'" :data="activeClassroom"></Home>
-        <Announcement v-else-if="activeTab === '1'" :data="activeClassroom"></Announcement>
+        <Announcement 
+          v-else-if="activeTab === '1'" 
+          :data="activeClassroom"
+          @onEdit="openEditAnnouncement($event)"></Announcement>
         <Contest v-else-if="activeTab === '2'" :data="activeClassroom"></Contest>
         <Grade v-else-if="activeTab === '3'" :data="activeClassroom"></Grade>
         <Member v-else :data="activeClassroom"></Member>
@@ -26,6 +28,7 @@
     <AnnouncementModal 
       :visibleModal="activeModal === '1'"
       :activeClassroom="activeClassroom"
+      :editedAnnouncementId="dataIdEdit"
       @visibleModalChange="handleCloseModal($event)"></AnnouncementModal>
   </div>
 </template>
@@ -37,6 +40,7 @@
   import Grade from './Grade.vue'
   import Member from './Member.vue'
   import AnnouncementModal from './AnnouncementModal.vue'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'ClassPanel',
     components: {
@@ -57,7 +61,8 @@
           {title: 'Members', to: '/', tab: '4'}
         ],
         activeTab: '0',
-        activeModal: null
+        activeModal: null,
+        dataIdEdit: null
       }
     },
     props: {
@@ -73,15 +78,33 @@
       },
       handleCloseModal ({status, shouldUpdate}) {
         this.activeModal = status
+        this.dataIdEdit = null
         // if (!status) {
         //   this.edited = null
         // }
         if (shouldUpdate) {
           this.$emit('should-announcement-update', true)
         }
+      },
+      openEditAnnouncement (id) {
+        this.dataIdEdit = id
+        this.handleAddClick()
       }
     },
     computed: {
+      ...mapGetters(['isAdminRole']),
+      isShowBtnAdd () {
+        const activeTabShowBtnAdd = ['1', '2', '3']
+        return this.isAdminRole && activeTabShowBtnAdd.includes(this.activeTab)
+      },
+      labelBtnAdd () {
+        switch (this.activeTab) {
+          case '1':
+            return '+ New announcement'
+          default:
+            return '+ New'
+        }
+      }
     }
   }
 </script>
