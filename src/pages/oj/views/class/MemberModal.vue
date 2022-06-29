@@ -43,7 +43,10 @@
         default: false
       },
       activeClassroom: {},
-      addRole: 1
+      addRole: {
+        type: Number,
+        default: 1
+      }
     },
     mounted () {
     },

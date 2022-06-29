@@ -1,5 +1,5 @@
 <template>
-  <p class="home-wrapper" v-html="data.description"></p>
+  <div class="home-wrapper markdown-body" v-katex v-html="data.description"></div>
 </template>
 
 <script>
