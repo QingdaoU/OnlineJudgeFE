@@ -12,11 +12,11 @@
       <template v-if="listVisible && announcements.length">
         <table class="table-announcements" key="list">
           <tr>
-            <th>Title</th>
-            <th>Last update at</th>
-            <th>Create at</th>
-            <th>Create by</th>
-            <th v-if="isAdminRole"></th>
+            <th class="title">Title</th>
+            <th class="last-update">Last update at</th>
+            <th class="create-at">Create at</th>
+            <th class="create-by">Create by</th>
+            <th  v-if="isAdminRole"></th>
           </tr>
           <tr v-for="announcement in announcements" :key="announcement.title">
             <td class="title">
@@ -179,8 +179,8 @@
     .table-announcements {
       tr {
         td {
-          padding-top: 15px;
-          padding-bottom: 15px;
+          padding-top: 10px;
+          padding-bottom: 10px;
           font-size: 16px;
           border-bottom: 1px solid rgba(187, 187, 187, 0.5);
         }
@@ -194,7 +194,7 @@
       .title {
         text-align: left;
         padding-left: 10px;
-        width: 35%;
+        width: 50%;
         a.entry {
           color: #495060;
           &:hover {
@@ -204,17 +204,18 @@
         }
       }
       .last-update {
-        text-align: center;
+        text-align: left;
       }
       .create-at {
-        text-align: center;
+        text-align: left;
       }
       .create-by {
-        text-align: center;
+        text-align: left;
+        width: 15%;
       }
       .action {
-        width: 100px;
-        text-align: center;
+        width: 35px;
+        text-align: left;
       }
     }
 

@@ -11,7 +11,7 @@
         </span>
       </MenuItem>
       <MenuItem v-if="isAuthenticated" name="/class">
-        <Icon type="home"></Icon>
+        <Icon type="ios-people"></Icon>
         <span>
           Classes
         </span>
