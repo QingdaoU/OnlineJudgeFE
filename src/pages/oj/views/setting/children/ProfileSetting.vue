@@ -210,7 +210,7 @@
           this.loadingUploadBtn = true
           this.$http({
             method: 'post',
-            url: 'upload_avatar',
+            url: 'upload_avatar/',
             data: form,
             headers: {'content-type': 'multipart/form-data'}
           }).then(res => {
