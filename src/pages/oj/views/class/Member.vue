@@ -4,31 +4,40 @@
       <h3>Teachers 
         <Button 
           v-if="isAdminRole"
-          type="primary" 
-          shape="circle" 
-          icon="plus"
           @click="addTeacher()">
+          + New teacher
         </Button>
       </h3>
-      <ul>
-        <li v-for="(teacher, index) of teachersList" :key="index">
-          <div 
-            class="circle-avatar" 
-            :style="{background: getRandomColor(teacher.user_username + teacher.user_id)}">
-              {{teacher.user_fullname && teacher.user_fullname[0]}}
-            </div>
-          <span>{{teacher.user_fullname}}</span>
-          <Button 
-            v-if="isAdminRole"
-            type="text" 
-            shape="circle" 
-            icon="trash-b"
-            class="delete-btn"
-            @click="deleteMember(teacher.user_id)">
-          </Button>
-        </li>
-      </ul>
-      <div class="action-wrapper">
+      <table class="table-user" key="list">
+        <tr>
+          <th class="full-name">Full name</th>
+          <th class="username">Username</th>
+          <th class="email">Email</th>
+          <th v-if="isAdminRole"></th>
+        </tr>
+        <tr v-for="teacher of teachersList" :key="teacher.user_id">
+          <td class="full-name cell">
+            <span
+              class="circle-avatar" 
+              :style="{background: getRandomColor(teacher.user_username + teacher.user_id)}">
+              {{teacher.user_fullname[0]}}
+            </span>
+            <!-- <img v-else :src="`http://168.138.39.183:9000` + teacher.user_avatar" alt="img-avatar"> -->
+            {{teacher.user_fullname}}</td>
+          <td class="username">{{teacher.user_username}}</td>
+          <td class="email">{{teacher.user_email}}</td>
+          <td v-if="isAdminRole" class="action">
+            <Button 
+              type="text" 
+              shape="circle" 
+              icon="trash-b"
+              class="delete-btn"
+              @click="deleteMember(teacher.user_id)">
+            </Button>
+          </td>
+        </tr>
+      </table>
+      <div v-if="teachers.length > 3" class="action-wrapper">
         <Button
           type="ghost" 
           shape="circle"
@@ -41,30 +50,39 @@
       <h3>Students
         <Button 
           v-if="isAdminRole"
-          type="primary" 
-          shape="circle" 
-          icon="plus"
           @click="addStudent()">
+          + New student
         </Button>
       </h3>
-      <ul>
-        <li v-for="(student, index) of students" :key="index">
-          <div 
-            class="circle-avatar" 
-            :style="{background: getRandomColor(student.user_username + student.user_id)}">
+      <table class="table-user" key="list">
+        <tr>
+          <th class="full-name">Full name</th>
+          <th class="username">Username</th>
+          <th class="email">Email</th>
+          <th v-if="isAdminRole"></th>
+        </tr>
+        <tr v-for="student of students" :key="student.user_id">
+          <td class="full-name cell">
+            <span
+              class="circle-avatar" 
+              :style="{background: getRandomColor(student.user_username + student.user_id)}">
               {{student.user_fullname[0]}}
-            </div>
-          <span>{{student.user_fullname}}</span>
-          <Button 
-            v-if="isAdminRole"
-            type="text" 
-            shape="circle" 
-            icon="trash-b"
-            class="delete-btn"
-            @click="deleteMember(student.user_id)">
-          </Button>
-        </li>
-      </ul>
+            </span>
+            <!-- <img v-else :src="`http://168.138.39.183:9000` + student.user_avatar" alt="img-avatar"> -->
+            {{student.user_fullname}}</td>
+          <td class="username">{{student.user_username}}</td>
+          <td class="email">{{student.user_email}}</td>
+          <td v-if="isAdminRole" class="action">
+            <Button 
+              type="text" 
+              shape="circle" 
+              icon="trash-b"
+              class="delete-btn"
+              @click="deleteMember(student.user_id)">
+            </Button>
+          </td>
+        </tr>
+      </table>
     </div>
     <MemberModal 
       :visibleModal="isVisibleMemberModal"
@@ -78,7 +96,7 @@
 <script>
   import { randomColor } from '@/utils/constants'
   import api from '@oj/api'
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import MemberModal from './MemberModal.vue'
 
   export default {
@@ -175,44 +193,66 @@ import { mapGetters } from 'vuex'
   }
 
   .users-wrapper {
+    margin-bottom: 13px;
     h3 {
-      padding: 15px;
+      padding: 10px 15px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       color: var(--color-primary);
       border-bottom: 1px solid var(--color-primary);
     }
-    ul {
-      list-style: none;
-      padding-top: 5px;
 
-      li {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        position: relative;
-
-        &:not(:last-child) {
-          border-bottom: 1px solid #eee;
+    .table-user {
+      padding: 0 10px;
+      tr {
+        td, th {
+          padding-top: 8px;
+          padding-bottom: 8px;
+          font-size: 14px;
+          border-bottom: 1px solid rgba(187, 187, 187, 0.5);
         }
-
-        .circle-avatar {
-          width: 36px;
-          height: 36px;
-          color: white;
-          background: red;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 36px;
-          font-size: 20px;
-          margin-right: 10px;
+        &:last-child {
+          td {
+            border-bottom: none;
+          }
         }
+        .full-name {
+          padding-left: 10px;
+          text-align: left;
+          width: 40%;
+          
+          &:not(.cell) {
+            padding-left: 56px;
+          }
 
-        .delete-btn {
-          position: absolute;
-          top: calc(50% - 17px);
-          right: 15px;
+          &.cell {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            .circle-avatar {
+              width: 36px;
+              height: 36px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: white;
+              background: red;
+              border-radius: 36px;
+              font-size: 20px;
+              margin-right: 10px;
+            }
+          }
+        }
+        .username {
+          text-align: left;
+        }
+        .email {
+          text-align: left;
+        } 
+        .action {
+          width: 50px;
+          text-align: center;
         }
       }
     }

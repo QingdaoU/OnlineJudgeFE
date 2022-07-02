@@ -1,22 +1,20 @@
 <template>
   <div class="announcements-wrapper">
-    <div class="action-wrapper">
-      <Button v-if="listVisible" type="info" @click="setupAnnouncements" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
-      <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
-    </div>
-
     <transition-group name="announcement-animate" mode="in-out">
-      <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
+      <template v-if="announcement">
+        <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
+      </template>
+      <div class="no-announcement" v-else-if="!announcement && !announcements.length" key="no-announcement">
         <p>{{$t('m.No_Announcements')}}</p>
       </div>
-      <template v-if="listVisible && announcements.length">
+      <template v-else>
         <table class="table-announcements" key="list">
           <tr>
             <th class="title">Title</th>
             <th class="last-update">Last update at</th>
             <th class="create-at">Create at</th>
             <th class="create-by">Create by</th>
-            <th  v-if="isAdminRole"></th>
+            <th v-if="isAdminRole"></th>
           </tr>
           <tr v-for="announcement in announcements" :key="announcement.title">
             <td class="title">
@@ -44,47 +42,8 @@
             </td>
           </tr>
         </table>
-        <!-- <Table :columns="columnAnnouncements" :data="announcements"></Table> -->
-        <!-- <ul class="announcements-wrapper" key="list">
-          <li v-for="announcement in announcements" :key="announcement.title">
-            <div class="flex-container">
-              <div class="title"><a class="entry" @click="goAnnouncement(announcement.id)">
-                {{announcement.title}}</a></div>
-              <div class="date">{{announcement.create_time | localtime }}</div>
-            </div>
-          </li>
-        </ul> -->
-        <!-- <table>
-          <tr>
-            <th>Title</th>
-            <th>Last update at</th>
-            <th>Create at</th>
-            <th>Create by</th>
-            <th></th>
-          </tr>
-          <tr v-for="announcement in announcements" :key="announcement.title">
-            <th>
-              <a class="entry" @click="goAnnouncement(announcement.id)">
-                {{announcement.title}}
-              </a>
-            </th>
-            <th>{{announcement.last_update_time | localtime}}</th>
-            <th>{{announcement.create_time | localtime}}</th>
-            <th>{{announcement.author_fullname}}</th>
-            <th>asdd</th>
-          </tr>
-        </table> -->
-        <!-- <Pagination v-if="!isContest"
-                    key="page"
-                    :total="total"
-                    :page-size="limit"
-                    @on-change="getAnnouncementList">
-        </Pagination> -->
       </template>
 
-      <template v-else>
-        <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
-      </template>
     </transition-group>
   </div>
 </template>
@@ -102,8 +61,7 @@
         total: 10,
         btnLoading: false,
         announcements: [],
-        announcement: '',
-        listVisible: true
+        announcement: ''
       }
     },
     props: {
@@ -112,6 +70,7 @@
     mounted () {
       this.$parent.$on('should-announcement-update', () => {
         this.setupAnnouncements()
+        this.announcement = null
       })
       this.setupAnnouncements()
     },
@@ -125,13 +84,12 @@
         api.getAnnouncement(this.data.id, announcementId).then(resp => {
           if (resp.data.data) {
             this.announcement = resp.data.data
-            this.listVisible = false
+            this.$emit('detailModeChange', true)
           }
         })
       },
       goBack () {
-        this.listVisible = true
-        this.announcement = ''
+        this.announcement = null
       },
       handleSelectDropdown (event, id) {
         switch (event) {
@@ -178,13 +136,12 @@
 
     .table-announcements {
       tr {
-        td {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          font-size: 16px;
+        td, th {
+          padding-top: 8px;
+          padding-bottom: 8px;
+          font-size: 14px;
           border-bottom: 1px solid rgba(187, 187, 187, 0.5);
         }
-
         &:last-child {
           td {
             border-bottom: none;
@@ -218,41 +175,6 @@
         text-align: left;
       }
     }
-
-    // li {
-    //   padding-top: 15px;
-    //   list-style: none;
-    //   padding-bottom: 15px;
-    //   font-size: 16px;
-    //   border-bottom: 1px solid rgba(187, 187, 187, 0.5);
-    //   &:last-child {
-    //     border-bottom: none;
-    //   }
-      // .flex-container {
-      //   .title {
-      //     flex: 1 1;
-      //     text-align: left;
-      //     padding-left: 10px;
-      //     a.entry {
-      //       color: #495060;
-      //       &:hover {
-      //         color: #2d8cf0;
-      //         border-bottom: 1px solid #2d8cf0;
-      //       }
-      //     }
-      //   }
-      //   .creator {
-      //     flex: none;
-      //     width: 200px;
-      //     text-align: center;
-      //   }
-      //   .date {
-      //     flex: none;
-      //     width: 200px;
-      //     text-align: center;
-      //   }
-      // }
-    // }
     .content-container {
       padding: 0 20px 20px 20px;
     }
