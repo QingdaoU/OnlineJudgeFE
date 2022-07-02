@@ -8,17 +8,24 @@
     <div class="panel-body-wrapper">
       <div class="title">
         <span>{{classMenu[parseInt(activeTab)].title}}</span>
-        <Button 
-          v-if="isShowBtnAdd"
-          @click="handleAddClick()">
-          {{labelBtnAdd}}
-        </Button>
+        <div class="action-wrapper">
+          <template v-if="activeTab === '1'">
+            <Button v-if="isDetailAnnouncementMode" type="ghost" icon="ios-undo" @click="goBackAnnouncement()">{{$t('m.Back')}}</Button>
+            <Button v-else type="info" @click="updateAnnouncement()" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
+          </template>
+          <Button 
+            v-if="isShowBtnAdd"
+            @click="handleAddClick()">
+            {{labelBtnAdd}}
+          </Button>
+        </div>
       </div>
       <div class="content">
         <Home v-if="activeTab === '0'" :data="activeClassroom"></Home>
         <Announcement 
           v-else-if="activeTab === '1'" 
           :data="activeClassroom"
+          @detailModeChange="handleDetailModeChange($event)"
           @onEdit="openEditAnnouncement($event)"></Announcement>
         <Contest v-else-if="activeTab === '2'" :data="activeClassroom"></Contest>
         <Grade v-else-if="activeTab === '3'" :data="activeClassroom"></Grade>
@@ -62,7 +69,8 @@
         ],
         activeTab: '0',
         activeModal: null,
-        dataIdEdit: null
+        dataIdEdit: null,
+        isDetailAnnouncementMode: false
       }
     },
     props: {
@@ -79,22 +87,29 @@
       handleCloseModal ({status, shouldUpdate}) {
         this.activeModal = status
         this.dataIdEdit = null
-        // if (!status) {
-        //   this.edited = null
-        // }
         if (shouldUpdate) {
-          this.$emit('should-announcement-update', true)
+          this.updateAnnouncement()
         }
       },
       openEditAnnouncement (id) {
         this.dataIdEdit = id
         this.handleAddClick()
+      },
+      updateAnnouncement () {
+        this.$emit('should-announcement-update', true)
+      },
+      handleDetailModeChange (isDetail) {
+        this.isDetailAnnouncementMode = isDetail
+      },
+      goBackAnnouncement () {
+        this.isDetailAnnouncementMode = false
+        this.updateAnnouncement()
       }
     },
     computed: {
       ...mapGetters(['isAdminRole']),
       isShowBtnAdd () {
-        const activeTabShowBtnAdd = ['1', '2', '3']
+        const activeTabShowBtnAdd = ['1', '2']
         return this.isAdminRole && activeTabShowBtnAdd.includes(this.activeTab)
       },
       labelBtnAdd () {

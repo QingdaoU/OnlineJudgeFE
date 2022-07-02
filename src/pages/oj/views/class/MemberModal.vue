@@ -1,28 +1,36 @@
 <template>
-  <Modal v-model="visibleModal" class="large" :width="500" @on-cancel="closeModal()">
+  <Modal v-model="visibleModal" class="large" :width="450" @on-cancel="closeModal()">
     <div slot="header" class="modal-title">{{title}}</div>
-    <div>
-      <Form ref="formMember" :model="formMember">
-        <FormItem>
-          <CheckboxGroup v-model="formMember.user_ids">
-            <Checkbox 
-              v-for="user in users" 
-              :key="user.user_id" 
-              :label="user.user_id">
-              {{user.user_fullname}} ({{user.user_username}})
-            </Checkbox>
-          </CheckboxGroup>
-        </FormItem>
-      </Form>
-      <div class="footer">
-        <Button
-          type="primary"
-          @click="handleUpdateMember()"
-          class="btn" long
-          :loading="btnLoading">
-          {{btnLabel}}
-        </Button>
-      </div>
+    <Form ref="formMember" :model="formMember">
+      <FormItem>
+        <CheckboxGroup v-model="formMember.user_ids">
+          <Checkbox 
+            v-for="user in users" 
+            :key="user.user_id" 
+            :label="user.user_id">
+            <div class="avatar">
+              <span
+                class="circle-avatar" 
+                :style="{background: getRandomColor(user.user_username + user.user_id)}">
+                {{user.user_fullname[0]}}
+              </span>
+            </div>
+            <div class="info">
+              <span class="full-name">{{user.user_fullname}} ({{user.user_username}})</span>
+              <span class="email">{{user.user_email}}</span>
+            </div>
+          </Checkbox>
+        </CheckboxGroup>
+      </FormItem>
+    </Form>
+    <div class="footer">
+      <Button
+        type="primary"
+        @click="handleUpdateMember()"
+        class="btn" long
+        :loading="btnLoading">
+        {{btnLabel}}
+      </Button>
     </div>
     <div slot="footer" style="display: none"></div>
   </Modal>
@@ -31,6 +39,7 @@
 <script>
   import { FormMixin } from '@oj/components/mixins'
   import api from '@oj/api'
+  import { randomColor } from '@/utils/constants'
 
   export default {
     name: 'MemberModal',
@@ -79,6 +88,9 @@
       },
       resetForm () {
         this.formMember = {...this.formMember, user_ids: []}
+      },
+      getRandomColor (input) {
+        return randomColor(input)
       }
     },
     computed: {
@@ -103,9 +115,45 @@
   .ivu-form  {
     max-height: 70vh;
     overflow-y: scroll;
-    .ivu-checkbox-group {
+    .ivu-checkbox-group-item {
       display: flex;
-      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        margin-right: 10px;
+        .circle-avatar {
+          width: 36px;
+          height: 36px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          background: red;
+          border-radius: 36px;
+          font-size: 20px;
+          margin-right: 10px;
+        }
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
+        line-height: 18px;
+        width: 100%;
+
+        .email {
+          opacity: 0.7;
+        }
+      }
+    }
+    .ivu-checkbox {
+      order: 1;
+      width: 36px;
+      text-align: center;
     }
   }
 
