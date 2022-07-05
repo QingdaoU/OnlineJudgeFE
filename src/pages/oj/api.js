@@ -310,8 +310,9 @@ export default {
       data
     })
   },
-  getUserCanAdd (classroomId) {
-    return ajax(`classrooms/${classroomId}/users/`, 'get')
+  getUserCanAdd (classroomId, searchText = null) {
+    if (!searchText) return ajax(`classrooms/${classroomId}/users/`, 'get')
+    return ajax(`classrooms/${classroomId}/users/?search_label_text=${searchText}`, 'get')
   },
   addMembersClassroom (classroomId, data) {
     return ajax(`classrooms/${classroomId}/members/`, 'post', {

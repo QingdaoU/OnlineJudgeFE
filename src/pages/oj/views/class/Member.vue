@@ -18,11 +18,12 @@
         <tr v-for="teacher of teachersList" :key="teacher.user_id">
           <td class="full-name cell">
             <span
+              v-if="!teacher.user_avatar"
               class="circle-avatar" 
               :style="{background: getRandomColor(teacher.user_username + teacher.user_id)}">
               {{teacher.user_fullname[0]}}
             </span>
-            <!-- <img v-else :src="`http://168.138.39.183:9000` + teacher.user_avatar" alt="img-avatar"> -->
+            <img v-else :src="teacher.user_avatar" alt="img-avatar">
             {{teacher.user_fullname}}</td>
           <td class="username">{{teacher.user_username}}</td>
           <td class="email">{{teacher.user_email}}</td>
@@ -63,12 +64,12 @@
         </tr>
         <tr v-for="student of students" :key="student.user_id">
           <td class="full-name cell">
-            <span
+            <span v-if="!student.user_avatar"
               class="circle-avatar" 
               :style="{background: getRandomColor(student.user_username + student.user_id)}">
               {{student.user_fullname[0]}}
             </span>
-            <!-- <img v-else :src="`http://168.138.39.183:9000` + student.user_avatar" alt="img-avatar"> -->
+            <img v-else :src="student.user_avatar" alt="img-avatar">
             {{student.user_fullname}}</td>
           <td class="username">{{student.user_username}}</td>
           <td class="email">{{student.user_email}}</td>
@@ -230,6 +231,13 @@
             display: flex;
             width: 100%;
             align-items: center;
+            img {
+              width: 36px;
+              height: 36px;
+              margin-right: 10px;
+              border-radius: 36px;
+              background-size: cover;
+            }
             .circle-avatar {
               width: 36px;
               height: 36px;

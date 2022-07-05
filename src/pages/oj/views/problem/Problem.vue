@@ -2,53 +2,115 @@
   <div class="flex-container">
     <div id="problem-main">
       <!--problem main-->
-      <Panel :padding="40" shadow>
-        <div slot="title">{{problem.title}}</div>
-        <div id="problem-content" class="markdown-body" v-katex>
-          <p class="title">{{$t('m.Description')}}</p>
-          <p class="content" v-html=problem.description></p>
-          <!-- {{$t('m.music')}} -->
-          <p class="title">{{$t('m.Input')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.FromFile')}}: {{ problem.io_mode.input }})</span></p>
-          <p class="content" v-html=problem.input_description></p>
+      <div class="nocode-side">
+        <Tabs value="name1">
+          <TabPane label="Description" name="name1">
+            <div slot="title">{{problem.title}}</div>
+            <div id="problem-content" class="markdown-body" v-katex>
+              <p class="title">{{$t('m.Description')}}</p>
+              <p class="content" v-html="problem.description"></p>
+              <!-- {{$t('m.music')}} -->
+              <p class="title">{{$t('m.Input')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.FromFile')}}: {{ problem.io_mode.input }})</span></p>
+              <p class="content" v-html="problem.input_description"></p>
 
-          <p class="title">{{$t('m.Output')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.ToFile')}}: {{ problem.io_mode.output }})</span></p>
-          <p class="content" v-html=problem.output_description></p>
+              <p class="title">{{$t('m.Output')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.ToFile')}}: {{ problem.io_mode.output }})</span></p>
+              <p class="content" v-html="problem.output_description"></p>
 
-          <div v-for="(sample, index) of problem.samples" :key="index">
-            <div class="flex-container sample">
-              <div class="sample-input">
-                <p class="title">{{$t('m.Sample_Input')}} {{index + 1}}
-                  <a class="copy"
-                     v-clipboard:copy="sample.input"
-                     v-clipboard:success="onCopy"
-                     v-clipboard:error="onCopyError">
-                    <Icon type="clipboard"></Icon>
-                  </a>
-                </p>
-                <pre>{{sample.input}}</pre>
+              <div v-for="(sample, index) of problem.samples" :key="index">
+                <div class="flex-container sample">
+                  <div class="sample-input">
+                    <p class="title">{{$t('m.Sample_Input')}} {{index + 1}}
+                      <a class="copy"
+                        v-clipboard:copy="sample.input"
+                        v-clipboard:success="onCopy"
+                        v-clipboard:error="onCopyError">
+                        <Icon type="clipboard"></Icon>
+                      </a>
+                    </p>
+                    <pre>{{sample.input}}</pre>
+                  </div>
+                  <div class="sample-output">
+                    <p class="title">{{$t('m.Sample_Output')}} {{index + 1}}</p>
+                    <pre>{{sample.output}}</pre>
+                  </div>
+                </div>
               </div>
-              <div class="sample-output">
-                <p class="title">{{$t('m.Sample_Output')}} {{index + 1}}</p>
-                <pre>{{sample.output}}</pre>
+
+              <div v-if="problem.hint">
+                <p class="title">{{$t('m.Hint')}}</p>
+                <Card dis-hover>
+                  <div class="content" v-html="problem.hint"></div>
+                </Card>
+              </div>
+
+              <div v-if="problem.source">
+                <p class="title">{{$t('m.Source')}}</p>
+                <p class="content">{{problem.source}}</p>
               </div>
             </div>
-          </div>
-
-          <div v-if="problem.hint">
-            <p class="title">{{$t('m.Hint')}}</p>
-            <Card dis-hover>
-              <div class="content" v-html=problem.hint></div>
-            </Card>
-          </div>
-
-          <div v-if="problem.source">
-            <p class="title">{{$t('m.Source')}}</p>
-            <p class="content">{{problem.source}}</p>
-          </div>
-
-        </div>
-      </Panel>
-      <!--problem main end-->
+          </TabPane>
+          <TabPane label="Information" name="name2">
+            <div id="info">
+              <div slot="title" class="header">
+                <Icon type="information-circled"></Icon>
+                <span class="card-title">{{$t('m.Information')}}</span>
+              </div>
+              <ul>
+                <li><p>ID</p>
+                  <p>{{problem._id}}</p>
+                </li>
+                <li>
+                  <p>{{$t('m.Time_Limit')}}</p>
+                  <p>{{problem.time_limit}}MS</p>
+                </li>
+                <li>
+                  <p>{{$t('m.Memory_Limit')}}</p>
+                  <p>{{problem.memory_limit}}MB</p>
+                </li>
+                <li>
+                  <p>{{$t('m.IOMode')}}</p>
+                  <p>{{problem.io_mode.io_mode}}</p>
+                </li>
+                <li>
+                  <p>{{$t('m.Created')}}</p>
+                  <p>{{problem.created_by.username}}</p></li>
+                <li v-if="problem.difficulty">
+                  <p>{{$t('m.Level')}}</p>
+                  <p>{{$t('m.' + problem.difficulty)}}</p></li>
+                <li v-if="problem.total_score">
+                  <p>{{$t('m.Score')}}</p>
+                  <p>{{problem.total_score}}</p>
+                </li>
+                <li>
+                  <p>{{$t('m.Tags')}}</p>
+                  <p>
+                    <Poptip trigger="hover" placement="left-end">
+                      <a>{{$t('m.Show')}}</a>
+                      <div slot="content">
+                        <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
+                      </div>
+                    </Poptip>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </TabPane>
+          <TabPane label="Static" name="name3">
+            <div id="pieChart" :padding="0" v-if="!this.contestID || OIContestRealTimePermission">
+              <div class="title">
+                <div>
+                  <Icon type="ios-analytics"></Icon>
+                  <span class="card-title">{{$t('m.Statistic')}}</span>
+                </div>
+                <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
+              </div>
+              <div class="echarts">
+                <ECharts :options="pie"></ECharts>
+              </div>
+            </div>
+          </TabPane>
+        </Tabs>
+      </div>
       <Card :padding="20" id="submit-code" dis-hover>
         <CodeMirror :value.sync="code"
                     :languages="problem.languages"
@@ -101,7 +163,7 @@
       </Card>
     </div>
 
-    <div id="right-column">
+    <!-- <div id="right-column">
       <VerticalMenu @on-click="handleRoute">
         <template v-if="this.contestID">
           <VerticalMenu-item :route="{name: 'contest-problem-list', params: {contestID: contestID}}">
@@ -122,7 +184,7 @@
 
         <template v-if="this.contestID">
           <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"
-                             :route="{name: 'contest-rank', params: {contestID: contestID}}">
+              :route="{name: 'contest-rank', params: {contestID: contestID}}">
             <Icon type="stats-bars"></Icon>
             {{$t('m.Rankings')}}
           </VerticalMenu-item>
@@ -132,61 +194,7 @@
           </VerticalMenu-item>
         </template>
       </VerticalMenu>
-
-      <Card id="info">
-        <div slot="title" class="header">
-          <Icon type="information-circled"></Icon>
-          <span class="card-title">{{$t('m.Information')}}</span>
-        </div>
-        <ul>
-          <li><p>ID</p>
-            <p>{{problem._id}}</p></li>
-          <li>
-            <p>{{$t('m.Time_Limit')}}</p>
-            <p>{{problem.time_limit}}MS</p></li>
-          <li>
-            <p>{{$t('m.Memory_Limit')}}</p>
-            <p>{{problem.memory_limit}}MB</p></li>
-          <li>
-          <li>
-            <p>{{$t('m.IOMode')}}</p>
-            <p>{{problem.io_mode.io_mode}}</p>
-          </li>
-          <li>
-            <p>{{$t('m.Created')}}</p>
-            <p>{{problem.created_by.username}}</p></li>
-          <li v-if="problem.difficulty">
-            <p>{{$t('m.Level')}}</p>
-            <p>{{$t('m.' + problem.difficulty)}}</p></li>
-          <li v-if="problem.total_score">
-            <p>{{$t('m.Score')}}</p>
-            <p>{{problem.total_score}}</p>
-          </li>
-          <li>
-            <p>{{$t('m.Tags')}}</p>
-            <p>
-              <Poptip trigger="hover" placement="left-end">
-                <a>{{$t('m.Show')}}</a>
-                <div slot="content">
-                  <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
-                </div>
-              </Poptip>
-            </p>
-          </li>
-        </ul>
-      </Card>
-
-      <Card id="pieChart" :padding="0" v-if="!this.contestID || OIContestRealTimePermission">
-        <div slot="title">
-          <Icon type="ios-analytics"></Icon>
-          <span class="card-title">{{$t('m.Statistic')}}</span>
-          <Button type="ghost" size="small" id="detail" @click="graphVisible = !graphVisible">Details</Button>
-        </div>
-        <div class="echarts">
-          <ECharts :options="pie"></ECharts>
-        </div>
-      </Card>
-    </div>
+    </div> -->
 
     <Modal v-model="graphVisible">
       <div id="pieChart-detail">
@@ -517,7 +525,7 @@
   .flex-container {
     #problem-main {
       flex: auto;
-      margin-right: 18px;
+      display: flex;
     }
     #right-column {
       flex: none;
@@ -525,15 +533,20 @@
     }
   }
 
+  .ivu-tabs-tabpane {
+    padding: 10px 20px
+  }
+
   #problem-content {
-    margin-top: -50px;
     .title {
       font-size: 20px;
       font-weight: 400;
-      margin: 25px 0 8px 0;
       color: #3091f2;
       .copy {
         padding-left: 8px;
+      }
+      :not(:first-child) {
+        margin: 25px 0 8px 0;
       }
     }
     p.content {
@@ -560,8 +573,12 @@
   }
 
   #submit-code {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    .vue-codemirror-wrap::v-deep {
+        // 40px padding top bottom - 80px header - 52px header editor - 32px submit row, 
+        max-height: calc(100vh - 184px) !important;
+        overflow-y: scroll !important;
+    }
+
     .status {
       float: left;
       span {
@@ -579,9 +596,21 @@
     }
   }
 
+  .ivu-card {
+    position: relative;
+    flex: 3;
+  }
+  
+  .nocode-side {
+    background: #fff;
+    flex: 2;
+    overflow-y: auto;
+    word-break: break-word;
+  }
+
+
+
   #info {
-    margin-bottom: 20px;
-    margin-top: 20px;
     ul {
       list-style-type: none;
       li {
@@ -605,14 +634,16 @@
   }
 
   #pieChart {
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+    }
     .echarts {
       height: 250px;
       width: 210px;
-    }
-    #detail {
-      position: absolute;
-      right: 10px;
-      top: 10px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
