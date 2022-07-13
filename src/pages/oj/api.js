@@ -324,6 +324,21 @@ export default {
   },
   deleteMemberClassroom (classroomId, userId) {
     return ajax(`classrooms/${classroomId}/members/${userId}`, 'delete')
+  },
+  getContests (classroomId) {
+    return ajax(`classrooms/${classroomId}/contests/`, 'get')
+  },
+  getCanMappingContests (classroomId, searchTitle = null) {
+    if (!searchTitle) return ajax(`classrooms/${classroomId}/unmapping_contests/`, 'get')
+    return ajax(`classrooms/${classroomId}/unmapping_contests/?search_label_text=${searchTitle}`, 'get')
+  },
+  mappingContest (classroomId, data) {
+    return ajax(`classrooms/${classroomId}/contests/`, 'post', {
+      data
+    })
+  },
+  unMappingContest (classroomId, contestId) {
+    return ajax(`classrooms/${classroomId}/contests/${contestId}`, 'delete')
   }
 }
 

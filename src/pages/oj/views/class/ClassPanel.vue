@@ -37,6 +37,11 @@
       :activeClassroom="activeClassroom"
       :editedAnnouncementId="dataIdEdit"
       @visibleModalChange="handleCloseModal($event)"></AnnouncementModal>
+    <ContestModal 
+      :visibleModal="activeModal === '2'"
+      :activeClassroom="activeClassroom"
+      @visibleModalChange="handleCloseModal($event)"
+      ></ContestModal>
   </div>
 </template>
 
@@ -47,6 +52,7 @@
   import Grade from './Grade.vue'
   import Member from './Member.vue'
   import AnnouncementModal from './AnnouncementModal.vue'
+  import ContestModal from './ContestModal.vue'
   import { mapGetters } from 'vuex'
   export default {
     name: 'ClassPanel',
@@ -56,7 +62,8 @@
       Contest,
       Grade,
       Member,
-      AnnouncementModal
+      AnnouncementModal,
+      ContestModal
     },
     data () {
       return {
@@ -83,12 +90,13 @@
       },
       handleAddClick () {
         this.activeModal = this.activeTab
+        console.log('activeModal', this.activeModal)
       },
       handleCloseModal ({status, shouldUpdate}) {
         this.activeModal = status
         this.dataIdEdit = null
         if (shouldUpdate) {
-          this.updateAnnouncement()
+          this.updateComponentChildren()
         }
       },
       openEditAnnouncement (id) {
@@ -98,12 +106,28 @@
       updateAnnouncement () {
         this.$emit('should-announcement-update', true)
       },
+      updateContest () {
+        this.$emit('should-contest-update', true)
+      },
       handleDetailModeChange (isDetail) {
         this.isDetailAnnouncementMode = isDetail
       },
       goBackAnnouncement () {
         this.isDetailAnnouncementMode = false
         this.updateAnnouncement()
+      },
+      updateComponentChildren () {
+        switch (this.activeTab) {
+          case '1':
+            this.updateAnnouncement()
+            break
+          case '2':
+            this.updateContest()
+            break
+
+          default:
+            break
+        }
       }
     },
     computed: {
@@ -116,6 +140,8 @@
         switch (this.activeTab) {
           case '1':
             return '+ New announcement'
+          case '2':
+            return '+ New Contest'
           default:
             return '+ New'
         }

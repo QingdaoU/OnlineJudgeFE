@@ -1,5 +1,5 @@
 <template>
-  <div class="card-class">
+  <div class="card-class" :class="{'invisible': !this.classroom.visible}">
     <div class="header" :style="{background: getRandomColor(this.classroom.name + this.classroom.subject_name + this.classroom.group_name + this.classroom.room_name)}">
       <Dropdown 
         trigger="click" 
@@ -80,6 +80,10 @@
     border-radius: 10px;
     box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     transition: box-shadow 0.3s ease-in-out;
+
+    &.invisible {
+      opacity: 0.4;
+    }
     
     .header {
       position: relative;

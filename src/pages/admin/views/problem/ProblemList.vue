@@ -1,13 +1,25 @@
 <template>
   <div class="view">
     <Panel :title="contestId ? this.$i18n.t('m.Contest_Problem_List') : this.$i18n.t('m.Problem_List')">
-      <div slot="header">
+      <template slot="header">
+        <el-select v-model="isUseForContest" placeholder="Select" @change="filterContestChange()">
+          <el-option
+            label="Public"
+            :value="false"
+          >
+          </el-option>
+          <el-option
+            label="For Contest"
+            :value="true"
+          >
+          </el-option>
+        </el-select>
         <el-input
           v-model="keyword"
           prefix-icon="el-icon-search"
           placeholder="Keywords">
         </el-input>
-      </div>
+      </template>
       <el-table
         v-loading="loading"
         element-loading-text="loading"
@@ -145,7 +157,8 @@
         currentRow: {},
         InlineEditDialogVisible: false,
         makePublicDialogVisible: false,
-        addProblemDialogVisible: false
+        addProblemDialogVisible: false,
+        isUseForContest: false
       }
     },
     mounted () {
@@ -183,7 +196,8 @@
           limit: this.pageSize,
           offset: (page - 1) * this.pageSize,
           keyword: this.keyword,
-          contest_id: this.contestId
+          contest_id: this.contestId,
+          isUseForContest: this.isUseForContest
         }
         api[funcName](params).then(res => {
           this.loading = false
@@ -240,6 +254,9 @@
       },
       getPublicProblem () {
         api.getProblemList()
+      },
+      filterContestChange () {
+        this.getProblemList(1)
       }
     },
     watch: {

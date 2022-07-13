@@ -36,10 +36,10 @@
 
     <el-submenu index="problem" v-if="hasProblemPermission">
       <template slot="title">
+        <i class="el-icon-orange"></i>
         <span>{{$t('m.Problem')}}</span>
       </template>
       <el-menu-item index="/problems">
-        <i class="el-icon-delete"></i>
         <span>{{$t('m.Problem_List')}}</span>
         </el-menu-item>
       <el-menu-item index="/problem/create">
@@ -62,11 +62,6 @@
         <span v-if="isExpand">{{$t('m.Create_Contest')}}</span>
       </el-menu-item>
     </el-submenu>
-
-    <el-menu-item index="class">
-      <i class="el-icon-s-custom"></i>
-      <span v-if="isExpand">Class</span>
-    </el-menu-item>
   </el-menu>
 </template>
 

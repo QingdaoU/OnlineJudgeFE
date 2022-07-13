@@ -163,12 +163,12 @@ export default {
       data
     })
   },
-  getContestList (offset, limit, keyword) {
+  getContestList (offset, limit, keyword, isUseForClassroom) {
     let params = {paging: true, offset, limit}
     if (keyword) {
       params.keyword = keyword
     }
-    return ajax('admin/contest/', 'get', {
+    return ajax(`admin/contest/?is_use_for_classroom=${isUseForClassroom}`, 'get', {
       params: params
     })
   },
@@ -230,9 +230,9 @@ export default {
       }
     })
   },
-  getProblemList (params) {
+  getProblemList ({isUseForContest, ...params}) {
     params = utils.filterEmptyValue(params)
-    return ajax('admin/problem/', 'get', {
+    return ajax(`admin/problem/?is_use_for_contest=${isUseForContest}`, 'get', {
       params
     })
   },

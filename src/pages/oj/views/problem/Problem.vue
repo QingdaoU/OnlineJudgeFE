@@ -47,52 +47,50 @@
                 <p class="title">{{$t('m.Source')}}</p>
                 <p class="content">{{problem.source}}</p>
               </div>
-            </div>
-          </TabPane>
-          <TabPane label="Information" name="name2">
-            <div id="info">
-              <div slot="title" class="header">
-                <Icon type="information-circled"></Icon>
-                <span class="card-title">{{$t('m.Information')}}</span>
+              <div id="info">
+                <div slot="title" class="header">
+                  <Icon type="information-circled"></Icon>
+                  <span class="card-title">{{$t('m.Information')}}</span>
+                </div>
+                <ul>
+                  <li><p>ID</p>
+                    <p>{{problem._id}}</p>
+                  </li>
+                  <li>
+                    <p>{{$t('m.Time_Limit')}}</p>
+                    <p>{{problem.time_limit}}MS</p>
+                  </li>
+                  <li>
+                    <p>{{$t('m.Memory_Limit')}}</p>
+                    <p>{{problem.memory_limit}}MB</p>
+                  </li>
+                  <li>
+                    <p>{{$t('m.IOMode')}}</p>
+                    <p>{{problem.io_mode.io_mode}}</p>
+                  </li>
+                  <li>
+                    <p>{{$t('m.Created')}}</p>
+                    <p>{{problem.created_by.username}}</p></li>
+                  <li v-if="problem.difficulty">
+                    <p>{{$t('m.Level')}}</p>
+                    <p>{{$t('m.' + problem.difficulty)}}</p></li>
+                  <li v-if="problem.total_score">
+                    <p>{{$t('m.Score')}}</p>
+                    <p>{{problem.total_score}}</p>
+                  </li>
+                  <li>
+                    <p>{{$t('m.Tags')}}</p>
+                    <p>
+                      <Poptip trigger="hover" placement="left-end">
+                        <a>{{$t('m.Show')}}</a>
+                        <div slot="content">
+                          <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
+                        </div>
+                      </Poptip>
+                    </p>
+                  </li>
+                </ul>
               </div>
-              <ul>
-                <li><p>ID</p>
-                  <p>{{problem._id}}</p>
-                </li>
-                <li>
-                  <p>{{$t('m.Time_Limit')}}</p>
-                  <p>{{problem.time_limit}}MS</p>
-                </li>
-                <li>
-                  <p>{{$t('m.Memory_Limit')}}</p>
-                  <p>{{problem.memory_limit}}MB</p>
-                </li>
-                <li>
-                  <p>{{$t('m.IOMode')}}</p>
-                  <p>{{problem.io_mode.io_mode}}</p>
-                </li>
-                <li>
-                  <p>{{$t('m.Created')}}</p>
-                  <p>{{problem.created_by.username}}</p></li>
-                <li v-if="problem.difficulty">
-                  <p>{{$t('m.Level')}}</p>
-                  <p>{{$t('m.' + problem.difficulty)}}</p></li>
-                <li v-if="problem.total_score">
-                  <p>{{$t('m.Score')}}</p>
-                  <p>{{problem.total_score}}</p>
-                </li>
-                <li>
-                  <p>{{$t('m.Tags')}}</p>
-                  <p>
-                    <Poptip trigger="hover" placement="left-end">
-                      <a>{{$t('m.Show')}}</a>
-                      <div slot="content">
-                        <Tag v-for="tag in problem.tags" :key="tag">{{tag}}</Tag>
-                      </div>
-                    </Poptip>
-                  </p>
-                </li>
-              </ul>
             </div>
           </TabPane>
           <TabPane label="Static" name="name3">
@@ -606,11 +604,13 @@
     flex: 2;
     overflow-y: auto;
     word-break: break-word;
+    border-radius: 4px;
   }
 
 
 
   #info {
+    margin-top: 20px;
     ul {
       list-style-type: none;
       li {

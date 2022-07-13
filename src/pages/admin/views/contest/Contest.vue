@@ -37,9 +37,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item :label="$t('m.Contest_Rule_Type')">
-              <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>
-              <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>
+            <el-form-item label="Is Use For Classroom">
+              <el-switch
+                v-model="contest.is_use_for_classroom"
+                active-color=""
+                inactive-color="">
+              </el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -60,7 +63,13 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item :label="$t('m.Contest_Rule_Type')">
+              <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>
+              <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
             <el-form-item :label="$t('m.Allowed_IP_Ranges')">
               <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
                 <el-row :gutter="20" style="margin-bottom: 15px">
@@ -102,6 +111,7 @@
           end_time: '',
           rule_type: 'ACM',
           password: '',
+          is_use_for_classroom: true,
           real_time_rank: true,
           visible: true,
           allowed_ip_ranges: [{

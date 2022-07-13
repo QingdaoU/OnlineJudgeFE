@@ -5,7 +5,7 @@
         <img class="trophy" src="../../../../assets/Cup.png"/>
         <Col :span="18" class="contest-main">
           <p class="title">
-            <a class="entry">
+            <a class="entry" @click.stop="goContest(contest.id)">
               {{contest.title}}
             </a>
             <template v-if="contest.contest_type != 'Public'">
@@ -30,6 +30,14 @@
         </Col>
         <Col :span="4" style="text-align: center">
           <Tag type="dot" :color="CONTEST_STATUS_REVERSE[contest.status].color">{{$t('m.' + CONTEST_STATUS_REVERSE[contest.status].name.replace(/ /g, "_"))}}</Tag>
+          <Button 
+            v-if="isAdminRole"
+            type="text" 
+            shape="circle" 
+            icon="trash-b"
+            class="delete-btn"
+            @click="deleteContest(contest.id)">
+          </Button>
         </Col>
       </Row>
     </li>
@@ -37,86 +45,64 @@
 </template>
 
 <script>
-  import time from '../../../../utils/time'
+  import time from '@/utils/time'
   import { CONTEST_STATUS_REVERSE } from '@/utils/constants'
-  const mockupContests = [
-    {
-      'id': 1,
-      'created_by': {
-        'id': 1,
-        'username': 'superadmin1',
-        'real_name': null
-      },
-      'status': '0',
-      'contest_type': 'Password Protected',
-      'title': 'Test new contest',
-      'description': '<p>sdaf<br /></p>',
-      'real_time_rank': true,
-      'rule_type': 'ACM',
-      'start_time': '2022-05-27T17:00:00Z',
-      'end_time': '2022-09-14T17:00:00Z',
-      'create_time': '2022-05-28T07:50:06.358100Z',
-      'last_update_time': '2022-05-28T07:50:06.358122Z'
-    },
-    {
-      'id': 2,
-      'created_by': {
-        'id': 1,
-        'username': 'superadmin1',
-        'real_name': 'Duong'
-      },
-      'status': '0',
-      'contest_type': 'Password Protected',
-      'title': 'Test new contest',
-      'description': '<p>sdaf<br /></p>',
-      'real_time_rank': true,
-      'rule_type': 'ACM',
-      'start_time': '2022-05-27T17:00:00Z',
-      'end_time': '2022-09-14T17:00:00Z',
-      'create_time': '2022-05-28T07:50:06.358100Z',
-      'last_update_time': '2022-05-28T07:50:06.358122Z'
-    },
-    {
-      'id': 3,
-      'created_by': {
-        'id': 1,
-        'username': 'superadmin1',
-        'real_name': 'Duy'
-      },
-      'status': '0',
-      'contest_type': 'Password Protected',
-      'title': 'Test new contest',
-      'description': '<p>sdaf<br /></p>',
-      'real_time_rank': true,
-      'rule_type': 'ACM',
-      'start_time': '2022-05-27T17:00:00Z',
-      'end_time': '2022-09-14T17:00:00Z',
-      'create_time': '2022-05-28T07:50:06.358100Z',
-      'last_update_time': '2022-05-28T07:50:06.358122Z'
-    }
-  ]
+  import api from '@oj/api'
+import { mapGetters } from 'vuex'
   export default {
     name: 'Contest',
     components: {
     },
+    props: {
+      data: {}
+    },
     data () {
       return {
-        contests: mockupContests,
+        contests: [],
         CONTEST_STATUS_REVERSE: CONTEST_STATUS_REVERSE
       }
     },
     mounted () {
+      this.$parent.$on('should-contest-update', () => {
+        this.getContests()
+      })
+      this.getContests()
     },
     methods: {
-      goContest (contest) {
+      getContests () {
+        api.getContests(this.data.id).then(resp => {
+          this.contests = resp.data.data
+        })
+      },
+      goContest (id) {
+        this.$router.push({name: 'contest-details', params: {contestID: id}})
       },
       onRuleChange (rule) {
       },
       getDuration (startTime, endTime) {
         return time.duration(startTime, endTime)
+      },
+      deleteContest (id) {
+        this.$Modal.confirm({
+          content: 'Are you sure to remove this contest',
+          onOk: () => {
+            // still error here, not fix yet
+            api.unMappingContest(this.data.id, id).then(resp => {
+              if (!resp.error) {
+                this.$success('Delete successfully')
+                this.getContests()
+              } else {
+                this.$error('Some thing went wrong')
+              }
+            }).catch(err => {
+              this.$error('Some thing went wrong ', err)
+            })
+          }
+        })
       }
     },
     computed: {
+      ...mapGetters(['isAdminRole'])
     }
   }
 </script>

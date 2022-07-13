@@ -1,13 +1,25 @@
 <template>
   <div class="view">
     <Panel title="Contest List">
-      <div slot="header">
+      <template slot="header">
+        <el-select v-model="isUseForClassroom" placeholder="Select" @change="filterContestChange()">
+          <el-option
+            label="Public"
+            :value="false"
+          >
+          </el-option>
+          <el-option
+            label="For Classroom"
+            :value="true"
+          >
+          </el-option>
+        </el-select>
         <el-input
           v-model="keyword"
           prefix-icon="el-icon-search"
           placeholder="Keywords">
         </el-input>
-      </div>
+      </template>
       <el-table
         v-loading="loading"
         element-loading-text="loading"
@@ -120,7 +132,8 @@
         excludeAdmin: true,
         currentPage: 1,
         currentId: 1,
-        downloadDialogVisible: false
+        downloadDialogVisible: false,
+        isUseForClassroom: false
       }
     },
     mounted () {
@@ -139,7 +152,7 @@
       },
       getContestList (page) {
         this.loading = true
-        api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
+        api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword, this.isUseForClassroom).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.contestList = res.data.data.results
@@ -167,6 +180,9 @@
       },
       handleVisibleSwitch (row) {
         api.editContest(row)
+      },
+      filterContestChange () {
+        this.getContestList(1)
       }
     },
     watch: {

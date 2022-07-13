@@ -67,6 +67,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
+            <el-form-item label="Is Use For Contest">
+              <el-switch
+                v-model="problem.is_use_for_contest"
+                active-text=""
+                inactive-text="">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
             <el-form-item :label="$t('m.ShareSubmission')">
               <el-switch
                 v-model="problem.share_submission"
@@ -75,7 +84,7 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item :label="$t('m.Tag')" :error="error.tags" required>
               <span class="tags">
                 <el-tag
@@ -332,6 +341,7 @@
           memory_limit: 256,
           difficulty: 'Low',
           visible: true,
+          is_use_for_contest: true,
           share_submission: false,
           tags: [],
           languages: [],

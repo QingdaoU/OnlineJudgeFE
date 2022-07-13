@@ -70,7 +70,11 @@
         position: absolute;
         top: 50%;
         right: 20px;
+        display: flex;
         transform: translate(0, -50%);
+        div:nth-child(2) {
+          margin-left: 10px;
+        }
       }
     }
     .body {
