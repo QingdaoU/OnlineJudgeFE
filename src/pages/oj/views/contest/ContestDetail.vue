@@ -109,7 +109,7 @@
           {
             title: this.$i18n.t('m.ContestType'),
             render: (h, params) => {
-              return h('span', this.$i18n.t('m.' + params.row.contest_type.replace(' ', '_')))
+              return h('span', this.$i18n.t('m.' + params.row.contest_type ? params.row.contest_type.replace(' ', '_') : ''))
             }
           },
           {
