@@ -39,6 +39,12 @@
           </template>
         </el-table-column>
 
+        <el-table-column prop="last_ip" label="Last IP">
+          <template slot-scope="scope">
+            {{scope.row.last_ip}}
+          </template>
+        </el-table-column>
+
         <el-table-column prop="real_name" label="Real Name"></el-table-column>
 
         <el-table-column prop="school" label="Class Name"></el-table-column>
