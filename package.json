@@ -5,7 +5,7 @@
   "author": "zemal <rawidn@163.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "set NODE_ENV=development && set TARGET=https://acm.gdmuna.com/ && node build/dev-server.js",
     "start": "npm run dev",
     "build": "node build/build.js",
     "build:dll": "webpack --config=build/webpack.dll.conf.js",
