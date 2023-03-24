@@ -10,6 +10,7 @@
         <p>Powered by <a href="https://github.com/QingdaoU/OnlineJudge">OnlineJudge</a>
           <span v-if="version">&nbsp; Version: {{ version }}</span>
         </p>
+        <p>广东医科大学 ACM协会</p>
       </div>
     </div>
     <BackTop></BackTop>
