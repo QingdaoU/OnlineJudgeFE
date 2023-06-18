@@ -1,6 +1,7 @@
 <template>
   <Row type="flex" justify="space-around">
     <Col :span="22">
+    <Banner class="banner"></Banner>
     <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
         <Button type="text"  class="contest-title" @click="goContest">{{contests[index].title}}</Button>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+  import Banner from './Banner.vue'
   import Announcements from './Announcements.vue'
   import api from '@oj/api'
   import time from '@/utils/time'
@@ -40,6 +42,7 @@
   export default {
     name: 'home',
     components: {
+      Banner,
       Announcements
     },
     data () {
@@ -83,6 +86,10 @@
   }
 
   .announcement {
+    margin-top: 20px;
+  }
+
+  .banner {
     margin-top: 20px;
   }
 </style>
