@@ -11,6 +11,8 @@ import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 
+import { Carousel as ElCarousel, CarouselItem as ElCarouselItem } from 'element-ui'
+
 import Panel from '@oj/components/Panel.vue'
 import VerticalMenu from '@oj/components/verticalMenu/verticalMenu.vue'
 import VerticalMenuItem from '@oj/components/verticalMenu/verticalMenu-item.vue'
@@ -49,6 +51,8 @@ Vue.use(VueAnalytics, {
   id: GOOGLE_ANALYTICS_ID,
   router
 })
+Vue.use(ElCarousel)
+Vue.use(ElCarouselItem)
 
 Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)

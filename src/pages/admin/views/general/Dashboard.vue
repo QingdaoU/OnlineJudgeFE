@@ -64,8 +64,8 @@
         <el-popover placement="right" trigger="hover">
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
           <p>Please upgrade to the latest version to enjoy the new features. </p>
-          <p>Reference: <a href="http://docs.onlinejudge.me/#/onlinejudge/guide/upgrade" target="_blank">
-          http://docs.onlinejudge.me/#/onlinejudge/guide/upgrade</a>
+          <p>Reference: <a href="https://opensource.qduoj.com/#/onlinejudge/guide/upgrade" target="_blank">
+          https://opensource.qduoj.com/#/onlinejudge/guide/upgrade</a>
           </p>
         </el-popover>
         </span>
