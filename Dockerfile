@@ -5,7 +5,6 @@ WORKDIR /app
 
 RUN apk add --no-cache git
 
-COPY .git .git/
 COPY package.json yarn.lock ./
 RUN yarn install
 COPY build/ build/
@@ -14,7 +13,7 @@ COPY deploy/ deploy/
 COPY src/ src/
 COPY static/ static/
 COPY .babelrc .postcssrc.js ./
-RUN <<EOS
+RUN --mount=type=bind,source=./.git,target=/app/.git <<EOS
 set -ex
 yarn run build:dll
 yarn run build
