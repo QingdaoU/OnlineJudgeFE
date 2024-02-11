@@ -89,7 +89,7 @@ export const m = {
   Score: 'Score',
   Hint: 'Hint',
   Source: 'Source',
-  Edit_Problem: 'Edit Problme',
+  Edit_Problem: 'Edit Problem',
   Add_Problme: 'Add Problem',
   High: 'High',
   Mid: 'Mid',
