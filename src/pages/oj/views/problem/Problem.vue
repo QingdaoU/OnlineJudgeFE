@@ -300,7 +300,18 @@
             return
           }
           // try to load problem template
-          this.language = this.problem.languages[0]
+          if (window.localStorage) {
+            const preferredLanguage = window.localStorage.getItem('preferredLang')
+            if (preferredLanguage) {
+              if (this.problem.languages.indexOf(preferredLanguage) >= 0) {
+                this.language = preferredLanguage
+              } else {
+                this.language = this.problem.languages[0]
+              }
+            }
+          } else {
+            this.language = this.problem.languages[0]
+          }
           let template = this.problem.template
           if (template && template[this.language]) {
             this.code = template[this.language]
@@ -355,6 +366,9 @@
           }
         }
         this.language = newLang
+        if (window.localStorage) {
+          window.localStorage.setItem('preferredLang', newLang)
+        }
       },
       onChangeTheme (newTheme) {
         this.theme = newTheme
