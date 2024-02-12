@@ -45,10 +45,10 @@
         }
       })
       this.editor.on('valuechanged', (e, src) => {
-        this.currentValue = this.editor.getValue()
+        this.currentValue = e.target.body[0].innerHTML
       })
       this.editor.on('decorate', (e, src) => {
-        this.currentValue = this.editor.getValue()
+        this.currentValue = e.target.body[0].innerHTML
       })
 
       this.editor.setValue(this.value)
