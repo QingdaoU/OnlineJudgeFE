@@ -160,7 +160,11 @@
     },
     watch: {
       'theme' (newVal, oldVal) {
+        // console.log('theme')
         this.editor.setOption('theme', newVal)
+      },
+      'language' (newVal, oldVal) {
+        this.onLangChange(newVal)
       }
     }
   }
