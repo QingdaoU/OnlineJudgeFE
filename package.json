@@ -87,7 +87,7 @@
     "rimraf": "^2.6.0",
     "semver": "^5.5.0",
     "webpack-bundle-analyzer": "^2.11.2",
-    "webpack-dev-middleware": "^1.12.0",
+    "webpack-dev-middleware": "^5.3.4",
     "webpack-hot-middleware": "^2.22.1"
   },
   "engines": {
