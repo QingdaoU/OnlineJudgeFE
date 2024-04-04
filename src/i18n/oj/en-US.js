@@ -1,6 +1,9 @@
 export const m = {
   // 404.vue
   Go_Home: 'Go Home',
+  You_Look_Lost_part_1: 'YOU',
+  You_Look_Lost_part_2: 'LOOK',
+  You_Look_Lost_part_3: 'LOST',
   // Problem.vue
   Description: 'Description',
   Input: 'Input',
@@ -257,5 +260,8 @@ export const m = {
   UserHomeserSubmissions: 'Submissions',
   UserHomeScore: 'Score',
   List_Solved_Problems: 'List of solved problems',
+  Refresh_part_1: 'If you find the following problem id does not exist,',
+  Refresh_part_2: ' try to click the button.',
+  Regenerate: 'regenerate',
   UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.'
 }

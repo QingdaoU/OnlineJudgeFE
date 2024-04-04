@@ -1,6 +1,9 @@
 export const m = {
   // 404.vue
   Go_Home: '回到首頁',
+  You_Look_Lost_part_1: 'YOU',
+  You_Look_Lost_part_2: 'LOOK',
+  You_Look_Lost_part_3: 'LOST',
   // Problem.vue
   Description: '題目描述',
   Input: '輸入',
@@ -257,5 +260,8 @@ export const m = {
   UserHomeserSubmissions: '提交次數',
   UserHomeScore: '分數',
   List_Solved_Problems: '已完成題目的列表',
+  Refresh_part_1: 'If you find the following problem id does not exist,',
+  Refresh_part_2: ' try to click the button.',
+  Regenerate: 'regenerate',
   UserHomeIntro: '這個使用者尚未解題...'
 }

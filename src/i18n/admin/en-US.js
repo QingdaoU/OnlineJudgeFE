@@ -90,7 +90,7 @@ export const m = {
   Hint: 'Hint',
   Source: 'Source',
   Edit_Problem: 'Edit Problme',
-  Add_Problme: 'Add Problem',
+  Add_Problem: 'Add Problem',
   High: 'High',
   Mid: 'Mid',
   Low: 'Low',
