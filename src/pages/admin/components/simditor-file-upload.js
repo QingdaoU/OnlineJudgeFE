@@ -30,6 +30,9 @@ UploadFile = (function (_super) {
     },
     'en-US': {
       uploadfile: 'upload file'
+    },
+    'ko-KR': {
+      uploadfile: '파일 업로드'
     }
   };
 
